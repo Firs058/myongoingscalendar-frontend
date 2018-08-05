@@ -4,7 +4,7 @@ const baseUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost' : 'ht
 
 module.exports = {
     env: {
-        baseUrl: process.env.BASE_URL || baseUrl
+        baseUrl: baseUrl
     },
     head: {
         meta: [

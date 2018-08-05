@@ -5,7 +5,7 @@
   "author": "firs058 <firs058@gmail.com>",
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt build",
+    "build": "cross-env NODE_ENV=production nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
     "analyze": "nuxt build --analyze"
@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "babel-plugin-transform-imports": "^1.5.0",
+    "cross-env": "^5.2.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2"
   }
