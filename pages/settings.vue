@@ -235,7 +235,7 @@
                                     </v-list>
                                     <v-divider />
                                     <v-list>
-                                        <v-list-tile avatar @click.stop="openUrl('https://github.com/Firs058/myongoingscalendar-frontend/locales')">
+                                        <v-list-tile avatar @click.stop="openUrl('https://github.com/Firs058/myongoingscalendar-frontend/tree/master/locales')">
                                             <v-list-tile-action>
                                                 <v-avatar
                                                         tile
