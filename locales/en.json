@@ -1,0 +1,394 @@
+{
+  "menu": {
+    "logged_as": "Logged as",
+    "home": "Home",
+    "my_calendar": "My calendar",
+    "ongoings_list": "Ongoings list",
+    "login": "Login",
+    "registration": "Registration",
+    "about": "About",
+    "settings": "Settings",
+    "donate": "Donate",
+    "exit": "Exit"
+  },
+  "calendar": {
+    "episode": "Episode № {0}",
+    "channel": "Channel: {0}"
+  },
+  "title": {
+    "information": {
+      "subheader": "Information",
+      "japanese": "Japanese:",
+      "ratings": "Ratings:",
+      "episodes": "Episodes:",
+      "genres": "Genres:",
+      "description": "Description:",
+      "links": "Links:"
+    },
+    "schedule": {
+      "subheader": "Schedule",
+      "headers": {
+        "date": "Date",
+        "time": "Time",
+        "channel": "Channel",
+        "episode": "Episode №",
+        "episodename": "Episode name"
+      },
+      "tabs": {
+        "next": "next",
+        "prev": "prev"
+      }
+    },
+    "dialogs": {
+      "deletion": {
+        "title": "Confirm deletion"
+      },
+      "info": {
+        "title": "Info",
+        "text": "Schedule updated every 10 min from syoboi.jp"
+      }
+    }
+  },
+  "comments": {
+    "subheader": "Comments: {0}",
+    "show_more": {
+      "1": "Show more",
+      "2": "Show more comments ({0})"
+    },
+    "show_all": {
+      "1": "Show all",
+      "2": "Show all replies ({0})"
+    },
+    "dialog": {
+      "error": {
+        "headline": "Warning!",
+        "text": "To leave a comment you must have a nickname (not Anonymous). You can set it in the settings."
+      },
+      "success": {
+        "headline": "Enter new comment"
+      }
+    }
+  },
+  "login": {
+    "headline": "Login",
+    "remember": "Remember?",
+    "forgot_pass": "Forgot password?",
+    "or_with": "OR WITH",
+    "no_reg": "Not need additional registration!",
+    "provider": "With {0}. Hey, no need additional registration!",
+    "dialog": {
+      "headline": "You must accept Terms before enter via {0}"
+    }
+  },
+  "login_social": {
+    "dialog": {
+      "headline": "Remember",
+      "text": "Do you want to remember social login on site for this device?"
+    }
+  },
+  "registration": {
+    "headline": "Registration"
+  },
+  "recover": {
+    "headline": "Recover password"
+  },
+  "buttons": {
+    "add": "Add",
+    "remove": "Remove",
+    "agree": "Agree",
+    "disagree": "Disagree",
+    "got_it": "Got it",
+    "share": "Share",
+    "next": "Next",
+    "cancel": "Cancel",
+    "save": "Save",
+    "no": "No",
+    "yes": "Yes",
+    "add_comment": "Add comment",
+    "reply": "Reply",
+    "to_settings": "To settings",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "inputs": {
+    "nickname": {
+      "label": "Nickname",
+      "hint": "You nickname",
+      "rules": {
+        "required": "Nickname is required",
+        "valid": "Only latin text and numbers allowed",
+        "lengthMin": "Nickname must be more than 3 characters",
+        "lengthMax": "Nickname must be less than 20 characters"
+      }
+    },
+    "email": {
+      "label": "E-mail",
+      "hint": {
+        "1": "You email for enter",
+        "2": "For profile activation and enter. Not for spam!",
+        "3": "Email that was used for registration"
+      },
+      "rules": {
+        "required": "E-mail is required",
+        "valid": "E-mail must be valid"
+      }
+    },
+    "password": {
+      "label": "Password",
+      "hint": "At least 8 characters",
+      "rules": {
+        "required": "Password is required",
+        "valid": "Password should not be similar to email or nickname",
+        "length": "Password must be more than 7 characters"
+      }
+    },
+    "confirm_password": {
+      "label": "Confirm password",
+      "hint": "At least 8 characters",
+      "rules": {
+        "required": "Confirm password is required",
+        "valid": "Passwords must be equal",
+        "length": "Confirm password must be more than 8 characters"
+      }
+    },
+    "checkbox": {
+      "label": "I agree to",
+      "rules": {
+        "agree": "You must agree to continue"
+      }
+    },
+    "search": {
+      "label": {
+        "1": "Search by name",
+        "2": "Filter by name"
+      }
+    },
+    "comment": {
+      "rules": {
+        "required": "Some text is required"
+      }
+    }
+  },
+  "selects": {
+    "label": "Select"
+  },
+  "card": {
+    "start": "Start: {0}",
+    "recommended": "RECOMMENDED"
+  },
+  "search": {
+    "founded": "{0} founded"
+  },
+  "settings": {
+    "account": {
+      "subheader": "Account",
+      "change_nickname": {
+        "title": "Change nickname",
+        "sub_title": "Current: {0}",
+        "dialog": {
+          "headline": "Enter new nickname"
+        }
+      },
+      "change_avatar": {
+        "title": "Change avatar",
+        "sub_title": "Set the desired one on gravatar service and re-enter here"
+      },
+      "change_password": {
+        "title": "Change password",
+        "sub_title": "Change if you want",
+        "dialog": {
+          "headline": "Enter new password"
+        }
+      }
+    },
+    "interface": {
+      "subheader": "Interface",
+      "dark": {
+        "title": "Dark style",
+        "sub_title": "Switch between light and dark theme"
+      },
+      "hide_repeats": {
+        "title": "Hide repeats",
+        "sub_title": "Option to hide ongoings repeats"
+      },
+      "language": {
+        "title": "Language",
+        "sub_title": "Switch between available languages"
+      }
+    },
+    "time": {
+      "subheader": "Time",
+      "time_format": {
+        "title": "Time format",
+        "sub_title": "Switch between 12-hour and 24-hour format",
+        "12hour": "12-hour",
+        "24hour": "24-hour"
+      },
+      "timezone": {
+        "title": "Timezone",
+        "sub_title": "Change timezone if autodetect wrong"
+      }
+    }
+  },
+  "meta_info": {
+    "settings": {
+      "title": "Settings {0}",
+      "meta": {
+        "description": "Change you settings"
+      }
+    },
+    "title": {
+      "meta": {
+        "description": "{0} schedule {1} on anime ongoings calendar site №1"
+      }
+    },
+    "login_social": {
+      "title": "Log in through {0} {1}",
+      "meta": {
+        "description": "Log in into {0}"
+      }
+    },
+    "confirm": {
+      "title": {
+        "1": "Confirm registration on {0}",
+        "2": "Confirm recover on {0}"
+      },
+      "meta": {
+        "description": "Confirm on {0}"
+      }
+    },
+    "search": {
+      "title": {
+        "1": "Search: {0} {1}",
+        "2": "Search {0}"
+      },
+      "meta": {
+        "description": "Search: {0}"
+      }
+    },
+    "registration": {
+      "title": "Registration {0}",
+      "meta": {
+        "description": "Registration on {0}"
+      }
+    },
+    "login": {
+      "title": "Login {0}",
+      "meta": {
+        "description": "Login into {0}"
+      }
+    },
+    "recover": {
+      "title": "Recover password {0}",
+      "meta": {
+        "description": "Recover password on {0}"
+      }
+    },
+    "my_calendar": {
+      "title": "My calendar {0}",
+      "meta": {
+        "description": "My calendar of marked ongoings"
+      }
+    },
+    "list": {
+      "title": "Ongoings list {0}",
+      "meta": {
+        "description": "List of current anime ongoings"
+      }
+    },
+    "home": {
+      "title": "Home {0}",
+      "meta": {
+        "description": "Ongoings anime schedule calendar broadcast current airing {0}"
+      }
+    },
+    "about": {
+      "title": "About {0}",
+      "meta": {
+        "description": "About on {0}"
+      }
+    },
+    "terms": {
+      "title": "Terms of Use{0}",
+      "meta": {
+        "description": "Terms of Use service {0}"
+      }
+    },
+    "privacy": {
+      "title": "Privacy Policy {0}",
+      "meta": {
+        "description": "Privacy Policy service {0}"
+      }
+    }
+  },
+  "alerts": {
+    "nothing_found": "Nothing found",
+    "settings_note": "Note! Without logged in settings will not be saved to server. So, you can't sync it between browsers or other devices."
+  },
+  "terms": {
+    "headline": "Terms of Use"
+  },
+  "privacy": {
+    "headline": "Privacy Policy"
+  },
+  "tooltips": {
+    "share": "Share",
+    "remove_from_my_calendar": "Remove from my calendar",
+    "add_to_my_calendar": "Add to my calendar",
+    "you_must_be_logged_in": "You must be logged in",
+    "open_link_in_new_window": "Open link in new window",
+    "report_a_comment": "Report a comment",
+    "like": "Like",
+    "dislike": "Dislike"
+  },
+  "status": {
+    "10000": "Connection problems",
+    "10001": "Empty fields are not allowed",
+    "10002": "Password cannot contain less than 8 character",
+    "10003": "Did you forgot about captcha?",
+    "10004": "The length of the nickname does not match the requirements",
+    "10005": "Only latin text and numbers allowed",
+    "10006": "Hey, what's up with you nickname? Does not fit",
+    "10007": "Sorry, account with that email is already existed",
+    "10008": "Invalid captcha",
+    "10009": "Url is not relevant",
+    "10010": "Token not exists",
+    "10011": "The length of the nickname does not match the requirements",
+    "10012": "You must be logged",
+    "10013": "Sorry, account with that email not existed",
+    "10014": "Token not exists. Repeat recover",
+    "10015": "One of our services does not work. Do not worry, we'll fix it soon",
+    "10016": "Server error. What you expect?",
+    "10017": "Sorry, user not exists",
+    "10018": "Why null tid?",
+    "10019": "Not admin",
+    "10020": "Invalid timezone",
+    "10021": "Wrong secret state",
+    "10022": "The query conditions are not met",
+    "10023": "Sorry, you account not activate yet. Check you email",
+    "10024": "Sorry, wrong email or password",
+    "10025": "Your account has muted, you can't add a comment",
+    "10026": "Can't add comment",
+    "10027": "Why null comment?",
+    "10028": "Already liked",
+    "10029": "Already disliked",
+    "10030": "Already reported",
+    "11000": "OK",
+    "11001": "OK, check you mail to activate account",
+    "11002": "Account successful activated",
+    "11003": "OK, check you mail for recover you password",
+    "11004": "Need change password!",
+    "11005": "Password changed",
+    "11006": "Nickname changed",
+    "11007": "Title removed",
+    "11008": "Title added",
+    "11009": "Settings saved",
+    "11010": "Successful login",
+    "11011": "Comment added",
+    "11012": "Like added",
+    "11013": "Dislike added",
+    "11014": "Thanks for report",
+    "11015": "Successful exit",
+    "11016": "Address copied to clipboard"
+  }
+}

@@ -1,0 +1,101 @@
+<template>
+    <v-container
+            fluid
+            fill-height
+            :class="$device.isDesktop ? 'grid-list-lg' : 'pa-0'"
+    >
+        <v-layout align-center justify-center text-xs-center>
+            <v-flex xs12 sm10 md6 lg4 xl2>
+                <v-card color="transparent" flat>
+                    <v-toolbar dense card tabs color="transparent">
+                        <v-spacer/>
+                        <span class="headline">{{$t('recover.headline')}}</span>
+                        <v-spacer/>
+                    </v-toolbar>
+                    <v-form v-model="valid" ref="form" lazy-validation class="pa-3 pt-4">
+                        <v-text-field
+                                :label="$t('inputs.email.label')"
+                                v-model="email"
+                                :rules="[
+                            v => !!v || $t('inputs.email.rules.required'),
+                            v => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || $t('inputs.email.rules.valid')
+                  ]"
+                                :hint="$t('inputs.email.hint.3')"
+                                prepend-icon="email"
+                                required
+                        />
+                        <vue-recaptcha
+                                ref="invisibleRecaptcha"
+                                @verify="onVerify"
+                                @expired="onExpired"
+                                :sitekey="sitekey"
+                                size="invisible"
+                        >
+                        </vue-recaptcha>
+                    </v-form>
+                    <v-card-actions class="pa-3">
+                        <v-btn
+                                @click="submit"
+                                :disabled="!valid"
+                                class="primary"
+                                :loading="loading"
+                                block
+                        >{{$t('buttons.next')}}
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-flex>
+        </v-layout>
+    </v-container>
+</template>
+
+<script>
+    import {mapState} from 'vuex'
+
+    export default {
+        data: () => ({
+            sitekey: '6LfQ3BAUAAAAALvueHfm9qByA36zKHpWBLxh1XZC',
+            loading: false,
+            valid: true,
+            email: ''
+        }),
+        head() {
+            return {
+                title: this.$t("meta_info.recover.title", ['| MyOngoingsCalendar']),
+                meta: [
+                    {
+                        name: 'description',
+                        content: this.$t("meta_info.recover.meta.description", ['MyOngoingsCalendar'])
+                    }
+                ]
+            }
+        },
+        methods: {
+            submit() {
+                if (this.$refs.form.validate()) this.$refs.invisibleRecaptcha.execute()
+            },
+            onVerify(response) {
+                this.loading = true;
+                this.$auth.recover({email: this.email, recaptchaToken: response})
+                    .then(code => this.$toast.showToast(code))
+                    .catch(code => {
+                        this.$toast.showToast(code);
+                        this.$refs.invisibleRecaptcha.reset()
+                    })
+                    .then(() => this.loading = false)
+            },
+            onExpired() {
+                this.$refs.invisibleRecaptcha.reset()
+            }
+        },
+        computed: mapState({
+            dark: state => state.settings.dark
+        }),
+        mounted() {
+            let recaptchaScript = document.createElement('script');
+            recaptchaScript.setAttribute('src', 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit');
+            document.body.appendChild(recaptchaScript)
+        },
+        middleware: ['guest']
+    }
+</script>
