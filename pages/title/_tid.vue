@@ -483,6 +483,6 @@
         },
         deactivated () {
             this.$destroy()
-        },
+        }
     }
 </script>

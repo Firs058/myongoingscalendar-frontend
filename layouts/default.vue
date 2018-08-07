@@ -168,8 +168,8 @@
                 prominent
         >
             <div
-                    to="/"
-                    nuxt
+                    @click.stop="$router.push('/')"
+                    :style="`cursor: pointer;`"
                     class="headline font-weight-medium"
                     v-text="$device.isDesktop ? 'MyOngoingsCalendar' : 'MOC'"
             />
@@ -456,7 +456,10 @@
             return {
                 noscript: [
                     {innerHTML: 'This webapp requires JavaScript'}
-                ]
+                ],
+                htmlAttrs: {
+                    lang: this.lang
+                }
             }
         },
         methods: {
@@ -476,7 +479,8 @@
                 searchGlobalPanel: state => state.search.global.panel,
                 dark: state => state.settings.dark,
                 user: state => state.user,
-                toast: state => state.toast
+                toast: state => state.toast,
+                lang: state => state.settings.lang
             }),
             searchListInput: {
                 get() {
