@@ -167,7 +167,7 @@
                 :dense="!$device.isDesktop"
                 prominent
         >
-            <div
+            <span
                     @click.stop="$router.push('/')"
                     :style="`cursor: pointer;`"
                     class="headline font-weight-medium"
@@ -242,7 +242,7 @@
                             slot="activator"
                     >
                         {{$t('menu.donate')}}
-                        <v-icon dark>arrow_drop_down</v-icon>
+                        <v-icon>arrow_drop_down</v-icon>
                     </v-btn>
                     <v-list>
                         <v-list-tile
@@ -273,8 +273,8 @@
                     >
                         <v-avatar>
                             <img :src="user.avatar"/>
-                            <v-icon dark>arrow_drop_down</v-icon>
                         </v-avatar>
+                        <v-icon>arrow_drop_down</v-icon>
                     </v-btn>
                     <v-navigation-drawer
                             floating
