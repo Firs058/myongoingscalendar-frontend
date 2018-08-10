@@ -33,6 +33,7 @@ import {
     VExpansionPanel,
     VPagination
 } from 'vuetify'
+import { Ripple } from 'vuetify/es5/directives'
 
 Vue.use(Vuetify, {
     components: {
@@ -67,5 +68,8 @@ Vue.use(Vuetify, {
         VTextarea,
         VExpansionPanel,
         VPagination
+    },
+    directives: {
+        Ripple
     }
 })

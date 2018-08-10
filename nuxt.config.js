@@ -41,8 +41,7 @@ module.exports = {
         '/api': `${baseUrl}/api`
     },
     css: [
-        '~/assets/style/app.styl',
-        '@fortawesome/fontawesome/styles.css'
+        '~/assets/style/app.styl'
     ],
     modules: [
         '@nuxtjs/axios',
@@ -75,6 +74,7 @@ module.exports = {
             '~/plugins/vuetify.js',
             'vue-i18n'
         ],
+        extractCSS: true,
         extend(config, ctx) {
             if (ctx.isServer) {
                 config.externals = [
