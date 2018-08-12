@@ -54,7 +54,7 @@
 
     export default {
         data: () => ({
-            sitekey: '6LfQ3BAUAAAAALvueHfm9qByA36zKHpWBLxh1XZC',
+            sitekey: '6LdMemkUAAAAAEhtdLuLej6GkuS89V0smYUo3DjC',
             loading: false,
             valid: true,
             email: ''
