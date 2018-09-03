@@ -291,7 +291,6 @@
                                     :items="timezones"
                                     v-model="timezone"
                                     :label="$t('selects.label')"
-                                    min-width="500px"
                             />
                         </v-list-tile>
                     </v-list>

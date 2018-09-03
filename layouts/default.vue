@@ -358,6 +358,7 @@
                             hide-details
                             clearable
                             single-line
+                            class="pa-0"
                     />
                     <v-text-field
                             v-else-if="searchGlobalPanel"
@@ -367,6 +368,7 @@
                             hide-details
                             clearable
                             single-line
+                            class="pa-0"
                     />
                 </v-flex>
             </v-layout>

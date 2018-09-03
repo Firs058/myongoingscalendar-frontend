@@ -48,7 +48,9 @@ module.exports = {
         '@nuxtjs/proxy',
         'nuxt-device-detect'
     ],
-    loading: false,
+    loading: {
+        color: '#1976d2'
+    },
     router: {
         middleware: ['settings', 'i18n']
     },
@@ -74,7 +76,6 @@ module.exports = {
             '~/plugins/vuetify.js',
             'vue-i18n'
         ],
-        extractCSS: true,
         extend(config, ctx) {
             if (ctx.isServer) {
                 config.externals = [
