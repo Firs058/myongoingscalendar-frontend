@@ -30,11 +30,9 @@ const store = () => new Vuex.Store({
         },
         search: {
             list: {
-                panel: false,
                 input: ''
             },
             global: {
-                panel: false,
                 input: ''
             }
         },
