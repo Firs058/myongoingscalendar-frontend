@@ -163,7 +163,7 @@
         <v-toolbar
                 fixed
                 app
-                :extended="searchListPanel || searchGlobalPanel"
+                :extended="extended"
                 :dense="!$device.isDesktop"
                 prominent
         >
@@ -334,7 +334,7 @@
                     icon
                     to="/search"
                     nuxt
-                    :disabled="searchGlobalPanel"
+                    :disabled="$route.name === 'search'"
             >
                 <v-icon>search</v-icon>
             </v-btn>
@@ -347,11 +347,11 @@
                     justify-center
                     text-xs-center
                     slot="extension"
-                    v-if="searchListPanel || searchGlobalPanel"
+                    v-if="extended"
             >
                 <v-flex xs10 sm10 md8 lg6 xl6>
                     <v-text-field
-                            v-if="searchListPanel"
+                            v-if="$route.name === 'list'"
                             v-model="searchListInput"
                             :label="$t('inputs.search.label.2')"
                             prepend-icon="filter_list"
@@ -361,7 +361,7 @@
                             class="pa-0"
                     />
                     <v-text-field
-                            v-else-if="searchGlobalPanel"
+                            v-else-if="$route.name === 'search'"
                             v-model="searchGlobalInput"
                             :label="$t('inputs.search.label.1')"
                             prepend-icon="search"
@@ -477,13 +477,14 @@
         },
         computed: {
             ...mapState({
-                searchListPanel: state => state.search.list.panel,
-                searchGlobalPanel: state => state.search.global.panel,
                 dark: state => state.settings.dark,
                 user: state => state.user,
                 toast: state => state.toast,
                 lang: state => state.settings.lang
             }),
+            extended() {
+                return this.$route.name === 'list' || this.$route.name === 'search'
+            },
             searchListInput: {
                 get() {
                     return this.$store.state.search.list.input

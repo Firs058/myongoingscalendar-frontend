@@ -120,15 +120,11 @@
             })
         },
         activated() {
-            this.$store.dispatch('setSearchGlobalPanel', true);
             if (this.lastQuery) this.$router.replace({path: 'search', query: this.lastQuery});
             if (this.query && this.query.length) {
                 this.$store.dispatch('setSearchGlobalInput', String(this.query));
                 this.currentPage = parseInt(this.page >= 1 ? this.page : 1);
             }
-        },
-        deactivated() {
-            this.$store.dispatch('setSearchGlobalPanel', false)
         }
     }
 </script>

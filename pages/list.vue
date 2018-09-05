@@ -127,12 +127,6 @@
             globalTitle() {
                 return this.$t("meta_info.list.title", ['| MyOngoingsCalendar'])
             }
-        },
-        activated() {
-            this.$store.dispatch('setSearchListPanel', true);
-        },
-        deactivated() {
-            this.$store.dispatch('setSearchListPanel', false)
         }
     }
 </script>
