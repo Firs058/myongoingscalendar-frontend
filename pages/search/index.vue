@@ -51,18 +51,20 @@
             >
                 <card :anime="anime"/>
             </v-flex>
-            <v-layout
+            <v-container
                     v-if="!!asyncCache && countPages > 1"
-                    align-top justify-center text-xs-center
+                    fluid
             >
-                <v-flex xs12>
-                    <v-pagination
-                            :length="countPages"
-                            v-model="currentPage"
-                            :total-visible="$device.isDesktop ? 7 : 4"
-                    />
-                </v-flex>
-            </v-layout>
+                <v-layout align-top justify-center text-xs-center>
+                    <v-flex xs12>
+                        <v-pagination
+                                :length="countPages"
+                                v-model="currentPage"
+                                :total-visible="$device.isDesktop ? 7 : 4"
+                        />
+                    </v-flex>
+                </v-layout>
+            </v-container>
         </v-layout>
         <v-layout
                 v-if="!!asyncCache && asyncCache.count === 0"
