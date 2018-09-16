@@ -108,7 +108,8 @@
     "reply": "Ответить",
     "to_settings": "В настройки",
     "accept": "Согласен",
-    "decline": "Отказываюсь"
+    "decline": "Отказываюсь",
+    "close": "Закрыть"
   },
   "inputs": {
     "nickname": {
@@ -177,7 +178,27 @@
     "recommended": "РЕКОМЕНДУЕМ"
   },
   "search": {
-    "founded": "{0} найдено"
+    "founded": "{0} найдено",
+    "tooltips": {
+      "add_filter": "Добавить фильтр"
+    },
+    "extension": {
+      "headline": "Выберите фильтры",
+      "select_genres": "Выберите жанры",
+      "filters": {
+        "genres": "Жанры",
+        "scores": "Оценки",
+        "years": "Годы",
+        "from": "с",
+        "to": "по"
+      }
+    },
+    "chips": {
+      "name": "Название",
+      "genres": "Жанры",
+      "scores": "Оценки",
+      "years": "Годы"
+    }
   },
   "settings": {
     "account": {

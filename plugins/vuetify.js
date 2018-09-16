@@ -31,7 +31,8 @@ import {
     VDataTable,
     VTextarea,
     VExpansionPanel,
-    VPagination
+    VPagination,
+    VRangeSlider
 } from 'vuetify'
 import { Ripple } from 'vuetify/es5/directives'
 
@@ -67,7 +68,8 @@ Vue.use(Vuetify, {
         VDataTable,
         VTextarea,
         VExpansionPanel,
-        VPagination
+        VPagination,
+        VRangeSlider
     },
     directives: {
         Ripple

@@ -108,7 +108,8 @@
     "reply": "Reply",
     "to_settings": "To settings",
     "accept": "Accept",
-    "decline": "Decline"
+    "decline": "Decline",
+    "close": "Close"
   },
   "inputs": {
     "nickname": {
@@ -177,7 +178,27 @@
     "recommended": "RECOMMENDED"
   },
   "search": {
-    "founded": "{0} founded"
+    "founded": "{0} founded",
+    "tooltips": {
+      "add_filter": "Add filter"
+    },
+    "extension": {
+      "headline": "Choose filters",
+      "select_genres": "Select genres",
+      "filters": {
+        "genres": "Genres",
+        "scores": "Scores",
+        "years": "Years",
+        "from": "from",
+        "to": "to"
+      }
+    },
+    "chips": {
+      "name": "Name",
+      "genres": "Genres",
+      "scores": "Scores",
+      "years": "Years"
+    }
   },
   "settings": {
     "account": {

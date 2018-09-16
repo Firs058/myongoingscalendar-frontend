@@ -33,7 +33,9 @@ const store = () => new Vuex.Store({
                 input: ''
             },
             global: {
-                input: ''
+                input: '',
+                extension: false,
+                supply: []
             }
         },
         comment: {
@@ -60,6 +62,8 @@ const store = () => new Vuex.Store({
         SET_TOAST_ACTIVE: (state, bool) => state.toast.active = bool,
         SET_SEARCH_LIST_INPUT: (state, string) => state.search.list.input = string,
         SET_SEARCH_GLOBAL_INPUT: (state, string) => state.search.global.input = string,
+        SET_SEARCH_EXTENSION: (state, bool) => state.search.global.extension = bool,
+        SET_SEARCH_SUPPLY: (state, obj) => state.search.global.supply = obj,
         SET_NICKNAME: (state, string) => state.user.nickname = string,
         SET_AVATAR: (state, string) => state.user.avatar = string,
         SET_COMMENT: (state, obj) => state.comment = obj,
@@ -68,7 +72,7 @@ const store = () => new Vuex.Store({
         SET_ONGOINGS_LIST: (state, obj) => state.ongoingsList = obj,
         SET_CALENDAR: (state, obj) => state.calendar = obj,
         SET_TIMEZONES: (state, obj) => state.timezones = obj,
-        SET_LANG: (state, string) =>  state.settings.lang = string
+        SET_LANG: (state, string) => state.settings.lang = string
     },
     actions: {
         setUser: ({commit}, obj) => commit('SET_USER', obj),
@@ -81,6 +85,8 @@ const store = () => new Vuex.Store({
         setToastActive: ({commit}, bool) => commit('SET_TOAST_ACTIVE', bool),
         setSearchListInput: ({commit}, string) => commit('SET_SEARCH_LIST_INPUT', string),
         setSearchGlobalInput: ({commit}, string) => commit('SET_SEARCH_GLOBAL_INPUT', string),
+        setSearchGlobalExtension: ({commit}, bool) => commit('SET_SEARCH_EXTENSION', bool),
+        setSearchGlobalSupply: ({commit}, obj) => commit('SET_SEARCH_SUPPLY', obj),
         setNickname: ({commit}, string) => commit('SET_NICKNAME', string),
         setAvatar: ({commit}, string) => commit('SET_AVATAR', string),
         setComment: ({commit}, obj) => commit('SET_COMMENT', obj),

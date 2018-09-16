@@ -366,7 +366,8 @@
                             :label="$t('inputs.search.label.1')"
                             prepend-icon="search"
                             hide-details
-                            clearable
+                            append-icon="filter_list"
+                            @click:append="()=> $store.dispatch('setSearchGlobalExtension', true)"
                             single-line
                             class="pa-0"
                     />
@@ -480,7 +481,8 @@
                 dark: state => state.settings.dark,
                 user: state => state.user,
                 toast: state => state.toast,
-                lang: state => state.settings.lang
+                lang: state => state.settings.lang,
+                extension: state => state.search.global.extension
             }),
             extended() {
                 return this.$route.name === 'list' || this.$route.name === 'search'
