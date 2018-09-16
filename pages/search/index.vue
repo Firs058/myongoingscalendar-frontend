@@ -3,66 +3,67 @@
             fluid
             :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
     >
-        <div v-if="!!asyncCache && asyncCache.count > 0">
-            <v-subheader>{{$t("search.founded", [asyncCache.count])}}</v-subheader>
-            <v-chip
-                    v-if="searchGlobalInput"
-                    color="teal lighten-3"
-                    close
-                    @input="$store.dispatch('setSearchGlobalInput', '')"
-            >
-                {{`${$t('search.chips.name')}: ${searchGlobalInput}`}}
-            </v-chip>
-            <v-chip
-                    v-for="filter in filters"
-                    :key="filter.name"
-                    v-if="filter.added"
-                    :color="`${filter.color} lighten-3`"
-                    close
-                    @input="filter.added = false, filter.selected ? filters.genres.selected = [] : null"
-            >
+        <v-layout
+                v-if="!!asyncCache && asyncCache.count > 0"
+                row wrap justify-left
+        >
+            <v-flex xs12>
+                <v-subheader>{{$t("search.founded", [asyncCache.count])}}</v-subheader>
+                <v-chip
+                        v-if="searchGlobalInput"
+                        color="teal lighten-3"
+                        close
+                        @input="$store.dispatch('setSearchGlobalInput', '')"
+                >
+                    {{`${$t('search.chips.name')}: ${searchGlobalInput}`}}
+                </v-chip>
+                <v-chip
+                        v-for="filter in filters"
+                        :key="filter.name"
+                        v-if="filter.added"
+                        :color="`${filter.color} lighten-3`"
+                        close
+                        @input="filter.added = false, filter.selected ? filters.genres.selected = [] : null"
+                >
                        <span v-if="filter.range">
                             {{`${$t(`search.chips.${filter.name}`)}: ${$t('search.extension.filters.from')} ${filter.range[0]} ${$t('search.extension.filters.to')} ${filter.range[1]}`}}
                        </span>
-                <span v-else-if="filter.selected">
+                    <span v-else-if="filter.selected">
                             {{`${$t(`search.chips.${filter.name}`)}: ${getGenresName}`}}
                        </span>
-            </v-chip>
-            <v-tooltip top>
-                <v-btn
-                        slot="activator"
-                        v-if="available"
-                        icon
-                        @click.native="()=> $store.dispatch('setSearchGlobalExtension', true)"
-                >
-                    <v-icon>add</v-icon>
-                </v-btn>
-                <span>{{$t('search.tooltips.add_filter')}}</span>
-            </v-tooltip>
-            <v-layout row wrap justify-left>
-                <v-flex
-                        v-for="anime in asyncCache.animes"
-                        :key="anime.tid"
-                        xs6 md4 lg3 xl2
-                >
-                    <card :anime="anime"/>
+                </v-chip>
+                <v-tooltip top>
+                    <v-btn
+                            slot="activator"
+                            v-if="available"
+                            icon
+                            @click.native="()=> $store.dispatch('setSearchGlobalExtension', true)"
+                    >
+                        <v-icon>add</v-icon>
+                    </v-btn>
+                    <span>{{$t('search.tooltips.add_filter')}}</span>
+                </v-tooltip>
+            </v-flex>
+            <v-flex
+                    v-for="anime in asyncCache.animes"
+                    :key="anime.tid"
+                    xs6 md4 lg3 xl2
+            >
+                <card :anime="anime"/>
+            </v-flex>
+            <v-layout
+                    v-if="!!asyncCache && countPages > 1"
+                    align-top justify-center text-xs-center
+            >
+                <v-flex xs12>
+                    <v-pagination
+                            :length="countPages"
+                            v-model="currentPage"
+                            :total-visible="$device.isDesktop ? 7 : 4"
+                    />
                 </v-flex>
-                <v-container
-                        v-if="!!asyncCache && countPages > 1"
-                        fluid
-                >
-                    <v-layout align-top justify-center text-xs-center>
-                        <v-flex xs12>
-                            <v-pagination
-                                    :length="countPages"
-                                    v-model="currentPage"
-                                    :total-visible="7"
-                            />
-                        </v-flex>
-                    </v-layout>
-                </v-container>
             </v-layout>
-        </div>
+        </v-layout>
         <v-layout
                 v-if="!!asyncCache && asyncCache.count === 0"
                 align-top justify-center text-xs-center
