@@ -1,10 +1,9 @@
 <template>
-    <div>
-        <v-container
-                v-if="!!asyncCache && asyncCache.count > 0"
-                fluid
-                :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
-        >
+    <v-container
+            fluid
+            :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
+    >
+        <div v-if="!!asyncCache && asyncCache.count > 0">
             <v-subheader>{{$t("search.founded", [asyncCache.count])}}</v-subheader>
             <v-chip
                     v-if="searchGlobalInput"
@@ -48,25 +47,25 @@
                 >
                     <card :anime="anime"/>
                 </v-flex>
+                <v-container
+                        v-if="!!asyncCache && countPages > 1"
+                        fluid
+                >
+                    <v-layout align-top justify-center text-xs-center>
+                        <v-flex xs12>
+                            <v-pagination
+                                    :length="countPages"
+                                    v-model="currentPage"
+                                    :total-visible="7"
+                            />
+                        </v-flex>
+                    </v-layout>
+                </v-container>
             </v-layout>
-        </v-container>
-        <v-container
-                v-if="!!asyncCache && countPages > 1"
-                fluid
-        >
-            <v-layout align-top justify-center text-xs-center>
-                <v-flex xs12>
-                    <v-pagination
-                            :length="countPages"
-                            v-model="currentPage"
-                            :total-visible="7"
-                    />
-                </v-flex>
-            </v-layout>
-        </v-container>
-        <v-container
+        </div>
+        <v-layout
                 v-if="!!asyncCache && asyncCache.count === 0"
-                fluid
+                align-top justify-center text-xs-center
         >
             <v-alert
                     color="info"
@@ -75,7 +74,7 @@
             >
                 {{$t("alerts.nothing_found")}}
             </v-alert>
-        </v-container>
+        </v-layout>
         <v-dialog
                 :fullscreen="!$device.isDesktop"
                 persistent
@@ -241,7 +240,7 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-    </div>
+    </v-container>
 </template>
 
 <script>
