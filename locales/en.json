@@ -359,6 +359,8 @@
     "you_must_be_logged_in": "You must be logged in",
     "open_link_in_new_window": "Open link in new window",
     "report_a_comment": "Report a comment",
+    "search_by_score": "Search anime by score from {0} to {1}",
+    "search_by_genre": "Search anime by genre \"{0}\"",
     "like": "Like",
     "dislike": "Dislike"
   },

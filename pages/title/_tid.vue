@@ -92,14 +92,20 @@
                                         >
                                             <v-subheader>{{$t('title.information.ratings')}}</v-subheader>
                                             <div class="text-xs-left">
-                                                <v-chip
+                                                <v-tooltip
+                                                        top
                                                         v-for="(rating, index) in title.ratings"
                                                         :key="index"
-                                                        label
-                                                        @click.native="$router.push({ name: 'search', query: { query: '', scores: [rating.score, 10] }})"
-                                                        text-color="black"
-                                                >{{`${rating.dbname} : ${rating.score}`}}
-                                                </v-chip>
+                                                >
+                                                    <v-chip
+                                                            label
+                                                            @click.native="$router.push({ name: 'search', query: { query: '', scores: [rating.score, 10] }})"
+                                                            text-color="black"
+                                                            slot="activator"
+                                                    >{{`${rating.dbname} : ${rating.score}`}}
+                                                    </v-chip>
+                                                    <span>{{$t('tooltips.search_by_score', [rating.score, 10])}}</span>
+                                                </v-tooltip>
                                             </div>
                                         </v-layout>
                                         <v-layout
@@ -121,16 +127,22 @@
                                         >
                                             <v-subheader>{{$t('title.information.genres')}}</v-subheader>
                                             <div class="text-xs-left">
-                                                <v-chip
+                                                <v-tooltip
+                                                        top
                                                         v-for="(genre, index) in title.genres"
                                                         :key="index"
-                                                        label
-                                                        @click.native="$router.push({ name: 'search', query: { query: '', genres: [genre.id] }})"
-                                                        text-color="black"
                                                 >
-                                                    <v-icon left>label</v-icon>
-                                                    {{genre.name}}
-                                                </v-chip>
+                                                    <v-chip
+                                                            label
+                                                            @click.native="$router.push({ name: 'search', query: { query: '', genres: [genre.id] }})"
+                                                            text-color="black"
+                                                            slot="activator"
+                                                    >
+                                                        <v-icon left>label</v-icon>
+                                                        {{genre.name}}
+                                                    </v-chip>
+                                                    <span>{{$t('tooltips.search_by_genre', [genre.name])}}</span>
+                                                </v-tooltip>
                                             </div>
                                         </v-layout>
                                         <v-layout
