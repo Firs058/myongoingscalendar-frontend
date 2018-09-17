@@ -4,7 +4,7 @@
             :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
     >
         <v-layout
-                v-if="!!asyncCache && asyncCache.count > 0"
+                v-if="!!asyncCache && asyncCache.count > 0 && shouldShow"
                 row wrap justify-left
         >
             <v-flex xs12>
@@ -258,7 +258,7 @@
                 const data = await app.$axios.$post(`api/es/supply`);
                 store.dispatch('setSearchGlobalSupply', data.payload)
             }
-            store.dispatch('setSearchGlobalInput', String(query.query));
+            if (typeof query.query !== 'undefined') store.dispatch('setSearchGlobalInput', String(query.query));
             return {
                 currentPage: parseInt(query.page >= 1 ? query.page : 1),
                 filters: {
@@ -324,10 +324,13 @@
                             } else return cache
                         })
                         .catch(code => this.$toast.showToast(code))
-                        .finally(() => this.$router.replace({path: 'search', query: payload}))
+                        .finally(() => {
+                            this.$router.replace({path: 'search', query: payload});
+                            this.$store.dispatch('setSearchGlobalLastQuery', payload)
+                        })
                 },
                 shouldUpdate() {
-                    return this.searchGlobalInput || this.filters.genres.added || this.filters.scores.added || this.filters.years.added
+                    return this.shouldShow
                 }
             }
         },
@@ -358,6 +361,9 @@
                 let arr = [];
                 this.filters.genres.selected.forEach(id => arr.push(` ${this.genresList.find(item => item.id === parseInt(id)).name}`));
                 return arr;
+            },
+            shouldShow() {
+                return this.searchGlobalInput || this.filters.genres.added || this.filters.scores.added || this.filters.years.added
             }
         }
     }

@@ -35,7 +35,8 @@ const store = () => new Vuex.Store({
             global: {
                 input: '',
                 extension: false,
-                supply: []
+                supply: [],
+                lastQuery: ''
             }
         },
         comment: {
@@ -64,6 +65,7 @@ const store = () => new Vuex.Store({
         SET_SEARCH_GLOBAL_INPUT: (state, string) => state.search.global.input = string,
         SET_SEARCH_EXTENSION: (state, bool) => state.search.global.extension = bool,
         SET_SEARCH_SUPPLY: (state, obj) => state.search.global.supply = obj,
+        SET_SEARCH_LAST_QUERY: (state, string) => state.search.global.lastQuery = string,
         SET_NICKNAME: (state, string) => state.user.nickname = string,
         SET_AVATAR: (state, string) => state.user.avatar = string,
         SET_COMMENT: (state, obj) => state.comment = obj,
@@ -87,6 +89,7 @@ const store = () => new Vuex.Store({
         setSearchGlobalInput: ({commit}, string) => commit('SET_SEARCH_GLOBAL_INPUT', string),
         setSearchGlobalExtension: ({commit}, bool) => commit('SET_SEARCH_EXTENSION', bool),
         setSearchGlobalSupply: ({commit}, obj) => commit('SET_SEARCH_SUPPLY', obj),
+        setSearchGlobalLastQuery:  ({commit}, string) => commit('SET_SEARCH_LAST_QUERY', string),
         setNickname: ({commit}, string) => commit('SET_NICKNAME', string),
         setAvatar: ({commit}, string) => commit('SET_AVATAR', string),
         setComment: ({commit}, obj) => commit('SET_COMMENT', obj),

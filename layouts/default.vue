@@ -332,7 +332,7 @@
             <v-spacer v-if="$device.isDesktop"/>
             <v-btn
                     icon
-                    to="/search"
+                    :to="{ name: 'search', query: lastQuery}"
                     nuxt
                     :disabled="$route.name === 'search'"
             >
@@ -482,7 +482,8 @@
                 user: state => state.user,
                 toast: state => state.toast,
                 lang: state => state.settings.lang,
-                extension: state => state.search.global.extension
+                extension: state => state.search.global.extension,
+                lastQuery: state => state.search.global.lastQuery
             }),
             extended() {
                 return this.$route.name === 'list' || this.$route.name === 'search'
