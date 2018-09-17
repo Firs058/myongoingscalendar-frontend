@@ -96,7 +96,7 @@
                                                         v-for="(rating, index) in title.ratings"
                                                         :key="index"
                                                         label
-                                                        disabled
+                                                        @click.native="$router.push({ name: 'search', query: { query: '', scores: [rating.score, 10] }})"
                                                         text-color="black"
                                                 >{{`${rating.dbname} : ${rating.score}`}}
                                                 </v-chip>
@@ -125,7 +125,7 @@
                                                         v-for="(genre, index) in title.genres"
                                                         :key="index"
                                                         label
-                                                        disabled
+                                                        @click.native="$router.push({ name: 'search', query: { query: '', genres: [genre.id] }})"
                                                         text-color="black"
                                                 >
                                                     <v-icon left>label</v-icon>
@@ -481,8 +481,13 @@
         activated() {
             this.$vuetify.goTo(0);
         },
-        deactivated () {
+        deactivated() {
             this.$destroy()
         }
     }
 </script>
+<style scoped>
+    .v-chip >>> .v-chip__content {
+        cursor: pointer !important;
+    }
+</style>

@@ -258,8 +258,8 @@
                 const data = await app.$axios.$post(`api/es/supply`);
                 store.dispatch('setSearchGlobalSupply', data.payload)
             }
+            store.dispatch('setSearchGlobalInput', String(query.query));
             return {
-                query: query.query,
                 currentPage: parseInt(query.page >= 1 ? query.page : 1),
                 filters: {
                     genres: {
@@ -323,11 +323,8 @@
                                     })
                             } else return cache
                         })
-                        .then(cache => {
-                            this.$router.replace({path: 'search', query: payload});
-                            return cache
-                        })
                         .catch(code => this.$toast.showToast(code))
+                        .finally(() => this.$router.replace({path: 'search', query: payload}))
                 },
                 shouldUpdate() {
                     return this.searchGlobalInput || this.filters.genres.added || this.filters.scores.added || this.filters.years.added
@@ -362,9 +359,6 @@
                 this.filters.genres.selected.forEach(id => arr.push(` ${this.genresList.find(item => item.id === parseInt(id)).name}`));
                 return arr;
             }
-        },
-        activated() {
-            if (this.query) this.$store.dispatch('setSearchGlobalInput', String(this.query));
         }
     }
 </script>
