@@ -171,7 +171,7 @@
                         this.$toast.showToast(code);
                         this.$refs.invisibleRecaptcha.reset()
                     })
-                    .then(() => this.loading = false)
+                    .finally(() => this.loading = false)
             },
             onExpired() {
                 this.$refs.invisibleRecaptcha.reset()

@@ -59,7 +59,7 @@
                                         hide-details
                                 />
                             </v-list-tile-action>
-                            <v-spacer />
+                            <v-spacer/>
                             <v-list-tile-action>
                                 <a @click.stop="$router.push('/recover')">{{$t('login.forgot_pass')}}</a>
                             </v-list-tile-action>
@@ -216,7 +216,7 @@
                             this.$router.push('/');
                         })
                         .catch(code => this.$toast.showToast(code))
-                        .then(() => this.loadingBtn = false)
+                        .finally(() => this.loadingBtn = false)
                 }
             },
             confirmAuth(provider, index) {
@@ -228,10 +228,8 @@
                 this.providers[selected.index].loading = true;
                 this.$auth.getSocialAuthorizationUrl(selected.provider)
                     .then(url => window.location.href = url)
-                    .catch(code => {
-                        this.providers[selected.index].loading = false;
-                        this.$toast.showToast(code)
-                    })
+                    .catch(code => this.$toast.showToast(code))
+                    .finally(() => this.providers[selected.index].loading = false)
             }
         },
         middleware: ['guest']
