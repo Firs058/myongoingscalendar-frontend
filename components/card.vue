@@ -8,8 +8,8 @@
     >
         <v-img
                 :src="anime.image.full"
-                aspect-ratio="1"
-                height="300px"
+                :aspect-ratio="1/1.4"
+                max-height="350px"
         >
             <v-layout
                     slot="placeholder"
@@ -21,7 +21,7 @@
                 <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
             </v-layout>
             <v-container fill-height fluid v-if="anime.recommended">
-                <v-layout column align-start>
+                <v-layout column align-center>
                     <v-flex xs12>
                         <v-chip
                                 small

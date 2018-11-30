@@ -225,7 +225,7 @@
                                     <v-tab-item
                                             v-for="i in broadcast.tabs"
                                             :key="i.name"
-                                            :id="'tab-' + i.name"
+                                            :value="'tab-' + i.name"
                                     >
                                         <v-data-table
                                                 :headers="tableHeaders"

@@ -8,6 +8,5 @@ export default ({store, $axios, req}) => {
         token
             ? config.headers = {'Authorization': `Bearer ${token}`, 'Accept-Language': store.state.settings.lang}
             : config.headers = {'Accept-Language': store.state.settings.lang};
-        config.timeout = 10000
     });
 }

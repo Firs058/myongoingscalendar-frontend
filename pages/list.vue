@@ -1,34 +1,41 @@
 <template>
-    <div v-if="Object.keys(asyncList).length">
-        <v-container
-                fluid
-                :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
-                v-for="dateGroup in asyncList"
-                :key="dateGroup.start"
-        >
-            <v-subheader>{{dateGroup.start}}</v-subheader>
-            <v-layout row wrap justify-left>
-                <v-flex
-                        v-for="anime in dateGroup.values"
-                        :key="anime.tid"
-                        xs6 md4 lg3 xl2
+    <v-container fluid pa-0>
+        <v-layout align-top justify-center v-if="Object.keys(asyncList).length">
+            <v-flex xs12 sm10 lg8 pa-0>
+                <div
+                        v-for="dateGroup in asyncList"
+                        :key="dateGroup.dateStart"
                 >
-                    <card :anime="anime"/>
-                </v-flex>
-            </v-layout>
-        </v-container>
-    </div>
-    <v-container
-            v-else
-            fluid
-    >
-        <v-alert
-                color="info"
-                icon="info"
-                value="true"
+                    <v-container
+                            fluid
+                            :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
+                    >
+                        <v-subheader>{{dateGroup.dateStart}}</v-subheader>
+                        <v-layout row wrap justify-left>
+                            <v-flex
+                                    v-for="anime in dateGroup.animes"
+                                    :key="anime.tid"
+                                    xs6 md4 lg3 xl2
+                            >
+                                <card :anime="anime"/>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                </div>
+            </v-flex>
+        </v-layout>
+        <v-container
+                v-else
+                fluid
         >
-            {{$t("alerts.nothing_found")}}
-        </v-alert>
+            <v-alert
+                    color="info"
+                    icon="info"
+                    value="true"
+            >
+                {{$t("alerts.nothing_found")}}
+            </v-alert>
+        </v-container>
     </v-container>
 </template>
 
@@ -100,30 +107,29 @@
             }),
             asyncList() {
                 const list = this.$store.state.ongoingsList;
+                if (this.searchListInput) {
+                    let filtered = [];
+                    list.forEach(e => {
+                        let input = this.searchListInput.trim().toLowerCase();
+                        let found = e.animes.filter(e => (e.en ? e.en : e.ja).toLowerCase().includes(input) || (e.ja ? e.ja : e.en).toLowerCase().includes(input));
+                        if (found.length) filtered.push({dateStart: e.dateStart, animes: a})
+                    });
+                    return filtered
+                }
                 return list
-                    .filter(each => this.searchListInput ? (each.en ? each.en : each.ja).toLowerCase().includes(this.searchListInput.trim().toLowerCase()) : list)
-                    .reduce((rv, x) => {
-                        let v = x['dateStart'],
-                            el = rv.find(r => r && r.start === v);
-                        el
-                            ? el.values.push(x)
-                            : rv.push({
-                                start: v,
-                                values: [x]
-                            });
-                        return rv;
-                    }, [])
-                    .sort((a, b) => (a.start === null) - (b.start === null) || -(a.start > b.start) || +(a.start < b.start))
             },
             globalUrl() {
                 return `${process.env.baseUrl}${this.$route.fullPath}`
-            },
+            }
+            ,
             globalImage() {
                 return `${process.env.baseUrl}/images/empty.png`
-            },
+            }
+            ,
             globalDescription() {
                 return this.$t("meta_info.list.meta.description")
-            },
+            }
+            ,
             globalTitle() {
                 return this.$t("meta_info.list.title", ['| MyOngoingsCalendar'])
             }

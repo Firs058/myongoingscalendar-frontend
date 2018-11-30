@@ -1,75 +1,12 @@
 import Vue from 'vue'
-import {
-    Vuetify,
-    VApp,
-    VCard,
-    VNavigationDrawer,
-    VFooter,
-    VList,
-    VBtn,
-    VIcon,
-    VGrid,
-    VToolbar,
-    VSnackbar,
-    VDivider,
-    VAvatar,
-    VMenu,
-    VSubheader,
-    VChip,
-    VTextField,
-    VAlert,
-    VDialog,
-    VCheckbox,
-    VTooltip,
-    VForm,
-    VTabs,
-    VImg,
-    VProgressCircular,
-    VSelect,
-    VSwitch,
-    VAutocomplete,
-    VDataTable,
-    VTextarea,
-    VExpansionPanel,
-    VPagination,
-    VRangeSlider
-} from 'vuetify'
-import { Ripple } from 'vuetify/es5/directives'
+import Vuetify, {
+    VApp
+} from 'vuetify/lib'
+import { Ripple } from 'vuetify/lib/directives'
 
 Vue.use(Vuetify, {
     components: {
-        VApp,
-        VCard,
-        VNavigationDrawer,
-        VFooter,
-        VList,
-        VBtn,
-        VIcon,
-        VGrid,
-        VToolbar,
-        VSnackbar,
-        VDivider,
-        VAvatar,
-        VMenu,
-        VSubheader,
-        VChip,
-        VTextField,
-        VAlert,
-        VDialog,
-        VCheckbox,
-        VTooltip,
-        VForm,
-        VTabs,
-        VImg,
-        VProgressCircular,
-        VSelect,
-        VSwitch,
-        VAutocomplete,
-        VDataTable,
-        VTextarea,
-        VExpansionPanel,
-        VPagination,
-        VRangeSlider
+        VApp
     },
     directives: {
         Ripple

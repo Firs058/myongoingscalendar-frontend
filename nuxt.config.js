@@ -1,6 +1,7 @@
 const nodeExternals = require('webpack-node-externals');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const baseUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost' : 'https://myongoingscalendar.eu';
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 
 module.exports = {
     env: {
@@ -55,29 +56,17 @@ module.exports = {
         middleware: ['settings', 'i18n']
     },
     build: {
-        cssSourceMap: false,
+        transpile: [/^vuetify/],
         publicPath: '/dist/',
-        babel: {
-            plugins: [
-                ["transform-imports", {
-                    "vuetify": {
-                        "transform": "vuetify/es5/components/${member}",
-                        "preventFullImport": true
-                    }
-                }]
-            ]
-        },
         plugins: [
+            new VuetifyLoaderPlugin(),
             new MomentLocalesPlugin({
                 localesToKeep: ['ru'],
-            }),
+            })
         ],
-        vendor: [
-            '~/plugins/vuetify.js',
-            'vue-i18n'
-        ],
+        extractCSS: true,
         extend(config, ctx) {
-            if (ctx.isServer) {
+            if (process.server) {
                 config.externals = [
                     nodeExternals({
                         whitelist: [/^vuetify/]
