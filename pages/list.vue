@@ -112,7 +112,7 @@
                     list.forEach(e => {
                         let input = this.searchListInput.trim().toLowerCase();
                         let found = e.animes.filter(e => (e.en ? e.en : e.ja).toLowerCase().includes(input) || (e.ja ? e.ja : e.en).toLowerCase().includes(input));
-                        if (found.length) filtered.push({dateStart: e.dateStart, animes: a})
+                        if (found.length) filtered.push({dateStart: e.dateStart, animes: found})
                     });
                     return filtered
                 }
