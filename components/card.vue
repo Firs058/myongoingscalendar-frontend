@@ -9,7 +9,7 @@
         <v-img
                 :src="anime.image.full"
                 :aspect-ratio="1/1.4"
-                max-height="350px"
+                max-height="300px"
         >
             <v-layout
                     slot="placeholder"
@@ -37,9 +37,7 @@
         <v-card-title primary-title>
             <v-layout text-xs-left>
                 <v-flex>
-                    <h1 :class="$device.isDesktop ? 'headline' : 'subheading'">
-                        {{anime.en ? anime.en : anime.ja}}
-                    </h1>
+                    <h3>{{anime.en ? anime.en : anime.ja}}</h3>
                     <span
                             v-if="anime.dateStart"
                             :class="$device.isDesktop ? null : 'caption'"
@@ -53,16 +51,16 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import { mapGetters } from 'vuex'
 
     export default {
         props: [
             'anime'
         ],
         computed: {
-            ...mapState({
-                dark: state => state.settings.dark
-            })
+            ...mapGetters([
+                'dark'
+            ])
         }
     }
 </script>

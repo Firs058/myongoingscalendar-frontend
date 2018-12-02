@@ -35,7 +35,8 @@
                                 </v-list-tile-sub-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                                <v-list-tile-action-text :class="dark ? 'white--text' : 'black--text'">{{[anime.time, ["HH:mm"]] | moment(fullTimeFormat)}}
+                                <v-list-tile-action-text :class="dark ? 'white--text' : 'black--text'">{{[anime.time,
+                                    ["HH:mm"]] | moment(fullTimeFormat)}}
                                     <span
                                             v-if="anime.shift !== '0'"
                                             class="error--text"
@@ -52,14 +53,15 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapGetters} from 'vuex'
 
     export default {
         data: () => ({}),
         props: ['calendar'],
-        computed: mapState({
-            dark: state => state.settings.dark,
-            fullTimeFormat: state => state.settings.fullTimeFormat ? 'HH:mm' : 'LT'
-        })
+        computed:
+            mapGetters([
+                'dark',
+                'fullTimeFormat'
+            ])
     }
 </script>

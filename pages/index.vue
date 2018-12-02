@@ -8,7 +8,7 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapGetters} from 'vuex'
 
     export default {
         async asyncData({app, store}) {
@@ -75,12 +75,12 @@
             }
         },
         computed: {
-            ...mapState({
-                authenticated: state => state.user.authenticated,
-                hideRepeats: state => state.settings.hideRepeats,
-                timezone: state => state.settings.timezone,
-                calendar: state => state.calendar
-            }),
+            ...mapGetters([
+                'authenticated',
+                'hideRepeats',
+                'timezone',
+                'calendar'
+            ]),
             globalUrl() {
                 return `${process.env.baseUrl}${this.$route.fullPath}`
             },

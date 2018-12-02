@@ -89,7 +89,7 @@ const store = () => new Vuex.Store({
         setSearchGlobalInput: ({commit}, string) => commit('SET_SEARCH_GLOBAL_INPUT', string),
         setSearchGlobalExtension: ({commit}, bool) => commit('SET_SEARCH_EXTENSION', bool),
         setSearchGlobalSupply: ({commit}, obj) => commit('SET_SEARCH_SUPPLY', obj),
-        setSearchGlobalLastQuery:  ({commit}, string) => commit('SET_SEARCH_LAST_QUERY', string),
+        setSearchGlobalLastQuery: ({commit}, string) => commit('SET_SEARCH_LAST_QUERY', string),
         setNickname: ({commit}, string) => commit('SET_NICKNAME', string),
         setAvatar: ({commit}, string) => commit('SET_AVATAR', string),
         setComment: ({commit}, obj) => commit('SET_COMMENT', obj),
@@ -99,6 +99,31 @@ const store = () => new Vuex.Store({
         setCalendar: ({commit}, obj) => commit('SET_CALENDAR', obj),
         setTimezones: ({commit}, obj) => commit('SET_TIMEZONES', obj),
         setLang: ({commit}, string) => commit('SET_LANG', string),
+    },
+    getters: {
+        dark: state => state.settings.dark,
+        searchListInput: state => state.search.list.input,
+        ongoingsList: state => {
+            let list = state.ongoingsList;
+            let input = state.search.list.input;
+            if (input) {
+                let filtered = [];
+                input = input.trim().toLowerCase();
+                list.forEach(e => {
+                    let found = e.animes.filter(e => (e.en ? e.en : e.ja).toLowerCase().includes(input) || (e.ja ? e.ja : e.en).toLowerCase().includes(input));
+                    if (found.length) filtered.push({dateStart: e.dateStart, animes: found})
+                });
+                return filtered
+            }
+            return list
+        },
+        ongoingsListNotEmpty: state => !Object.keys(state.ongoingsList).length,
+        authenticated: state => state.user.authenticated,
+        hideRepeats: state => state.settings.hideRepeats,
+        timezone: state => state.settings.timezone,
+        calendar: state => state.calendar,
+        settings: state => state.settings,
+        fullTimeFormat: state => state.settings.fullTimeFormat ? 'HH:mm' : 'LT'
     }
 });
 

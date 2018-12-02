@@ -1,9 +1,9 @@
 <template>
     <v-container fluid pa-0>
-        <v-layout align-top justify-center v-if="Object.keys(asyncList).length">
-            <v-flex xs12 sm10 lg8 pa-0>
+        <v-layout align-top justify-center v-if="Object.keys(ongoingsList).length">
+            <v-flex xs12 pa-0>
                 <div
-                        v-for="dateGroup in asyncList"
+                        v-for="dateGroup in ongoingsList"
                         :key="dateGroup.dateStart"
                 >
                     <v-container
@@ -15,7 +15,7 @@
                             <v-flex
                                     v-for="anime in dateGroup.animes"
                                     :key="anime.tid"
-                                    xs6 md4 lg3 xl2
+                                    xs6 md3 lg2 xl1
                             >
                                 <card :anime="anime"/>
                             </v-flex>
@@ -40,11 +40,11 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapGetters} from 'vuex'
 
     export default {
         async asyncData({app, store}) {
-            if (!Object.keys(store.state.ongoingsList).length) {
+            if (store.getters.ongoingsListNotEmpty) {
                 const data = await app.$axios.$post('api/title/list');
                 store.dispatch('setOngoingsList', data.payload)
             }
@@ -101,23 +101,11 @@
             }
         },
         computed: {
-            ...mapState({
-                dark: state => state.settings.dark,
-                searchListInput: state => state.search.list.input
-            }),
-            asyncList() {
-                const list = this.$store.state.ongoingsList;
-                if (this.searchListInput) {
-                    let filtered = [];
-                    list.forEach(e => {
-                        let input = this.searchListInput.trim().toLowerCase();
-                        let found = e.animes.filter(e => (e.en ? e.en : e.ja).toLowerCase().includes(input) || (e.ja ? e.ja : e.en).toLowerCase().includes(input));
-                        if (found.length) filtered.push({dateStart: e.dateStart, animes: found})
-                    });
-                    return filtered
-                }
-                return list
-            },
+            ...mapGetters([
+                'dark',
+                'searchListInput',
+                'ongoingsList'
+            ]),
             globalUrl() {
                 return `${process.env.baseUrl}${this.$route.fullPath}`
             }

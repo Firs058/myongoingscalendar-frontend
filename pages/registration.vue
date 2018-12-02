@@ -122,7 +122,7 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapGetters} from 'vuex'
 
     export default {
         data() {
@@ -177,10 +177,9 @@
                 this.$refs.invisibleRecaptcha.reset()
             }
         },
-        computed: mapState({
-            dark: state => state.settings.dark,
-            settings: state => state.settings
-        }),
+        computed: mapGetters([
+            'settings'
+        ]),
         mounted() {
             let recaptchaScript = document.createElement('script');
             recaptchaScript.setAttribute('src', 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit');

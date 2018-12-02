@@ -50,7 +50,6 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
 
     export default {
         data: () => ({
@@ -88,9 +87,6 @@
                 this.$refs.invisibleRecaptcha.reset()
             }
         },
-        computed: mapState({
-            dark: state => state.settings.dark
-        }),
         mounted() {
             let recaptchaScript = document.createElement('script');
             recaptchaScript.setAttribute('src', 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit');
