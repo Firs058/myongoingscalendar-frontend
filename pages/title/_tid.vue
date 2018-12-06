@@ -63,8 +63,7 @@
                                     <social
                                             :url="globalUrl"
                                             :description="globalTitle"
-                                    >
-                                    </social>
+                                    />
                                 </v-card-actions>
                             </v-card>
                         </v-flex>
@@ -97,12 +96,15 @@
                                                         v-for="(rating, index) in title.ratings"
                                                         :key="index"
                                                 >
-                                                    <v-chip
-                                                            @click.native="$router.push({ name: 'search', query: { query: '', scores: [rating.score, 10] }})"
-                                                            text-color="black"
-                                                            slot="activator"
-                                                    >{{`${rating.dbname} : ${rating.score}`}}
-                                                    </v-chip>
+                                                    <v-hover slot="activator">
+                                                        <v-chip
+                                                                slot-scope="{ hover }"
+                                                                :class="`elevation-${hover ? 4 : 0}`"
+                                                                @click.native="$router.push({ name: 'search', query: { query: '', scores: [rating.score, 10] }})"
+                                                                text-color="black"
+                                                        >{{`${rating.dbname} : ${rating.score}`}}
+                                                        </v-chip>
+                                                    </v-hover>
                                                     <span>{{$t('tooltips.search_by_score', [rating.score, 10])}}</span>
                                                 </v-tooltip>
                                             </div>
@@ -131,14 +133,17 @@
                                                         v-for="(genre, index) in title.genres"
                                                         :key="index"
                                                 >
-                                                    <v-chip
-                                                            @click.native="$router.push({ name: 'search', query: { query: '', genres: [genre.id] }})"
-                                                            text-color="black"
-                                                            slot="activator"
-                                                    >
-                                                        <v-icon left>label</v-icon>
-                                                        {{genre.name}}
-                                                    </v-chip>
+                                                    <v-hover slot="activator">
+                                                        <v-chip
+                                                                slot-scope="{ hover }"
+                                                                :class="`elevation-${hover ? 4 : 0}`"
+                                                                @click.native="$router.push({ name: 'search', query: { query: '', genres: [genre.id] }})"
+                                                                text-color="black"
+                                                        >
+                                                            <v-icon left>label</v-icon>
+                                                            {{genre.name}}
+                                                        </v-chip>
+                                                    </v-hover>
                                                     <span>{{$t('tooltips.search_by_genre', [genre.name])}}</span>
                                                 </v-tooltip>
                                             </div>
