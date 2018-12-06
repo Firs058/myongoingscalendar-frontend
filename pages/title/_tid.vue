@@ -98,7 +98,6 @@
                                                         :key="index"
                                                 >
                                                     <v-chip
-                                                            label
                                                             @click.native="$router.push({ name: 'search', query: { query: '', scores: [rating.score, 10] }})"
                                                             text-color="black"
                                                             slot="activator"
@@ -133,7 +132,6 @@
                                                         :key="index"
                                                 >
                                                     <v-chip
-                                                            label
                                                             @click.native="$router.push({ name: 'search', query: { query: '', genres: [genre.id] }})"
                                                             text-color="black"
                                                             slot="activator"
@@ -239,7 +237,7 @@
                                             >
                                                 <tr>
                                                     <td>{{ props.item.date }}</td>
-                                                    <td>{{ [props.item.time, ["HH:mm"]] | moment(timeFormat) }}
+                                                    <td>{{ [props.item.time, ["HH:mm"]] | moment(fullTimeFormat) }}
                                                         <span
                                                                 v-if="props.item.shift !== '0'"
                                                                 class="error--text"
@@ -344,7 +342,7 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapGetters} from 'vuex'
 
     export default {
         data: () => ({
@@ -467,11 +465,11 @@
             }
         },
         computed: {
-            ...mapState({
-                authenticated: state => state.user.authenticated,
-                timeFormat: state => state.settings.fullTimeFormat ? 'HH:mm' : 'LT',
-                timezone: state => state.settings.timezone
-            }),
+            ...mapGetters([
+                'authenticated',
+                'fullTimeFormat',
+                'timezone'
+            ]),
             globalTitle() {
                 return this.title.titleen ? this.title.titleen : this.title.title
             },

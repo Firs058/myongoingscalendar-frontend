@@ -233,16 +233,18 @@
                                             </v-list-tile-content>
                                         </v-list-tile>
                                     </v-list>
-                                    <v-divider />
+                                    <v-divider/>
                                     <v-list>
-                                        <v-list-tile avatar @click.stop="openUrl('https://github.com/Firs058/myongoingscalendar-frontend/tree/master/locales')">
+                                        <v-list-tile avatar
+                                                     @click.stop="openUrl('https://github.com/Firs058/myongoingscalendar-frontend/tree/master/locales')">
                                             <v-list-tile-action>
                                                 <v-avatar
                                                         tile
                                                         size="36px"
                                                         slot="activator"
                                                 >
-                                                    <font-awesome-icon :icon="['fab', 'github']" size="2x" class="icon alt"/>
+                                                    <font-awesome-icon :icon="['fab', 'github']" size="2x"
+                                                                       class="icon alt"/>
                                                 </v-avatar>
                                             </v-list-tile-action>
                                             <v-list-tile-content>
@@ -288,7 +290,8 @@
                         </v-list-tile>
                         <v-list-tile>
                             <v-autocomplete
-                                    :items="timezones"
+                                    :items="$store.getters.timezonesListEmpty ? [timezone] : timezones"
+                                    @click="checkAndDownloadTimezones"
                                     v-model="timezone"
                                     :label="$t('selects.label')"
                             />
@@ -301,16 +304,7 @@
 </template>
 
 <script>
-    import VListTileAction from "vuetify/src/components/VList/VListTileAction";
-
     export default {
-        components: {VListTileAction},
-        async asyncData({app, store}) {
-            if (!Object.keys(store.state.timezones).length) {
-                const data = await app.$axios.$post('api/user/settings/timezones');
-                store.dispatch('setTimezones', data.payload)
-            }
-        },
         data: () => ({
             valid: false,
             menu: false,
@@ -365,6 +359,11 @@
             setLang(code) {
                 this.$store.dispatch('setLang', code);
                 this.saveSettings()
+            },
+            checkAndDownloadTimezones() {
+                if (this.$store.getters.timezonesListEmpty)
+                this.$axios.$post('api/user/settings/timezones')
+                    .then(data => this.$store.dispatch('setTimezones', data.payload))
             }
         },
         head() {

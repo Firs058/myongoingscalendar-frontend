@@ -117,7 +117,8 @@ const store = () => new Vuex.Store({
             }
             return list
         },
-        ongoingsListNotEmpty: state => !Object.keys(state.ongoingsList).length,
+        ongoingsListEmpty: state => !Object.keys(state.ongoingsList).length,
+        timezonesListEmpty: state => !Object.keys(state.timezones).length,
         authenticated: state => state.user.authenticated,
         hideRepeats: state => state.settings.hideRepeats,
         timezone: state => state.settings.timezone,

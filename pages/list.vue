@@ -44,7 +44,7 @@
 
     export default {
         async asyncData({app, store}) {
-            if (store.getters.ongoingsListNotEmpty) {
+            if (store.getters.ongoingsListEmpty) {
                 const data = await app.$axios.$post('api/title/list');
                 store.dispatch('setOngoingsList', data.payload)
             }
