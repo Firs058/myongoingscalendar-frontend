@@ -1,14 +1,10 @@
 import Vue from 'vue'
 import Vuetify, {
-    VApp
+    VList, VListTile, VListTileAction, VListTileContent, VListTileTitle
 } from 'vuetify/lib'
-import { Ripple } from 'vuetify/lib/directives'
 
 Vue.use(Vuetify, {
     components: {
-        VApp
-    },
-    directives: {
-        Ripple
+        VList, VListTile, VListTileAction, VListTileContent, VListTileTitle
     }
-})
+});

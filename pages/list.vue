@@ -32,7 +32,7 @@
                         <v-flex xs12>
                             <v-tooltip top>
                                 <v-btn
-                                        class="grey"
+                                        :class="dark ? 'grey darken-3' : 'grey lighten-3'"
                                         block
                                         slot="activator"
                                         flat
@@ -136,16 +136,13 @@
             ]),
             globalUrl() {
                 return `${process.env.baseUrl}${this.$route.fullPath}`
-            }
-            ,
+            },
             globalImage() {
                 return `${process.env.baseUrl}/images/empty.png`
-            }
-            ,
+            },
             globalDescription() {
                 return this.$t("meta_info.list.meta.description")
-            }
-            ,
+            },
             globalTitle() {
                 return this.$t("meta_info.list.title", ['| MyOngoingsCalendar'])
             }

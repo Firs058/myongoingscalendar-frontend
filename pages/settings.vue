@@ -232,9 +232,7 @@
                                                 <v-list-tile-title v-text="lang.name"/>
                                             </v-list-tile-content>
                                         </v-list-tile>
-                                    </v-list>
-                                    <v-divider/>
-                                    <v-list>
+                                        <v-divider/>
                                         <v-list-tile avatar
                                                      @click.stop="openUrl('https://github.com/Firs058/myongoingscalendar-frontend/tree/master/locales')">
                                             <v-list-tile-action>
