@@ -25,7 +25,7 @@
                 <v-container
                         fluid
                         :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
-                        v-if="!showAll"
+                        v-if="!showAll && ongoingsList.slice(0, 7).length >= 7"
                         pb-5
                 >
                     <v-layout row wrap align-center justify-center>
