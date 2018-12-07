@@ -15,6 +15,9 @@
     "episode": "Episode № {0}",
     "channel": "Channel: {0}"
   },
+  "list": {
+    "show_old": "Show older ongoings"
+  },
   "title": {
     "information": {
       "subheader": "Information",

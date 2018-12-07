@@ -124,7 +124,16 @@ const store = () => new Vuex.Store({
         timezone: state => state.settings.timezone,
         calendar: state => state.calendar,
         settings: state => state.settings,
-        fullTimeFormat: state => state.settings.fullTimeFormat ? 'HH:mm' : 'LT'
+        fullTimeFormat: state => state.settings.fullTimeFormat ? 'HH:mm' : 'LT',
+        user: state => state.user,
+        toast: state => state.toast,
+        lang: state => state.settings.lang,
+        extension: state => state.search.global.extension,
+        lastQuery: state => state.search.global.lastQuery,
+        supply: state => state.search.global.supply,
+        searchGlobalInput: state => state.search.global.input,
+        comment: state => state.comment,
+        nickname: state => state.user.nickname
     }
 });
 

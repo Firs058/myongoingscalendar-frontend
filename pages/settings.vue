@@ -294,6 +294,7 @@
                                     @click="checkAndDownloadTimezones"
                                     v-model="timezone"
                                     :label="$t('selects.label')"
+                                    :loading="timezonesLoading"
                             />
                         </v-list-tile>
                     </v-list>
@@ -308,6 +309,7 @@
         data: () => ({
             valid: false,
             menu: false,
+            timezonesLoading: false,
             nickname: {
                 dialog: false,
                 valid: true,
@@ -361,9 +363,12 @@
                 this.saveSettings()
             },
             checkAndDownloadTimezones() {
-                if (this.$store.getters.timezonesListEmpty)
-                this.$axios.$post('api/user/settings/timezones')
-                    .then(data => this.$store.dispatch('setTimezones', data.payload))
+                if (this.$store.getters.timezonesListEmpty) {
+                    this.timezonesLoading = true;
+                    this.$axios.$post('api/user/settings/timezones')
+                        .then(data => this.$store.dispatch('setTimezones', data.payload))
+                        .finally(() => this.timezonesLoading = false)
+                }
             }
         },
         head() {

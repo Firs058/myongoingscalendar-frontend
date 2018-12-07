@@ -60,7 +60,7 @@
                         <v-pagination
                                 :length="countPages"
                                 v-model="currentPage"
-                                :total-visible="$device.isDesktop ? 7 : 4"
+                                :total-visible="!$device.isMobile ? 7 : 4"
                         />
                     </v-flex>
                 </v-layout>
@@ -247,7 +247,7 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapGetters} from 'vuex'
 
     export default {
         data: () => ({
@@ -335,11 +335,11 @@
             }
         },
         computed: {
-            ...mapState({
-                searchGlobalInput: state => state.search.global.input,
-                supply: state => state.search.global.supply,
-                dark: state => state.settings.dark
-            }),
+            ...mapGetters([
+                'dark',
+                'searchGlobalInput',
+                'supply'
+            ]),
             extension: {
                 get() {
                     return this.$store.state.search.global.extension

@@ -56,7 +56,7 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapGetters} from 'vuex'
 
     export default {
         data: () => ({
@@ -78,10 +78,10 @@
             }
         },
         computed: {
-            ...mapState({
-                comment: state => state.comment,
-                nickname: state => state.user.nickname
-            }),
+            ...mapGetters([
+                'comment',
+                'nickname'
+            ]),
             dialog: {
                 get() {
                     return this.$store.state.comment.dialog

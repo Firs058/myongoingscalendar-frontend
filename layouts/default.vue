@@ -413,7 +413,7 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapGetters} from 'vuex'
 
     export default {
         data: () => ({
@@ -423,7 +423,8 @@
                 {
                     name: 'terms',
                     link: '/terms'
-                }, {
+                },
+                {
                     name: 'privacy',
                     link: '/privacy'
                 }
@@ -477,14 +478,14 @@
             }
         },
         computed: {
-            ...mapState({
-                dark: state => state.settings.dark,
-                user: state => state.user,
-                toast: state => state.toast,
-                lang: state => state.settings.lang,
-                extension: state => state.search.global.extension,
-                lastQuery: state => state.search.global.lastQuery
-            }),
+            ...mapGetters([
+                'dark',
+                'user',
+                'toast',
+                'lang',
+                'extension',
+                'lastQuery'
+            ]),
             extended() {
                 return this.$route.name === 'list' || this.$route.name === 'search'
             },

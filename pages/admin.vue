@@ -170,7 +170,7 @@
                 this.$anime.api('api/admin/clear')
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
-                    .then(() => this.loading = false)
+                    .finally(() => this.loading = false)
             },
             editItem(item) {
                 this.list.item = item;
@@ -194,28 +194,28 @@
                 this.$anime.api('api/admin/hex')
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
-                    .then(() => this.loading = false)
+                    .finally(() => this.loading = false)
             },
             elastic() {
                 this.loading = true;
                 this.$anime.api('api/admin/elastic')
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
-                    .then(() => this.loading = false)
+                    .finally(() => this.loading = false)
             },
             avatars() {
                 this.loading = true;
                 this.$anime.api('api/admin/avatars')
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
-                    .then(() => this.loading = false)
+                    .finally(() => this.loading = false)
             },
             mal() {
                 this.loading = true;
                 this.$anime.api('api/admin/mal')
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
-                    .then(() => this.loading = false)
+                    .finally(() => this.loading = false)
             }
         },
         metaInfo: {

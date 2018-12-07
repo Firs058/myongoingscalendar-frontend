@@ -233,7 +233,6 @@
                                         <v-data-table
                                                 :headers="tableHeaders"
                                                 :items="i.items"
-                                                class="elevation-1"
                                                 hide-actions
                                         >
                                             <template

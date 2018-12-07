@@ -3,7 +3,7 @@
         <v-layout align-top justify-center v-if="Object.keys(ongoingsList).length">
             <v-flex xs12 pa-0>
                 <div
-                        v-for="dateGroup in ongoingsList"
+                        v-for="dateGroup in showAll ? ongoingsList : ongoingsList.slice(0, 7)"
                         :key="dateGroup.dateStart"
                 >
                     <v-container
@@ -22,6 +22,31 @@
                         </v-layout>
                     </v-container>
                 </div>
+                <v-container
+                        fluid
+                        :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
+                        v-if="!showAll"
+                        pb-5
+                >
+                    <v-layout row wrap align-center justify-center>
+                        <v-flex xs12>
+                            <v-tooltip top>
+                                <v-btn
+                                        class="grey"
+                                        block
+                                        slot="activator"
+                                        flat
+                                        @click.native="showAll = !showAll"
+                                >
+                                    <v-icon left>arrow_drop_down</v-icon>
+                                    {{$t('list.show_old')}}
+                                    <v-icon right>arrow_drop_down</v-icon>
+                                </v-btn>
+                                <span>{{$t('list.show_old')}}</span>
+                            </v-tooltip>
+                        </v-flex>
+                    </v-layout>
+                </v-container>
             </v-flex>
         </v-layout>
         <v-container
@@ -43,6 +68,9 @@
     import {mapGetters} from 'vuex'
 
     export default {
+        data: () => ({
+            showAll: false
+        }),
         async asyncData({app, store}) {
             if (store.getters.ongoingsListEmpty) {
                 const data = await app.$axios.$post('api/title/list');

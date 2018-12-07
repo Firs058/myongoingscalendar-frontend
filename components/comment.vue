@@ -132,7 +132,7 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapGetters} from 'vuex'
 
     export default {
         data: () => ({
@@ -153,21 +153,21 @@
                 this.$anime.api(`api/comments/${this.comment.id}/like/add`)
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
-                    .then(() => this.loadingLike = false)
+                    .finally(() => this.loadingLike = false)
             },
             addDislike() {
                 this.loadingDislike = true;
                 this.$anime.api(`api/comments/${this.comment.id}/dislike/add`)
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
-                    .then(() => this.loadingDislike = false)
+                    .finally(() => this.loadingDislike = false)
             },
             addReport() {
                 this.loadingReport = true;
                 this.$anime.api(`api/comments/report/${this.comment.id}`)
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
-                    .then(() => this.loadingReport = false)
+                    .finally(() => this.loadingReport = false)
             },
             openDialog() {
                 this.$store.dispatch('setComment', {
@@ -185,16 +185,13 @@
                         this.more = result.data.payload.fromPath - this.comments.length;
                     })
                     .catch(code => this.$toast.showToast(code))
-                    .then(() => this.loadingChilds = false)
+                    .finally(() => this.loadingChilds = false)
             }
         },
-        computed: {
-            ...mapState({
-                dark: state => state.settings.dark,
-                authenticated: state => state.user.authenticated,
-                timeFormat: state => state.settings.fullTimeFormat ? 'HH:mm' : 'LT',
-                timezone: state => state.settings.timezone
-            })
-        }
+        computed: mapGetters([
+            'dark',
+            'authenticated',
+            'timezone'
+        ])
     }
 </script>

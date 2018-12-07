@@ -15,6 +15,9 @@
     "episode": "Эпизод № {0}",
     "channel": "Канал: {0}"
   },
+  "list": {
+    "show_old": "Показать более старые онгоинги"
+  },
   "title": {
     "information": {
       "subheader": "Информация",
