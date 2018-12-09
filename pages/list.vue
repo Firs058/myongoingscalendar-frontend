@@ -3,7 +3,7 @@
         <v-layout align-top justify-center v-if="Object.keys(ongoingsList).length">
             <v-flex xs12 pa-0>
                 <div
-                        v-for="dateGroup in showAll ? ongoingsList : ongoingsList.slice(0, 7)"
+                        v-for="dateGroup in showAll ? ongoingsList : ongoingsList.slice(0, showCount)"
                         :key="dateGroup.dateStart"
                 >
                     <v-container
@@ -25,7 +25,7 @@
                 <v-container
                         fluid
                         :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
-                        v-if="!showAll && ongoingsList.slice(0, 7).length >= 7"
+                        v-if="!showAll && ongoingsList.slice(0, showCount).length >= showCount"
                         pb-5
                 >
                     <v-layout row wrap align-center justify-center>
@@ -69,6 +69,7 @@
 
     export default {
         data: () => ({
+            showCount: 10,
             showAll: false
         }),
         async asyncData({app, store}) {

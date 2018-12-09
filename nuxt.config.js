@@ -64,7 +64,6 @@ module.exports = {
                 localesToKeep: ['ru'],
             })
         ],
-        extractCSS: true,
         extend(config, ctx) {
             if (process.server) {
                 config.externals = [
