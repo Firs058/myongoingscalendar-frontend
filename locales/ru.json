@@ -9,7 +9,8 @@
     "about": "О нас",
     "settings": "Настройки",
     "donate": "Донат",
-    "exit": "Выход"
+    "exit": "Выход",
+    "contact_us": "Для связи"
   },
   "calendar": {
     "episode": "Эпизод № {0}",

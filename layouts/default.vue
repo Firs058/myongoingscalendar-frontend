@@ -406,6 +406,7 @@
                 </v-btn>
                 <v-flex xs12 py-3 text-xs-center>
                     &copy; {{year > 2017 ? '2017 - ' + year : year}} <strong>MyOngoingsCalendar.eu</strong>
+                    <br> {{`${$t('menu.contact_us')}: myongoingscalendar@gmail.com`}}
                 </v-flex>
             </v-layout>
         </v-footer>

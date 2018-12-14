@@ -27,7 +27,9 @@
                     <network network="email">
                         <v-list-tile @click="">
                             <v-list-tile-action>
-                                <font-awesome-icon icon="envelope" size="lg"/>
+                                <v-avatar size="36px">
+                                    <font-awesome-icon icon="envelope" size="lg"/>
+                                </v-avatar>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>Email</v-list-tile-title>
@@ -37,7 +39,10 @@
                     <network network="facebook">
                         <v-list-tile @click="">
                             <v-list-tile-action>
-                                <font-awesome-icon :icon="['fab', 'facebook']" size="lg" :style="{ color: '#3b5999' }"/>
+                                <v-avatar size="36px">
+                                    <font-awesome-icon :icon="['fab', 'facebook']" size="lg"
+                                                       :style="{ color: '#3b5999' }"/>
+                                </v-avatar>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>Facebook</v-list-tile-title>
@@ -47,7 +52,10 @@
                     <network network="googleplus">
                         <v-list-tile @click="">
                             <v-list-tile-action>
-                                <font-awesome-icon :icon="['fab', 'google']" size="lg" :style="{ color: '#dd4b39' }"/>
+                                <v-avatar size="36px">
+                                    <font-awesome-icon :icon="['fab', 'google']" size="lg"
+                                                       :style="{ color: '#dd4b39' }"/>
+                                </v-avatar>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>Google +</v-list-tile-title>
@@ -57,7 +65,9 @@
                     <network network="line">
                         <v-list-tile @click="">
                             <v-list-tile-action>
-                                <font-awesome-icon :icon="['fab', 'line']" size="lg" :style="{ color: '#00c300' }"/>
+                                <v-avatar size="36px">
+                                    <font-awesome-icon :icon="['fab', 'line']" size="lg" :style="{ color: '#00c300' }"/>
+                                </v-avatar>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>Line</v-list-tile-title>
@@ -67,7 +77,10 @@
                     <network network="linkedin">
                         <v-list-tile @click="">
                             <v-list-tile-action>
-                                <font-awesome-icon :icon="['fab', 'linkedin']" size="lg" :style="{ color: '#0077B5' }"/>
+                                <v-avatar size="36px">
+                                    <font-awesome-icon :icon="['fab', 'linkedin']" size="lg"
+                                                       :style="{ color: '#0077B5' }"/>
+                                </v-avatar>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>LinkedIn</v-list-tile-title>
@@ -77,8 +90,10 @@
                     <network network="odnoklassniki">
                         <v-list-tile @click="">
                             <v-list-tile-action>
-                                <font-awesome-icon :icon="['fab', 'odnoklassniki']" size="lg"
-                                                   :style="{ color: '#ed812b' }"/>
+                                <v-avatar size="36px">
+                                    <font-awesome-icon :icon="['fab', 'odnoklassniki']" size="lg"
+                                                       :style="{ color: '#ed812b' }"/>
+                                </v-avatar>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>Odnoklassniki</v-list-tile-title>
@@ -88,8 +103,10 @@
                     <network network="pinterest">
                         <v-list-tile @click="">
                             <v-list-tile-action>
-                                <font-awesome-icon :icon="['fab', 'pinterest']" size="lg"
-                                                   :style="{ color: '#bd081c' }"/>
+                                <v-avatar size="36px">
+                                    <font-awesome-icon :icon="['fab', 'pinterest']" size="lg"
+                                                       :style="{ color: '#bd081c' }"/>
+                                </v-avatar>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>Pinterest</v-list-tile-title>
@@ -99,7 +116,10 @@
                     <network network="reddit">
                         <v-list-tile @click="">
                             <v-list-tile-action>
-                                <font-awesome-icon :icon="['fab', 'reddit']" size="lg" :style="{ color: '#ff5700' }"/>
+                                <v-avatar size="36px">
+                                    <font-awesome-icon :icon="['fab', 'reddit']" size="lg"
+                                                       :style="{ color: '#ff5700' }"/>
+                                </v-avatar>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>Reddit</v-list-tile-title>
@@ -109,7 +129,10 @@
                     <network network="skype">
                         <v-list-tile @click="">
                             <v-list-tile-action>
-                                <font-awesome-icon :icon="['fab', 'skype']" size="lg" :style="{ color: '#00AFF0' }"/>
+                                <v-avatar size="36px">
+                                    <font-awesome-icon :icon="['fab', 'skype']" size="lg"
+                                                       :style="{ color: '#00AFF0' }"/>
+                                </v-avatar>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>Skype</v-list-tile-title>
@@ -119,7 +142,10 @@
                     <network network="telegram">
                         <v-list-tile @click="">
                             <v-list-tile-action>
-                                <font-awesome-icon :icon="['fab', 'telegram']" size="lg" :style="{ color: '#0088cc' }"/>
+                                <v-avatar size="36px">
+                                    <font-awesome-icon :icon="['fab', 'telegram']" size="lg"
+                                                       :style="{ color: '#0088cc' }"/>
+                                </v-avatar>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>Telegram</v-list-tile-title>
@@ -129,7 +155,10 @@
                     <network network="twitter">
                         <v-list-tile @click="">
                             <v-list-tile-action>
-                                <font-awesome-icon :icon="['fab', 'twitter']" size="lg" :style="{ color: '#55acee' }"/>
+                                <v-avatar size="36px">
+                                    <font-awesome-icon :icon="['fab', 'twitter']" size="lg"
+                                                       :style="{ color: '#55acee' }"/>
+                                </v-avatar>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>Twitter</v-list-tile-title>
@@ -139,7 +168,9 @@
                     <network network="vk">
                         <v-list-tile @click="">
                             <v-list-tile-action>
-                                <font-awesome-icon :icon="['fab', 'vk']" size="lg" :style="{ color: '#4c75a3' }"/>
+                                <v-avatar size="36px">
+                                    <font-awesome-icon :icon="['fab', 'vk']" size="lg" :style="{ color: '#4c75a3' }"/>
+                                </v-avatar>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>VKontakte</v-list-tile-title>
@@ -149,7 +180,10 @@
                     <network network="weibo">
                         <v-list-tile @click="">
                             <v-list-tile-action>
-                                <font-awesome-icon :icon="['fab', 'weibo']" size="lg" :style="{ color: '#df2029' }"/>
+                                <v-avatar size="36px">
+                                    <font-awesome-icon :icon="['fab', 'weibo']" size="lg"
+                                                       :style="{ color: '#df2029' }"/>
+                                </v-avatar>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>Weibo</v-list-tile-title>
@@ -159,7 +193,10 @@
                     <network network="whatsapp">
                         <v-list-tile @click="">
                             <v-list-tile-action>
-                                <font-awesome-icon :icon="['fab', 'whatsapp']" size="lg" :style="{ color: '#25D366' }"/>
+                                <v-avatar size="36px">
+                                    <font-awesome-icon :icon="['fab', 'whatsapp']" size="lg"
+                                                       :style="{ color: '#25D366' }"/>
+                                </v-avatar>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>Whatsapp</v-list-tile-title>

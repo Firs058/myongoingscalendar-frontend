@@ -9,7 +9,8 @@
     "about": "About",
     "settings": "Settings",
     "donate": "Donate",
-    "exit": "Exit"
+    "exit": "Exit",
+    "contact_us": "Contact us"
   },
   "calendar": {
     "episode": "Episode № {0}",
