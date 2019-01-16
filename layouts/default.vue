@@ -167,12 +167,27 @@
                 :dense="!$device.isDesktop"
                 prominent
         >
-            <span
-                    @click.stop="$router.push('/')"
-                    :style="`cursor: pointer;`"
-                    class="headline font-weight-medium"
-                    v-text="$device.isDesktop ? 'MyOngoingsCalendar' : 'MOC'"
-            />
+            <v-badge
+                    small
+                    color="transparent"
+            >
+                <v-chip
+                        v-if="!$device.isMobile"
+                        slot="badge"
+                        small
+                        color="transparent"
+                        disabled
+                        :style="`right: -${Number(timezone.length)*3}px`"
+                >
+                    {{timezone}}
+                </v-chip>
+                <span
+                        @click.stop="$router.push('/')"
+                        :style="`cursor: pointer;`"
+                        class="headline font-weight-medium"
+                        v-text="$device.isDesktop ? 'MyOngoingsCalendar' : 'MOC'"
+                />
+            </v-badge>
             <v-spacer/>
             <v-toolbar-items v-if="$device.isDesktop">
                 <v-btn
@@ -485,7 +500,8 @@
                 'toast',
                 'lang',
                 'extension',
-                'lastQuery'
+                'lastQuery',
+                'timezone'
             ]),
             extended() {
                 return this.$route.name === 'list' || this.$route.name === 'search'

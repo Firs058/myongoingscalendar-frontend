@@ -21,13 +21,7 @@
   },
   "title": {
     "information": {
-      "subheader": "Information",
-      "japanese": "Japanese:",
-      "ratings": "Ratings:",
-      "episodes": "Episodes:",
-      "genres": "Genres:",
-      "description": "Description:",
-      "links": "Links:"
+      "episodes": " episodes"
     },
     "schedule": {
       "subheader": "Schedule",

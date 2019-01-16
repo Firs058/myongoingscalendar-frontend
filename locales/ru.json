@@ -21,13 +21,7 @@
   },
   "title": {
     "information": {
-      "subheader": "Информация",
-      "japanese": "Японский:",
-      "ratings": "Рейтинги:",
-      "episodes": "Эпизодов:",
-      "genres": "Жанры:",
-      "description": "Описание:",
-      "links": "Ссылки:"
+      "episodes": " серия/й"
     },
     "schedule": {
       "subheader": "Расписание",

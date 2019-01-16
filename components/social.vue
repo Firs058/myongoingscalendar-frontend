@@ -8,6 +8,7 @@
                     outline
                     flat
                     slot="activator"
+                    class="ma-1"
             >
                 {{$t('buttons.share')}}
             </v-btn>
