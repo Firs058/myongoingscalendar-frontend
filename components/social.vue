@@ -50,19 +50,6 @@
                             </v-list-tile-content>
                         </v-list-tile>
                     </network>
-                    <network network="googleplus">
-                        <v-list-tile @click="">
-                            <v-list-tile-action>
-                                <v-avatar size="36px">
-                                    <font-awesome-icon :icon="['fab', 'google']" size="lg"
-                                                       :style="{ color: '#dd4b39' }"/>
-                                </v-avatar>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>Google +</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                    </network>
                     <network network="line">
                         <v-list-tile @click="">
                             <v-list-tile-action>
