@@ -20,19 +20,17 @@
             >
                 <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
             </v-layout>
-            <v-container fill-height fluid v-if="anime.recommended">
-                <v-layout column align-center>
-                    <v-flex xs12>
-                        <v-chip
-                                small
-                                disabled
-                                class="orange darken-3"
-                                text-color="white"
-                        >{{$t("card.recommended")}}
-                        </v-chip>
-                    </v-flex>
-                </v-layout>
-            </v-container>
+            <v-layout align-start justify-start fill-height v-if="anime.recommended">
+                <v-flex xs12>
+                    <v-chip
+                            small
+                            disabled
+                            class="recommended orange darken-3"
+                            text-color="white"
+                    >{{$t("card.recommended")}}
+                    </v-chip>
+                </v-flex>
+            </v-layout>
         </v-img>
         <v-card-title primary-title>
             <v-layout text-xs-left>
@@ -51,7 +49,7 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import {mapGetters} from 'vuex'
 
     export default {
         props: [
@@ -64,3 +62,12 @@
         }
     }
 </script>
+
+<style scoped>
+    .recommended {
+        padding-left: 70px;
+        position: absolute !important;
+        left: -70px;
+        top: 10px;
+    }
+</style>

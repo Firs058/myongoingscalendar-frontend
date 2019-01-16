@@ -19,7 +19,7 @@
                     <template v-for="(anime, index) in day.anime">
                         <v-list-tile
                                 avatar
-                                ripple
+                                :ripple="{ class: 'grey--text' }"
                                 :key="index"
                                 nuxt
                                 :to="`/title/${anime.tid}`"
@@ -35,12 +35,14 @@
                                 </v-list-tile-sub-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                                <v-list-tile-action-text :class="dark ? 'white--text' : 'black--text'">{{[anime.time,
-                                    ["HH:mm"]] | moment(fullTimeFormat)}}
+                                <v-list-tile-action-text :class="dark ? 'white--text' : 'black--text'">
+                                    {{[anime.time, ["HH:mm"]] | moment(fullTimeFormat)}}
                                     <span
                                             v-if="anime.shift !== '0'"
                                             class="error--text"
-                                    >{{'&nbsp' + anime.shift}}</span>
+                                    >
+                                        {{'&nbsp' + anime.shift}}
+                                    </span>
                                 </v-list-tile-action-text>
                             </v-list-tile-action>
                         </v-list-tile>

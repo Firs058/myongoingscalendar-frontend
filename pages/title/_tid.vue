@@ -60,7 +60,7 @@
                                     <v-divider v-if="index + 1 < title.ratings.length"/>
                                 </div>
                             </v-tooltip>
-                            <span class="yellow--text text--darken-3 mx-2 subheading">{{`${rating}/10`}}</span>
+                            <span class="mx-2 subheading">{{`${rating}/10`}}</span>
                             <v-spacer/>
                         </v-card-actions>
                         <v-card-actions>
