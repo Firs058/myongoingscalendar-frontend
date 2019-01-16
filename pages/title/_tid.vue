@@ -433,7 +433,7 @@
                         this.$toast.showToast({code: result.data.status.code});
                     })
                     .catch(code => this.$toast.showToast(code))
-                    .then(() => this.button.loading = false)
+                    .finally(() => this.button.loading = false)
             },
             openDialog() {
                 this.$store.dispatch('setComment', {
@@ -451,7 +451,7 @@
                         this.comments.more = result.data.payload.fromPath - this.comments.nodes.length;
                     })
                     .catch(code => this.$toast.showToast(code))
-                    .then(() => this.comments.loading = false)
+                    .finally(() => this.comments.loading = false)
             },
             numberToColorHsl(i, min, max) {
                 let ratio = i;

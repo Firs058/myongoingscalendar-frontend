@@ -11,7 +11,7 @@
                 <v-subheader>{{$t("search.founded", [asyncCache.count])}}</v-subheader>
                 <v-chip
                         v-if="searchGlobalInput"
-                        color="teal lighten-3"
+                        :color="`teal ${dark ? 'darken-3' : 'lighten-3'}`"
                         close
                         @input="$store.dispatch('setSearchGlobalInput', '')"
                 >
@@ -21,7 +21,7 @@
                         v-for="filter in filters"
                         :key="filter.name"
                         v-if="filter.added"
-                        :color="`${filter.color} lighten-3`"
+                        :color="`${filter.color} ${dark ? 'darken-3' : 'lighten-3'}`"
                         close
                         @input="filter.added = false, filter.selected ? filters.genres.selected = [] : null"
                 >
@@ -92,7 +92,7 @@
                 <v-card-text v-if="selected">
                     <v-chip
                             v-if="searchGlobalInput"
-                            color="teal lighten-3"
+                            :color="`teal ${dark ? 'darken-3' : 'lighten-3'}`"
                             close
                             @input="$store.dispatch('setSearchGlobalInput', '')"
                     >
@@ -102,7 +102,7 @@
                             v-for="filter in filters"
                             :key="filter.name"
                             v-if="filter.added"
-                            :color="`${filter.color} lighten-3`"
+                            :color="`${filter.color} ${dark ? 'darken-3' : 'lighten-3'}`"
                             close
                             @input="filter.added = false, filter.selected ? filters.genres.selected = [] : null"
                     >
