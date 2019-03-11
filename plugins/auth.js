@@ -82,7 +82,7 @@ export default ({store, $axios, redirect}) => {
                     email: '',
                     social: false,
                     avatar: '',
-                    role: 'user',
+                    roles: ['ROLE_USER'],
                     nickname: 'Anonymous'
                 });
                 store.dispatch('setSynced', false);
@@ -97,7 +97,7 @@ export default ({store, $axios, redirect}) => {
                 email: user.email,
                 social: user.social,
                 avatar: user.avatar ? user.avatar : "/images/anon.png",
-                role: user.role,
+                roles: user.roles,
                 nickname: user.nickname
             })
         },

@@ -13,9 +13,7 @@ export default ({store, $axios, req}) => {
             timeout: 10000
         }).then(response => {
             if (response.data.status.code >= 11000) {
-                store.dispatch('setAvatar', response.data.payload.user.avatar);
-                store.dispatch('setNickname', response.data.payload.user.nickname);
-                store.dispatch('setSettings', response.data.payload.settings);
+                store.dispatch('setSettings', response.data.payload);
                 store.dispatch('setSynced', true);
             }
         })

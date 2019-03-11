@@ -68,6 +68,6 @@
         padding-left: 70px;
         position: absolute !important;
         left: -70px;
-        top: 10px;
+        top: 20px;
     }
 </style>

@@ -11,9 +11,7 @@ const store = () => new Vuex.Store({
             authenticated: false,
             email: '',
             social: false,
-            avatar: '',
-            role: 'user',
-            nickname: 'Anonymous'
+            roles: ['ROLE_USER']
         },
         settings: {
             timezone: jstz.determine().name(),
@@ -66,8 +64,6 @@ const store = () => new Vuex.Store({
         SET_SEARCH_EXTENSION: (state, bool) => state.search.global.extension = bool,
         SET_SEARCH_SUPPLY: (state, obj) => state.search.global.supply = obj,
         SET_SEARCH_LAST_QUERY: (state, string) => state.search.global.lastQuery = string,
-        SET_NICKNAME: (state, string) => state.user.nickname = string,
-        SET_AVATAR: (state, string) => state.user.avatar = string,
         SET_COMMENT: (state, obj) => state.comment = obj,
         SET_COMMENT_DIALOG: (state, bool) => state.comment.dialog = bool,
         SET_SYNCED: (state, bool) => state.synced = bool,
@@ -90,8 +86,6 @@ const store = () => new Vuex.Store({
         setSearchGlobalExtension: ({commit}, bool) => commit('SET_SEARCH_EXTENSION', bool),
         setSearchGlobalSupply: ({commit}, obj) => commit('SET_SEARCH_SUPPLY', obj),
         setSearchGlobalLastQuery: ({commit}, string) => commit('SET_SEARCH_LAST_QUERY', string),
-        setNickname: ({commit}, string) => commit('SET_NICKNAME', string),
-        setAvatar: ({commit}, string) => commit('SET_AVATAR', string),
         setComment: ({commit}, obj) => commit('SET_COMMENT', obj),
         setCommentDialog: ({commit}, bool) => commit('SET_COMMENT_DIALOG', bool),
         setSynced: ({commit}, bool) => commit('SET_SYNCED', bool),
@@ -111,7 +105,7 @@ const store = () => new Vuex.Store({
                 input = input.trim().toLowerCase();
                 list.forEach(e => {
                     let found = e.animes.filter(e => (e.en ? e.en : e.ja).toLowerCase().includes(input) || (e.ja ? e.ja : e.en).toLowerCase().includes(input));
-                    if (found.length) filtered.push({dateStart: e.dateStart, animes: found})
+                    if (found.length) filtered.push({season: e.season, animes: found})
                 });
                 return filtered
             }
@@ -126,14 +120,14 @@ const store = () => new Vuex.Store({
         settings: state => state.settings,
         fullTimeFormat: state => state.settings.fullTimeFormat ? 'HH:mm' : 'LT',
         user: state => state.user,
+        admin: state => state.user.roles.includes('ROLE_ADMIN'),
         toast: state => state.toast,
         lang: state => state.settings.lang,
         extension: state => state.search.global.extension,
         lastQuery: state => state.search.global.lastQuery,
         supply: state => state.search.global.supply,
         searchGlobalInput: state => state.search.global.input,
-        comment: state => state.comment,
-        nickname: state => state.user.nickname
+        comment: state => state.comment
     }
 });
 

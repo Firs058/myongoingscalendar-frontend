@@ -4,13 +4,13 @@
             <v-flex xs12 pa-0>
                 <div
                         v-for="dateGroup in showAll ? ongoingsList : ongoingsList.slice(0, showCount)"
-                        :key="dateGroup.dateStart"
+                        :key="dateGroup.season"
                 >
                     <v-container
                             fluid
                             :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
                     >
-                        <v-subheader>{{dateGroup.dateStart}}</v-subheader>
+                        <v-subheader>{{dateGroup.season}}</v-subheader>
                         <v-layout row wrap justify-left>
                             <v-flex
                                     v-for="anime in dateGroup.animes"

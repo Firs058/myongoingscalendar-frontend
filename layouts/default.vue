@@ -15,7 +15,7 @@
             <v-list v-if="user.authenticated">
                 <v-list-tile avatar>
                     <v-list-tile-avatar>
-                        <img :src="user.avatar"/>
+                        <img :src="settings.avatar"/>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
                         <v-list-tile-sub-title>{{$t('menu.logged_as')}}</v-list-tile-sub-title>
@@ -287,7 +287,7 @@
                             slot="activator"
                     >
                         <v-avatar>
-                            <img :src="user.avatar"/>
+                            <img :src="settings.avatar"/>
                         </v-avatar>
                         <v-icon>arrow_drop_down</v-icon>
                     </v-btn>
@@ -299,7 +299,7 @@
                         <v-list>
                             <v-list-tile avatar>
                                 <v-list-tile-avatar>
-                                    <img :src="user.avatar"/>
+                                    <img :src="settings.avatar"/>
                                 </v-list-tile-avatar>
                                 <v-list-tile-content>
                                     <v-list-tile-sub-title>{{$t('menu.logged_as')}}</v-list-tile-sub-title>
@@ -310,7 +310,7 @@
                         <v-divider/>
                         <v-list>
                             <v-list-tile
-                                    v-if="user.authenticated && user.role === 'admin'"
+                                    v-if="user.authenticated && admin"
                                     to="/admin"
                                     nuxt
                             >
@@ -497,11 +497,13 @@
             ...mapGetters([
                 'dark',
                 'user',
+                'settings',
                 'toast',
                 'lang',
                 'extension',
                 'lastQuery',
-                'timezone'
+                'timezone',
+                'admin'
             ]),
             extended() {
                 return this.$route.name === 'list' || this.$route.name === 'search'

@@ -3,7 +3,7 @@
             v-model="comment.dialog"
             max-width="700"
     >
-        <v-card v-if="nickname === 'Anonymous'">
+        <v-card v-if="settings.nickname === 'Anonymous'">
             <v-card-title class="headline">{{$t('comments.dialog.error.headline')}}</v-card-title>
             <v-card-text>
                 <div>
@@ -69,18 +69,18 @@
                 this.loading = true;
                 this.$anime.api('api/comments/add', {id: this.comment.id, tid: this.comment.tid, text: this.text})
                     .then(result => {
-                        this.loading = false;
                         this.dialog = false;
                         this.text = '';
                         this.$toast.showToast({code: result.data.status.code})
                     })
-                    .catch(code =>  this.$toast.showToast(code))
+                    .catch(code => this.$toast.showToast(code))
+                    .finally(() => this.loading = false)
             }
         },
         computed: {
             ...mapGetters([
                 'comment',
-                'nickname'
+                'settings'
             ]),
             dialog: {
                 get() {

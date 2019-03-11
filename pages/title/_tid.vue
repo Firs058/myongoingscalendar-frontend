@@ -20,7 +20,7 @@
                             <v-spacer/>
                             <div>
                                 <h1 class="text-xs-center display-1" v-text="globalTitle"/>
-                                <div class="text-xs-center" v-if="title.title">{{title.title}}</div>
+                                <div class="text-xs-center" v-if="title.ja">{{title.ja}}</div>
                             </div>
                             <v-spacer/>
                         </v-card-title>
@@ -498,13 +498,13 @@
                 'timezone'
             ]),
             globalTitle() {
-                return this.title.titleen ? this.title.titleen : this.title.title
+                return this.title.en ? this.title.en : this.title.ja
             },
             globalUrl() {
                 return `${process.env.baseUrl}${this.$route.fullPath}`
             },
             globalDescription() {
-                return this.$t("meta_info.title.meta.description", [this.title.titleen ? this.title.titleen : this.title.title, this.title.firstyear])
+                return this.$t("meta_info.title.meta.description", [this.title.en ? this.title.en : this.title.ja, this.title.firstyear])
             },
             globalImage() {
                 return `${process.env.baseUrl}${this.title.image}`

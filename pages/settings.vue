@@ -24,7 +24,7 @@
                             <v-list-tile-content>
                                 <v-list-tile-title>{{$t('settings.account.change_nickname.title')}}</v-list-tile-title>
                                 <v-list-tile-sub-title>{{$t('settings.account.change_nickname.sub_title',
-                                    [user.nickname])}}
+                                    [settings.nickname])}}
                                 </v-list-tile-sub-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
@@ -127,7 +127,7 @@
                                                         v-model="password.value"
                                                         :rules="[
                                   v => !!v || $t('inputs.password.rules.required'),
-                                  v => (v !== user.email || v !== user.nickname) || $t('inputs.password.rules.valid'),
+                                  v => (v !== user.email || v !== settings.nickname) || $t('inputs.password.rules.valid'),
                                   v => v && v.length >= 8 || $t('inputs.password.rules.length')
                         ]"
                                                         :append-icon="password.hidePass ? 'visibility' : 'visibility_off'"
@@ -384,6 +384,11 @@
             user: {
                 get() {
                     return this.$store.state.user
+                }
+            },
+            settings: {
+                get() {
+                    return this.$store.state.settings
                 }
             },
             timezones: {

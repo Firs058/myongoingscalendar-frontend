@@ -12,11 +12,6 @@
                     <v-card-text>
                         <v-btn
                                 flat
-                                @click.native="clear"
-                        >Clear
-                        </v-btn>
-                        <v-btn
-                                flat
                                 @click.native="hex"
                         >Force HEX
                         </v-btn>
@@ -34,11 +29,6 @@
                                 flat
                                 @click.native="mal"
                         >Force parse MAL
-                        </v-btn>
-                        <v-btn
-                                flat
-                                @click.native="lang.dialog = true"
-                        >Upsert lang
                         </v-btn>
                     </v-card-text>
                 </v-card>
@@ -95,36 +85,6 @@
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
-                <v-dialog v-model="lang.dialog" persistent max-width="500px">
-                    <v-card>
-                        <v-card-title>
-                            <span class="headline">Upsert lang</span>
-                        </v-card-title>
-                        <v-card-text>
-                            <v-container grid-list-md>
-                                <v-layout wrap>
-                                    <v-flex xs12>
-                                        <v-text-field label="lang" v-model="lang.name"/>
-                                    </v-flex>
-                                    <v-flex xs12>
-                                        <v-text-field
-                                                v-model="lang.json"
-                                                outline
-                                                :rules="[v => !!v || 'Not null']"
-                                                required
-                                                autofocus
-                                        />
-                                    </v-flex>
-                                </v-layout>
-                            </v-container>
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-spacer/>
-                            <v-btn color="blue darken-1" flat @click.native="lang.dialog = false">Close</v-btn>
-                            <v-btn color="blue darken-1" flat @click.native="saveLang">Save</v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog>
             </v-flex>
         </v-layout>
     </v-container>
@@ -157,21 +117,9 @@
         },
         data: () => ({
             loading: false,
-            dialog: false,
-            lang: {
-                dialog: false,
-                name: '',
-                json: ''
-            }
+            dialog: false
         }),
         methods: {
-            clear() {
-                this.loading = true;
-                this.$anime.api('api/admin/clear')
-                    .then(result => this.$toast.showToast({code: result.data.status.code}))
-                    .catch(code => this.$toast.showToast(code))
-                    .finally(() => this.loading = false)
-            },
             editItem(item) {
                 this.list.item = item;
                 this.dialog = true
@@ -182,12 +130,6 @@
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
                     .then(() => this.init())
-            },
-            saveLang() {
-                this.lang.dialog = false;
-                this.$anime.api('api/admin/locale/' + this.lang.name, this.lang.json)
-                    .then(result => this.$toast.showToast({code: result.data.status.code}))
-                    .catch(code => this.$toast.showToast(code))
             },
             hex() {
                 this.loading = true;

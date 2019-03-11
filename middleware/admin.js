@@ -1,4 +1,4 @@
 export default function ({store, redirect}) {
-    if (store.state.user.role === 'admin') return;
+    if (store.getters.admin) return;
     return redirect('/');
 }
