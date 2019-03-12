@@ -150,21 +150,21 @@
         methods: {
             addLike() {
                 this.loadingLike = true;
-                this.$anime.api(`api/comments/${this.comment.id}/like/add`)
+                this.$anime.api(`api/comments/${this.comment.tid}/${this.comment.id}/like/add`)
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.loadingLike = false)
             },
             addDislike() {
                 this.loadingDislike = true;
-                this.$anime.api(`api/comments/${this.comment.id}/dislike/add`)
+                this.$anime.api(`api/comments/${this.comment.tid}/${this.comment.id}/dislike/add`)
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.loadingDislike = false)
             },
             addReport() {
                 this.loadingReport = true;
-                this.$anime.api(`api/comments/report/${this.comment.id}`)
+                this.$anime.api(`api/comments/${this.comment.tid}/${this.comment.id}/report`)
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.loadingReport = false)

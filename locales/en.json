@@ -381,7 +381,7 @@
     "10015": "One of our services does not work. Do not worry, we'll fix it soon",
     "10016": "Server error. What you expect?",
     "10017": "Sorry, user not exists",
-    "10018": "Why null tid?",
+    "10018": "Not found",
     "10019": "Not admin",
     "10020": "Invalid timezone",
     "10021": "Wrong secret state",
