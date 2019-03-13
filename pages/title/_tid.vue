@@ -72,7 +72,7 @@
                                         @click.native.stop="toggleTitle"
                                         :disabled="!authenticated"
                                         :loading="button.loading"
-                                        v-if="title && !exists"
+                                        v-if="title && !marked"
                                         class="ma-1"
                                 >
                                     {{$t('buttons.add')}}
@@ -88,7 +88,7 @@
                                 >
                                     {{$t('buttons.remove')}}
                                 </v-btn>
-                                <span>{{authenticated ? exists ? $t('tooltips.remove_from_my_calendar') : $t('tooltips.add_to_my_calendar') : $t('tooltips.you_must_be_logged_in')}}</span>
+                                <span>{{authenticated ? marked ? $t('tooltips.remove_from_my_calendar') : $t('tooltips.add_to_my_calendar') : $t('tooltips.you_must_be_logged_in')}}</span>
                             </v-tooltip>
                             <social
                                     :url="globalUrl"
@@ -341,11 +341,11 @@
             }
         }),
         async asyncData({params, app, store}) {
-            const data = await app.$axios.$post(`api/title/${params.tid}`, {timezone: store.state.settings.timezone});
+            const data = await app.$axios.$post(store.getters.authenticated ? `api/user/title/${params.tid}` : `api/title/${params.tid}`, {timezone: store.state.settings.timezone});
             return {
                 tid: params.tid,
                 title: data.payload.title,
-                exists: data.payload.exists,
+                marked: data.payload.marked,
                 broadcast: {
                     tabs: data.payload.broadcast.tabs,
                     active: 'tab-next',
@@ -425,9 +425,9 @@
             toggleTitle() {
                 this.deletion = false;
                 this.button.loading = true;
-                this.$anime.api(`api/title/${this.tid}/toggle`)
+                this.$anime.api(`api/user/title/${this.tid}/toggle`)
                     .then(result => {
-                        this.exists = !this.exists;
+                        this.marked = !this.marked;
                         this.$toast.showToast({code: result.data.status.code});
                     })
                     .catch(code => this.$toast.showToast(code))

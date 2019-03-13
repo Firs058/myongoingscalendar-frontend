@@ -11,10 +11,12 @@ const store = () => new Vuex.Store({
             authenticated: false,
             email: '',
             social: false,
-            roles: ['ROLE_USER']
+            roles: ['ROLE_USER'],
+            tokens: []
         },
         settings: {
             timezone: jstz.determine().name(),
+            avatar: '',
             dark: true,
             hideRepeats: true,
             fullTimeFormat: true,
@@ -40,7 +42,7 @@ const store = () => new Vuex.Store({
         comment: {
             dialog: false,
             id: 0,
-            tid: 0,
+            tid: 0
         },
         synced: false,
         skeleton: {
@@ -70,7 +72,8 @@ const store = () => new Vuex.Store({
         SET_ONGOINGS_LIST: (state, obj) => state.ongoingsList = obj,
         SET_CALENDAR: (state, obj) => state.calendar = obj,
         SET_TIMEZONES: (state, obj) => state.timezones = obj,
-        SET_LANG: (state, string) => state.settings.lang = string
+        SET_LANG: (state, string) => state.settings.lang = string,
+        SET_TOKENS: (state, obj) => state.user.tokens = obj
     },
     actions: {
         setUser: ({commit}, obj) => commit('SET_USER', obj),
@@ -93,6 +96,7 @@ const store = () => new Vuex.Store({
         setCalendar: ({commit}, obj) => commit('SET_CALENDAR', obj),
         setTimezones: ({commit}, obj) => commit('SET_TIMEZONES', obj),
         setLang: ({commit}, string) => commit('SET_LANG', string),
+        setTokens: ({commit}, obj) => commit('SET_TOKENS', obj)
     },
     getters: {
         dark: state => state.settings.dark,
@@ -127,7 +131,8 @@ const store = () => new Vuex.Store({
         lastQuery: state => state.search.global.lastQuery,
         supply: state => state.search.global.supply,
         searchGlobalInput: state => state.search.global.input,
-        comment: state => state.comment
+        comment: state => state.comment,
+        tokens: state => state.user.tokens
     }
 });
 

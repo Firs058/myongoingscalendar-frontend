@@ -13,10 +13,10 @@
     export default {
         async asyncData({app, store}) {
             const data = await app.$axios.$post(
-                store.state.settings.hideRepeats
-                    ? 'api/anime_min'
-                    : 'api/anime',
-                {userTimezone: store.state.settings.timezone}
+                store.getters.hideRepeats
+                    ? 'api/calendar_min'
+                    : 'api/calendar',
+                {userTimezone: store.getters.timezone}
             );
             store.dispatch('setCalendar', data.payload)
         },

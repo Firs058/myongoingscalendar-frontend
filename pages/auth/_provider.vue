@@ -1,38 +1,11 @@
 <template>
-    <v-container
-            fluid
-            fill-height
-            :class="$device.isDesktop ? 'grid-list-lg' : 'pa-0'"
-    >
-        <v-layout align-center justify-center text-xs-center>
-            <v-dialog
-                    persistent
-                    v-if="!remember"
-                    v-model="dialog"
-                    max-width="300"
-            >
-                <v-card>
-                    <v-card-title class="headline">{{$t('login_social.dialog.headline')}}</v-card-title>
-                    <v-card-text>{{$t('login_social.dialog.text')}}</v-card-text>
-                    <v-card-actions>
-                        <v-spacer/>
-                        <v-btn color="error" flat @click.native="initSocialLogin(false)">{{$t('buttons.no')}}</v-btn>
-                        <v-btn color="success" @click.native="initSocialLogin(true)">{{$t('buttons.yes')}}</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
-        </v-layout>
-    </v-container>
+    <loading/>
 </template>
-
 <script>
     import {mapGetters} from 'vuex'
 
     export default {
-        data: () => ({
-            remember: false,
-            dialog: true,
-        }),
+        data: () => ({}),
         async asyncData(ctx) {
             return {
                 query: ctx.query,
@@ -51,8 +24,7 @@
             }
         },
         methods: {
-            initSocialLogin(remember) {
-                this.dialog = false;
+            initSocialLogin() {
                 let creds;
                 switch (this.provider) {
                     case 'twitter':
@@ -70,7 +42,7 @@
                         };
                         break;
                 }
-                this.$auth.socialLogin(this.provider, creds, remember)
+                this.$auth.socialLogin(this.provider, creds)
                     .then(code => this.$toast.showToast(code))
                     .then(() => this.$router.push('/'))
                     .catch(code => {
@@ -81,6 +53,9 @@
         },
         computed: mapGetters([
             'settings'
-        ])
+        ]),
+        activated() {
+            this.initSocialLogin();
+        }
     }
 </script>

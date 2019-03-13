@@ -1,12 +1,31 @@
-import * as Cookies from 'js-cookie'
-import cookie from 'cookie'
-
-export default ({store, $axios, req}) => {
+export default ({store, $axios, $router}) => {
     $axios.onRequest(config => {
-        let getCookie = key => process.client ? Cookies.get(key) : cookie.parse(req.headers.cookie || '')[key];
-        let token = getCookie('token');
-        token
-            ? config.headers = {'Authorization': `Bearer ${token}`, 'Accept-Language': store.state.settings.lang}
-            : config.headers = {'Accept-Language': store.state.settings.lang};
+        const accessTokenExpDate = store.getters.tokens.expires_in - 1;
+        const nowTime = Math.floor(new Date().getTime() / 1000);
+
+        if (store.getters.tokens && accessTokenExpDate <= nowTime)
+            $axios.post('/api/auth/refresh', {token: store.getters.tokens.refreshToken})
+                .then(response => {
+                    store.dispatch('setTokens', response.tokens);
+                    return response.tokens.accessToken
+                })
+                .then(accessToken =>
+                    accessToken
+                        ? config.headers = {'Authorization': `Bearer ${accessToken}`, 'Accept-Language': store.state.settings.lang}
+                        : config.headers = {'Accept-Language': store.state.settings.lang});
+        else {
+            let accessToken = store.getters.tokens.accessToken;
+            accessToken
+                ? config.headers = {'Authorization': `Bearer ${accessToken}`, 'Accept-Language': store.state.settings.lang}
+                : config.headers = {'Accept-Language': store.state.settings.lang};
+        }
+    });
+
+    $axios.onResponse(config => {
+        if (store.getters.tokens && config.data.status.code === 12000)
+            $axios.post('/api/auth/refresh', {token: store.getters.tokens.refreshToken})
+                .then(response => store.dispatch('setTokens', response.tokens));
+        else if (config.data.status.code === 11017)
+            $router.push('/login');
     });
 }

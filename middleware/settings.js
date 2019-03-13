@@ -1,12 +1,6 @@
-import * as Cookies from 'js-cookie'
-import cookie from 'cookie'
 
-export default ({store, $axios, req}) => {
-
-    let getCookie = key => process.client ? Cookies.getJSON(key) : cookie.parse(req.headers.cookie || '')[key];
-    let token = getCookie('token');
-
-    if (!store.state.synced && token)
+export default ({store, $axios}) => {
+    if (!store.state.synced && !!store.getters.accessToken)
         return $axios({
             method: 'post',
             url: `${process.env.baseUrl}/api/user/sync`,

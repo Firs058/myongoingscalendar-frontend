@@ -1,23 +1,22 @@
 import Vue from 'vue'
-import * as Cookies from 'js-cookie'
 
 const
-    LOGIN_URL = 'api/user/login',
-    REGISTRATION_URL = 'api/user/registration',
-    RECOVER_URL = 'api/user/pass/recover',
+    LOGIN_URL = 'api/auth/login',
+    REGISTRATION_URL = 'api/auth/registration',
+    RECOVER_URL = 'api/auth/pass/recover',
     CHANGE_PASS_URL = 'api/user/pass/change',
     CHANGE_NICKNAME_URL = 'api/user/nickname/change',
     SAVE_SETTINGS_URL = 'api/user/settings/save';
 
 export default ({store, $axios, redirect}) => {
     Vue.prototype.$auth = {
-        login(creds, remember) {
+        login(creds) {
             return new Promise((resolve, reject) => {
                 $axios
                     .post(LOGIN_URL, creds)
                     .then(response => {
                         if (response.data.status.code >= 11000) {
-                            this.setUser(response.data.payload, remember);
+                            this.setUserAndSettings(response.data.payload);
                             resolve({code: response.data.status.code});
                         } else reject({code: response.data.status.code});
                     })
@@ -76,30 +75,27 @@ export default ({store, $axios, redirect}) => {
 
         logout: () =>
             new Promise(resolve => {
-                Cookies.remove('token');
                 store.dispatch('setUser', {
                     authenticated: false,
                     email: '',
                     social: false,
-                    avatar: '',
-                    roles: ['ROLE_USER'],
-                    nickname: 'Anonymous'
+                    tokens: [],
+                    roles: []
                 });
                 store.dispatch('setSynced', false);
                 redirect('/');
                 resolve()
             }),
 
-        setUser: (user, remember) => {
-            Cookies.set('token', user.token, remember ? {expires: 365} : null);
+        setUserAndSettings: (loginStatus) => {
             store.dispatch('setUser', {
                 authenticated: true,
-                email: user.email,
-                social: user.social,
-                avatar: user.avatar ? user.avatar : "/images/anon.png",
-                roles: user.roles,
-                nickname: user.nickname
-            })
+                email: loginStatus.email,
+                social: loginStatus.social,
+                tokens: loginStatus.tokens,
+                roles: loginStatus.roles
+            });
+            store.dispatch('setSettings', loginStatus.settings)
         },
 
         saveSettings: settings => $axios.post(SAVE_SETTINGS_URL, settings),
@@ -110,12 +106,12 @@ export default ({store, $axios, redirect}) => {
                     .then(response => resolve(response.data.payload))
                     .catch(() => reject({code: 10015}))),
 
-        socialLogin(provider, creds, remember) {
+        socialLogin(provider, creds) {
             return new Promise((resolve, reject) => {
                 $axios.post(`api/auth/${provider}`, creds)
                     .then(response => {
                         if (response.data.status.code >= 11000) {
-                            this.setUser(response.data.payload, remember);
+                            this.setUserAndSettings(response.data.payload);
                             resolve({code: response.data.status.code});
                         } else reject({code: response.data.status.code});
                     })
@@ -129,7 +125,7 @@ export default ({store, $axios, redirect}) => {
                     .then(response => {
                         if (response.data.status.code >= 11000)
                             if (response.data.payload) {
-                                this.setUser(response.data.payload, false);
+                                this.setUserAndSettings(response.data.payload, false);
                                 resolve({
                                     code: response.data.status.code,
                                     redirect: '/settings'

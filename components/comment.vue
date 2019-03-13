@@ -150,21 +150,21 @@
         methods: {
             addLike() {
                 this.loadingLike = true;
-                this.$anime.api(`api/comments/${this.comment.tid}/${this.comment.id}/like/add`)
+                this.$anime.api(`api/title/${this.comment.tid}/comments/${this.comment.id}/like/add`)
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.loadingLike = false)
             },
             addDislike() {
                 this.loadingDislike = true;
-                this.$anime.api(`api/comments/${this.comment.tid}/${this.comment.id}/dislike/add`)
+                this.$anime.api(`api/title/${this.comment.tid}/comments/${this.comment.id}/dislike/add`)
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.loadingDislike = false)
             },
             addReport() {
                 this.loadingReport = true;
-                this.$anime.api(`api/comments/${this.comment.tid}/${this.comment.id}/report`)
+                this.$anime.api(`api/title/${this.comment.tid}/comments/${this.comment.tid}/${this.comment.id}/report`)
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.loadingReport = false)
@@ -179,7 +179,7 @@
             downloadChilds(next) {
                 if (next) this.offset += 10;
                 this.loadingChilds = true;
-                this.$anime.api(`api/comments/${this.comment.tid}/${this.comment.path}.${this.comment.id}/${this.offset}`)
+                this.$anime.api(`api/title/${this.comment.tid}/comments/${this.comment.path}.${this.comment.id}/${this.offset}`)
                     .then(result => {
                         this.comments.length ? result.data.payload.nodes.forEach(e => this.comments.push(e)) : this.comments = result.data.payload.nodes;
                         this.more = result.data.payload.fromPath - this.comments.length;

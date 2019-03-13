@@ -47,7 +47,7 @@
               We values your privacy and do not provide confidential information to third parties.
             </p>
             <p class="text-xs-left">
-              We use cookies named 'token' and 'vuex' which are necessary for the functioning of the application (also, some cookies from Cloudflare and Google which are not controlled by us).
+              We use a cookie called 'vuex', which is necessary for the functioning of the application (also, some cookies from Cloudflare and Google which are not controlled by us).
             </p>
             <p class="text-xs-left">
               We does not collect or solicit personal information from anyone under the age of 16 or knowingly

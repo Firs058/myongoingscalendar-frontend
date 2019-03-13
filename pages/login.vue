@@ -51,18 +51,11 @@
                     </v-form>
                     <v-list class="transparent">
                         <v-list-tile>
-                            <v-list-tile-action>
-                                <v-checkbox
-                                        :label="$t('login.remember')"
-                                        v-model="remember"
-                                        color="primary"
-                                        hide-details
-                                />
-                            </v-list-tile-action>
                             <v-spacer/>
                             <v-list-tile-action>
                                 <a @click.stop="$router.push('/recover')">{{$t('login.forgot_pass')}}</a>
                             </v-list-tile-action>
+                            <v-spacer/>
                         </v-list-tile>
                     </v-list>
                     <v-card-actions class="pa-3">
@@ -133,7 +126,7 @@
                             {{$t('inputs.checkbox.label')}}&nbsp;
                             <a @click.stop="$router.push('/terms')">{{$tc("terms.headline", 1)}}</a>
                             &nbsp;and&nbsp;
-                            <a @click.stop="$router.push('/privacy')">{{$tc("privacy.headline", 1)}}</a>*
+                            <a @click.stop="$router.push('/privacy')">{{$tc("privacy.headline", 1)}}</a>
                         </template>
                     </v-checkbox>
                     <v-spacer/>
@@ -165,7 +158,6 @@
             password: '',
             email: '',
             hidePass: true,
-            remember: false,
             dialog: {
                 visible: false,
                 alright: false,
@@ -210,7 +202,7 @@
             submit() {
                 if (this.$refs.form.validate()) {
                     this.loadingBtn = true;
-                    this.$auth.login({email: this.email, password: this.password}, this.remember)
+                    this.$auth.login({email: this.email, password: this.password})
                         .then(code => {
                             this.$toast.showToast(code);
                             this.$router.push('/');

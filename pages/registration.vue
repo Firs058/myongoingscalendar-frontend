@@ -92,7 +92,7 @@
                                 {{$t('inputs.checkbox.label')}}&nbsp;
                                 <a @click.stop="$router.push('/terms')">{{$tc("terms.headline", 1)}}</a>
                                 &nbsp;and&nbsp;
-                                <a @click.stop="$router.push('/privacy')">{{$tc("privacy.headline", 1)}}</a>*
+                                <a @click.stop="$router.push('/privacy')">{{$tc("privacy.headline", 1)}}</a>
                             </template>
                         </v-checkbox>
                         <no-ssr>

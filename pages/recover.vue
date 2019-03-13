@@ -50,7 +50,6 @@
 </template>
 
 <script>
-
     export default {
         data: () => ({
             sitekey: '6LdMemkUAAAAAEhtdLuLej6GkuS89V0smYUo3DjC',
