@@ -1,5 +1,5 @@
 <template>
-    <v-card flat @mouseover="showReport = true" @mouseleave="showReport = false">
+    <v-card flat @mouseover="showReport = true" @mouseleave="showReport = false" color="transparent" class="mt-3">
         <v-list-tile avatar>
             <v-list-tile-avatar>
                 <img :src="comment.user.avatar">
@@ -33,8 +33,9 @@
                 auto-grow
                 rows="1"
                 hide-details
+                style="margin-left: 60px;"
         />
-        <v-card-actions>
+        <v-card-actions style="margin-left: 62px;" class="pa-0">
             <v-tooltip top>
                 <v-btn
                         flat
@@ -71,6 +72,7 @@
             <div v-if="comment.dislikes" class="mr-2">{{comment.dislikes}}</div>
             <v-tooltip top>
                 <v-btn
+                        small
                         flat
                         slot="activator"
                         @click.native="openDialog()"
@@ -85,7 +87,7 @@
         <v-expansion-panel
                 v-if="comment.replies > 0"
                 popout
-                @click.native.once="downloadChilds(false)"
+                @click.native.once="downloadChilds(false)" color="transparent"
         >
             <v-expansion-panel-content hide-actions ripple>
                 <div slot="header">
@@ -100,7 +102,6 @@
                         <v-layout row wrap>
                             <v-flex xs12 v-for="(comment, index) in comments" :key="index">
                                 <comment :comment="comment"/>
-                                <v-divider v-if="index + 1 < comments.length"/>
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -195,3 +196,12 @@
         ])
     }
 </script>
+<style scoped>
+    >>> .v-input__control {
+        padding: 0 !important;
+    }
+
+    >>> .v-expansion-panel__header {
+        padding: 12px 32px !important;
+    }
+</style>

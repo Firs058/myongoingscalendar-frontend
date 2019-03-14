@@ -1,19 +1,8 @@
 <template>
-    <v-menu>
-        <v-tooltip
-                top
-                slot="activator"
-        >
-            <v-btn
-                    outline
-                    flat
-                    slot="activator"
-                    class="ma-1"
-            >
-                {{$t('buttons.share')}}
-            </v-btn>
-            <span>{{$t('tooltips.share')}}</span>
-        </v-tooltip>
+    <v-layout align-center justify-space-between white wrap class="py-3 px-2">
+            <span class="pl-3 subheading">
+            Share this on social media
+          </span>
         <no-ssr>
             <social-sharing
                     :url="url"
@@ -24,177 +13,71 @@
                     twitter-user="MyOngoingsCalendar"
                     inline-template
             >
-                <v-list>
+                <d-flex>
                     <network network="email">
-                        <v-list-tile @click="">
-                            <v-list-tile-action>
-                                <v-avatar size="36px">
-                                    <font-awesome-icon icon="envelope" size="lg"/>
-                                </v-avatar>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>Email</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
+                        <v-avatar size="36px">
+                            <font-awesome-icon icon="envelope" size="lg"/>
+                        </v-avatar>
                     </network>
                     <network network="facebook">
-                        <v-list-tile @click="">
-                            <v-list-tile-action>
-                                <v-avatar size="36px">
-                                    <font-awesome-icon :icon="['fab', 'facebook']" size="lg"
-                                                       :style="{ color: '#3b5999' }"/>
-                                </v-avatar>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>Facebook</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
+                        <v-avatar size="36px">
+                            <font-awesome-icon :icon="['fab', 'facebook']" size="lg"/>
+                        </v-avatar>
                     </network>
                     <network network="line">
-                        <v-list-tile @click="">
-                            <v-list-tile-action>
-                                <v-avatar size="36px">
-                                    <font-awesome-icon :icon="['fab', 'line']" size="lg" :style="{ color: '#00c300' }"/>
-                                </v-avatar>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>Line</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
+                        <v-avatar size="36px">
+                            <font-awesome-icon :icon="['fab', 'line']" size="lg"/>
+                        </v-avatar>
                     </network>
                     <network network="linkedin">
-                        <v-list-tile @click="">
-                            <v-list-tile-action>
-                                <v-avatar size="36px">
-                                    <font-awesome-icon :icon="['fab', 'linkedin']" size="lg"
-                                                       :style="{ color: '#0077B5' }"/>
-                                </v-avatar>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>LinkedIn</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
+                        <v-avatar size="36px">
+                            <font-awesome-icon :icon="['fab', 'linkedin']" size="lg"/>
+                        </v-avatar>
                     </network>
                     <network network="odnoklassniki">
-                        <v-list-tile @click="">
-                            <v-list-tile-action>
-                                <v-avatar size="36px">
-                                    <font-awesome-icon :icon="['fab', 'odnoklassniki']" size="lg"
-                                                       :style="{ color: '#ed812b' }"/>
-                                </v-avatar>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>Odnoklassniki</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
+                        <v-avatar size="36px">
+                            <font-awesome-icon :icon="['fab', 'odnoklassniki']" size="lg"/>
+                        </v-avatar>
                     </network>
                     <network network="pinterest">
-                        <v-list-tile @click="">
-                            <v-list-tile-action>
-                                <v-avatar size="36px">
-                                    <font-awesome-icon :icon="['fab', 'pinterest']" size="lg"
-                                                       :style="{ color: '#bd081c' }"/>
-                                </v-avatar>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>Pinterest</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
+                        <v-avatar size="36px">
+                            <font-awesome-icon :icon="['fab', 'pinterest']" size="lg"/>
+                        </v-avatar>
                     </network>
                     <network network="reddit">
-                        <v-list-tile @click="">
-                            <v-list-tile-action>
-                                <v-avatar size="36px">
-                                    <font-awesome-icon :icon="['fab', 'reddit']" size="lg"
-                                                       :style="{ color: '#ff5700' }"/>
-                                </v-avatar>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>Reddit</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
+                        <v-avatar size="36px">
+                            <font-awesome-icon :icon="['fab', 'reddit']" size="lg"/>
+                        </v-avatar>
                     </network>
                     <network network="skype">
-                        <v-list-tile @click="">
-                            <v-list-tile-action>
-                                <v-avatar size="36px">
-                                    <font-awesome-icon :icon="['fab', 'skype']" size="lg"
-                                                       :style="{ color: '#00AFF0' }"/>
-                                </v-avatar>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>Skype</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
+                        <v-avatar size="36px">
+                            <font-awesome-icon :icon="['fab', 'skype']" size="lg"/>
+                        </v-avatar>
                     </network>
                     <network network="telegram">
-                        <v-list-tile @click="">
-                            <v-list-tile-action>
-                                <v-avatar size="36px">
-                                    <font-awesome-icon :icon="['fab', 'telegram']" size="lg"
-                                                       :style="{ color: '#0088cc' }"/>
-                                </v-avatar>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>Telegram</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
+                        <v-avatar size="36px">
+                            <font-awesome-icon :icon="['fab', 'telegram']" size="lg"/>
+                        </v-avatar>
                     </network>
                     <network network="twitter">
-                        <v-list-tile @click="">
-                            <v-list-tile-action>
-                                <v-avatar size="36px">
-                                    <font-awesome-icon :icon="['fab', 'twitter']" size="lg"
-                                                       :style="{ color: '#55acee' }"/>
-                                </v-avatar>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>Twitter</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
+                        <v-avatar size="36px">
+                            <font-awesome-icon :icon="['fab', 'twitter']" size="lg"/>
+                        </v-avatar>
                     </network>
                     <network network="vk">
-                        <v-list-tile @click="">
-                            <v-list-tile-action>
-                                <v-avatar size="36px">
-                                    <font-awesome-icon :icon="['fab', 'vk']" size="lg" :style="{ color: '#4c75a3' }"/>
-                                </v-avatar>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>VKontakte</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
+                        <v-avatar size="36px">
+                            <font-awesome-icon :icon="['fab', 'vk']" size="lg"/>
+                        </v-avatar>
                     </network>
                     <network network="weibo">
-                        <v-list-tile @click="">
-                            <v-list-tile-action>
-                                <v-avatar size="36px">
-                                    <font-awesome-icon :icon="['fab', 'weibo']" size="lg"
-                                                       :style="{ color: '#df2029' }"/>
-                                </v-avatar>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>Weibo</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
+                        <v-avatar size="36px">
+                            <font-awesome-icon :icon="['fab', 'weibo']" size="lg"/>
+                        </v-avatar>
                     </network>
-                    <network network="whatsapp">
-                        <v-list-tile @click="">
-                            <v-list-tile-action>
-                                <v-avatar size="36px">
-                                    <font-awesome-icon :icon="['fab', 'whatsapp']" size="lg"
-                                                       :style="{ color: '#25D366' }"/>
-                                </v-avatar>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>Whatsapp</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                    </network>
-                </v-list>
+                </d-flex>
             </social-sharing>
         </no-ssr>
-    </v-menu>
+    </v-layout>
 </template>
 
 <script>
@@ -202,3 +85,8 @@
         props: ['url', 'description']
     }
 </script>
+<style scoped>
+    >>> .v-avatar {
+        cursor: pointer;
+    }
+</style>
