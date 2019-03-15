@@ -4,10 +4,10 @@
             :light="!dark"
     >
         <v-navigation-drawer
-                :class="{transparent : $vuetify.breakpoint.smAndUp}"
+                :class="{transparent : !$device.isMobile}"
                 v-model="menu"
-                :permanent="$vuetify.breakpoint.smAndUp"
-                :right="$vuetify.breakpoint.xsOnly"
+                :permanent="!$device.isMobile"
+                :right="$device.isMobile"
                 app
                 floating
                 fixed
@@ -200,7 +200,7 @@
             </v-list>
         </v-navigation-drawer>
         <v-toolbar
-                v-if="$vuetify.breakpoint.xsOnly"
+                v-if="$device.isMobile"
                 fixed
                 app
                 :extended="extended"

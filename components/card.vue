@@ -21,13 +21,17 @@
             </v-layout>
             <v-layout align-start justify-start fill-height v-if="anime.recommended">
                 <v-flex xs12>
-                    <v-chip
-                            small
-                            disabled
-                            class="recommended orange darken-3"
-                            text-color="white"
-                    >{{$t("card.recommended")}}
-                    </v-chip>
+                    <v-tooltip top>
+                        <v-icon
+                                slot="activator"
+                                large
+                                color="red darken-1"
+                                class="ma-4"
+                                style="font-size: 48px;"
+                        >favorite
+                        </v-icon>
+                        <span>{{$t("card.recommended")}}</span>
+                    </v-tooltip>
                 </v-flex>
             </v-layout>
         </v-img>
