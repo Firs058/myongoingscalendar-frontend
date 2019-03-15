@@ -1,54 +1,46 @@
 <template>
-    <v-container article class="pt-0">
-        <v-layout align-top justify-center v-if="Object.keys(ongoingsList).length">
-            <v-flex xs12 pa-0>
-                <div
-                        v-for="dateGroup in showAll ? ongoingsList : ongoingsList.slice(0, showCount)"
-                        :key="dateGroup.dateStart"
+    <v-container article class="grid-list-lg pt-0">
+        <div
+                v-if="Object.keys(ongoingsList).length"
+                v-for="dateGroup in showAll ? ongoingsList : ongoingsList.slice(0, showCount)"
+                :key="dateGroup.dateStart"
+        >
+            <v-subheader>{{dateGroup.dateStart}}</v-subheader>
+            <v-layout row wrap justify-left class="ma-0">
+                <v-flex
+                        v-for="anime in dateGroup.animes"
+                        :key="anime.tid"
+                        xs6 md3 lg2
                 >
-                    <v-container
-                            fluid
-                            :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
-                    >
-                        <v-subheader>{{dateGroup.dateStart}}</v-subheader>
-                        <v-layout row wrap justify-left>
-                            <v-flex
-                                    v-for="anime in dateGroup.animes"
-                                    :key="anime.tid"
-                                    xs6 md3 lg2
-                            >
-                                <card :anime="anime"/>
-                            </v-flex>
-                        </v-layout>
-                    </v-container>
-                </div>
-                <v-container
-                        fluid
-                        :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
-                        v-if="!showAll && ongoingsList.slice(0, showCount).length >= showCount"
-                        pb-5
-                >
-                    <v-layout row wrap align-center justify-center>
-                        <v-flex xs12>
-                            <v-tooltip top>
-                                <v-btn
-                                        :class="dark ? 'grey darken-3' : 'grey lighten-3'"
-                                        block
-                                        slot="activator"
-                                        flat
-                                        @click.native="showAll = !showAll"
-                                >
-                                    <v-icon left>arrow_drop_down</v-icon>
-                                    {{$t('list.show_old')}}
-                                    <v-icon right>arrow_drop_down</v-icon>
-                                </v-btn>
-                                <span>{{$t('list.show_old')}}</span>
-                            </v-tooltip>
-                        </v-flex>
-                    </v-layout>
-                </v-container>
-            </v-flex>
-        </v-layout>
+                    <card :anime="anime"/>
+                </v-flex>
+            </v-layout>
+        </div>
+        <v-container
+                fluid
+                :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
+                v-if="!showAll && ongoingsList.slice(0, showCount).length >= showCount"
+                pb-5
+        >
+            <v-layout row wrap align-center justify-center>
+                <v-flex xs12>
+                    <v-tooltip top>
+                        <v-btn
+                                :class="dark ? 'grey darken-3' : 'grey lighten-3'"
+                                block
+                                slot="activator"
+                                flat
+                                @click.native="showAll = !showAll"
+                        >
+                            <v-icon left>arrow_drop_down</v-icon>
+                            {{$t('list.show_old')}}
+                            <v-icon right>arrow_drop_down</v-icon>
+                        </v-btn>
+                        <span>{{$t('list.show_old')}}</span>
+                    </v-tooltip>
+                </v-flex>
+            </v-layout>
+        </v-container>
         <v-container
                 v-else
                 fluid

@@ -101,7 +101,7 @@
                                             :class="$device.isMobile ? 'display-1 font-weight-bold' : 'display-2 font-weight-bold'"
                                             v-text="title.ja"
                                     />
-                                    <p class="text-xs-left" v-if="title.genres && title.genres.length">
+                                    <div class="text-xs-left mb-4" v-if="title.genres && title.genres.length">
                                         <v-tooltip
                                                 top
                                                 v-for="(genre, index) in title.genres"
@@ -119,19 +119,15 @@
                                             </v-hover>
                                             <span>{{$t('tooltips.search_by_genre', [genre.name])}}</span>
                                         </v-tooltip>
-                                    </p>
-                                    <p class="text-xs-left" v-if="title.episodes">
+                                    </div>
+                                    <div class="text-xs-left mb-4" v-if="title.episodes">
                                         <v-icon small>tv</v-icon>
                                         {{title.episodes + $t('title.information.episodes')}}
-                                    </p>
-                                    <p
-                                            class="text-xs-left"
-                                            v-if="title.description !== 'Not have description'"
-                                    >
+                                    </div>
+                                    <div class="text-xs-left mb-4" v-if="title.description !== 'Not have description'">
                                         {{title.description}}
-                                    </p>
-                                    <p v-if="title.links && title.links.length" class="text-xs-left">
-                                        <v-spacer/>
+                                    </div>
+                                    <div v-if="title.links && title.links.length" class="text-xs-left mb-4">
                                         <v-tooltip
                                                 top
                                                 v-for="(link, index) in title.links"
@@ -149,13 +145,11 @@
                                             </v-btn>
                                             <span>{{$t('tooltips.open_link_in_new_window')}}</span>
                                         </v-tooltip>
-                                        <v-spacer/>
-                                    </p>
+                                    </div>
                                     <social
                                             :url="globalUrl"
                                             :description="globalTitle"
                                     />
-                                    <v-spacer/>
                                 </v-card>
                             </v-flex>
                             <v-flex xs12 md6>
@@ -171,7 +165,7 @@
                                             fill-height
                                             align-center
                                             justify-center
-                                            ma-0
+                                            class="ma-0"
                                     >
                                         <v-progress-circular indeterminate
                                                              color="grey lighten-5"></v-progress-circular>
