@@ -4,16 +4,24 @@
             :light="!dark"
     >
         <v-navigation-drawer
-                v-if="!$device.isDesktop"
+                :class="{transparent : $vuetify.breakpoint.smAndUp}"
                 v-model="menu"
-                temporary
+                :permanent="$vuetify.breakpoint.smAndUp"
+                :right="$vuetify.breakpoint.xsOnly"
                 app
                 floating
                 fixed
-                right
+                width="240"
         >
-            <v-list v-if="user.authenticated">
-                <v-list-tile avatar>
+            <v-list class="layout column fill-height">
+                <div class="mb-4 mt-2"
+                     :style="`cursor: pointer;`"
+                     @click.stop="$router.push('/')"
+                >
+                    <div class="title text-xs-center mx-3">MyOngoingsCalendar</div>
+                    <div class="grey--text text-xs-center mx-3">{{timezone}}</div>
+                </div>
+                <v-list-tile avatar v-if="authenticated">
                     <v-list-tile-avatar>
                         <img :src="settings.avatar"/>
                     </v-list-tile-avatar>
@@ -22,9 +30,6 @@
                         <v-list-tile-title>{{user.email}}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
-            </v-list>
-            <v-divider/>
-            <v-list>
                 <v-list-tile
                         ripple
                         to="/"
@@ -39,7 +44,7 @@
                 </v-list-tile>
                 <v-list-tile
                         ripple
-                        v-if="user.authenticated"
+                        v-if="authenticated"
                         to="/my_calendar"
                         nuxt
                 >
@@ -64,7 +69,20 @@
                 </v-list-tile>
                 <v-list-tile
                         ripple
-                        v-if="!user.authenticated"
+                        :to="{ name: 'search', query: lastQuery}"
+                        :disabled="$route.name === 'search'"
+                        nuxt
+                >
+                    <v-list-tile-action>
+                        <v-icon>search</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>{{$t('menu.search')}}</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile
+                        ripple
+                        v-if="!authenticated"
                         to="/login"
                         nuxt
                 >
@@ -77,7 +95,7 @@
                 </v-list-tile>
                 <v-list-tile
                         ripple
-                        v-if="!user.authenticated"
+                        v-if="!authenticated"
                         to="/registration"
                         nuxt
                 >
@@ -148,7 +166,7 @@
                 </v-list-group>
                 <v-list-tile
                         ripple
-                        v-if="user.authenticated"
+                        v-if="authenticated"
                         @click.stop="logout()"
                 >
                     <v-list-tile-action>
@@ -158,193 +176,45 @@
                         <v-list-tile-title>{{$t('menu.exit')}}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
+                <div class="my-auto"/>
+                <div class="mb-2 mt-4">
+                    <v-layout row wrap justify-center>
+                        <v-btn
+                                class="caption"
+                                color="primary"
+                                flat
+                                v-for="link in footerLinks"
+                                :key="link.name"
+                                :to="link.link"
+                                small
+                                nuxt
+                        >
+                            {{$tc(link.name + ".headline", 1)}}
+                        </v-btn>
+                        <v-flex xs12 py-1 px-1 text-xs-center class="caption">
+                            myongoingscalendar@gmail.com
+                            <br>&copy; {{year > 2017 ? '2017 - ' + year : year}} <strong>MyOngoingsCalendar.eu</strong>
+                        </v-flex>
+                    </v-layout>
+                </div>
             </v-list>
         </v-navigation-drawer>
         <v-toolbar
+                v-if="$vuetify.breakpoint.xsOnly"
                 fixed
                 app
                 :extended="extended"
-                :dense="!$device.isDesktop"
+                dense
                 prominent
         >
-            <v-badge
-                    small
-                    color="transparent"
-            >
-                <v-chip
-                        v-if="!$device.isMobile"
-                        slot="badge"
-                        small
-                        color="transparent"
-                        disabled
-                        :style="`right: -${Number(timezone.length)*3}px`"
-                >
-                    {{timezone}}
-                </v-chip>
                 <span
                         @click.stop="$router.push('/')"
-                        :style="`cursor: pointer;`"
                         class="headline font-weight-medium"
-                        v-text="$device.isDesktop ? 'MyOngoingsCalendar' : 'MOC'"
-                />
-            </v-badge>
+
+                >
+                    MOC
+                </span>
             <v-spacer/>
-            <v-toolbar-items v-if="$device.isDesktop">
-                <v-btn
-                        flat
-                        ripple
-                        to="/"
-                        nuxt
-                >
-                    {{$t('menu.home')}}
-                </v-btn>
-                <v-btn
-                        flat
-                        ripple
-                        v-if="user.authenticated"
-                        to="/my_calendar"
-                        nuxt
-                >
-                    {{$t('menu.my_calendar')}}
-                </v-btn>
-                <v-btn
-                        flat
-                        ripple
-                        to="/list"
-                        nuxt
-                >
-                    {{$t('menu.ongoings_list')}}
-                </v-btn>
-                <v-btn
-                        flat
-                        ripple
-                        v-if="!user.authenticated"
-                        to="/login"
-                        nuxt
-                >
-                    {{$t('menu.login')}}
-                </v-btn>
-                <v-btn
-                        flat
-                        ripple
-                        v-if="!user.authenticated"
-                        to="/registration"
-                        nuxt
-                >
-                    {{$t('menu.registration')}}
-                </v-btn>
-                <v-btn
-                        flat
-                        ripple
-                        to="/about"
-                        nuxt
-                >
-                    {{$t('menu.about')}}
-                </v-btn>
-                <v-btn
-                        flat
-                        ripple
-                        v-if="!user.authenticated"
-                        to="/settings"
-                        nuxt
-                >
-                    {{$t('menu.settings')}}
-                </v-btn>
-                <v-menu>
-                    <v-btn
-                            flat
-                            ripple
-                            slot="activator"
-                    >
-                        {{$t('menu.donate')}}
-                        <v-icon>arrow_drop_down</v-icon>
-                    </v-btn>
-                    <v-list>
-                        <v-list-tile
-                                v-for="donate in donates"
-                                :key="donate.name"
-                                @click="donate.action === 'url' ? openUrl(donate.address) : copyToClipboard(donate.name, donate.address)"
-                        >
-                            <v-list-tile-action>
-                                <v-avatar
-                                        tile
-                                        size="36px"
-                                        slot="activator"
-                                >
-                                    <img :src="donate.img"/>
-                                </v-avatar>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title v-text="donate.name"/>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                    </v-list>
-                </v-menu>
-                <v-menu v-if="user.authenticated">
-                    <v-btn
-                            flat
-                            ripple
-                            slot="activator"
-                    >
-                        <v-avatar>
-                            <img :src="settings.avatar"/>
-                        </v-avatar>
-                        <v-icon>arrow_drop_down</v-icon>
-                    </v-btn>
-                    <v-navigation-drawer
-                            floating
-                            :width="null"
-                            class="pa-0"
-                    >
-                        <v-list>
-                            <v-list-tile avatar>
-                                <v-list-tile-avatar>
-                                    <img :src="settings.avatar"/>
-                                </v-list-tile-avatar>
-                                <v-list-tile-content>
-                                    <v-list-tile-sub-title>{{$t('menu.logged_as')}}</v-list-tile-sub-title>
-                                    <v-list-tile-title>{{user.email}}</v-list-tile-title>
-                                </v-list-tile-content>
-                            </v-list-tile>
-                        </v-list>
-                        <v-divider/>
-                        <v-list>
-                            <v-list-tile
-                                    v-if="user.authenticated && admin"
-                                    to="/admin"
-                                    nuxt
-                            >
-                                <v-list-tile-action>
-                                    <v-icon>edit</v-icon>
-                                </v-list-tile-action>
-                                <v-list-tile-content>
-                                    <v-list-tile-title>Admin</v-list-tile-title>
-                                </v-list-tile-content>
-                            </v-list-tile>
-                            <v-list-tile
-                                    to="/settings"
-                                    nuxt
-                            >
-                                <v-list-tile-action>
-                                    <v-icon>settings</v-icon>
-                                </v-list-tile-action>
-                                <v-list-tile-content>
-                                    <v-list-tile-title>{{$t('menu.settings')}}</v-list-tile-title>
-                                </v-list-tile-content>
-                            </v-list-tile>
-                            <v-list-tile @click="logout()">
-                                <v-list-tile-action>
-                                    <v-icon>exit_to_app</v-icon>
-                                </v-list-tile-action>
-                                <v-list-tile-content>
-                                    <v-list-tile-title>{{$t('menu.exit')}}</v-list-tile-title>
-                                </v-list-tile-content>
-                            </v-list-tile>
-                        </v-list>
-                    </v-navigation-drawer>
-                </v-menu>
-            </v-toolbar-items>
-            <v-spacer v-if="$device.isDesktop"/>
             <v-btn
                     icon
                     :to="{ name: 'search', query: lastQuery}"
@@ -353,10 +223,7 @@
             >
                 <v-icon>search</v-icon>
             </v-btn>
-            <v-toolbar-side-icon
-                    @click.stop="menu = !menu"
-                    v-if="!$device.isDesktop"
-            />
+            <v-toolbar-side-icon @click.stop="menu = !menu"/>
             <v-layout
                     align-center
                     justify-center
@@ -407,24 +274,6 @@
                 <v-icon>close</v-icon>
             </v-btn>
         </v-snackbar>
-        <v-footer height="auto">
-            <v-layout row wrap justify-center>
-                <v-btn
-                        color="primary"
-                        flat
-                        v-for="link in footerLinks"
-                        :key="link.name"
-                        :to="link.link"
-                        nuxt
-                >
-                    {{$tc(link.name + ".headline", 1)}}
-                </v-btn>
-                <v-flex xs12 py-3 text-xs-center>
-                    &copy; {{year > 2017 ? '2017 - ' + year : year}} <strong>MyOngoingsCalendar.eu</strong>
-                    <br> {{`${$t('menu.contact_us')}: myongoingscalendar@gmail.com`}}
-                </v-flex>
-            </v-layout>
-        </v-footer>
     </v-app>
 </template>
 
@@ -503,7 +352,8 @@
                 'extension',
                 'lastQuery',
                 'timezone',
-                'admin'
+                'admin',
+                'authenticated'
             ]),
             extended() {
                 return this.$route.name === 'list' || this.$route.name === 'search'

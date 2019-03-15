@@ -77,6 +77,13 @@ const store = () => new Vuex.Store({
     },
     actions: {
         setUser: ({commit}, obj) => commit('SET_USER', obj),
+        setUserToDefault: ({commit}) => commit('SET_USER', {
+            authenticated: false,
+            email: '',
+            social: false,
+            tokens: [],
+            roles: []
+        }),
         setDark: ({commit}, bool) => commit('SET_DARK', bool),
         setHideRepeats: ({commit}, bool) => commit('SET_HIDE_REPEATS', bool),
         setTimezone: ({commit}, string) => commit('SET_TIMEZONE', string),

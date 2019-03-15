@@ -75,13 +75,7 @@ export default ({store, $axios, redirect}) => {
 
         logout: () =>
             new Promise(resolve => {
-                store.dispatch('setUser', {
-                    authenticated: false,
-                    email: '',
-                    social: false,
-                    tokens: [],
-                    roles: []
-                });
+                store.dispatch('setUserToDefault');
                 store.dispatch('setSynced', false);
                 redirect('/');
                 resolve()

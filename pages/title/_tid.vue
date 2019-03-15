@@ -1,7 +1,7 @@
 <template>
-    <v-container fluid fill-height>
+    <v-container article class="pt-0">
         <v-layout align-center justify-center text-xs-center>
-            <v-flex xs12 md10 lg8>
+            <v-flex xs12>
                 <v-card color="transparent" flat>
                     <v-img
                             :lazy-src="title.image.full"
@@ -21,8 +21,10 @@
                                 <v-card color="transparent" flat>
                                     <v-card-title primary-title>
                                         <v-spacer/>
-                                        <h1 :class="$device.isMobile ? 'display-1 font-weight-bold' : 'display-3 font-weight-bold'"
-                                            v-text="globalTitle"/>
+                                        <h1
+                                                :class="$device.isMobile ? 'display-1 font-weight-bold' : 'display-3 font-weight-bold'"
+                                                v-text="globalTitle"
+                                        />
                                         <v-spacer/>
                                     </v-card-title>
                                     <v-card-actions v-if="rating">
@@ -94,11 +96,12 @@
                         <v-layout wrap>
                             <v-flex xs12 md6>
                                 <v-card color="transparent" flat>
-                                    <v-card-title primary-title>
-                                        <h1 :class="$device.isMobile ? 'display-1 font-weight-bold' : 'display-2 font-weight-bold'"
-                                            v-text="title.ja"/>
-                                    </v-card-title>
-                                    <v-card-text class="text-xs-left" v-if="title.genres && title.genres.length">
+                                    <h1
+                                            class="text-xs-left mb-4"
+                                            :class="$device.isMobile ? 'display-1 font-weight-bold' : 'display-2 font-weight-bold'"
+                                            v-text="title.ja"
+                                    />
+                                    <p class="text-xs-left" v-if="title.genres && title.genres.length">
                                         <v-tooltip
                                                 top
                                                 v-for="(genre, index) in title.genres"
@@ -116,35 +119,38 @@
                                             </v-hover>
                                             <span>{{$t('tooltips.search_by_genre', [genre.name])}}</span>
                                         </v-tooltip>
-                                    </v-card-text>
-                                    <v-card-text v-if="title.episodes">
-                                        <div class="text-xs-left">
-                                            <v-icon small>tv</v-icon>
-                                            {{title.episodes + $t('title.information.episodes')}}
-                                        </div>
-                                    </v-card-text>
-                                    <v-card-text class="text-xs-left"
-                                                 v-if="title.description !== 'Not have description'">
+                                    </p>
+                                    <p class="text-xs-left" v-if="title.episodes">
+                                        <v-icon small>tv</v-icon>
+                                        {{title.episodes + $t('title.information.episodes')}}
+                                    </p>
+                                    <p
+                                            class="text-xs-left"
+                                            v-if="title.description !== 'Not have description'"
+                                    >
                                         {{title.description}}
-                                    </v-card-text>
-                                    <v-card-text v-if="title.links && title.links.length" class="text-xs-left">
+                                    </p>
+                                    <p v-if="title.links && title.links.length" class="text-xs-left">
                                         <v-spacer/>
                                         <v-tooltip
                                                 top
                                                 v-for="(link, index) in title.links"
                                                 :key="index"
                                         >
-                                            <a
-                                                    slot="activator"
+                                            <v-btn
+                                                    ripple
+                                                    flat
+                                                    color="primary"
                                                     @click.stop="openLink(link.link)"
-                                                    class="headline font-weight-bold mr-3"
+                                                    slot="activator"
+                                                    class="ma-1"
                                             >
                                                 {{link.name}}
-                                            </a>
+                                            </v-btn>
                                             <span>{{$t('tooltips.open_link_in_new_window')}}</span>
                                         </v-tooltip>
                                         <v-spacer/>
-                                    </v-card-text>
+                                    </p>
                                     <social
                                             :url="globalUrl"
                                             :description="globalTitle"
@@ -256,7 +262,6 @@
                         </v-dialog>
                     </v-sheet>
                     <v-sheet color="grey darken-3" :dark="!dark">
-                        <v-subheader color="transparent">{{$t('comments.subheader', [comments.total])}}</v-subheader>
                         <v-card color="transparent">
                             <v-container fluid>
                                 <v-tooltip top>

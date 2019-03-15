@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid pa-0>
+    <v-container article class="pt-0">
         <v-layout align-top justify-center v-if="Object.keys(ongoingsList).length">
             <v-flex xs12 pa-0>
                 <div
@@ -15,7 +15,7 @@
                             <v-flex
                                     v-for="anime in dateGroup.animes"
                                     :key="anime.tid"
-                                    xs6 md3 lg2 xl1
+                                    xs6 md3 lg2
                             >
                                 <card :anime="anime"/>
                             </v-flex>

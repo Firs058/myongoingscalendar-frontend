@@ -7,7 +7,7 @@
         <v-flex
                 v-for="(day, index) in calendar"
                 :key="index"
-                xs12 md6 lg3 xl2
+                xs12 md6 lg3
         >
             <v-subheader>{{day.day}}</v-subheader>
             <v-card>

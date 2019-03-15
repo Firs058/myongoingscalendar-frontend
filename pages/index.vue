@@ -1,8 +1,5 @@
 <template>
-    <v-container
-            fluid
-            :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'pa-0'"
-    >
+    <v-container article class="grid-list-lg pt-0">
         <calendar :calendar="calendar"/>
     </v-container>
 </template>

@@ -1,5 +1,5 @@
 <template>
-    <v-layout align-center justify-space-between white wrap class="py-3 px-2">
+    <v-layout align-center justify-space-between white wrap class="py-3 px-2 mb-4">
             <span class="pl-3 subheading">
             Share this on social media
           </span>
@@ -13,7 +13,7 @@
                     twitter-user="MyOngoingsCalendar"
                     inline-template
             >
-                <d-flex>
+                <div class="d-flex">
                     <network network="email">
                         <v-avatar size="36px">
                             <font-awesome-icon icon="envelope" size="lg"/>
@@ -74,7 +74,7 @@
                             <font-awesome-icon :icon="['fab', 'weibo']" size="lg"/>
                         </v-avatar>
                     </network>
-                </d-flex>
+                </div>
             </social-sharing>
         </no-ssr>
     </v-layout>

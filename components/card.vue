@@ -8,8 +8,7 @@
     >
         <v-img
                 :src="anime.image.full"
-                :aspect-ratio="1/1.4"
-                max-height="300px"
+                aspect-ratio="0.7"
         >
             <v-layout
                     slot="placeholder"
