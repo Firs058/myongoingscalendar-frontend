@@ -97,7 +97,7 @@
                 <v-card>
                     <v-container
                             fluid
-                            :class="$vuetify.breakpoint.xsOnly ? 'pa-0' : null"
+                            :class="$device.isMobile ? 'pa-0' : null"
                     >
                         <v-layout row wrap>
                             <v-flex xs12 v-for="(comment, index) in comments" :key="index">
@@ -107,7 +107,7 @@
                     </v-container>
                     <v-container
                             fluid
-                            :class="$vuetify.breakpoint.xsOnly ? 'pa-0' : null"
+                            :class="$device.isMobile ? 'pa-0' : null"
                             v-if="comment.replies > 10 && more > 0"
                     >
                         <v-layout row wrap align-center justify-center>
