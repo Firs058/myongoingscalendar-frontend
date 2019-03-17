@@ -1,8 +1,5 @@
 <template>
-    <v-container
-            fluid
-            :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
-    >
+    <v-container article class="grid-list-lg pt-0">
         <v-layout
                 v-if="!!asyncCache && asyncCache.count > 0 && shouldShow"
                 row wrap justify-left
@@ -254,7 +251,7 @@
             countPages: 1
         }),
         async asyncData({query, app, store}) {
-            if (!Object.keys(store.state.search.global.supply).length) {
+            if (!Object.keys(store.getters.supply).length) {
                 const data = await app.$axios.$post(`api/es/supply`);
                 store.dispatch('setSearchGlobalSupply', data.payload)
             }
@@ -342,7 +339,7 @@
             ]),
             extension: {
                 get() {
-                    return this.$store.state.search.global.extension
+                    return this.$store.getters.extension
                 },
                 set(value) {
                     this.$store.dispatch('setSearchGlobalExtension', value)

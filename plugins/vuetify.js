@@ -35,7 +35,9 @@ import Vuetify, {
     VTextField,
     VTextarea,
     VToolbar,
-    VTooltip
+    VTooltip,
+    VLayout,
+    VFlex
 } from 'vuetify/lib'
 
 Vue.use(Vuetify, {
@@ -75,7 +77,9 @@ Vue.use(Vuetify, {
         VTextField,
         VTextarea,
         VToolbar,
-        VTooltip
+        VTooltip,
+        VLayout,
+        VFlex
     },
     options: {
         minifyTheme: function (css) {
