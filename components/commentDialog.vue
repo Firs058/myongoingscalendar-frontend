@@ -67,7 +67,7 @@
         methods: {
             addComment() {
                 this.loading = true;
-                this.$anime.api('api/title/comments/add', {id: this.comment.id, tid: this.comment.tid, text: this.text})
+                this.$anime.api('title/comments/add', {id: this.comment.id, tid: this.comment.tid, text: this.text})
                     .then(result => {
                         this.dialog = false;
                         this.text = '';

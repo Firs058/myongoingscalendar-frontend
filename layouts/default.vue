@@ -217,44 +217,12 @@
             <v-spacer/>
             <v-btn
                     icon
-                    :to="{ name: 'search', query: lastQuery}"
+                    :to="{ name: 'search', query: lastQuery }"
                     nuxt
-                    :disabled="$route.name === 'search'"
             >
                 <v-icon>search</v-icon>
             </v-btn>
             <v-toolbar-side-icon @click.stop="menu = !menu"/>
-            <v-layout
-                    align-center
-                    justify-center
-                    text-xs-center
-                    slot="extension"
-                    v-if="extended"
-            >
-                <v-flex xs10 sm10 md8 lg6 xl6>
-                    <v-text-field
-                            v-if="$route.name === 'list'"
-                            v-model="searchListInput"
-                            :label="$t('inputs.search.label.2')"
-                            prepend-icon="filter_list"
-                            hide-details
-                            clearable
-                            single-line
-                            class="pa-0"
-                    />
-                    <v-text-field
-                            v-else-if="$route.name === 'search'"
-                            v-model="searchGlobalInput"
-                            :label="$t('inputs.search.label.1')"
-                            prepend-icon="search"
-                            hide-details
-                            append-icon="filter_list"
-                            @click:append="()=> $store.dispatch('setSearchGlobalExtension', true)"
-                            single-line
-                            class="pa-0"
-                    />
-                </v-flex>
-            </v-layout>
         </v-toolbar>
         <v-content>
             <nuxt keep-alive/>
@@ -349,31 +317,11 @@
                 'settings',
                 'toast',
                 'lang',
-                'extension',
                 'lastQuery',
                 'timezone',
                 'admin',
                 'authenticated'
-            ]),
-            extended() {
-                return this.$route.name === 'list' || this.$route.name === 'search'
-            },
-            searchListInput: {
-                get() {
-                    return this.$store.state.search.list.input
-                },
-                set(value) {
-                    return this.$store.dispatch('setSearchListInput', value)
-                }
-            },
-            searchGlobalInput: {
-                get() {
-                    return this.$store.state.search.global.input
-                },
-                set(value) {
-                    return this.$store.dispatch('setSearchGlobalInput', value)
-                }
-            }
+            ])
         }
     }
 </script>

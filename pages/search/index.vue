@@ -1,5 +1,18 @@
 <template>
     <v-container article class="grid-list-lg pt-0">
+        <v-layout>
+            <v-flex xs12>
+                <v-text-field
+                        v-model="currentQuery"
+                        :label="$t('inputs.search.label.1')"
+                        prepend-icon="search"
+                        hide-details
+                        append-icon="filter_list"
+                        @click:append="extension = true"
+                        single-line
+                />
+            </v-flex>
+        </v-layout>
         <v-layout
                 v-if="!!asyncCache && asyncCache.count > 0 && shouldShow"
                 row wrap justify-left
@@ -7,12 +20,12 @@
             <v-flex xs12>
                 <v-subheader>{{$t("search.founded", [asyncCache.count])}}</v-subheader>
                 <v-chip
-                        v-if="searchGlobalInput"
+                        v-if="currentQuery"
                         :color="`teal ${dark ? 'darken-3' : 'lighten-3'}`"
                         close
-                        @input="$store.dispatch('setSearchGlobalInput', '')"
+                        @input="currentQuery = ''"
                 >
-                    {{`${$t('search.chips.name')}: ${searchGlobalInput}`}}
+                    {{`${$t('search.chips.name')}: ${currentQuery}`}}
                 </v-chip>
                 <v-chip
                         v-for="filter in filters"
@@ -34,7 +47,7 @@
                             slot="activator"
                             v-if="available"
                             icon
-                            @click.native="()=> $store.dispatch('setSearchGlobalExtension', true)"
+                            @click.native="extension = true"
                     >
                         <v-icon>add</v-icon>
                     </v-btn>
@@ -88,12 +101,12 @@
                 </v-toolbar>
                 <v-card-text v-if="selected">
                     <v-chip
-                            v-if="searchGlobalInput"
+                            v-if="currentQuery"
                             :color="`teal ${dark ? 'darken-3' : 'lighten-3'}`"
                             close
-                            @input="$store.dispatch('setSearchGlobalInput', '')"
+                            @input="currentQuery = ''"
                     >
-                        {{`${$t('search.chips.name')}: ${searchGlobalInput}`}}
+                        {{`${$t('search.chips.name')}: ${currentQuery}`}}
                     </v-chip>
                     <v-chip
                             v-for="filter in filters"
@@ -234,7 +247,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer/>
-                    <v-btn color="success" @click.native="()=> $store.dispatch('setSearchGlobalExtension', false)">
+                    <v-btn color="success" @click.native="extension = false">
                         {{$t('buttons.close')}}
                     </v-btn>
                 </v-card-actions>
@@ -248,33 +261,34 @@
 
     export default {
         data: () => ({
-            countPages: 1
+            countPages: 1,
+            extension: false
         }),
         async asyncData({query, app, store}) {
-            if (!Object.keys(store.getters.supply).length) {
+            if (store.getters.supplyListEmpty) {
                 const data = await app.$axios.$post(`api/es/supply`);
-                store.dispatch('setSearchGlobalSupply', data.payload)
+                store.dispatch('setSearchGlobalSupply', data.payload);
             }
-            if (typeof query.query !== 'undefined') store.dispatch('setSearchGlobalInput', String(query.query));
             return {
+                currentQuery: typeof query.query !== 'undefined' ? String(query.query) : '',
                 currentPage: parseInt(query.page >= 1 ? query.page : 1),
                 filters: {
                     genres: {
                         name: 'genres',
-                        added: !!query.genres,
+                        added: typeof query.genres !== 'undefined' && !!query.genres.length,
                         selected: typeof query.genres === 'string' ? Array(query.genres) : query.genres || [],
                         color: 'green'
                     },
                     scores: {
                         name: 'scores',
-                        added: !!query.scores,
+                        added: typeof query.scores !== 'undefined' && !!query.scores.length,
                         range: query.scores || ['6', '9'],
                         color: 'purple'
                     },
                     years: {
                         name: 'years',
-                        added: !!query.years,
-                        range: query.years || ['2010', '2020'],
+                        added: typeof query.years !== 'undefined' && !!query.years.length,
+                        range: query.years || ['2010', '2025'],
                         color: 'indigo'
                     }
                 }
@@ -282,13 +296,13 @@
         },
         head() {
             return {
-                title: this.searchGlobalInput
-                    ? this.$t("meta_info.search.title.1", [this.searchGlobalInput, '| MyOngoingsCalendar'])
+                title: this.currentQuery
+                    ? this.$t("meta_info.search.title.1", [this.currentQuery, '| MyOngoingsCalendar'])
                     : this.$t("meta_info.search.title.2", ['| MyOngoingsCalendar']),
                 meta: [
                     {
                         name: 'description',
-                        content: this.$t("meta_info.search.meta.description", [this.searchGlobalInput])
+                        content: this.$t("meta_info.search.meta.description", [this.currentQuery])
                     }
                 ]
             }
@@ -297,32 +311,32 @@
             asyncCache: {
                 lazy: true,
                 get() {
-                    const payload = {
-                        query: this.searchGlobalInput,
+                    let payload = {
+                        query: this.currentQuery,
                         page: this.currentPage
                     };
                     if (this.filters.genres.added) payload.genres = this.filters.genres.selected;
                     if (this.filters.scores.added) payload.scores = this.filters.scores.range;
                     if (this.filters.years.added) payload.years = this.filters.years.range;
 
-                    return this.$anime.api('api/es/autocomplete', payload)
+                    return this.$anime.api('es/autocomplete', payload)
                         .then(response => {
-                            this.countPages = Math.ceil(response.data.payload.count / 10) || 1;
+                            this.countPages = Math.ceil(response.data.payload.count / 12) || 1;
                             return response.data.payload
                         })
                         .then(cache => {
                             if (this.countPages < this.currentPage) {
                                 this.currentPage = 1;
-                                this.$anime.api('api/es/autocomplete', payload)
+                                this.$anime.api('es/autocomplete', payload)
                                     .then(response => {
-                                        this.countPages = Math.ceil(response.data.payload.count / 10) || 1;
+                                        this.countPages = Math.ceil(response.data.payload.count / 12) || 1;
                                         return response.data.payload
                                     })
                             } else return cache
                         })
                         .catch(code => this.$toast.showToast(code))
                         .finally(() => {
-                            this.$router.replace({path: 'search', query: payload});
+                            this.$router.replace({query: payload});
                             this.$store.dispatch('setSearchGlobalLastQuery', payload)
                         })
                 },
@@ -334,19 +348,10 @@
         computed: {
             ...mapGetters([
                 'dark',
-                'searchGlobalInput',
                 'supply'
             ]),
-            extension: {
-                get() {
-                    return this.$store.getters.extension
-                },
-                set(value) {
-                    this.$store.dispatch('setSearchGlobalExtension', value)
-                }
-            },
             selected() {
-                return Object.values(this.filters).some(v => v.added) || !!this.searchGlobalInput.length
+                return Object.values(this.filters).some(v => v.added) || !!this.currentQuery.length
             },
             available() {
                 return !Object.values(this.filters).every(v => v.added)
@@ -360,7 +365,7 @@
                 return arr;
             },
             shouldShow() {
-                return this.searchGlobalInput || this.filters.genres.added || this.filters.scores.added || this.filters.years.added
+                return !!this.currentQuery || this.filters.genres.added || this.filters.scores.added || this.filters.years.added
             }
         }
     }

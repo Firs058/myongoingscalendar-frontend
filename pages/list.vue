@@ -1,8 +1,20 @@
 <template>
     <v-container article class="grid-list-lg pt-0">
+        <v-layout>
+            <v-flex xs12>
+                <v-text-field
+                        v-model="filterInput"
+                        :label="$t('inputs.search.label.2')"
+                        prepend-icon="filter_list"
+                        hide-details
+                        clearable
+                        single-line
+                />
+            </v-flex>
+        </v-layout>
         <div
-                v-if="Object.keys(ongoingsList).length"
-                v-for="dateGroup in showAll ? ongoingsList : ongoingsList.slice(0, showCount)"
+                v-if="Object.keys(filteredOngoingsList).length"
+                v-for="dateGroup in showAll ? filteredOngoingsList : filteredOngoingsList.slice(0, showCount)"
                 :key="dateGroup.dateStart"
         >
             <v-subheader>{{dateGroup.dateStart}}</v-subheader>
@@ -19,7 +31,7 @@
         <v-container
                 fluid
                 :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
-                v-if="!showAll && ongoingsList.slice(0, showCount).length >= showCount"
+                v-if="!showAll && filteredOngoingsList.slice(0, showCount).length >= showCount"
                 pb-5
         >
             <v-layout row wrap align-center justify-center>
@@ -62,7 +74,8 @@
     export default {
         data: () => ({
             showCount: 10,
-            showAll: false
+            showAll: false,
+            filterInput: ''
         }),
         async asyncData({app, store}) {
             if (store.getters.ongoingsListEmpty) {
@@ -124,9 +137,22 @@
         computed: {
             ...mapGetters([
                 'dark',
-                'searchListInput',
                 'ongoingsList'
             ]),
+            filteredOngoingsList() {
+                let list = this.ongoingsList;
+                let input = this.filterInput;
+                if (input) {
+                    let filtered = [];
+                    input = input.trim().toLowerCase();
+                    list.forEach(e => {
+                        let found = e.animes.filter(e => (e.en ? e.en : e.ja).toLowerCase().includes(input) || (e.ja ? e.ja : e.en).toLowerCase().includes(input));
+                        if (found.length) filtered.push({dateStart: e.dateStart, animes: found})
+                    });
+                    return filtered
+                }
+                return list
+            },
             globalUrl() {
                 return `${process.env.baseUrl}${this.$route.fullPath}`
             },

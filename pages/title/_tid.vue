@@ -111,7 +111,7 @@
                                                 <v-chip
                                                         slot-scope="{ hover }"
                                                         :class="`elevation-${hover ? 2 : 0}`"
-                                                        @click.native="$router.push({ name: 'search', query: { query: '', genres: [genre.id] }})"
+                                                        @click.native="$router.push({ name: 'search', query: { genres: [genre.id] }})"
                                                 >
                                                     <v-icon left>label</v-icon>
                                                     {{genre.name}}
@@ -407,7 +407,7 @@
             toggleTitle() {
                 this.deletion = false;
                 this.button.loading = true;
-                this.$anime.api(`api/user/title/${this.tid}/toggle`)
+                this.$anime.api(`user/title/${this.tid}/toggle`)
                     .then(result => {
                         this.marked = !this.marked;
                         this.$toast.showToast({code: result.data.status.code});
@@ -425,7 +425,7 @@
             downloadComments() {
                 this.comments.offset += 10;
                 this.comments.loading = true;
-                this.$anime.api(`api/comments/${this.tid}/root/${this.comments.offset}`)
+                this.$anime.api(`comments/${this.tid}/root/${this.comments.offset}`)
                     .then(result => {
                         this.comments.nodes.length ? result.data.payload.nodes.forEach(e => this.comments.nodes.push(e)) : this.comments.nodes = result.data.payload.nodes;
                         this.comments.more = result.data.payload.fromPath - this.comments.nodes.length;
