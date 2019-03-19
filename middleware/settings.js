@@ -1,6 +1,8 @@
-
 export default ({store, $axios}) => {
-    if (!store.state.synced && !!store.getters.accessToken)
+    if (!store.getters.authenticated)
+        store.dispatch('setTimezoneToSystem');
+
+    if (!store.getters.synced && !!store.getters.accessToken)
         return $axios({
             method: 'post',
             url: `${process.env.baseUrl}/api/user/sync`,

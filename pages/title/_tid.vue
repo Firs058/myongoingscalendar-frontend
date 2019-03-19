@@ -322,6 +322,9 @@
                 loading: false
             }
         }),
+        validate({params}) {
+            return /^\d+$/.test(params.tid)
+        },
         async asyncData({params, app, store}) {
             const data = await app.$axios.$post(store.getters.authenticated ? `api/user/title/${params.tid}` : `api/title/${params.tid}`, {timezone: store.state.settings.timezone});
             return {
@@ -511,6 +514,7 @@
         }
     }
 </script>
+
 <style scoped>
     >>> .theme--dark.v-datatable, .theme--light.v-datatable {
         background-color: transparent;

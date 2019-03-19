@@ -9,18 +9,18 @@ export default ({store, $axios, $router}) => {
     });
 
     $axios.onRequest(config => {
-        const accessTokenExpDate = store.getters.tokens.expires_in - 1;
+        const accessTokenExpDate = store.getters.user.tokens.expires_in - 1;
         const nowTime = Math.floor(new Date().getTime() / 1000);
 
-        if (store.getters.tokens && accessTokenExpDate <= nowTime)
-            return refreshTokens(config, store.getters.tokens.refreshToken);
+        if (store.getters.user.tokens && accessTokenExpDate <= nowTime)
+            return refreshTokens(config, store.getters.user.tokens.refreshToken);
         else
-            return setHeaders(config, store.getters.tokens.accessToken);
+            return setHeaders(config, store.getters.user.tokens.accessToken);
     });
 
     $axios.onResponse(config => {
-        if (store.getters.tokens && config.data.status.code === 12000)
-            return refreshTokens(config, store.getters.tokens.refreshToken);
+        if (store.getters.user.tokens && config.data.status.code === 12000)
+            return refreshTokens(config, store.getters.user.tokens.refreshToken);
         else if (config.data.status.code === 11017) {
             store.dispatch('setUserToDefault');
             $router.push('/login');

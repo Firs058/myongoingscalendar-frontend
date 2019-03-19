@@ -9,7 +9,7 @@
         <v-img
                 :src="anime.image.full"
                 aspect-ratio="0.7"
-                :gradient="`to bottom, transparent 0%, transparent 40%, ${this.anime.image.hex ? this.dark ? this.anime.image.hex.dark : this.anime.image.hex.light : 'rgba(0, 0, 0, 0.65)'} 100%`"
+                :gradient="`to bottom, transparent 0%, transparent 40%, ${this.anime.image.hex ? this.dark ? this.anime.image.hex.dark : this.anime.image.hex.light : 'rgba(0, 0, 0, 0.4)'} 100%`"
         >
             <v-layout
                     slot="placeholder"
