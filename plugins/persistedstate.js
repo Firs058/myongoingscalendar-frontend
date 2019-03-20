@@ -1,7 +1,7 @@
 import createPersistedState from 'vuex-persistedstate'
 import * as Cookies from 'js-cookie'
 import cookie from 'cookie'
-import { Base64 } from 'js-base64';
+import {Base64} from 'js-base64';
 
 export default ({store, req}) => {
     createPersistedState({

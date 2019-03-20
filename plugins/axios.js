@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export default ({store, $axios, $router}) => {
+export default ({store, $axios, redirect}) => {
 
     const instance = axios.create({
         baseURL: process.env.baseUrl,
@@ -23,7 +23,7 @@ export default ({store, $axios, $router}) => {
             return refreshTokens(config, store.getters.user.tokens.refreshToken);
         else if (config.data.status.code === 11017) {
             store.dispatch('setUserToDefault');
-            $router.push('/login');
+            redirect('/login');
             return config;
         }
     });

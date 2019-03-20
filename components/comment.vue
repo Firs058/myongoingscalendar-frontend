@@ -87,13 +87,13 @@
         <v-expansion-panel
                 v-if="comment.replies > 0"
                 popout
-                @click.native.once="downloadChilds(false)" color="transparent"
+                @click.native.once="downloadChilds(false)"
+                color="transparent"
         >
             <v-expansion-panel-content hide-actions ripple>
-                <div slot="header">
+                <template slot="header">
                     {{$t('comments.show_all.2', [comment.replies])}}
-                    <v-icon right>arrow_drop_down</v-icon>
-                </div>
+                </template>
                 <v-card>
                     <v-container
                             fluid
@@ -202,6 +202,6 @@
     }
 
     >>> .v-expansion-panel__header {
-        padding: 12px 32px !important;
+        padding: 12px 30px !important;
     }
 </style>

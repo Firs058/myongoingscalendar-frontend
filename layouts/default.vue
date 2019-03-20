@@ -21,15 +21,6 @@
                     <div class="title text-xs-center mx-3">MyOngoingsCalendar</div>
                     <div class="grey--text text-xs-center mx-3">{{timezone}}</div>
                 </div>
-                <v-list-tile avatar v-if="authenticated">
-                    <v-list-tile-avatar>
-                        <img :src="settings.avatar"/>
-                    </v-list-tile-avatar>
-                    <v-list-tile-content>
-                        <v-list-tile-sub-title>{{$t('menu.logged_as')}}</v-list-tile-sub-title>
-                        <v-list-tile-title>{{user.email}}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
                 <v-list-tile
                         ripple
                         to="/"
@@ -164,17 +155,26 @@
                         </v-list-tile-content>
                     </v-list-tile>
                 </v-list-group>
-                <v-list-tile
-                        ripple
-                        v-if="authenticated"
-                        @click.stop="logout()"
-                >
-                    <v-list-tile-action>
-                        <v-icon>exit_to_app</v-icon>
-                    </v-list-tile-action>
+                <v-list-tile avatar v-if="authenticated">
+                    <v-list-tile-avatar>
+                        <img :src="settings.avatar"/>
+                    </v-list-tile-avatar>
                     <v-list-tile-content>
-                        <v-list-tile-title>{{$t('menu.exit')}}</v-list-tile-title>
+                        <v-list-tile-sub-title>{{$t('menu.logged_as')}}</v-list-tile-sub-title>
+                        <v-list-tile-title>{{user.email}}</v-list-tile-title>
                     </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-tooltip top>
+                            <v-btn
+                                    slot="activator"
+                                    icon
+                                    @click.stop="logout()"
+                            >
+                                <v-icon>exit_to_app</v-icon>
+                            </v-btn>
+                            {{$t('menu.exit')}}
+                        </v-tooltip>
+                    </v-list-tile-action>
                 </v-list-tile>
                 <div class="my-auto"/>
                 <div class="mb-2 mt-4">
@@ -203,7 +203,6 @@
                 v-if="$device.isMobile"
                 fixed
                 app
-                :extended="extended"
                 dense
                 prominent
         >

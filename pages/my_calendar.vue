@@ -4,13 +4,13 @@
                 v-if="calendar.length"
                 :calendar="calendar"
         />
-        <v-alert
-                v-else
-                type="info"
-                :value="true"
-        >
-            {{$t("alerts.nothing_found")}}
-        </v-alert>
+        <v-layout v-else align-center justify-center text-xs-center>
+            <v-flex xs12 class="mt-4">
+                <v-alert type="info" :value="true">
+                    {{$t("alerts.nothing_found")}}
+                </v-alert>
+            </v-flex>
+        </v-layout>
     </v-container>
 </template>
 

@@ -12,12 +12,14 @@
                 />
             </v-flex>
         </v-layout>
-        <div
-                v-if="Object.keys(filteredOngoingsList).length"
-                v-for="dateGroup in showAll ? filteredOngoingsList : filteredOngoingsList.slice(0, showCount)"
-                :key="dateGroup.dateStart"
+        <v-layout row wrap
+                  v-if="Object.keys(filteredOngoingsList).length"
+                  v-for="dateGroup in showAll ? filteredOngoingsList : filteredOngoingsList.slice(0, showCount)"
+                  :key="dateGroup.dateStart"
         >
-            <v-subheader>{{dateGroup.dateStart}}</v-subheader>
+            <v-flex xs12>
+                <v-subheader>{{dateGroup.dateStart}}</v-subheader>
+            </v-flex>
             <v-layout row wrap justify-left class="ma-0">
                 <v-flex
                         v-for="anime in dateGroup.animes"
@@ -27,7 +29,7 @@
                     <card :anime="anime"/>
                 </v-flex>
             </v-layout>
-        </div>
+        </v-layout>
         <v-container
                 fluid
                 :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"

@@ -22,6 +22,7 @@ module.exports = {
         {src: '~/plugins/anime.js', ssr: false},
         {src: '~/plugins/sharing.js', ssr: false},
         {src: '~/plugins/ga.js', ssr: false},
+        '~/plugins/axios.js',
         '~/plugins/auth.js',
         '~/plugins/persistedstate.js',
         '~/plugins/components.js',
@@ -30,7 +31,6 @@ module.exports = {
         '~/plugins/vuetify.js',
         '~/plugins/i18n.js',
         '~/plugins/font-awesome.js',
-        '~/plugins/axios.js',
         '~/plugins/async.js'
     ],
     axios: {
