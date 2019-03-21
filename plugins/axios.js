@@ -1,13 +1,6 @@
 import axios from 'axios'
 
 export default ({store, $axios, redirect}) => {
-
-    const instance = axios.create({
-        baseURL: process.env.baseUrl,
-        timeout: 10000,
-        params: {}
-    });
-
     $axios.onRequest(config => {
         const accessTokenExpDate = store.getters.user.tokens.expires_in - 1;
         const nowTime = Math.floor(new Date().getTime() / 1000);
@@ -29,9 +22,17 @@ export default ({store, $axios, redirect}) => {
     });
 
     function refreshTokens(config, refreshToken) {
+        const instance = axios.create({
+            baseURL: process.env.baseUrl,
+            timeout: 10000,
+            params: {}
+        });
+
         return instance.post('/api/auth/refresh', {token: refreshToken})
             .then(response => {
-                store.dispatch('setTokens', response.data.payload.tokens);
+                process.client
+                    ? store.dispatch('setTokens', response.data.payload.tokens)
+                    : store.dispatch('setTempTokens', response.data.payload.tokens);
                 return response.data.payload.tokens.accessToken;
             })
             .then(accessToken => setHeaders(config, accessToken))

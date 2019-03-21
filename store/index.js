@@ -40,7 +40,8 @@ export const state = () => ({
     },
     ongoingsList: [],
     calendar: [],
-    timezones: []
+    timezones: [],
+    tempTokens: {}
 });
 
 export const mutations = {
@@ -61,7 +62,8 @@ export const mutations = {
     SET_CALENDAR: (state, obj) => state.calendar = obj,
     SET_TIMEZONES: (state, obj) => state.timezones = obj,
     SET_LANG: (state, string) => state.settings.lang = string,
-    SET_TOKENS: (state, obj) => state.user.tokens = obj
+    SET_TOKENS: (state, obj) => state.user.tokens = obj,
+    SET_TEMP_TOKENS: (state, obj) => state.tempTokens = obj
 };
 
 export const actions = {
@@ -89,7 +91,8 @@ export const actions = {
     setCalendar: ({commit}, obj) => commit('SET_CALENDAR', obj),
     setTimezones: ({commit}, obj) => commit('SET_TIMEZONES', obj),
     setLang: ({commit}, string) => commit('SET_LANG', string),
-    setTokens: ({commit}, obj) => commit('SET_TOKENS', obj)
+    setTokens: ({commit}, obj) => commit('SET_TOKENS', obj),
+    setTempTokens: ({commit}, obj) => commit('SET_TEMP_TOKENS', obj)
 };
 
 export const getters = {
@@ -111,7 +114,8 @@ export const getters = {
     supplyListEmpty: state => !Object.keys(state.search.global.supply).length,
     lastQuery: state => state.search.global.lastQuery,
     comment: state => state.comment,
-    synced: state => state.synced
+    synced: state => state.synced,
+    tempTokens: state => state.tempTokens
 };
 
 export const strict = false;

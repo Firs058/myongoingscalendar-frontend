@@ -18,10 +18,11 @@ module.exports = {
         ]
     },
     plugins: [
-        {src: '~/plugins/toast.js', ssr: false},
-        {src: '~/plugins/anime.js', ssr: false},
-        {src: '~/plugins/sharing.js', ssr: false},
-        {src: '~/plugins/ga.js', ssr: false},
+        {src: '~plugins/tokens', mode: 'client'},
+        {src: '~/plugins/toast.js', mode: 'client'},
+        {src: '~/plugins/anime.js', mode: 'client'},
+        {src: '~/plugins/sharing.js', mode: 'client'},
+        {src: '~/plugins/ga.js', mode: 'client'},
         '~/plugins/axios.js',
         '~/plugins/auth.js',
         '~/plugins/persistedstate.js',

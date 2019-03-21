@@ -1,5 +1,5 @@
 export default ({store, $axios}) => {
-    if (!store.getters.authenticated)
+    if (!store.getters.settings.timezone.length)
         store.dispatch('setTimezoneToSystem');
 
     if (!store.getters.synced && !!store.getters.accessToken)
