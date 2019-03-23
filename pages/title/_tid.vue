@@ -22,7 +22,7 @@
                                     <v-card-title primary-title>
                                         <v-spacer/>
                                         <h1
-                                                :class="$device.isMobile ? 'display-1 font-weight-bold' : 'display-3 font-weight-bold'"
+                                                :class="$device.isMobile ? 'headline font-weight-bold' : 'display-1 font-weight-bold'"
                                                 v-text="globalTitle"
                                         />
                                         <v-spacer/>
@@ -98,7 +98,7 @@
                                 <v-card color="transparent" flat>
                                     <h1
                                             class="text-xs-left mb-4"
-                                            :class="$device.isMobile ? 'display-1 font-weight-bold' : 'display-2 font-weight-bold'"
+                                            :class="$device.isMobile ? 'headline font-weight-bold' : 'display-1 font-weight-bold'"
                                             v-text="title.ja"
                                     />
                                     <div class="text-xs-left mb-4" v-if="title.genres && title.genres.length">
@@ -172,7 +172,7 @@
                                     </v-layout>
                                 </v-img>
                             </v-flex>
-                            <v-flex xs12 text-xs-center mt-5 v-if="title.trailer">
+                            <v-flex xs12 text-xs-center mt-4 v-if="title.trailer">
                                 <iframe
                                         :src="title.trailer"
                                         frameborder="0"
