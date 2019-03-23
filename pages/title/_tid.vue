@@ -326,7 +326,7 @@
             return /^\d+$/.test(params.tid)
         },
         async asyncData({params, app, store}) {
-            const data = await app.$axios.$post(store.getters.authenticated ? `api/user/title/${params.tid}` : `api/title/${params.tid}`, {timezone: store.state.settings.timezone});
+            const data = await app.$axios.$post(store.getters.authenticated ? `api/user/title/${params.tid}` : `api/public/title/${params.tid}`, {timezone: store.state.settings.timezone});
             return {
                 tid: params.tid,
                 title: data.payload.title,

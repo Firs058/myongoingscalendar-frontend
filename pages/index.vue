@@ -11,8 +11,8 @@
         async asyncData({app, store}) {
             const data = await app.$axios.$post(
                 store.getters.hideRepeats
-                    ? 'api/calendar_min'
-                    : 'api/calendar',
+                    ? 'api/public/calendar_min'
+                    : 'api/public/calendar',
                 {userTimezone: store.getters.timezone}
             );
             store.dispatch('setCalendar', data.payload)

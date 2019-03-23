@@ -81,7 +81,7 @@
         }),
         async asyncData({app, store}) {
             if (store.getters.ongoingsListEmpty) {
-                const data = await app.$axios.$post('api/title/list');
+                const data = await app.$axios.$post('api/public/title/list');
                 store.dispatch('setOngoingsList', data.payload)
             }
         },

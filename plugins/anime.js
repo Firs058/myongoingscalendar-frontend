@@ -4,7 +4,7 @@ export default ({app}) => {
     Vue.prototype.$anime = {
         api: (URL, payload) => {
             return new Promise((resolve, reject) => {
-                app.$axios.post('api/' + URL, payload)
+                app.$axios.post('api/public/' + URL, payload)
                     .then(response =>
                         response.data.status.code >= 11000
                             ? resolve(response)

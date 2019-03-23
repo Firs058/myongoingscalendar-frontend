@@ -222,7 +222,7 @@
         }),
         async asyncData({query, app, store}) {
             if (store.getters.supplyListEmpty) {
-                const data = await app.$axios.$post(`api/es/supply`);
+                const data = await app.$axios.$post(`api/public/es/supply`);
                 store.dispatch('setSearchGlobalSupply', data.payload);
             }
             return {
