@@ -410,7 +410,7 @@
             toggleTitle() {
                 this.deletion = false;
                 this.button.loading = true;
-                this.$anime.api(`user/title/${this.tid}/toggle`)
+                this.$anime.userApi(`title/${this.tid}/toggle`)
                     .then(result => {
                         this.marked = !this.marked;
                         this.$toast.showToast({code: result.data.status.code});
