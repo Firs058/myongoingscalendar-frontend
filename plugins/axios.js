@@ -30,12 +30,16 @@ export default ({store, $axios, redirect}) => {
 
         return instance.post('/api/auth/refresh', {token: refreshToken})
             .then(response => {
-                process.client
-                    ? store.dispatch('setTokens', response.data.payload.tokens)
-                    : store.dispatch('setTempTokens', response.data.payload.tokens);
-                return response.data.payload.tokens.accessToken;
+                if (response.data.status.code === 11017 || response.data.status.code === 11012) {
+                    store.dispatch('setUserToDefault');
+                    return setHeaders(config);
+                } else {
+                    process.client
+                        ? store.dispatch('setTokens', response.data.payload.tokens)
+                        : store.dispatch('setTempTokens', response.data.payload.tokens);
+                    return setHeaders(config, response.data.payload.tokens.accessToken);
+                }
             })
-            .then(accessToken => setHeaders(config, accessToken))
             .catch(() => {
                 store.dispatch('setUserToDefault');
                 return setHeaders(config);
