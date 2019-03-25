@@ -18,7 +18,7 @@ module.exports = {
         ]
     },
     plugins: [
-        {src: '~plugins/tokens', mode: 'client'},
+        {src: '~/plugins/tokens', mode: 'client'},
         {src: '~/plugins/toast.js', mode: 'client'},
         {src: '~/plugins/anime.js', mode: 'client'},
         {src: '~/plugins/sharing.js', mode: 'client'},
@@ -54,7 +54,7 @@ module.exports = {
         color: '#1976d2'
     },
     router: {
-        middleware: ['settings', 'i18n']
+        middleware: ['sync', 'i18n']
     },
     build: {
         transpile: [/^vuetify/],

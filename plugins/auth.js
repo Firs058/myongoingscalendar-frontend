@@ -16,7 +16,7 @@ export default ({store, $axios, redirect}) => {
                     .post(LOGIN_URL, creds)
                     .then(response => {
                         if (response.data.status.code >= 11000) {
-                            this.setUserAndSettings(response.data.payload);
+                            store.dispatch('setUserAndTokensAndSettings', response.data.payload);
                             resolve({code: response.data.status.code});
                         } else reject({code: response.data.status.code});
                     })
@@ -81,17 +81,6 @@ export default ({store, $axios, redirect}) => {
                 resolve()
             }),
 
-        setUserAndSettings: (loginStatus) => {
-            store.dispatch('setUser', {
-                authenticated: true,
-                email: loginStatus.email,
-                social: loginStatus.social,
-                tokens: loginStatus.tokens,
-                roles: loginStatus.roles
-            });
-            store.dispatch('setSettings', loginStatus.settings)
-        },
-
         saveSettings: settings => $axios.post(SAVE_SETTINGS_URL, settings),
 
         getSocialAuthorizationUrl: provider =>
@@ -105,7 +94,7 @@ export default ({store, $axios, redirect}) => {
                 $axios.post(`api/auth/${provider}`, creds)
                     .then(response => {
                         if (response.data.status.code >= 11000) {
-                            this.setUserAndSettings(response.data.payload);
+                            store.dispatch('setUserAndTokensAndSettings', response.data.payload);
                             resolve({code: response.data.status.code});
                         } else reject({code: response.data.status.code});
                     })
@@ -119,7 +108,7 @@ export default ({store, $axios, redirect}) => {
                     .then(response => {
                         if (response.data.status.code >= 11000)
                             if (response.data.payload) {
-                                this.setUserAndSettings(response.data.payload, false);
+                                store.dispatch('setUserAndTokensAndSettings', response.data.payload);
                                 resolve({
                                     code: response.data.status.code,
                                     redirect: '/settings'

@@ -35,7 +35,7 @@
                 hide-details
                 style="margin-left: 60px;"
         />
-        <v-card-actions style="margin-left: 62px;" class="pa-0">
+        <v-card-actions style="margin-left: 61px;" class="pa-0">
             <v-tooltip top>
                 <v-btn
                         flat

@@ -6,12 +6,12 @@ export const state = () => ({
         authenticated: false,
         email: '',
         social: false,
-        roles: ['ROLE_USER'],
-        tokens: []
+        roles: ['ROLE_USER']
     },
     settings: {
         timezone: '',
         avatar: '',
+        nickname: '',
         dark: true,
         hideRepeats: true,
         fullTimeFormat: true,
@@ -41,6 +41,7 @@ export const state = () => ({
     ongoingsList: [],
     calendar: [],
     timezones: [],
+    tokens: {},
     tempTokens: {}
 });
 
@@ -62,19 +63,31 @@ export const mutations = {
     SET_CALENDAR: (state, obj) => state.calendar = obj,
     SET_TIMEZONES: (state, obj) => state.timezones = obj,
     SET_LANG: (state, string) => state.settings.lang = string,
-    SET_TOKENS: (state, obj) => state.user.tokens = obj,
+    SET_TOKENS: (state, obj) => state.tokens = obj,
     SET_TEMP_TOKENS: (state, obj) => state.tempTokens = obj
 };
 
 export const actions = {
     setUser: ({commit}, obj) => commit('SET_USER', obj),
-    setUserToDefault: ({commit}) => commit('SET_USER', {
-        authenticated: false,
-        email: '',
-        social: false,
-        tokens: [],
-        roles: []
-    }),
+    setUserToDefault: ({commit}) => {
+        commit('SET_USER', {
+            authenticated: false,
+            email: '',
+            social: false,
+            roles: []
+        });
+        commit('SET_TOKENS', {});
+    },
+    setUserAndTokensAndSettings: ({commit}, obj) => {
+        commit('SET_USER', {
+            authenticated: true,
+            email: obj.email,
+            social: obj.social,
+            roles: obj.roles
+        });
+        commit('SET_TOKENS', obj.tokens);
+        commit('SET_SETTINGS', obj.settings);
+    },
     setDark: ({commit}, bool) => commit('SET_DARK', bool),
     setHideRepeats: ({commit}, bool) => commit('SET_HIDE_REPEATS', bool),
     setTimezoneToSystem: ({commit}) => commit('SET_TIMEZONE', jstz.determine().name()),
@@ -98,8 +111,8 @@ export const actions = {
 export const getters = {
     dark: state => state.settings.dark,
     ongoingsList: state => state.ongoingsList,
-    ongoingsListEmpty: state => !Object.keys(state.ongoingsList).length,
-    timezonesListEmpty: state => !Object.keys(state.timezones).length,
+    ongoingsListEmpty: state => !!state.ongoingsList && !Object.keys(state.ongoingsList).length,
+    timezonesListEmpty: state => !!state.timezones && !Object.keys(state.timezones).length,
     authenticated: state => state.user.authenticated,
     hideRepeats: state => state.settings.hideRepeats,
     timezone: state => state.settings.timezone,
@@ -111,10 +124,11 @@ export const getters = {
     toast: state => state.toast,
     lang: state => state.settings.lang,
     supply: state => state.search.global.supply,
-    supplyListEmpty: state => !Object.keys(state.search.global.supply).length,
+    supplyListEmpty: state => !!state.search.global.supply && !Object.keys(state.search.global.supply).length,
     lastQuery: state => state.search.global.lastQuery,
     comment: state => state.comment,
     synced: state => state.synced,
+    tokens: state => state.tokens,
     tempTokens: state => state.tempTokens
 };
 
