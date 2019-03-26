@@ -1,5 +1,11 @@
 <template>
-    <v-card flat @mouseover="showReport = true" @mouseleave="showReport = false" color="transparent" class="mt-3">
+    <v-card
+            flat
+            color="transparent"
+            class="mt-3"
+            @mouseover="showReport = true"
+            @mouseleave="showReport = false"
+    >
         <v-list-tile avatar>
             <v-list-tile-avatar>
                 <img :src="comment.user.avatar">
@@ -87,46 +93,48 @@
         <v-expansion-panel
                 v-if="comment.replies > 0"
                 popout
+                v-model="expansion"
                 @click.native.once="downloadChilds(false)"
-                color="transparent"
         >
-            <v-expansion-panel-content hide-actions ripple>
+            <v-expansion-panel-content
+                    hide-actions
+                    ripple
+                    class="elevation-0"
+            >
                 <template slot="header">
                     {{$t('comments.show_all.2', [comment.replies])}}
                 </template>
-                <v-card>
-                    <v-container
-                            fluid
-                            :class="$device.isMobile ? 'pa-0' : null"
-                    >
-                        <v-layout row wrap>
-                            <v-flex xs12 v-for="(comment, index) in comments" :key="index">
-                                <comment :comment="comment"/>
-                            </v-flex>
-                        </v-layout>
-                    </v-container>
-                    <v-container
-                            fluid
-                            :class="$device.isMobile ? 'pa-0' : null"
-                            v-if="comment.replies > 10 && more > 0"
-                    >
-                        <v-layout row wrap align-center justify-center>
-                            <v-tooltip top>
-                                <v-btn
-                                        slot="activator"
-                                        flat
-                                        @click.native="downloadChilds(true)"
-                                        :loading="loadingChilds"
-                                >
-                                    <v-icon left>arrow_drop_down</v-icon>
-                                    {{$t('comments.show_more.2', [more])}}
-                                    <v-icon right>arrow_drop_down</v-icon>
-                                </v-btn>
-                                <span>{{$t('comments.show_more.1')}}</span>
-                            </v-tooltip>
-                        </v-layout>
-                    </v-container>
-                </v-card>
+                <v-container
+                        fluid
+                        :class="$device.isMobile ? 'pa-0 with_border' : 'with_border'"
+                >
+                    <v-layout row wrap>
+                        <v-flex xs12 v-for="(comment, index) in comments" :key="index">
+                            <comment :comment="comment"/>
+                        </v-flex>
+                    </v-layout>
+                </v-container>
+                <v-container
+                        fluid
+                        :class="$device.isMobile ? 'pa-0' : null"
+                        v-if="comment.replies > 10 && more > 0"
+                >
+                    <v-layout row wrap align-center justify-center>
+                        <v-tooltip top>
+                            <v-btn
+                                    slot="activator"
+                                    flat
+                                    @click.native="downloadChilds(true)"
+                                    :loading="loadingChilds"
+                            >
+                                <v-icon left>arrow_drop_down</v-icon>
+                                {{$t('comments.show_more.2', [more])}}
+                                <v-icon right>arrow_drop_down</v-icon>
+                            </v-btn>
+                            <span>{{$t('comments.show_more.1')}}</span>
+                        </v-tooltip>
+                    </v-layout>
+                </v-container>
             </v-expansion-panel-content>
         </v-expansion-panel>
     </v-card>
@@ -145,7 +153,8 @@
             offset: 0,
             more: 0,
             comments: [],
-            showReport: false
+            showReport: false,
+            expansion: [false]
         }),
         props: ['comment'],
         methods: {
@@ -213,5 +222,13 @@
 
     >>> .v-expansion-panel__header {
         padding: 12px 30px !important;
+    }
+
+    >>> .v-expansion-panel .v-expansion-panel__container {
+        background-color: transparent !important;
+    }
+
+    .with_border {
+        border-left: 5px solid gainsboro;
     }
 </style>

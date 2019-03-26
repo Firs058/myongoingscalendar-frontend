@@ -1,6 +1,6 @@
 <template>
     <v-container article class="grid-list-lg pt-0">
-        <v-layout>
+        <v-layout row wrap>
             <v-flex xs12>
                 <v-text-field
                         v-model="filterInput"
@@ -8,7 +8,8 @@
                         prepend-icon="filter_list"
                         hide-details
                         clearable
-                        single-line
+                        solo
+                        flat
                 />
             </v-flex>
         </v-layout>

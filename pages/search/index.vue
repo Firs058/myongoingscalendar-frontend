@@ -7,12 +7,13 @@
                         :label="$t('inputs.search.label.1')"
                         prepend-icon="search"
                         hide-details
-                        single-line
+                        solo
+                        flat
                 />
             </v-flex>
             <v-flex xs12>
-                <v-expansion-panel color="transparent">
-                    <v-expansion-panel-content>
+                <v-expansion-panel class="elevation-0">
+                    <v-expansion-panel-content ripple>
                         <template slot="header" v-if="!!asyncCache && asyncCache.count > 0 && shouldShow">
                             <v-flex xs12 class="pa-0">
                             <span class="mr-3">{{$t("search.founded", [asyncCache.count])}}</span>
@@ -323,6 +324,14 @@
             shouldShow() {
                 return !!this.currentQuery || this.filters.genres.added || this.filters.scores.added || this.filters.years.added
             }
+        },
+        deactivated() {
+            this.$destroy()
         }
     }
 </script>
+<style scoped>
+    >>> .v-expansion-panel .v-expansion-panel__container {
+        background-color: transparent !important;
+    }
+</style>

@@ -184,7 +184,7 @@
                             </v-flex>
                         </v-layout>
                     </v-sheet>
-                    <v-sheet color="grey darken-2">
+                    <v-sheet  :color="dark ? 'grey darken-3' : null">
                         <v-card color="transparent" flat>
                             <v-toolbar dense card tabs color="transparent">
                                 <v-tabs
@@ -255,8 +255,8 @@
                             </v-card>
                         </v-dialog>
                     </v-sheet>
-                    <v-sheet color="grey darken-3" :dark="!dark">
-                        <v-card color="transparent">
+                    <v-sheet :color="dark ? 'grey darken-4' : 'grey lighten-4'" :dark="dark">
+                        <v-card color="transparent" flat>
                             <v-container fluid>
                                 <v-tooltip top>
                                     <v-btn
