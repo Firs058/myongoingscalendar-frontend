@@ -34,10 +34,7 @@ export default ({store, $axios, redirect}) => {
                 store.dispatch('setTempTokens', response.data.payload.tokens);
                 return setHeaders(config, response.data.payload.tokens.accessToken);
             })
-            .catch(() => {
-                store.dispatch('setUserToDefault');
-                return setHeaders(config);
-            })
+            .catch(() => setHeaders(config))
     }
 
     function setHeaders(config, accessToken) {

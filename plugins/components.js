@@ -5,6 +5,7 @@ import Loading from '~/components/loading'
 import Card from '~/components/card'
 import Comment from '~/components/comment'
 import CommentDialog from '~/components/commentDialog'
+import Chart from '~/components/chart'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueRecaptcha from 'vue-recaptcha'
@@ -17,3 +18,4 @@ Vue.component('card', Card);
 Vue.component('vue-recaptcha', VueRecaptcha);
 Vue.component('comment', Comment);
 Vue.component('comment-dialog', CommentDialog);
+Vue.component('line-chart', Chart);

@@ -124,7 +124,8 @@
                                         <v-icon small>tv</v-icon>
                                         {{title.episodes + $t('title.information.episodes')}}
                                     </div>
-                                    <div class="text-xs-left mb-4" v-if="title.description !== 'Not have description'">
+                                    <div class="text-xs-left mb-4"
+                                         v-if="title.description !== 'Not have description'">
                                         {{title.description}}
                                     </div>
                                     <div v-if="title.links && title.links.length" class="text-xs-left mb-4">
@@ -184,7 +185,14 @@
                             </v-flex>
                         </v-layout>
                     </v-sheet>
-                    <v-sheet  :color="dark ? 'grey darken-3' : null">
+                    <v-sheet
+                            v-if="showChart && title.chartData.datasets[0].data.length"
+                            class="pa-3"
+                            :color="dark ? 'grey darken-1' : 'grey lighten-3'"
+                    >
+                        <line-chart :data="title.chartData" :options="chartOptions"/>
+                    </v-sheet>
+                    <v-sheet :color="dark ? 'grey darken-2' : null">
                         <v-card color="transparent" flat>
                             <v-toolbar dense card tabs color="transparent">
                                 <v-tabs
@@ -250,12 +258,13 @@
                                     <v-btn color="error" flat @click.native="deletion = false">
                                         {{$t('buttons.disagree')}}
                                     </v-btn>
-                                    <v-btn color="success" @click.native="toggleTitle">{{$t('buttons.agree')}}</v-btn>
+                                    <v-btn color="success" @click.native="toggleTitle">{{$t('buttons.agree')}}
+                                    </v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
                     </v-sheet>
-                    <v-sheet :color="dark ? 'grey darken-4' : 'grey lighten-4'" :dark="dark">
+                    <v-sheet :color="dark ? 'grey darken-3' : 'grey lighten-4'" :dark="dark">
                         <v-card color="transparent" flat>
                             <v-container fluid>
                                 <v-tooltip top>
@@ -320,7 +329,8 @@
             deletion: false,
             button: {
                 loading: false
-            }
+            },
+            showChart: false
         }),
         validate({params}) {
             return /^\d+$/.test(params.tid)
@@ -504,10 +514,63 @@
                     const arr = this.title.ratings.map(e => e.score);
                     return Number((arr.reduce((a, b) => a + b) / arr.length).toFixed(2))
                 }
+            },
+            chartOptions() {
+                const mainColor = this.dark ? 'white' : 'black';
+                const fontFamily = "'Roboto', sans-serif";
+                return {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    spanGaps: true,
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            fontColor: mainColor,
+                            fontSize: 16
+                        }
+                    },
+                    title: {
+                        display: true,
+                        fontSize: 16,
+                        text: this.$t("title.chart.title_text"),
+                        fontColor: mainColor
+                    },
+                    ticks: {
+                        fontFamily: fontFamily,
+                        fontColor: mainColor
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                fontFamily: fontFamily,
+                                fontColor: mainColor,
+                                fontSize: 14,
+                                stepSize: 1,
+                                beginAtZero: true
+                            },
+                            gridLines: {
+                                color: this.dark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.12)'
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontFamily: fontFamily,
+                                fontColor: mainColor,
+                                fontSize: 14,
+                                stepSize: 1,
+                                beginAtZero: true
+                            },
+                            gridLines: {
+                                color: this.dark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.12)'
+                            }
+                        }]
+                    }
+                }
             }
         },
         activated() {
             this.$vuetify.goTo(0);
+            this.showChart = true;
         },
         deactivated() {
             this.$destroy()

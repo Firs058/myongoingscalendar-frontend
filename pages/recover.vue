@@ -1,9 +1,5 @@
 <template>
-    <v-container
-            fluid
-            fill-height
-            :class="$device.isDesktop ? 'grid-list-lg' : 'pa-0'"
-    >
+    <v-container fill-height article class="grid-list-lg pt-0">
         <v-layout align-center justify-center text-xs-center>
             <v-flex xs12 sm10 md6 lg4 xl3>
                 <v-card color="transparent" flat>

@@ -45,6 +45,9 @@
         "title": "Info",
         "text": "Schedule updated every 10 min from syoboi.jp"
       }
+    },
+    "chart": {
+      "title_text": "Ratings changes indicator"
     }
   },
   "comments": {

@@ -5,7 +5,7 @@
                 <v-text-field
                         v-model="filterInput"
                         :label="$t('inputs.search.label.2')"
-                        prepend-icon="filter_list"
+                        prepend-inner-icon="filter_list"
                         hide-details
                         clearable
                         solo

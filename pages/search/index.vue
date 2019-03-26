@@ -5,12 +5,14 @@
                 <v-text-field
                         v-model="currentQuery"
                         :label="$t('inputs.search.label.1')"
-                        prepend-icon="search"
+                        prepend-inner-icon="search"
                         hide-details
                         solo
                         flat
                 />
             </v-flex>
+        </v-layout>
+        <v-layout row wrap>
             <v-flex xs12>
                 <v-expansion-panel class="elevation-0">
                     <v-expansion-panel-content ripple>
