@@ -390,6 +390,8 @@
     "10028": "Already liked",
     "10029": "Already disliked",
     "10030": "Already reported",
+    "10031": "Access is available only through a social network",
+    "10032": "Password recovery is not available for accounts created through a social network",
     "11000": "OK",
     "11001": "OK, check you mail to activate account",
     "11002": "Account successful activated",

@@ -152,12 +152,14 @@
             },
             onVerify(response) {
                 this.loading = true;
+                let settings = this.settings;
+                settings.nickname = this.nickname;
+
                 this.$auth.registration({
-                    nickname: this.nickname,
                     email: this.email,
                     password: this.password,
                     recaptchaToken: response,
-                    userSettings: this.settings
+                    userSettings: settings
                 })
                     .then(code => {
                         this.$toast.showToast(code);

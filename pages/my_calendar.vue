@@ -44,6 +44,9 @@
                 'hideRepeats',
                 'timezone'
             ]),
-        middleware: 'authenticated'
+        middleware: 'authenticated',
+        deactivated() {
+            this.$destroy()
+        }
     }
 </script>

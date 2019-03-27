@@ -91,8 +91,8 @@
                                 </v-btn>
                             </v-list-tile-action>
                         </v-list-tile>
-                        <v-divider/>
-                        <v-list-tile>
+                        <v-divider v-if="!user.social"/>
+                        <v-list-tile v-if="!user.social">
                             <v-list-tile-content>
                                 <v-list-tile-title>{{$t('settings.account.change_password.title')}}</v-list-tile-title>
                                 <v-list-tile-sub-title>{{$t('settings.account.change_password.sub_title')}}

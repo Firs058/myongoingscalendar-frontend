@@ -38,6 +38,7 @@
                                 stepSize: 1
                             },
                             gridLines: {
+                                drawBorder: false,
                                 color: this.dark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)'
                             }
                         }],
