@@ -126,35 +126,35 @@
             },
             save() {
                 this.dialog = false;
-                this.$anime.api('admin/update', this.list.item)
+                this.$anime.adminApi('update', this.list.item)
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
                     .then(() => this.init())
             },
             hex() {
                 this.loading = true;
-                this.$anime.api('admin/hex')
+                this.$anime.adminApi('hex')
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.loading = false)
             },
             elastic() {
                 this.loading = true;
-                this.$anime.api('admin/elastic')
+                this.$anime.adminApi('elastic')
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.loading = false)
             },
             avatars() {
                 this.loading = true;
-                this.$anime.api('admin/avatars')
+                this.$anime.adminApi('avatars')
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.loading = false)
             },
             mal() {
                 this.loading = true;
-                this.$anime.api('admin/mal')
+                this.$anime.adminApi('mal')
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.loading = false)

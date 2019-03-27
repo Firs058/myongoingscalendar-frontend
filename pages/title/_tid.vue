@@ -186,11 +186,11 @@
                         </v-layout>
                     </v-sheet>
                     <v-sheet
-                            v-if="showChart && title.chartData.datasets[0].data.length"
+                            v-if="showChart && chartDataNotEmpty"
                             class="pa-3"
                             :color="dark ? 'grey darken-1' : 'grey lighten-3'"
                     >
-                        <line-chart :data="title.chartData" :options="chartOptions"/>
+                        <line-chart :chartData="title.chartData"/>
                     </v-sheet>
                     <v-sheet :color="dark ? 'grey darken-2' : null">
                         <v-card color="transparent" flat>
@@ -515,57 +515,9 @@
                     return Number((arr.reduce((a, b) => a + b) / arr.length).toFixed(2))
                 }
             },
-            chartOptions() {
-                const mainColor = this.dark ? 'white' : 'black';
-                const fontFamily = "'Roboto', sans-serif";
-                return {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    spanGaps: true,
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            fontColor: mainColor,
-                            fontSize: 16
-                        }
-                    },
-                    title: {
-                        display: true,
-                        fontSize: 16,
-                        text: this.$t("title.chart.title_text"),
-                        fontColor: mainColor
-                    },
-                    ticks: {
-                        fontFamily: fontFamily,
-                        fontColor: mainColor
-                    },
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                fontFamily: fontFamily,
-                                fontColor: mainColor,
-                                fontSize: 14,
-                                stepSize: 1,
-                                beginAtZero: true
-                            },
-                            gridLines: {
-                                color: this.dark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.12)'
-                            }
-                        }],
-                        xAxes: [{
-                            ticks: {
-                                fontFamily: fontFamily,
-                                fontColor: mainColor,
-                                fontSize: 14,
-                                stepSize: 1,
-                                beginAtZero: true
-                            },
-                            gridLines: {
-                                color: this.dark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.12)'
-                            }
-                        }]
-                    }
-                }
+            chartDataNotEmpty() {
+                const toCheck = this.title.chartData.datasets[0].data;
+                return toCheck.length && toCheck.some(element => !!element)
             }
         },
         activated() {

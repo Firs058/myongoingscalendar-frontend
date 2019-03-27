@@ -11,16 +11,6 @@ export default ({store, $axios, redirect}) => {
             return setHeaders(config, store.getters.tokens.accessToken);
     });
 
-    $axios.onResponse(config => {
-        if (store.getters.tokens && config.data.status.code === 12000)
-            return refreshTokens(config, store.getters.tokens.refreshToken);
-        else if (config.data.status.code === 11017 || config.data.status.code === 10012) {
-            store.dispatch('setUserToDefault');
-            redirect('/login');
-            return config;
-        }
-    });
-
     function refreshTokens(config, refreshToken) {
         const instance = axios.create({
             baseURL: process.env.baseUrl,
@@ -30,10 +20,16 @@ export default ({store, $axios, redirect}) => {
 
         return instance.post('/api/auth/refresh', {token: refreshToken})
             .then(response => {
-                store.dispatch('setTokens', response.data.payload.tokens);
-                store.dispatch('setTempTokens', response.data.payload.tokens);
-                return setHeaders(config, response.data.payload.tokens.accessToken);
+                if (response.data.status.code === 11017 || response.data.status.code === 11012) {
+                    store.dispatch('setUserToDefault');
+                    redirect('/login');
+                } else {
+                    store.dispatch('setTokens', response.data.payload.tokens);
+                    store.dispatch('setTempTokens', response.data.payload.tokens);
+                    return response.data.payload.tokens.accessToken;
+                }
             })
+            .then(accessToken => setHeaders(config, accessToken))
             .catch(() => setHeaders(config))
     }
 
