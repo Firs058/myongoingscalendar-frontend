@@ -25,13 +25,6 @@
                             usePointStyle: true
                         }
                     },
-                    title: {
-                        display: true,
-                        fontSize: 16,
-                        text: this.$t("title.chart.title_text"),
-                        fontFamily: fontFamily,
-                        fontColor: mainColor
-                    },
                     ticks: {
                         fontFamily: fontFamily,
                         fontColor: mainColor
@@ -59,6 +52,15 @@
                                 display: false
                             }
                         }]
+                    },
+                    tooltips: {
+                        titleFontFamily: fontFamily,
+                        bodyFontFamily: fontFamily,
+                        footerFontFamily: fontFamily,
+                        backgroundColor: '#616161',
+                        cornerRadius: 2,
+                        caretSize: 0,
+                        displayColors: false
                     }
                 }
             }

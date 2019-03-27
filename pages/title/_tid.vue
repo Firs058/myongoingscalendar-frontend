@@ -517,7 +517,7 @@
             },
             chartDataNotEmpty() {
                 const toCheck = this.title.chartData.datasets[0].data;
-                return toCheck.length && toCheck.some(element => !!element)
+                return toCheck.length > 2 && toCheck.some(element => !!element)
             }
         },
         activated() {
