@@ -90,6 +90,7 @@ export const actions = {
     },
     setDark: ({commit}, bool) => commit('SET_DARK', bool),
     setHideRepeats: ({commit}, bool) => commit('SET_HIDE_REPEATS', bool),
+    setTimezone: ({commit}, string) => commit('SET_TIMEZONE', string),
     setTimezoneToSystem: ({commit}) => commit('SET_TIMEZONE', jstz.determine().name()),
     serFullTimeFormat: ({commit}, bool) => commit('SET_FULL_TIME_FORMAT', bool),
     setSettings: ({commit}, obj) => commit('SET_SETTINGS', obj),

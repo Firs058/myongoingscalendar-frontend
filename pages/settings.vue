@@ -359,7 +359,7 @@
             checkAndDownloadTimezones() {
                 if (this.$store.getters.timezonesListEmpty) {
                     this.timezonesLoading = true;
-                    this.$axios.$post('api/user/settings/timezones')
+                    this.$axios.$post('api/public/timezones')
                         .then(data => this.$store.dispatch('setTimezones', data.payload))
                         .finally(() => this.timezonesLoading = false)
                 }
