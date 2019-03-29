@@ -14,165 +14,166 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex xs12>
-                <v-expansion-panel class="elevation-0">
-                    <v-expansion-panel-content ripple>
-                        <template slot="header" v-if="!!asyncCache && asyncCache.count > 0 && shouldShow">
-                            <v-flex xs12 class="pa-0">
-                            <span class="mr-3">{{$t("search.founded", [asyncCache.count])}}</span>
-                            <v-chip
-                                    v-if="currentQuery"
-                                    :color="`teal ${dark ? 'darken-3' : 'lighten-3'}`"
-                                    close
-                                    @input="currentQuery = ''"
-                            >
-                                {{`${$t('search.chips.name')}: ${currentQuery}`}}
-                            </v-chip>
-                            <v-chip
-                                    v-for="filter in filters"
-                                    :key="filter.name"
-                                    v-if="filter.added"
-                                    :color="`${filter.color} ${dark ? 'darken-3' : 'lighten-3'}`"
-                                    close
-                                    @input="filter.added = false, filter.selected ? filters.genres.selected = [] : null"
-                            >
+                <v-card flat :color="!expand ? 'transparent' : null">
+                    <v-toolbar
+                            card
+                            prominent
+                            v-if="!!asyncCache && asyncCache.count > 0 && shouldShow"
+                            :color="!expand ? 'transparent' : null"
+                    >
+                        <span class="mr-3">{{$t("search.founded", [asyncCache.count])}}</span>
+                        <v-chip
+                                v-if="currentQuery"
+                                :color="`teal ${dark ? 'darken-3' : 'lighten-3'}`"
+                                close
+                                @input="currentQuery = ''"
+                        >
+                            {{`${$t('search.chips.name')}: ${currentQuery}`}}
+                        </v-chip>
+                        <v-chip
+                                v-for="filter in filters"
+                                :key="filter.name"
+                                v-if="filter.added"
+                                :color="`${filter.color} ${dark ? 'darken-3' : 'lighten-3'}`"
+                                close
+                                @input="filter.added = false, filter.selected ? filters.genres.selected = [] : null"
+                        >
                        <span v-if="filter.range">
                             {{`${$t(`search.chips.${filter.name}`)}: ${$t('search.extension.filters.from')} ${filter.range[0]} ${$t('search.extension.filters.to')} ${filter.range[1]}`}}
                        </span>
-                                <span v-else-if="filter.selected">
+                            <span v-else-if="filter.selected">
                             {{`${$t(`search.chips.${filter.name}`)}: ${getGenresName}`}}
                        </span>
-                            </v-chip>
-                            </v-flex>
-                        </template>
-                        <template slot="header" v-else></template>
-                        <template slot="actions">
+                        </v-chip>
+                        <v-spacer/>
+                        <v-btn flat icon @click="expand = !expand">
                             <v-icon>filter_list</v-icon>
-                        </template>
-                        <v-card>
-                            <v-card-text>
-                                <v-subheader v-if="!filters.genres.added">{{$t('search.chips.genres')}}</v-subheader>
-                                <v-layout v-if="!filters.genres.added" row align-center>
-                                    <v-flex>
-                                        <v-flex xs12>
-                                            <v-select
-                                                    v-model="filters.genres.selected"
-                                                    :items="genresList"
-                                                    attach
-                                                    chips
-                                                    :label="$t('search.extension.select_genres')"
-                                                    multiple
-                                                    item-text="name"
-                                                    item-value="id"
-                                                    clearable
-                                                    deletable-chips
-                                            ></v-select>
-                                        </v-flex>
+                        </v-btn>
+                    </v-toolbar>
+                    <v-expand-transition>
+                        <v-card-text v-if="expand">
+                            <v-subheader v-if="!filters.genres.added">{{$t('search.chips.genres')}}</v-subheader>
+                            <v-layout v-if="!filters.genres.added" row align-center>
+                                <v-flex>
+                                    <v-flex xs12>
+                                        <v-select
+                                                v-model="filters.genres.selected"
+                                                :items="genresList"
+                                                attach
+                                                chips
+                                                :label="$t('search.extension.select_genres')"
+                                                multiple
+                                                item-text="name"
+                                                item-value="id"
+                                                clearable
+                                                deletable-chips
+                                        ></v-select>
                                     </v-flex>
-                                    <v-flex shrink>
-                                        <v-tooltip top>
-                                            <v-btn
-                                                    slot="activator"
-                                                    v-if="available"
-                                                    :disabled=!filters.genres.selected.length
-                                                    icon
-                                                    @click.native="filters.genres.added=true"
-                                            >
-                                                <v-icon>add</v-icon>
-                                            </v-btn>
-                                            <span>{{$t('search.tooltips.add_filter')}}</span>
-                                        </v-tooltip>
-                                    </v-flex>
-                                </v-layout>
-                                <v-subheader v-if="!filters.scores.added">{{$t('search.chips.scores')}}</v-subheader>
-                                <v-layout v-if="!filters.scores.added" row>
-                                    <v-flex shrink style="width: 40px">
-                                        <v-text-field
-                                                v-model="filters.scores.range[0]"
-                                                class="mt-0"
-                                                hide-details
-                                                single-line
-                                                type="number"
-                                        ></v-text-field>
-                                    </v-flex>
-                                    <v-flex class="px-3">
-                                        <v-range-slider
-                                                v-model="filters.scores.range"
-                                                :max="supply.scores[1]"
-                                                :min="supply.scores[0]"
-                                                step="0.1"
-                                        ></v-range-slider>
-                                    </v-flex>
-                                    <v-flex shrink style="width: 40px">
-                                        <v-text-field
-                                                v-model="filters.scores.range[1]"
-                                                class="mt-0"
-                                                hide-details
-                                                single-line
-                                                type="number"
-                                        ></v-text-field>
-                                    </v-flex>
-                                    <v-flex shrink>
-                                        <v-tooltip top>
-                                            <v-btn
-                                                    slot="activator"
-                                                    v-if="available"
-                                                    icon
-                                                    @click.native="filters.scores.added=true"
-                                            >
-                                                <v-icon>add</v-icon>
-                                            </v-btn>
-                                            <span>{{$t('search.tooltips.add_filter')}}</span>
-                                        </v-tooltip>
-                                    </v-flex>
-                                </v-layout>
-                                <v-subheader v-if="!filters.years.added">{{$t('search.chips.years')}}</v-subheader>
-                                <v-layout v-if="!filters.years.added" row>
-                                    <v-flex shrink>
-                                        <v-text-field
-                                                v-model="filters.years.range[0]"
-                                                class="mt-0"
-                                                hide-details
-                                                single-line
-                                                mask="####"
-                                                type="number"
-                                        ></v-text-field>
-                                    </v-flex>
-                                    <v-flex class="px-3">
-                                        <v-range-slider
-                                                v-model="filters.years.range"
-                                                :max="supply.years[1]"
-                                                :min="supply.years[0]"
-                                                step="1"
-                                        ></v-range-slider>
-                                    </v-flex>
-                                    <v-flex shrink>
-                                        <v-text-field
-                                                v-model="filters.years.range[1]"
-                                                class="mt-0"
-                                                hide-details
-                                                single-line
-                                                mask="####"
-                                                type="number"
-                                        ></v-text-field>
-                                    </v-flex>
-                                    <v-flex shrink>
-                                        <v-tooltip top>
-                                            <v-btn
-                                                    slot="activator"
-                                                    v-if="available"
-                                                    icon
-                                                    @click.native="filters.years.added=true"
-                                            >
-                                                <v-icon>add</v-icon>
-                                            </v-btn>
-                                            <span>{{$t('search.tooltips.add_filter')}}</span>
-                                        </v-tooltip>
-                                    </v-flex>
-                                </v-layout>
-                            </v-card-text>
-                        </v-card>
-                    </v-expansion-panel-content>
-                </v-expansion-panel>
+                                </v-flex>
+                                <v-flex shrink>
+                                    <v-tooltip top>
+                                        <v-btn
+                                                slot="activator"
+                                                v-if="available"
+                                                :disabled=!filters.genres.selected.length
+                                                icon
+                                                @click.native="filters.genres.added=true"
+                                        >
+                                            <v-icon>add</v-icon>
+                                        </v-btn>
+                                        <span>{{$t('search.tooltips.add_filter')}}</span>
+                                    </v-tooltip>
+                                </v-flex>
+                            </v-layout>
+                            <v-subheader v-if="!filters.scores.added">{{$t('search.chips.scores')}}</v-subheader>
+                            <v-layout v-if="!filters.scores.added" row>
+                                <v-flex shrink style="width: 40px">
+                                    <v-text-field
+                                            v-model="filters.scores.range[0]"
+                                            class="mt-0"
+                                            hide-details
+                                            single-line
+                                            type="number"
+                                    ></v-text-field>
+                                </v-flex>
+                                <v-flex class="px-3">
+                                    <v-range-slider
+                                            v-model="filters.scores.range"
+                                            :max="supply.scores[1]"
+                                            :min="supply.scores[0]"
+                                            step="0.1"
+                                    ></v-range-slider>
+                                </v-flex>
+                                <v-flex shrink style="width: 40px">
+                                    <v-text-field
+                                            v-model="filters.scores.range[1]"
+                                            class="mt-0"
+                                            hide-details
+                                            single-line
+                                            type="number"
+                                    ></v-text-field>
+                                </v-flex>
+                                <v-flex shrink>
+                                    <v-tooltip top>
+                                        <v-btn
+                                                slot="activator"
+                                                v-if="available"
+                                                icon
+                                                @click.native="filters.scores.added=true"
+                                        >
+                                            <v-icon>add</v-icon>
+                                        </v-btn>
+                                        <span>{{$t('search.tooltips.add_filter')}}</span>
+                                    </v-tooltip>
+                                </v-flex>
+                            </v-layout>
+                            <v-subheader v-if="!filters.years.added">{{$t('search.chips.years')}}</v-subheader>
+                            <v-layout v-if="!filters.years.added" row>
+                                <v-flex shrink>
+                                    <v-text-field
+                                            v-model="filters.years.range[0]"
+                                            class="mt-0"
+                                            hide-details
+                                            single-line
+                                            mask="####"
+                                            type="number"
+                                    ></v-text-field>
+                                </v-flex>
+                                <v-flex class="px-3">
+                                    <v-range-slider
+                                            v-model="filters.years.range"
+                                            :max="supply.years[1]"
+                                            :min="supply.years[0]"
+                                            step="1"
+                                    ></v-range-slider>
+                                </v-flex>
+                                <v-flex shrink>
+                                    <v-text-field
+                                            v-model="filters.years.range[1]"
+                                            class="mt-0"
+                                            hide-details
+                                            single-line
+                                            mask="####"
+                                            type="number"
+                                    ></v-text-field>
+                                </v-flex>
+                                <v-flex shrink>
+                                    <v-tooltip top>
+                                        <v-btn
+                                                slot="activator"
+                                                v-if="available"
+                                                icon
+                                                @click.native="filters.years.added=true"
+                                        >
+                                            <v-icon>add</v-icon>
+                                        </v-btn>
+                                        <span>{{$t('search.tooltips.add_filter')}}</span>
+                                    </v-tooltip>
+                                </v-flex>
+                            </v-layout>
+                        </v-card-text>
+                    </v-expand-transition>
+                </v-card>
             </v-flex>
         </v-layout>
         <v-layout
@@ -221,7 +222,8 @@
 
     export default {
         data: () => ({
-            countPages: 1
+            countPages: 1,
+            expand: false
         }),
         async asyncData({query, app, store}) {
             if (store.getters.supplyListEmpty) {
