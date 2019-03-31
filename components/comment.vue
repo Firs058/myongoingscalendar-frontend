@@ -2,7 +2,7 @@
     <v-card
             flat
             color="transparent"
-            class="mt-3"
+            class="my-2"
             @mouseover="showReport = true"
             @mouseleave="showReport = false"
     >

@@ -31,33 +31,30 @@
                 </v-flex>
             </v-layout>
         </v-layout>
-        <v-container
-                fluid
-                :class="$device.isDesktop ? 'grid-list-lg pa-3' : 'grid-list-sm pa-1'"
+        <v-layout
+                row wrap align-center justify-center
                 v-if="!showAll && filteredOngoingsList.slice(0, showCount).length >= showCount"
                 pb-5
         >
-            <v-layout row wrap align-center justify-center>
-                <v-flex xs12>
-                    <v-tooltip top>
-                        <v-btn
-                                :class="dark ? 'grey darken-3' : 'grey lighten-3'"
-                                block
-                                slot="activator"
-                                flat
-                                @click.native="showAll = !showAll"
-                        >
-                            <v-icon left>arrow_drop_down</v-icon>
-                            {{$t('list.show_old')}}
-                            <v-icon right>arrow_drop_down</v-icon>
-                        </v-btn>
-                        <span>{{$t('list.show_old')}}</span>
-                    </v-tooltip>
-                </v-flex>
-            </v-layout>
-        </v-container>
-        <v-container
-                v-else
+            <v-flex xs12>
+                <v-tooltip top>
+                    <v-btn
+                            :class="dark ? 'grey darken-3' : 'grey lighten-3'"
+                            block
+                            slot="activator"
+                            flat
+                            @click.native="showAll = !showAll"
+                    >
+                        <v-icon left>arrow_drop_down</v-icon>
+                        {{$t('list.show_old')}}
+                        <v-icon right>arrow_drop_down</v-icon>
+                    </v-btn>
+                    <span>{{$t('list.show_old')}}</span>
+                </v-tooltip>
+            </v-flex>
+        </v-layout>
+        <v-layout
+                v-else-if="!Object.keys(filteredOngoingsList).length"
                 fluid
         >
             <v-alert
@@ -67,7 +64,7 @@
             >
                 {{$t("alerts.nothing_found")}}
             </v-alert>
-        </v-container>
+        </v-layout>
     </v-container>
 </template>
 
