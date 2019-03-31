@@ -54,7 +54,7 @@
             </v-flex>
         </v-layout>
         <v-layout
-                v-else-if="!Object.keys(filteredOngoingsList).length"
+                v-if="!Object.keys(filteredOngoingsList).length"
                 fluid
         >
             <v-alert
