@@ -186,7 +186,7 @@
                         </v-layout>
                     </v-sheet>
                     <v-sheet
-                            v-if="showChart && chartDataNotEmpty"
+                            v-if="showChart && title.chartData.datasets.length"
                             class="pa-3"
                             :color="dark ? 'grey darken-1' : 'grey lighten-3'"
                     >
@@ -514,10 +514,6 @@
                     const arr = this.title.ratings.map(e => e.score);
                     return Number((arr.reduce((a, b) => a + b) / arr.length).toFixed(2))
                 }
-            },
-            chartDataNotEmpty() {
-                const toCheck = this.title.chartData.datasets[0].data;
-                return toCheck.length > 2 && toCheck.some(element => !!element)
             }
         },
         activated() {

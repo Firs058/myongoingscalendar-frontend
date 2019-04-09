@@ -36,6 +36,7 @@
                     <v-data-table
                             :headers="list.headers"
                             :items="list.items"
+                            :pagination.sync="pagination"
                             hide-actions
                     >
                         <template
@@ -44,6 +45,7 @@
                         >
                             <td>{{ props.item.aid }}</td>
                             <td>{{ props.item.malid }}</td>
+                            <td>{{ props.item.annid }}</td>
                             <td>{{ props.item.tid }}</td>
                             <td>{{ props.item.title }}</td>
                             <td>{{ props.item.titleen }}</td>
@@ -68,6 +70,9 @@
                                     </v-flex>
                                     <v-flex xs12>
                                         <v-text-field label="MAL id" v-model="list.item.malid"/>
+                                    </v-flex>
+                                    <v-flex xs12>
+                                        <v-text-field label="ANN id" v-model="list.item.annid"/>
                                     </v-flex>
                                     <v-flex xs12>
                                         <v-text-field label="Japan name" v-model="list.item.title"/>
@@ -96,11 +101,16 @@
         async asyncData({app, store}) {
             const data = await app.$axios.$post('api/admin/data');
             return {
+                pagination: {
+                    rowsPerPage: -1,
+                    sortBy: 'tid'
+                },
                 list: {
                     items: data.payload,
                     headers: [
                         {sortable: false, text: 'AniDB id', value: 'aid', align: 'center'},
                         {sortable: false, text: 'MAL id', value: 'malid', align: 'center'},
+                        {sortable: false, text: 'ANN id', value: 'annid', align: 'center'},
                         {sortable: false, text: 'Syoboi id', value: 'tid', align: 'center'},
                         {sortable: false, text: 'Japan name', value: 'title', align: 'center'},
                         {sortable: false, text: 'English name', value: 'titleen', align: 'center'}
@@ -108,6 +118,7 @@
                     item: {
                         aid: '',
                         malid: '',
+                        annid: '',
                         tid: '',
                         title: '',
                         titleen: ''
@@ -129,7 +140,6 @@
                 this.$anime.adminApi('update', this.list.item)
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
-                    .then(() => this.init())
             },
             hex() {
                 this.loading = true;
