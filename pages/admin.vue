@@ -30,6 +30,11 @@
                                 @click.native="mal"
                         >Force parse MAL
                         </v-btn>
+                        <v-btn
+                                flat
+                                @click.native="ann"
+                        >Force parse ANN
+                        </v-btn>
                     </v-card-text>
                 </v-card>
                 <v-card>
@@ -165,6 +170,13 @@
             mal() {
                 this.loading = true;
                 this.$anime.adminApi('mal')
+                    .then(result => this.$toast.showToast({code: result.data.status.code}))
+                    .catch(code => this.$toast.showToast(code))
+                    .finally(() => this.loading = false)
+            },
+            ann() {
+                this.loading = true;
+                this.$anime.adminApi('ann')
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.loading = false)
