@@ -1,5 +1,5 @@
 <template>
-    <v-container article class="pt-0">
+    <v-container article class="py-0">
         <v-layout align-center justify-center text-xs-center>
             <v-flex xs12>
                 <v-card color="transparent" flat>
@@ -264,7 +264,7 @@
                             </v-card>
                         </v-dialog>
                     </v-sheet>
-                    <v-sheet :color="dark ? 'grey darken-3' : 'grey lighten-4'" :dark="dark">
+                    <v-sheet :color="dark ? 'grey darken-3' : 'grey lighten-4'" :dark="dark" class="pb-5">
                         <v-card color="transparent" flat>
                             <v-container fluid>
                                 <v-tooltip top>

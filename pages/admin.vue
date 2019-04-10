@@ -12,28 +12,33 @@
                     <v-card-text>
                         <v-btn
                                 flat
-                                @click.native="hex"
+                                @click.native="adminRequest('hex')"
                         >Force HEX
                         </v-btn>
                         <v-btn
                                 flat
-                                @click.native="elastic"
+                                @click.native="adminRequest('elastic')"
                         >Fill elastic
                         </v-btn>
                         <v-btn
                                 flat
-                                @click.native="avatars"
+                                @click.native="adminRequest('avatars')"
                         >Fill avatars
                         </v-btn>
                         <v-btn
                                 flat
-                                @click.native="mal"
+                                @click.native="adminRequest('mal')"
                         >Force parse MAL
                         </v-btn>
                         <v-btn
                                 flat
-                                @click.native="ann"
+                                @click.native="adminRequest('ann')"
                         >Force parse ANN
+                        </v-btn>
+                        <v-btn
+                                flat
+                                @click.native="adminRequest('anidb')"
+                        >Force parse AniDB
                         </v-btn>
                     </v-card-text>
                 </v-card>
@@ -146,37 +151,9 @@
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
             },
-            hex() {
+            adminRequest(path) {
                 this.loading = true;
-                this.$anime.adminApi('hex')
-                    .then(result => this.$toast.showToast({code: result.data.status.code}))
-                    .catch(code => this.$toast.showToast(code))
-                    .finally(() => this.loading = false)
-            },
-            elastic() {
-                this.loading = true;
-                this.$anime.adminApi('elastic')
-                    .then(result => this.$toast.showToast({code: result.data.status.code}))
-                    .catch(code => this.$toast.showToast(code))
-                    .finally(() => this.loading = false)
-            },
-            avatars() {
-                this.loading = true;
-                this.$anime.adminApi('avatars')
-                    .then(result => this.$toast.showToast({code: result.data.status.code}))
-                    .catch(code => this.$toast.showToast(code))
-                    .finally(() => this.loading = false)
-            },
-            mal() {
-                this.loading = true;
-                this.$anime.adminApi('mal')
-                    .then(result => this.$toast.showToast({code: result.data.status.code}))
-                    .catch(code => this.$toast.showToast(code))
-                    .finally(() => this.loading = false)
-            },
-            ann() {
-                this.loading = true;
-                this.$anime.adminApi('ann')
+                this.$anime.adminApi(path)
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.loading = false)
