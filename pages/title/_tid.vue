@@ -1,5 +1,5 @@
 <template>
-    <v-container article class="py-0">
+    <v-container article :class="$device.isMobile ? 'pa-0' : 'py-0'">
         <v-layout align-center justify-center text-xs-center>
             <v-flex xs12>
                 <v-card color="transparent" flat>
