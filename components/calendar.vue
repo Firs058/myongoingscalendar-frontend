@@ -5,18 +5,18 @@
             justify-center
     >
         <v-flex
-                v-for="(day, index) in calendar"
+                v-for="(each, index) in calendar"
                 :key="index"
                 xs12 md6 lg4 xl3
         >
-            <v-subheader>{{day.day}}</v-subheader>
+            <v-subheader :class="each.day.today ? 'orange--text text-capitalize' : each.day.weekend ? 'red--text text-capitalize' : 'text-capitalize'">{{each.day.today ? $t('calendar.today') : each.day.date}}</v-subheader>
             <v-card>
                 <v-list
                         three-line
                         subheader
                         class="pa-0"
                 >
-                    <template v-for="(anime, index) in day.anime">
+                    <template v-for="(anime, index) in each.anime">
                         <v-list-tile
                                 avatar
                                 :ripple="{ class: 'grey--text' }"
@@ -46,7 +46,7 @@
                                 </v-list-tile-action-text>
                             </v-list-tile-action>
                         </v-list-tile>
-                        <v-divider v-if="index + 1 < day.anime.length"/>
+                        <v-divider v-if="index + 1 < each.anime.length"/>
                     </template>
                 </v-list>
             </v-card>

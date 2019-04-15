@@ -13,6 +13,7 @@
     "search": "Search"
   },
   "calendar": {
+    "today" : "Today",
     "episode": "Episode № {0}",
     "channel": "Channel: {0}"
   },
