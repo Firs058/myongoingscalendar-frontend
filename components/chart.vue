@@ -47,7 +47,8 @@
                                 fontFamily: fontFamily,
                                 fontColor: mainColor,
                                 fontSize: 14,
-                                stepSize: 1
+                                stepSize: 1,
+                                maxTicksLimit: 10
                             },
                             gridLines: {
                                 display: false
