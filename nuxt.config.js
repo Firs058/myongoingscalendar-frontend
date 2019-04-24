@@ -35,6 +35,7 @@ module.exports = {
         '~/plugins/async.js'
     ],
     axios: {
+        retry: true,
         proxy: true,
         baseURL: baseUrl,
         browserBaseURL: baseUrl,

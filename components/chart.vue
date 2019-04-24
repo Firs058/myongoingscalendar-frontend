@@ -62,7 +62,8 @@
                         backgroundColor: '#616161',
                         cornerRadius: 2,
                         caretSize: 0,
-                        displayColors: false
+                        displayColors: false,
+                        mode: 'index'
                     }
                 }
             }

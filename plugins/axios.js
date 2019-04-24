@@ -20,7 +20,7 @@ export default ({store, $axios, redirect}) => {
 
         return instance.post('/api/auth/refresh', {token: refreshToken})
             .then(response => {
-                if (response.data.status.code === 11017 || response.data.status.code === 11012) {
+                if (response.data.status.code === 11017) {
                     store.dispatch('setUserToDefault');
                     redirect('/login');
                 } else {
