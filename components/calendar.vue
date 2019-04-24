@@ -10,7 +10,7 @@
                 xs12 md6 lg4 xl3
         >
             <v-subheader :class="each.day.today ? 'orange--text text-capitalize' : each.day.weekend ? 'red--text text-capitalize' : 'text-capitalize'">{{each.day.today ? $t('calendar.today') : each.day.date}}</v-subheader>
-            <v-card>
+            <v-card flat>
                 <v-list
                         three-line
                         subheader

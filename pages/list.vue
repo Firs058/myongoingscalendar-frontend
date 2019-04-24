@@ -1,5 +1,5 @@
 <template>
-    <v-container article :class="$device.isMobile ? 'grid-list-xs pa-0' : 'grid-list-lg pt-0'">
+    <v-container article :class="$device.isMobile ? 'grid-list-xs' : 'grid-list-lg pt-0'">
         <v-layout row wrap>
             <v-flex xs12>
                 <v-text-field

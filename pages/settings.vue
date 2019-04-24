@@ -1,5 +1,5 @@
 <template>
-    <v-container fill-height article :class="$device.isMobile ? 'grid-list-xs pa-0' : 'grid-list-lg pt-0'">
+    <v-container fill-height article :class="$device.isMobile ? 'pa-0' : 'grid-list-lg pt-0'">
         <v-layout align-center justify-center text-xs-center>
             <v-flex xs12 sm12 md8 lg6 xl6>
                 <div v-if="!user.authenticated">
