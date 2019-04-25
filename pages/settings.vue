@@ -1,7 +1,7 @@
 <template>
     <v-container fill-height article :class="$device.isMobile ? 'pa-0' : 'grid-list-lg pt-0'">
         <v-layout align-center justify-center text-xs-center>
-            <v-flex xs12 sm12 md8 lg6 xl6>
+            <v-flex xs12 md10 lg8 xl6>
                 <div v-if="!user.authenticated">
                     <v-alert
                             type="info"
@@ -265,12 +265,20 @@
                                 <v-list-tile-sub-title>{{$t('settings.time.time_format.sub_title')}}
                                 </v-list-tile-sub-title>
                             </v-list-tile-content>
+                            <v-list-tile-action
+                                    v-if="!$device.isMobile"
+                                    style="min-width: 300px;"
+                            >
+                                <v-select
+                                        :items="timeFormats"
+                                        v-model="fullTimeFormat"
+                                />
+                            </v-list-tile-action>
                         </v-list-tile>
-                        <v-list-tile>
+                        <v-list-tile v-if="$device.isMobile">
                             <v-select
                                     :items="timeFormats"
                                     v-model="fullTimeFormat"
-                                    :label="$t('selects.label')"
                             />
                         </v-list-tile>
                         <v-divider/>
@@ -281,13 +289,23 @@
                                 <v-list-tile-sub-title>{{$t('settings.time.timezone.sub_title')}}
                                 </v-list-tile-sub-title>
                             </v-list-tile-content>
+                            <v-list-tile-action
+                                    v-if="!$device.isMobile"
+                                    style="min-width: 300px;"
+                            >
+                                <v-autocomplete
+                                        :items="$store.getters.timezonesListEmpty ? [timezone] : timezones"
+                                        @click.native="checkAndDownloadTimezones"
+                                        v-model="timezone"
+                                        :loading="timezonesLoading"
+                                />
+                            </v-list-tile-action>
                         </v-list-tile>
-                        <v-list-tile>
+                        <v-list-tile v-if="$device.isMobile">
                             <v-autocomplete
                                     :items="$store.getters.timezonesListEmpty ? [timezone] : timezones"
-                                    @click="checkAndDownloadTimezones"
+                                    @click.native="checkAndDownloadTimezones"
                                     v-model="timezone"
-                                    :label="$t('selects.label')"
                                     :loading="timezonesLoading"
                             />
                         </v-list-tile>
