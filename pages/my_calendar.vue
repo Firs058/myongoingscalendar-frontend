@@ -19,12 +19,10 @@
 
     export default {
         async asyncData({app, store}) {
-            const data = await app.$axios.$post(
-                store.getters.hideRepeats
-                    ? 'api/user/my_calendar_min'
-                    : 'api/user/my_calendar',
-                {userTimezone: store.getters.timezone}
-            );
+            const data = await app.$axios.$post('api/user/calendar', {
+                timezone: store.getters.timezone,
+                hideRepeats: store.getters.hideRepeats
+            });
             return {calendar: data.payload}
         },
         head() {
