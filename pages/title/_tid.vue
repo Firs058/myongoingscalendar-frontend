@@ -190,62 +190,66 @@
                             class="pa-3"
                             :color="dark ? 'grey darken-1' : 'grey lighten-3'"
                     >
-                        <line-chart :chartData="title.chartData"/>
+                        <lazy-hydrate when-visible>
+                            <line-chart :chartData="title.chartData"/>
+                        </lazy-hydrate>
                     </v-sheet>
                     <v-sheet :color="dark ? 'grey darken-2' : null">
-                        <v-card color="transparent" flat>
-                            <v-toolbar dense card tabs color="transparent">
-                                <v-tabs
-                                        centered
-                                        color="transparent"
-                                        v-model="broadcast.active"
-                                        fixed-tabs
-                                >
-                                    <v-tab
+                        <lazy-hydrate when-visible>
+                            <v-card color="transparent" flat>
+                                <v-toolbar dense card tabs color="transparent">
+                                    <v-tabs
+                                            centered
+                                            color="transparent"
+                                            v-model="broadcast.active"
+                                            fixed-tabs
+                                    >
+                                        <v-tab
+                                                v-for="i in broadcast.tabs"
+                                                :key="i.name"
+                                                :href="'#tab-' + i.name"
+                                        >
+                                            {{$t(`title.schedule.tabs.${i.name}`)}}
+                                        </v-tab>
+                                    </v-tabs>
+                                </v-toolbar>
+                                <v-tabs-items v-model="broadcast.active">
+                                    <v-tab-item
                                             v-for="i in broadcast.tabs"
                                             :key="i.name"
-                                            :href="'#tab-' + i.name"
+                                            :value="'tab-' + i.name"
                                     >
-                                        {{$t(`title.schedule.tabs.${i.name}`)}}
-                                    </v-tab>
-                                </v-tabs>
-                            </v-toolbar>
-                            <v-tabs-items v-model="broadcast.active">
-                                <v-tab-item
-                                        v-for="i in broadcast.tabs"
-                                        :key="i.name"
-                                        :value="'tab-' + i.name"
-                                >
-                                    <v-data-table
-                                            :headers="tableHeaders"
-                                            :items="i.items"
-                                            hide-actions
-                                    >
-                                        <template
-                                                slot="items"
-                                                slot-scope="props"
+                                        <v-data-table
+                                                :headers="tableHeaders"
+                                                :items="i.items"
+                                                hide-actions
                                         >
-                                            <tr>
-                                                <td>{{ props.item.date }}</td>
-                                                <td>{{ [props.item.time, ["HH:mm"]] |
-                                                    moment(fullTimeFormat)
-                                                    }}
-                                                    <span
-                                                            v-if="props.item.shift !== '0'"
-                                                            class="error--text"
-                                                    >
+                                            <template
+                                                    slot="items"
+                                                    slot-scope="props"
+                                            >
+                                                <tr>
+                                                    <td>{{ props.item.date }}</td>
+                                                    <td>{{ [props.item.time, ["HH:mm"]] |
+                                                        moment(fullTimeFormat)
+                                                        }}
+                                                        <span
+                                                                v-if="props.item.shift !== '0'"
+                                                                class="error--text"
+                                                        >
                                                                     {{'&nbsp' + props.item.shift}}
                                                                 </span>
-                                                </td>
-                                                <td>{{ props.item.channel }}</td>
-                                                <td>{{ props.item.episode }}</td>
-                                                <td>{{ props.item.episodename }}</td>
-                                            </tr>
-                                        </template>
-                                    </v-data-table>
-                                </v-tab-item>
-                            </v-tabs-items>
-                        </v-card>
+                                                    </td>
+                                                    <td>{{ props.item.channel }}</td>
+                                                    <td>{{ props.item.episode }}</td>
+                                                    <td>{{ props.item.episodename }}</td>
+                                                </tr>
+                                            </template>
+                                        </v-data-table>
+                                    </v-tab-item>
+                                </v-tabs-items>
+                            </v-card>
+                        </lazy-hydrate>
                         <v-dialog
                                 v-model="deletion"
                                 max-width="300"
@@ -265,55 +269,57 @@
                         </v-dialog>
                     </v-sheet>
                     <v-sheet :color="dark ? 'grey darken-3' : 'grey lighten-4'" :dark="dark" class="pb-5">
-                        <v-card color="transparent" flat>
-                            <v-container fluid>
-                                <v-tooltip top>
-                                    <v-btn
-                                            slot="activator"
-                                            class="success"
-                                            @click.native.stop="openDialog"
-                                            :disabled="!authenticated"
-                                    >
-                                        {{$t('buttons.add_comment')}}
-                                    </v-btn>
-                                    <span>{{authenticated ? $t('buttons.add_comment') : $t('tooltips.you_must_be_logged_in')}}</span>
-                                </v-tooltip>
-                            </v-container>
-                            <v-container
-                                    v-if="!!comments.nodes && comments.nodes.length"
-                                    fluid
-                                    :class="!$device.isDesktop ? 'pa-0' : null"
-                            >
-                                <v-layout row wrap>
-                                    <v-flex xs12 v-for="(comment, index) in comments.nodes"
-                                            :key="index">
-                                        <comment :comment="comment"/>
-                                    </v-flex>
-                                </v-layout>
-                            </v-container>
-                            <v-container
-                                    fluid
-                                    :class="!$device.isDesktop ? 'pa-0' : null"
-                                    v-if="comments.more > 0"
-                            >
-                                <v-layout row wrap align-center justify-center>
+                        <lazy-hydrate when-visible>
+                            <v-card color="transparent" flat>
+                                <v-container fluid>
                                     <v-tooltip top>
                                         <v-btn
                                                 slot="activator"
-                                                flat
-                                                @click.native.stop="downloadComments"
-                                                :loading="comments.loading"
+                                                class="success"
+                                                @click.native.stop="openDialog"
+                                                :disabled="!authenticated"
                                         >
-                                            <v-icon left>arrow_drop_down</v-icon>
-                                            {{ $t('comments.show_more.2', [comments.more])}}
-                                            <v-icon right>arrow_drop_down</v-icon>
+                                            {{$t('buttons.add_comment')}}
                                         </v-btn>
-                                        <span>{{$t('comments.show_more.1')}}</span>
+                                        <span>{{authenticated ? $t('buttons.add_comment') : $t('tooltips.you_must_be_logged_in')}}</span>
                                     </v-tooltip>
-                                </v-layout>
-                            </v-container>
-                            <comment-dialog/>
-                        </v-card>
+                                </v-container>
+                                <v-container
+                                        v-if="!!comments.nodes && comments.nodes.length"
+                                        fluid
+                                        :class="!$device.isDesktop ? 'pa-0' : null"
+                                >
+                                    <v-layout row wrap>
+                                        <v-flex xs12 v-for="(comment, index) in comments.nodes"
+                                                :key="index">
+                                            <comment :comment="comment"/>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-container>
+                                <v-container
+                                        fluid
+                                        :class="!$device.isDesktop ? 'pa-0' : null"
+                                        v-if="comments.more > 0"
+                                >
+                                    <v-layout row wrap align-center justify-center>
+                                        <v-tooltip top>
+                                            <v-btn
+                                                    slot="activator"
+                                                    flat
+                                                    @click.native.stop="downloadComments"
+                                                    :loading="comments.loading"
+                                            >
+                                                <v-icon left>arrow_drop_down</v-icon>
+                                                {{ $t('comments.show_more.2', [comments.more])}}
+                                                <v-icon right>arrow_drop_down</v-icon>
+                                            </v-btn>
+                                            <span>{{$t('comments.show_more.1')}}</span>
+                                        </v-tooltip>
+                                    </v-layout>
+                                </v-container>
+                                <comment-dialog/>
+                            </v-card>
+                        </lazy-hydrate>
                     </v-sheet>
                 </v-card>
             </v-flex>

@@ -22,6 +22,7 @@ module.exports = {
         {src: '~/plugins/toast.js', mode: 'client'},
         {src: '~/plugins/anime.js', mode: 'client'},
         {src: '~/plugins/sharing.js', mode: 'client'},
+        {src: '~/plugins/scroll.js', mode: 'client'},
         {src: '~/plugins/ga.js', mode: 'client'},
         '~/plugins/axios.js',
         '~/plugins/auth.js',

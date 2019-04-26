@@ -9,6 +9,7 @@ import Chart from '~/components/chart'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueRecaptcha from 'vue-recaptcha'
+import LazyHydrate from 'vue-lazy-hydration';
 
 Vue.component('loading', Loading);
 Vue.component('calendar', Calendar);
@@ -19,3 +20,4 @@ Vue.component('vue-recaptcha', VueRecaptcha);
 Vue.component('comment', Comment);
 Vue.component('comment-dialog', CommentDialog);
 Vue.component('line-chart', Chart);
+Vue.component('lazy-hydrate', LazyHydrate);

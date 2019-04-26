@@ -5,7 +5,7 @@
   "author": "firs058 <firs058@gmail.com>",
   "scripts": {
     "dev": "nuxt",
-    "build": "cross-env NODE_ENV=production nuxt build  --no-lock",
+    "build": "cross-env NODE_ENV=production nuxt build --no-lock",
     "start": "cross-env NODE_ENV=production nuxt start",
     "generate": "nuxt generate",
     "analyze": "nuxt build --analyze"
@@ -35,6 +35,8 @@
     "vue-chartjs": "^3.4.2",
     "vue-clipboard2": "0.3.0",
     "vue-i18n": "^8.10.0",
+    "vue-infinite-loading": "^2.4.4",
+    "vue-lazy-hydration": "^1.0.0-beta.7",
     "vue-moment": "^4.0.0",
     "vue-recaptcha": "^1.1.1",
     "vue-social-sharing": "^2.4.3",

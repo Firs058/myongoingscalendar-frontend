@@ -1,71 +1,57 @@
 <template>
-    <v-container article :class="$device.isMobile ? 'grid-list-xs' : 'grid-list-lg pt-0'">
-        <v-layout row wrap>
-            <v-flex xs12>
-                <v-text-field
-                        v-model="filterInput"
-                        :label="$t('inputs.search.label.2')"
-                        prepend-inner-icon="filter_list"
-                        hide-details
-                        clearable
-                        solo
-                        flat
-                />
-            </v-flex>
-        </v-layout>
-        <v-layout row wrap
-                  v-if="Object.keys(filteredOngoingsList).length"
-                  v-for="dateGroup in showAll ? filteredOngoingsList : filteredOngoingsList.slice(0, showCount)"
-                  :key="dateGroup.dateStart"
+    <lazy-hydrate when-visible>
+        <v-container
+                slot-scope="{ hydrated }"
+                v-if="hydrated"
+                article
+                :class="$device.isMobile ? 'grid-list-xs' : 'grid-list-lg pt-0'"
         >
-            <v-flex xs12>
-                <v-subheader>{{dateGroup.dateStart}}</v-subheader>
-            </v-flex>
-            <v-layout row wrap justify-left class="ma-0">
-                <v-flex
-                        v-for="anime in dateGroup.animes"
-                        :key="anime.tid"
-                        xs6 md3 lg2
-                >
-                    <card :anime="anime"/>
+            <v-layout row wrap>
+                <v-flex xs12>
+                    <v-text-field
+                            v-model="filterInput"
+                            :label="$t('inputs.search.label.2')"
+                            prepend-inner-icon="filter_list"
+                            hide-details
+                            clearable
+                            solo
+                            flat
+                    />
                 </v-flex>
             </v-layout>
-        </v-layout>
-        <v-layout
-                row wrap align-center justify-center
-                v-if="!showAll && filteredOngoingsList.slice(0, showCount).length >= showCount"
-                pb-5
-        >
-            <v-flex xs12>
-                <v-tooltip top>
-                    <v-btn
-                            :class="dark ? 'grey darken-3' : 'grey lighten-3'"
-                            block
-                            slot="activator"
-                            flat
-                            @click.native="showAll = !showAll"
-                    >
-                        <v-icon left>arrow_drop_down</v-icon>
-                        {{$t('list.show_old')}}
-                        <v-icon right>arrow_drop_down</v-icon>
-                    </v-btn>
-                    <span>{{$t('list.show_old')}}</span>
-                </v-tooltip>
-            </v-flex>
-        </v-layout>
-        <v-layout
-                v-if="!Object.keys(filteredOngoingsList).length"
-                fluid
-        >
-            <v-alert
-                    color="info"
-                    icon="info"
-                    value="true"
+            <v-layout row wrap
+                      v-if="Object.keys(filteredOngoingsList).length"
+                      v-for="dateGroup in filteredOngoingsList.slice(0, showCount)"
+                      :key="dateGroup.dateStart"
             >
-                {{$t("alerts.nothing_found")}}
-            </v-alert>
-        </v-layout>
-    </v-container>
+                <v-flex xs12>
+                    <v-subheader>{{dateGroup.dateStart}}</v-subheader>
+                </v-flex>
+                <v-layout row wrap justify-left class="ma-0">
+                    <v-flex
+                            v-for="anime in dateGroup.animes"
+                            :key="anime.tid"
+                            xs6 md3 lg2
+                    >
+                        <card :anime="anime"/>
+                    </v-flex>
+                </v-layout>
+            </v-layout>
+            <infinite-loading @infinite="infiniteHandler"/>
+            <v-layout
+                    v-if="!Object.keys(filteredOngoingsList).length"
+                    fluid
+            >
+                <v-alert
+                        color="info"
+                        icon="info"
+                        value="true"
+                >
+                    {{$t("alerts.nothing_found")}}
+                </v-alert>
+            </v-layout>
+        </v-container>
+    </lazy-hydrate>
 </template>
 
 <script>
@@ -73,8 +59,7 @@
 
     export default {
         data: () => ({
-            showCount: 10,
-            showAll: false,
+            showCount: 4,
             filterInput: ''
         }),
         async asyncData({app, store}) {
@@ -132,6 +117,16 @@
                         content: this.globalImage
                     }
                 ]
+            }
+        },
+        methods: {
+            infiniteHandler($state) {
+                if (this.filteredOngoingsList.slice(0, this.showCount).length < this.filteredOngoingsList.length) {
+                    this.showCount++;
+                    $state.loaded();
+                } else {
+                    $state.complete();
+                }
             }
         },
         computed: {

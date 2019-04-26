@@ -3,6 +3,7 @@
         <calendar
                 v-if="calendar.length"
                 :calendar="calendar"
+                :showAll="true"
         />
         <v-layout v-else align-center justify-center text-xs-center>
             <v-flex xs12 class="mt-4">
