@@ -55,20 +55,18 @@
                                     </v-subheader>
                                     <v-layout v-if="!filters.genres.added" row align-center>
                                         <v-flex>
-                                            <v-flex xs12>
-                                                <v-select
-                                                        v-model="filters.genres.selected"
-                                                        :items="genresList"
-                                                        attach
-                                                        chips
-                                                        :label="$t('search.extension.select_genres')"
-                                                        multiple
-                                                        item-text="name"
-                                                        item-value="id"
-                                                        clearable
-                                                        deletable-chips
-                                                ></v-select>
-                                            </v-flex>
+                                            <v-select
+                                                    v-model="filters.genres.selected"
+                                                    :items="genresList"
+                                                    attach
+                                                    chips
+                                                    :label="$t('search.extension.select_genres')"
+                                                    multiple
+                                                    item-text="name"
+                                                    item-value="id"
+                                                    clearable
+                                                    deletable-chips
+                                            ></v-select>
                                         </v-flex>
                                         <v-flex shrink>
                                             <v-tooltip top>
@@ -88,7 +86,7 @@
                                     <v-subheader v-if="!filters.scores.added">{{$t('search.chips.scores')}}
                                     </v-subheader>
                                     <v-layout v-if="!filters.scores.added" row>
-                                        <v-flex shrink style="width: 40px">
+                                        <v-flex shrink style="width: 50px">
                                             <v-text-field
                                                     v-model="filters.scores.range[0]"
                                                     class="mt-0"
@@ -105,7 +103,7 @@
                                                     step="0.1"
                                             ></v-range-slider>
                                         </v-flex>
-                                        <v-flex shrink style="width: 40px">
+                                        <v-flex shrink style="width: 50px">
                                             <v-text-field
                                                     v-model="filters.scores.range[1]"
                                                     class="mt-0"
