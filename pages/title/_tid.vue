@@ -59,7 +59,7 @@
                                         </v-tooltip>
                                         <v-spacer/>
                                     </v-card-actions>
-                                    <v-card-actions>
+                                    <v-card-actions v-if="!title.outdated">
                                         <v-spacer/>
                                         <v-tooltip top>
                                             <v-btn
@@ -92,6 +92,15 @@
                             </v-flex>
                         </v-layout>
                     </v-img>
+                    <v-alert
+                            v-if="title.outdated"
+                            class="ma-0"
+                            :value="true"
+                            color="info"
+                            icon="new_releases"
+                    >
+                        {{$t('title.information.outdated')}}
+                    </v-alert>
                     <v-sheet class="py-5 px-3" :light="dark" color="grey lighten-2">
                         <v-layout wrap>
                             <v-flex xs12 md6>

@@ -22,7 +22,8 @@
   },
   "title": {
     "information": {
-      "episodes": " episodes"
+      "episodes": " episodes",
+      "outdated": "This page info may be outdated"
     },
     "schedule": {
       "subheader": "Schedule",
@@ -393,6 +394,7 @@
     "10030": "Already reported",
     "10031": "Access is available only through a social network",
     "10032": "Password recovery is not available for accounts created through a social network",
+    "10033": "You can't interact with outdated anime",
     "11000": "OK",
     "11001": "OK, check you mail to activate account",
     "11002": "Account successful activated",
