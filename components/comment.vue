@@ -12,7 +12,7 @@
             </v-list-tile-avatar>
             <v-list-tile-content>
                 <v-list-tile-title>{{comment.user.nickname}}</v-list-tile-title>
-                <v-list-tile-sub-title class="grey--text">{{ comment.added | moment('timezone', timezone, 'from') }}
+                <v-list-tile-sub-title class="grey--text">{{ comment.added | moment('timezone', settings.timezone, 'from') }}
                 </v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action v-show="showReport">
@@ -209,9 +209,8 @@
             }
         },
         computed: mapGetters([
-            'dark',
-            'authenticated',
-            'timezone'
+            'settings',
+            'authenticated'
         ])
     }
 </script>

@@ -10,8 +10,8 @@
     export default {
         async asyncData({app, store}) {
             const data = await app.$axios.$post('api/public/calendar', {
-                timezone: store.getters.timezone,
-                hideRepeats: store.getters.hideRepeats
+                timezone: store.getters.settings.timezone,
+                hideRepeats: store.getters.settings.hideRepeats
             });
             store.dispatch('setCalendar', data.payload)
         },
@@ -72,8 +72,6 @@
         computed: {
             ...mapGetters([
                 'authenticated',
-                'hideRepeats',
-                'timezone',
                 'calendar'
             ]),
             globalUrl() {

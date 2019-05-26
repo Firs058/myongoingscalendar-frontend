@@ -1,7 +1,7 @@
 <template>
     <v-app
-            :dark="dark"
-            :light="!dark"
+            :dark="settings.dark"
+            :light="!settings.dark"
     >
         <v-navigation-drawer
                 :class="{transparent : !$device.isMobile}"
@@ -19,7 +19,7 @@
                      @click.stop="$router.push('/')"
                 >
                     <div class="title text-xs-center mx-3">MyOngoingsCalendar</div>
-                    <div class="grey--text text-xs-center mx-3">{{timezone}}</div>
+                    <div class="grey--text text-xs-center mx-3">{{settings.timezone}}</div>
                 </div>
                 <v-list-tile
                         ripple
@@ -306,7 +306,7 @@
                     {innerHTML: 'This webapp requires JavaScript'}
                 ],
                 htmlAttrs: {
-                    lang: this.lang
+                    lang: this.settings.lang
                 }
             }
         },
@@ -323,13 +323,10 @@
         },
         computed: {
             ...mapGetters([
-                'dark',
                 'user',
                 'settings',
                 'toast',
-                'lang',
                 'lastQuery',
-                'timezone',
                 'admin',
                 'authenticated'
             ])

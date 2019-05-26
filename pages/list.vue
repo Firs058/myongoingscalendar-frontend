@@ -131,7 +131,6 @@
         },
         computed: {
             ...mapGetters([
-                'dark',
                 'ongoingsList'
             ]),
             filteredOngoingsList() {

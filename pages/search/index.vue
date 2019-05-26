@@ -27,7 +27,7 @@
                             <div class="pa-2">
                                 <v-chip
                                         v-if="currentQuery"
-                                        :color="`teal ${dark ? 'darken-3' : 'lighten-3'}`"
+                                        :color="`teal ${settings.dark ? 'darken-3' : 'lighten-3'}`"
                                         close
                                         @input="currentQuery = ''"
                                 >
@@ -37,7 +37,7 @@
                                         v-for="filter in filters"
                                         :key="filter.name"
                                         v-if="filter.added"
-                                        :color="`${filter.color} ${dark ? 'darken-3' : 'lighten-3'}`"
+                                        :color="`${filter.color} ${settings.dark ? 'darken-3' : 'lighten-3'}`"
                                         close
                                         @input="filter.added = false, filter.selected ? filters.genres.selected = [] : null"
                                 >
@@ -309,7 +309,7 @@
         },
         computed: {
             ...mapGetters([
-                'dark',
+                'settings',
                 'supply'
             ]),
             selected() {

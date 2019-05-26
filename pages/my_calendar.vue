@@ -21,8 +21,8 @@
     export default {
         async asyncData({app, store}) {
             const data = await app.$axios.$post('api/user/calendar', {
-                timezone: store.getters.timezone,
-                hideRepeats: store.getters.hideRepeats
+                timezone: store.getters.settings.timezone,
+                hideRepeats: store.getters.settings.hideRepeats
             });
             return {calendar: data.payload}
         },
@@ -39,9 +39,7 @@
         },
         computed:
             mapGetters([
-                'authenticated',
-                'hideRepeats',
-                'timezone'
+                'authenticated'
             ]),
         middleware: 'authenticated',
         deactivated() {

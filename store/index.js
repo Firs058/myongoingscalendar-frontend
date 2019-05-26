@@ -6,16 +6,25 @@ export const state = () => ({
         authenticated: false,
         email: '',
         social: false,
-        roles: ['ROLE_USER']
+        roles: []
     },
     settings: {
-        timezone: '',
-        avatar: '',
-        nickname: '',
-        dark: true,
-        hideRepeats: true,
-        fullTimeFormat: true,
-        lang: 'en'
+        user: {
+            avatar: '',
+            nickname: '',
+            timezone: '',
+            dark: true,
+            hideRepeats: true,
+            fullTimeFormat: true,
+            lang: 'en'
+        },
+        guest: {
+            timezone: '',
+            dark: true,
+            hideRepeats: true,
+            fullTimeFormat: true,
+            lang: 'en'
+        }
     },
     toast: {
         timeout: 0,
@@ -47,11 +56,12 @@ export const state = () => ({
 
 export const mutations = {
     SET_USER: (state, obj) => state.user = obj,
-    SET_DARK: (state, bool) => state.settings.dark = bool,
-    SET_HIDE_REPEATS: (state, bool) => state.settings.hideRepeats = bool,
-    SET_TIMEZONE: (state, string) => state.settings.timezone = string,
-    SET_FULL_TIME_FORMAT: (state, bool) => state.settings.fullTimeFormat = bool,
-    SET_SETTINGS: (state, obj) => state.settings = obj,
+    SET_DARK: (state, bool) => state.user.authenticated ? state.settings.user.dark = bool : state.settings.guest.dark = bool,
+    SET_HIDE_REPEATS: (state, bool) => state.user.authenticated ? state.settings.user.hideRepeats = bool : state.settings.guest.hideRepeats = bool,
+    SET_TIMEZONE: (state, string) => state.user.authenticated ? state.settings.user.timezone = string : state.settings.guest.timezone = string,
+    SET_LANG: (state, string) => state.user.authenticated ? state.settings.user.lang = string : state.settings.guest.lang = string,
+    SET_FULL_TIME_FORMAT: (state, bool) => state.user.authenticated ? state.settings.user.fullTimeFormat = bool : state.settings.guest.fullTimeFormat = bool,
+    SET_SETTINGS: (state, obj) => state.settings.user = obj,
     SET_TOAST: (state, obj) => state.toast = obj,
     SET_TOAST_ACTIVE: (state, bool) => state.toast.active = bool,
     SET_SEARCH_SUPPLY: (state, obj) => state.search.global.supply = obj,
@@ -62,9 +72,9 @@ export const mutations = {
     SET_ONGOINGS_LIST: (state, obj) => state.ongoingsList = obj,
     SET_CALENDAR: (state, obj) => state.calendar = obj,
     SET_TIMEZONES: (state, obj) => state.timezones = obj,
-    SET_LANG: (state, string) => state.settings.lang = string,
     SET_TOKENS: (state, obj) => state.tokens = obj,
-    SET_TEMP_TOKENS: (state, obj) => state.tempTokens = obj
+    SET_TEMP_TOKENS: (state, obj) => state.tempTokens = obj,
+    SET_NICKNAME: (state, string) => state.settings.user.nickname = string
 };
 
 export const actions = {
@@ -106,24 +116,20 @@ export const actions = {
     setTimezones: ({commit}, obj) => commit('SET_TIMEZONES', obj),
     setLang: ({commit}, string) => commit('SET_LANG', string),
     setTokens: ({commit}, obj) => commit('SET_TOKENS', obj),
-    setTempTokens: ({commit}, obj) => commit('SET_TEMP_TOKENS', obj)
+    setTempTokens: ({commit}, obj) => commit('SET_TEMP_TOKENS', obj),
+    setNickname: ({commit}, string) => commit('SET_NICKNAME', string)
 };
 
 export const getters = {
-    dark: state => state.settings.dark,
     ongoingsList: state => state.ongoingsList,
     ongoingsListEmpty: state => !!state.ongoingsList && !Object.keys(state.ongoingsList).length,
     timezonesListEmpty: state => !!state.timezones && !Object.keys(state.timezones).length,
     authenticated: state => state.user.authenticated,
-    hideRepeats: state => state.settings.hideRepeats,
-    timezone: state => state.settings.timezone,
+    settings: state => state.user.authenticated ? state.settings.user : state.settings.guest,
     calendar: state => state.calendar,
-    settings: state => state.settings,
-    fullTimeFormat: state => state.settings.fullTimeFormat ? 'HH:mm' : 'LT',
     user: state => state.user,
     admin: state => state.user.roles.includes('ROLE_ADMIN'),
     toast: state => state.toast,
-    lang: state => state.settings.lang,
     supply: state => state.search.global.supply,
     supplyListEmpty: state => !!state.search.global.supply && !Object.keys(state.search.global.supply).length,
     lastQuery: state => state.search.global.lastQuery,

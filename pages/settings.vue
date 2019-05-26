@@ -352,7 +352,7 @@
                     this.nickname.dialog = false;
                     this.$auth.changeNickname({nickname: this.nickname.value})
                         .then(code => {
-                            store.dispatch('setNickname', this.nickname.value);
+                            this.$store.dispatch('setNickname', this.nickname.value);
                             this.$toast.showToast(code)
                         })
                         .catch(code => this.$toast.showToast(code))
@@ -368,7 +368,7 @@
             },
             openUrl: url => window.open(url),
             saveSettings() {
-                if (this.user.authenticated) this.$auth.saveSettings(this.$store.state.settings)
+                if (this.user.authenticated) this.$auth.saveSettings(this.$store.getters.settings)
             },
             setLang(code) {
                 this.$store.dispatch('setLang', code);
@@ -402,7 +402,7 @@
             },
             settings: {
                 get() {
-                    return this.$store.state.settings
+                    return this.$store.getters.settings
                 }
             },
             timezones: {
@@ -412,7 +412,7 @@
             },
             dark: {
                 get() {
-                    return this.$store.state.settings.dark
+                    return this.$store.getters.settings.dark
                 },
                 set(value) {
                     this.$store.dispatch('setDark', value);
@@ -421,7 +421,7 @@
             },
             hideRepeats: {
                 get() {
-                    return this.$store.state.settings.hideRepeats
+                    return this.$store.getters.settings.hideRepeats
                 },
                 set(value) {
                     this.$store.dispatch('setCalendar', []);
@@ -431,7 +431,7 @@
             },
             timezone: {
                 get() {
-                    return this.$store.state.settings.timezone
+                    return this.$store.getters.settings.timezone
                 },
                 set(value) {
                     this.$store.dispatch('setTimezone', value);
@@ -446,17 +446,17 @@
             },
             fullTimeFormat: {
                 get: function () {
-                    return this.$store.state.settings.fullTimeFormat
+                    return this.$store.getters.settings.fullTimeFormat
                         ? this.$t("settings.time.time_format.24hour")
                         : this.$t("settings.time.time_format.12hour")
                 },
                 set: function (value) {
+                    this.$store.dispatch('serFullTimeFormat', value === this.$t("settings.time.time_format.24hour"))
                     this.saveSettings();
-                    return this.$store.dispatch('serFullTimeFormat', value === this.$t("settings.time.time_format.24hour"))
                 }
             },
             langImage() {
-                return this.langs.filter(o => o.code === this.$store.state.settings.lang)[0].img
+                return this.langs.filter(o => o.code === this.$store.getters.settings.lang)[0].img
             }
         },
         activated() {

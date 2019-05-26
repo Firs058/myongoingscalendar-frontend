@@ -2,14 +2,14 @@
     <v-card
             nuxt
             :to="`/title/${anime.tid}`"
-            :style="`backgroundColor: ${this.anime.image.hex ? this.dark ? this.anime.image.hex.dark : this.anime.image.hex.light : null}`"
+            :style="`backgroundColor: ${this.anime.image.hex ? this.settings.dark ? this.anime.image.hex.dark : this.anime.image.hex.light : null}`"
             hover
             ripple
     >
         <v-img
                 :src="anime.image.full"
                 aspect-ratio="0.7"
-                :gradient="`to bottom, transparent 0%, transparent 40%, ${this.anime.image.hex ? this.dark ? this.anime.image.hex.dark : this.anime.image.hex.light : 'rgba(0, 0, 0, 0.4)'} 100%`"
+                :gradient="`to bottom, transparent 0%, transparent 40%, ${this.anime.image.hex ? this.settings.dark ? this.anime.image.hex.dark : this.anime.image.hex.light : 'rgba(0, 0, 0, 0.4)'} 100%`"
         >
             <v-layout align-start justify-end column fill-height class="ma-0">
                 <v-flex v-if="anime.recommended">
@@ -52,7 +52,7 @@
         ],
         computed: {
             ...mapGetters([
-                'dark'
+                'settings'
             ])
         }
     }

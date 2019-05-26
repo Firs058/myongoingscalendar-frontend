@@ -42,8 +42,8 @@
                                     </v-list-tile-sub-title>
                                 </v-list-tile-content>
                                 <v-list-tile-action>
-                                    <v-list-tile-action-text :class="dark ? 'white--text' : 'black--text'">
-                                        {{[anime.time, ["HH:mm"]] | moment(fullTimeFormat)}}
+                                    <v-list-tile-action-text :class="settings.dark ? 'white--text' : 'black--text'">
+                                        {{[anime.time, ["HH:mm"]] | moment(settings.fullTimeFormat ? 'HH:mm' : 'LT' )}}
                                         <span
                                                 v-if="anime.shift !== '0'"
                                                 class="error--text"
@@ -83,8 +83,7 @@
         },
         computed: {
             ...mapGetters([
-                'dark',
-                'fullTimeFormat'
+                'settings'
             ]),
             raiseCount() {
                 switch (this.$vuetify.breakpoint.name) {

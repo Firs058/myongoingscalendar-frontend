@@ -7,10 +7,10 @@
         props: ['chartData'],
         computed: {
             ...mapGetters([
-                'dark'
+                'settings'
             ]),
             chartOptions() {
-                const mainColor = this.dark ? 'white' : 'black';
+                const mainColor = this.settings.dark ? 'white' : 'black';
                 const fontFamily = "'Roboto', sans-serif";
                 return {
                     responsive: true,
@@ -39,7 +39,7 @@
                             },
                             gridLines: {
                                 drawBorder: false,
-                                color: this.dark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)'
+                                color: this.settings.dark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)'
                             }
                         }],
                         xAxes: [{

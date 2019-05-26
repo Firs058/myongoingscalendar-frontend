@@ -156,7 +156,7 @@
     },
     "search": {
       "label": {
-        "1": "Search by ja or en name",
+        "1": "Search by name",
         "2": "Filter by name"
       }
     },
@@ -340,7 +340,7 @@
   },
   "alerts": {
     "nothing_found": "Nothing found",
-    "settings_note": "Note! Without logged in settings will not be saved to server. So, you can't sync it between browsers or other devices."
+    "settings_note": "Note! These settings are temporary. Please make an account to remember these permanently"
   },
   "terms": {
     "headline": "Terms of Use"

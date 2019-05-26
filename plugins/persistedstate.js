@@ -5,7 +5,7 @@ import {Base64} from 'js-base64';
 
 export default ({store, req}) => {
     createPersistedState({
-        paths: ['tokens'],
+        paths: ['tokens', 'settings.guest'],
         storage: {
             getItem: (key) => Base64.decode(process.client ? Cookies.getJSON(key) : cookie.parse(req.headers.cookie || '')[key]),
             setItem: (key, value) => Cookies.set(key, Base64.encode(value), {expires: 365}),

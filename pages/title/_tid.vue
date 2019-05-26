@@ -15,7 +15,7 @@
                                 row
                                 wrap
                                 fill-height
-                                :style="`background:linear-gradient(to top, ${dark ? title.image.hex ? title.image.hex.dark : 'rgba(0,0,0,0.5)' : title.image.hex ? title.image.hex.light : 'rgba(255,255,255,0.5)'}, ${dark ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'});`"
+                                :style="`background:linear-gradient(to top, ${settings.dark ? title.image.hex ? title.image.hex.dark : 'rgba(0,0,0,0.5)' : title.image.hex ? title.image.hex.light : 'rgba(255,255,255,0.5)'}, ${settings.dark ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'});`"
                         >
                             <v-flex xs12 sm6>
                                 <v-card color="transparent" flat>
@@ -101,7 +101,7 @@
                     >
                         {{$t('title.information.outdated')}}
                     </v-alert>
-                    <v-sheet class="py-5 px-3" :light="dark" color="grey lighten-2">
+                    <v-sheet class="py-5 px-3" :light="settings.dark" color="grey lighten-2">
                         <v-layout wrap>
                             <v-flex xs12 md6>
                                 <v-card color="transparent" flat>
@@ -197,13 +197,13 @@
                     <v-sheet
                             v-if="showChart && title.chartData.datasets.length"
                             class="pa-3"
-                            :color="dark ? 'grey darken-1' : 'grey lighten-3'"
+                            :color="settings.dark ? 'grey darken-1' : 'grey lighten-3'"
                     >
                         <lazy-hydrate when-visible>
                             <line-chart :chartData="title.chartData"/>
                         </lazy-hydrate>
                     </v-sheet>
-                    <v-sheet :color="dark ? 'grey darken-2' : null">
+                    <v-sheet :color="settings.dark ? 'grey darken-2' : null">
                         <lazy-hydrate when-visible>
                             <v-card color="transparent" flat>
                                 <v-toolbar dense card tabs color="transparent">
@@ -240,7 +240,7 @@
                                                 <tr>
                                                     <td>{{ props.item.date }}</td>
                                                     <td>{{ [props.item.time, ["HH:mm"]] |
-                                                        moment(fullTimeFormat)
+                                                        moment(settings.fullTimeFormat ? 'HH:mm' : 'LT')
                                                         }}
                                                         <span
                                                                 v-if="props.item.shift !== '0'"
@@ -277,7 +277,7 @@
                             </v-card>
                         </v-dialog>
                     </v-sheet>
-                    <v-sheet :color="dark ? 'grey darken-3' : 'grey lighten-4'" :dark="dark" class="pb-5">
+                    <v-sheet :color="settings.dark ? 'grey darken-3' : 'grey lighten-4'" :dark="settings.dark" class="pb-5">
                         <lazy-hydrate when-visible>
                             <v-card color="transparent" flat>
                                 <v-container fluid>
@@ -351,7 +351,7 @@
             return /^\d+$/.test(params.tid)
         },
         async asyncData({params, app, store}) {
-            const data = await app.$axios.$post(store.getters.authenticated ? `api/user/title/${params.tid}` : `api/public/title/${params.tid}`, {timezone: store.state.settings.timezone});
+            const data = await app.$axios.$post(store.getters.authenticated ? `api/user/title/${params.tid}` : `api/public/title/${params.tid}`, {timezone: store.getters.settings.timezone});
             return {
                 tid: params.tid,
                 title: data.payload.title,
@@ -502,10 +502,8 @@
         },
         computed: {
             ...mapGetters([
-                'dark',
-                'authenticated',
-                'fullTimeFormat',
-                'timezone'
+                'settings',
+                'authenticated'
             ]),
             globalTitle() {
                 return this.title.en ? this.title.en : this.title.ja
