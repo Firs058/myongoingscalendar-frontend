@@ -348,18 +348,18 @@
         }),
         methods: {
             submitNickname() {
-                if (this.$refs.nicknameForm.validate()) {
+                if (this.user.authenticated && this.$refs.nicknameForm.validate()) {
                     this.nickname.dialog = false;
                     this.$auth.changeNickname({nickname: this.nickname.value})
                         .then(code => {
-                            this.$store.dispatch('setNickname', this.nickname.value);
+                            this.$store.dispatch('setSetting', {name: 'nickname', value: this.nickname.value});
                             this.$toast.showToast(code)
                         })
                         .catch(code => this.$toast.showToast(code))
                 }
             },
             submitPassword() {
-                if (this.$refs.passwordForm.validate()) {
+                if (this.user.authenticated && this.$refs.passwordForm.validate()) {
                     this.password.dialog = false;
                     this.$auth.changePass({password: this.password.value})
                         .then(code => this.$toast.showToast(code))
@@ -370,8 +370,10 @@
             saveSettings() {
                 if (this.user.authenticated) this.$auth.saveSettings(this.$store.getters.settings)
             },
-            setLang(code) {
-                this.$store.dispatch('setLang', code);
+            setLang(value) {
+                this.$store.dispatch('setSetting', {name: 'lang', value: value});
+                this.$i18n.locale = value;
+                this.$moment.locale(value);
                 this.saveSettings()
             },
             checkAndDownloadTimezones() {
@@ -415,7 +417,7 @@
                     return this.$store.getters.settings.dark
                 },
                 set(value) {
-                    this.$store.dispatch('setDark', value);
+                    this.$store.dispatch('setSetting', {name: 'dark', value: value});
                     this.saveSettings()
                 }
             },
@@ -425,7 +427,7 @@
                 },
                 set(value) {
                     this.$store.dispatch('setCalendar', []);
-                    this.$store.dispatch('setHideRepeats', value);
+                    this.$store.dispatch('setSetting', {name: 'hideRepeats', value: value});
                     this.saveSettings()
                 }
             },
@@ -434,7 +436,7 @@
                     return this.$store.getters.settings.timezone
                 },
                 set(value) {
-                    this.$store.dispatch('setTimezone', value);
+                    this.$store.dispatch('setSetting', {name: 'timezone', value: value});
                     this.saveSettings()
                 }
             },
@@ -451,7 +453,10 @@
                         : this.$t("settings.time.time_format.12hour")
                 },
                 set: function (value) {
-                    this.$store.dispatch('serFullTimeFormat', value === this.$t("settings.time.time_format.24hour"))
+                    this.$store.dispatch('setSetting', {
+                        name: 'fullTimeFormat',
+                        value: value === this.$t("settings.time.time_format.24hour")
+                    });
                     this.saveSettings();
                 }
             },

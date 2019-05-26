@@ -6,7 +6,7 @@ export default function ({isHMR, app, store, route, params, error}) {
         if (store.state.locales.indexOf(lang) === -1) {
             return error({message: 'This page could not be found.', statusCode: 404})
         }
-        store.dispatch('setLang', lang);
+        store.dispatch('setSetting', {name: 'lang', value: lang});
         app.i18n.locale = lang;
         app.$moment.locale(lang);
     }

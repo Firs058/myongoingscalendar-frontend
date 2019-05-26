@@ -1,5 +1,3 @@
-import jstz from "jstz";
-
 export const state = () => ({
     locales: ['en', 'ru'],
     user: {
@@ -56,11 +54,7 @@ export const state = () => ({
 
 export const mutations = {
     SET_USER: (state, obj) => state.user = obj,
-    SET_DARK: (state, bool) => state.user.authenticated ? state.settings.user.dark = bool : state.settings.guest.dark = bool,
-    SET_HIDE_REPEATS: (state, bool) => state.user.authenticated ? state.settings.user.hideRepeats = bool : state.settings.guest.hideRepeats = bool,
-    SET_TIMEZONE: (state, string) => state.user.authenticated ? state.settings.user.timezone = string : state.settings.guest.timezone = string,
-    SET_LANG: (state, string) => state.user.authenticated ? state.settings.user.lang = string : state.settings.guest.lang = string,
-    SET_FULL_TIME_FORMAT: (state, bool) => state.user.authenticated ? state.settings.user.fullTimeFormat = bool : state.settings.guest.fullTimeFormat = bool,
+    SET_SETTING: (state, obj) => state.user.authenticated ? state.settings.user[obj.name] = obj.value : state.settings.guest[obj.name] = obj.value,
     SET_SETTINGS: (state, obj) => state.settings.user = obj,
     SET_TOAST: (state, obj) => state.toast = obj,
     SET_TOAST_ACTIVE: (state, bool) => state.toast.active = bool,
@@ -73,8 +67,7 @@ export const mutations = {
     SET_CALENDAR: (state, obj) => state.calendar = obj,
     SET_TIMEZONES: (state, obj) => state.timezones = obj,
     SET_TOKENS: (state, obj) => state.tokens = obj,
-    SET_TEMP_TOKENS: (state, obj) => state.tempTokens = obj,
-    SET_NICKNAME: (state, string) => state.settings.user.nickname = string
+    SET_TEMP_TOKENS: (state, obj) => state.tempTokens = obj
 };
 
 export const actions = {
@@ -98,11 +91,7 @@ export const actions = {
         commit('SET_TOKENS', obj.tokens);
         commit('SET_SETTINGS', obj.settings);
     },
-    setDark: ({commit}, bool) => commit('SET_DARK', bool),
-    setHideRepeats: ({commit}, bool) => commit('SET_HIDE_REPEATS', bool),
-    setTimezone: ({commit}, string) => commit('SET_TIMEZONE', string),
-    setTimezoneToSystem: ({commit}) => commit('SET_TIMEZONE', jstz.determine().name()),
-    serFullTimeFormat: ({commit}, bool) => commit('SET_FULL_TIME_FORMAT', bool),
+    setSetting: ({commit}, obj) => commit('SET_SETTING', obj),
     setSettings: ({commit}, obj) => commit('SET_SETTINGS', obj),
     setToast: ({commit}, obj) => commit('SET_TOAST', obj),
     setToastActive: ({commit}, bool) => commit('SET_TOAST_ACTIVE', bool),
@@ -114,10 +103,8 @@ export const actions = {
     setOngoingsList: ({commit}, obj) => commit('SET_ONGOINGS_LIST', obj),
     setCalendar: ({commit}, obj) => commit('SET_CALENDAR', obj),
     setTimezones: ({commit}, obj) => commit('SET_TIMEZONES', obj),
-    setLang: ({commit}, string) => commit('SET_LANG', string),
     setTokens: ({commit}, obj) => commit('SET_TOKENS', obj),
-    setTempTokens: ({commit}, obj) => commit('SET_TEMP_TOKENS', obj),
-    setNickname: ({commit}, string) => commit('SET_NICKNAME', string)
+    setTempTokens: ({commit}, obj) => commit('SET_TEMP_TOKENS', obj)
 };
 
 export const getters = {
