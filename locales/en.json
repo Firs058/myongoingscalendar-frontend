@@ -225,8 +225,8 @@
         "sub_title": "Switch between light and dark theme"
       },
       "hide_repeats": {
-        "title": "Hide repeats",
-        "sub_title": "Option to hide ongoings repeats"
+        "title": "Hide repeats on other channels",
+        "sub_title": "Option to hide ongoing repeats on other channels"
       },
       "language": {
         "title": "Language",

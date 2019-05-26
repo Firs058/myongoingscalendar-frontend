@@ -42,15 +42,14 @@
                                     </v-list-tile-sub-title>
                                 </v-list-tile-content>
                                 <v-list-tile-action>
+                                    <v-spacer/>
                                     <v-list-tile-action-text :class="settings.dark ? 'white--text' : 'black--text'">
                                         {{[anime.time, ["HH:mm"]] | moment(settings.fullTimeFormat ? 'HH:mm' : 'LT' )}}
-                                        <span
-                                                v-if="anime.shift !== '0'"
-                                                class="error--text"
-                                        >
-                                        {{'&nbsp' + anime.shift}}
-                                    </span>
                                     </v-list-tile-action-text>
+                                    <v-list-tile-action-text v-if="anime.shift !== '0'" class="error--text">
+                                        {{anime.shift}}
+                                    </v-list-tile-action-text>
+                                    <v-spacer/>
                                 </v-list-tile-action>
                             </v-list-tile>
                             <v-divider v-if="index + 1 < each.anime.length"/>
