@@ -1,6 +1,6 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-container article :class="$device.isMobile ? 'pa-0' : 'py-0'">
-        <v-layout align-center justify-center text-xs-center>
+        <v-layout align-center justify-center>
             <v-flex xs12>
                 <v-card color="transparent" flat>
                     <v-img
@@ -19,7 +19,7 @@
                         >
                             <v-flex xs12 sm6>
                                 <v-card color="transparent" flat>
-                                    <v-card-title primary-title>
+                                    <v-card-title class="text-center mx-3">
                                         <v-spacer/>
                                         <h1
                                                 :class="$device.isMobile ? 'headline font-weight-bold' : 'display-1 font-weight-bold'"
@@ -29,61 +29,49 @@
                                     </v-card-title>
                                     <v-card-actions v-if="rating">
                                         <v-spacer/>
-                                        <v-tooltip top>
-                                            <v-rating
-                                                    slot="activator"
-                                                    :value="rating"
-                                                    color="yellow darken-3"
-                                                    readonly
-                                                    half-increments
-                                                    length="10"
-                                                    dense
-                                            />
-                                            <div
-                                                    v-for="(rating, index) in title.ratings"
-                                                    :key="index"
-                                            >
-                                                <span class="grey--text text--lighten-2 caption mr-2">{{rating.dbname +': ' + rating.score + '/10'}}</span>
-                                                <v-rating
-                                                        slot="activator"
-                                                        :value="rating.score"
-                                                        :color="numberToColorHsl(rating.score/10, 0.6, 0.85)"
-                                                        readonly
-                                                        half-increments
-                                                        length="10"
-                                                        small
-                                                        dense
-                                                />
-                                                <v-divider v-if="index + 1 < title.ratings.length"/>
-                                            </div>
-                                        </v-tooltip>
+                                        <v-rating
+                                                :value="rating"
+                                                color="yellow darken-3"
+                                                background-color="grey"
+                                                dense
+                                                size="28"
+                                                readonly
+                                                half-increments
+                                                length="10"
+                                                :empty-icon="icons.mdiStarOutline"
+                                                :full-icon="icons.mdiStar"
+                                                :half-icon="icons.mdiStarHalf"
+
+                                        />
                                         <v-spacer/>
                                     </v-card-actions>
                                     <v-card-actions v-if="!title.outdated">
                                         <v-spacer/>
                                         <v-tooltip top>
-                                            <v-btn
-                                                    slot="activator"
-                                                    color="success"
-                                                    @click.native.stop="toggleTitle"
-                                                    :disabled="!authenticated"
-                                                    :loading="button.loading"
-                                                    v-if="title && !marked"
-                                                    class="ma-1 extended"
-                                            >
-                                                {{$t('buttons.add')}}
-                                            </v-btn>
-                                            <v-btn
-                                                    slot="activator"
-                                                    color="error"
-                                                    @click.native.stop="deletion = true"
-                                                    :disabled="!authenticated"
-                                                    :loading="button.loading"
-                                                    class="ma-1 extended"
-                                                    v-else
-                                            >
-                                                {{$t('buttons.remove')}}
-                                            </v-btn>
+                                            <template v-if="title && !marked" v-slot:activator="{ on }">
+                                                <v-btn
+                                                        v-on="on"
+                                                        color="success"
+                                                        @click.native.stop="toggleTitle"
+                                                        :disabled="!authenticated"
+                                                        :loading="button.loading"
+                                                        class="ma-1 extended"
+                                                >
+                                                    {{$t('buttons.add')}}
+                                                </v-btn>
+                                            </template>
+                                            <template v-else v-slot:activator="{ on }">
+                                                <v-btn
+                                                        v-on="on"
+                                                        color="error"
+                                                        @click.native.stop="deletion = true"
+                                                        :disabled="!authenticated"
+                                                        :loading="button.loading"
+                                                        class="ma-1 extended"
+                                                >
+                                                    {{$t('buttons.remove')}}
+                                                </v-btn>
+                                            </template>
                                             <span>{{authenticated ? marked ? $t('tooltips.remove_from_my_calendar') : $t('tooltips.add_to_my_calendar') : $t('tooltips.you_must_be_logged_in')}}</span>
                                         </v-tooltip>
                                         <v-spacer/>
@@ -101,65 +89,70 @@
                     >
                         {{$t('title.information.outdated')}}
                     </v-alert>
-                    <v-sheet class="py-5 px-3" :light="settings.dark" color="grey lighten-2">
+                    <v-sheet class="py-10 px-4" :light="settings.dark" color="grey lighten-2">
                         <v-layout wrap>
                             <v-flex xs12 md6>
                                 <v-card color="transparent" flat>
                                     <h1
-                                            class="text-xs-left mb-4"
+                                            class="text-left mb-4"
                                             :class="$device.isMobile ? 'headline font-weight-bold' : 'display-1 font-weight-bold'"
                                             v-text="title.ja"
                                     />
-                                    <div class="text-xs-left mb-4" v-if="title.genres && title.genres.length">
+                                    <div class="text-left mb-4" v-if="title.genres && title.genres.length">
                                         <v-tooltip
                                                 top
                                                 v-for="(genre, index) in title.genres"
                                                 :key="index"
                                         >
-                                            <v-hover slot="activator">
-                                                <v-chip
-                                                        slot-scope="{ hover }"
-                                                        :class="`elevation-${hover ? 2 : 0}`"
-                                                        @click.native="$router.push({ name: 'search', query: { genres: [genre.id] }})"
-                                                >
-                                                    <v-icon left>label</v-icon>
-                                                    {{genre.name}}
-                                                </v-chip>
-                                            </v-hover>
+                                            <template v-slot:activator="{ on }">
+                                                <v-hover slot="activator">
+                                                    <v-chip
+                                                            v-on="on"
+                                                            slot-scope="{ hover }"
+                                                            :class="`elevation-${hover ? 2 : 0} ma-2`"
+                                                            @click.native="$router.push({ name: 'search', query: { genres: [genre.id] }})"
+                                                    >
+                                                        <v-icon left>{{icons.mdiTag}}</v-icon>
+                                                        {{genre.name}}
+                                                    </v-chip>
+                                                </v-hover>
+                                            </template>
                                             <span>{{$t('tooltips.search_by_genre', [genre.name])}}</span>
                                         </v-tooltip>
                                     </div>
-                                    <div class="text-xs-left mb-4" v-if="title.episodes">
-                                        <v-icon small>tv</v-icon>
+                                    <div class="text-left mb-4" v-if="title.episodes">
+                                        <v-icon small>{{icons.mdiTelevision}}</v-icon>
                                         {{title.episodes + $t('title.information.episodes')}}
                                     </div>
-                                    <div class="text-xs-left mb-4"
+                                    <div class="text-left mb-4"
                                          v-if="title.description !== 'Not have description'">
                                         {{title.description}}
                                     </div>
-                                    <div v-if="title.links && title.links.length" class="text-xs-left mb-4">
+                                    <div v-if="title.links && title.links.length" class="text-left mb-4">
                                         <v-tooltip
                                                 top
                                                 v-for="(link, index) in title.links"
                                                 :key="index"
                                         >
-                                            <v-btn
-                                                    ripple
-                                                    flat
-                                                    color="primary"
-                                                    @click.stop="openLink(link.link)"
-                                                    slot="activator"
-                                                    class="ma-1"
-                                            >
-                                                {{link.name}}
-                                            </v-btn>
+                                            <template v-slot:activator="{ on }">
+                                                <v-btn
+                                                        ripple
+                                                        text
+                                                        color="primary"
+                                                        @click.stop="openLink(link.link)"
+                                                        v-on="on"
+                                                        class="ma-1"
+                                                >
+                                                    {{link.name}}
+                                                </v-btn>
+                                            </template>
                                             <span>{{$t('tooltips.open_link_in_new_window')}}</span>
                                         </v-tooltip>
                                     </div>
-                                    <social
-                                            :url="globalUrl"
-                                            :description="globalTitle"
-                                    />
+                                    <!--    <social
+                                                :url="globalUrl"
+                                                :description="globalTitle"
+                                        />-->
                                 </v-card>
                             </v-flex>
                             <v-flex xs12 md6>
@@ -182,7 +175,7 @@
                                     </v-layout>
                                 </v-img>
                             </v-flex>
-                            <v-flex xs12 text-xs-center mt-4 v-if="title.trailer">
+                            <v-flex xs12 text-center mt-4 v-if="title.trailer">
                                 <iframe
                                         :src="title.trailer"
                                         frameborder="0"
@@ -196,17 +189,17 @@
                     </v-sheet>
                     <v-sheet
                             v-if="showChart && title.chartData.datasets.length"
-                            class="pa-3"
+                            class="pa-4"
                             :color="settings.dark ? 'grey darken-1' : 'grey lighten-3'"
                     >
                         <lazy-hydrate when-visible>
                             <line-chart :chartData="title.chartData"/>
                         </lazy-hydrate>
                     </v-sheet>
-                    <v-sheet :color="settings.dark ? 'grey darken-2' : null">
+                    <v-sheet>
                         <lazy-hydrate when-visible>
                             <v-card color="transparent" flat>
-                                <v-toolbar dense card tabs color="transparent">
+                                <v-toolbar dense text tabs>
                                     <v-tabs
                                             centered
                                             color="transparent"
@@ -231,7 +224,9 @@
                                         <v-data-table
                                                 :headers="tableHeaders"
                                                 :items="i.items"
-                                                hide-actions
+                                                :items-per-page.sync="i.items.length"
+                                                hide-default-footer
+                                                hide-default-header
                                         >
                                             <template
                                                     slot="items"
@@ -268,7 +263,7 @@
                                 <v-card-text>{{globalTitle}}</v-card-text>
                                 <v-card-actions>
                                     <v-spacer/>
-                                    <v-btn color="error" flat @click.native="deletion = false">
+                                    <v-btn color="error" text @click.native="deletion = false">
                                         {{$t('buttons.disagree')}}
                                     </v-btn>
                                     <v-btn color="success" @click.native="toggleTitle">{{$t('buttons.agree')}}
@@ -277,19 +272,22 @@
                             </v-card>
                         </v-dialog>
                     </v-sheet>
-                    <v-sheet :color="settings.dark ? 'grey darken-3' : 'grey lighten-4'" :dark="settings.dark" class="pb-5">
+                    <v-sheet :color="settings.dark ? 'grey darken-3' : 'grey lighten-4'" :dark="settings.dark"
+                             class="pb-5">
                         <lazy-hydrate when-visible>
                             <v-card color="transparent" flat>
                                 <v-container fluid>
                                     <v-tooltip top>
-                                        <v-btn
-                                                slot="activator"
-                                                class="success"
-                                                @click.native.stop="openDialog"
-                                                :disabled="!authenticated"
-                                        >
-                                            {{$t('buttons.add_comment')}}
-                                        </v-btn>
+                                        <template v-slot:activator="{ on }">
+                                            <v-btn
+                                                    v-on="on"
+                                                    class="success"
+                                                    @click.native.stop="openDialog"
+                                                    :disabled="!authenticated"
+                                            >
+                                                {{$t('buttons.add_comment')}}
+                                            </v-btn>
+                                        </template>
                                         <span>{{authenticated ? $t('buttons.add_comment') : $t('tooltips.you_must_be_logged_in')}}</span>
                                     </v-tooltip>
                                 </v-container>
@@ -312,16 +310,18 @@
                                 >
                                     <v-layout row wrap align-center justify-center>
                                         <v-tooltip top>
-                                            <v-btn
-                                                    slot="activator"
-                                                    flat
-                                                    @click.native.stop="downloadComments"
-                                                    :loading="comments.loading"
-                                            >
-                                                <v-icon left>arrow_drop_down</v-icon>
-                                                {{ $t('comments.show_more.2', [comments.more])}}
-                                                <v-icon right>arrow_drop_down</v-icon>
-                                            </v-btn>
+                                            <template v-slot:activator="{ on }">
+                                                <v-btn
+                                                        v-on="on"
+                                                        text
+                                                        @click.native.stop="downloadComments"
+                                                        :loading="comments.loading"
+                                                >
+                                                    <v-icon left>arrow_drop_down</v-icon>
+                                                    {{ $t('comments.show_more.2', [comments.more])}}
+                                                    <v-icon right>arrow_drop_down</v-icon>
+                                                </v-btn>
+                                            </template>
                                             <span>{{$t('comments.show_more.1')}}</span>
                                         </v-tooltip>
                                     </v-layout>
@@ -337,6 +337,13 @@
 </template>
 
 <script>
+    import {
+        mdiStar,
+        mdiStarHalf,
+        mdiStarOutline,
+        mdiTag,
+        mdiTelevision
+    } from '@mdi/js';
     import {mapGetters} from 'vuex'
 
     export default {
@@ -345,7 +352,14 @@
             button: {
                 loading: false
             },
-            showChart: false
+            showChart: false,
+            icons: {
+                mdiStar,
+                mdiStarHalf,
+                mdiStarOutline,
+                mdiTag,
+                mdiTelevision
+            }
         }),
         validate({params}) {
             return /^\d+$/.test(params.tid)
@@ -460,44 +474,6 @@
                     })
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.comments.loading = false)
-            },
-            numberToColorHsl(i, min, max) {
-                let ratio = i;
-                if (min > 0 || max < 1) {
-                    if (i < min) {
-                        ratio = 0;
-                    } else if (i > max) {
-                        ratio = 1;
-                    } else {
-                        let range = max - min;
-                        ratio = (i - min) / range;
-                    }
-                }
-                let hue = ratio * 1.2 / 3.60;
-                let rgb = this.hslToRgb(hue, 1, .5);
-                return 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
-            },
-            hslToRgb(h, s, l) {
-                let r, g, b;
-                if (s === 0) {
-                    r = g = b = l;
-                } else {
-                    function hue2rgb(p, q, t) {
-                        if (t < 0) t += 1;
-                        if (t > 1) t -= 1;
-                        if (t < 1 / 6) return p + (q - p) * 6 * t;
-                        if (t < 1 / 2) return q;
-                        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-                        return p;
-                    }
-
-                    let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-                    let p = 2 * l - q;
-                    r = hue2rgb(p, q, h + 1 / 3);
-                    g = hue2rgb(p, q, h);
-                    b = hue2rgb(p, q, h - 1 / 3);
-                }
-                return [Math.floor(r * 255), Math.floor(g * 255), Math.floor(b * 255)];
             }
         },
         computed: {
@@ -540,10 +516,6 @@
 </script>
 
 <style scoped>
-    >>> .theme--dark.v-datatable, .theme--light.v-datatable {
-        background-color: transparent;
-    }
-
     .v-btn.extended {
         min-width: 225px;
         height: 50px;

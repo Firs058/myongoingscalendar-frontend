@@ -6,7 +6,7 @@
             fill-height
             :class="$device.isDesktop ? 'grid-list-lg' : 'pa-0'"
     >
-        <v-layout align-center justify-center text-xs-center>
+        <v-layout align-center justify-center text-center>
             <v-flex xs12 sm12 md8 lg6 xl6>
                 <v-card>
                     <v-card-text>
@@ -47,7 +47,7 @@
                             :headers="list.headers"
                             :items="list.items"
                             :pagination.sync="pagination"
-                            hide-actions
+                            hide-default-footer
                     >
                         <template
                                 slot="items"

@@ -1,14 +1,10 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-container fill-height article :class="$device.isMobile ? 'pa-0' : 'grid-list-lg pt-0'">
-        <v-layout align-center justify-center text-xs-center>
+        <v-layout align-center justify-center text-center>
             <v-flex xs12 sm10 md6 lg4 xl3>
                 <v-card color="transparent" flat>
-                    <v-toolbar dense card tabs color="transparent">
-                        <v-tabs
-                                fixed
-                                centered
-                                color="transparent"
-                        >
+                    <v-toolbar flat dense tabs color="transparent">
+                        <v-tabs fixed centered>
                             <v-tab nuxt to="/login">
                                 <span class="headline">{{$t('login.headline')}}</span>
                             </v-tab>
@@ -46,13 +42,13 @@
                         />
                     </v-form>
                     <v-list class="transparent">
-                        <v-list-tile>
+                        <v-list-item>
                             <v-spacer/>
-                            <v-list-tile-action>
+                            <v-list-item-action>
                                 <a @click.stop="$router.push('/recover')">{{$t('login.forgot_pass')}}</a>
-                            </v-list-tile-action>
+                            </v-list-item-action>
                             <v-spacer/>
-                        </v-list-tile>
+                        </v-list-item>
                     </v-list>
                     <v-card-actions class="pa-3">
                         <v-btn
@@ -66,7 +62,9 @@
                     </v-card-actions>
                     <v-card-text>
                         <v-tooltip top>
-                            <span slot="activator">{{$t('login.or_with')}}</span>
+                            <template v-slot:activator="{ on }">
+                                <span v-on="on">{{$t('login.or_with')}}</span>
+                            </template>
                             <span>{{$t('login.no_reg')}}</span>
                         </v-tooltip>
                     </v-card-text>
@@ -77,18 +75,20 @@
                                 v-for="(i, index) in providers"
                                 :key="i.name"
                         >
-                            <v-btn
-                                    @click.stop="confirmAuth(i.url, index)"
-                                    fab
-                                    flat
-                                    :color=i.color
-                                    :loading="i.loading"
-                                    slot="activator"
-                                    icon
-                                    class="mx-2"
-                            >
-                                <font-awesome-icon :icon="i.icon" size="2x" class="icon alt"/>
-                            </v-btn>
+                            <template v-slot:activator="{ on }">
+                                <v-btn
+                                        @click.stop="confirmAuth(i.url, index)"
+                                        fab
+                                        text
+                                        :color=i.color
+                                        :loading="i.loading"
+                                        v-on="on"
+                                        icon
+                                        class="mx-2"
+                                >
+                                    <font-awesome-icon :icon="i.icon" size="2x" class="icon alt"/>
+                                </v-btn>
+                            </template>
                             <span>{{$t('login.provider', [i.name])}}</span>
                         </v-tooltip>
                         <v-spacer/>
@@ -111,9 +111,7 @@
                             v-model="dialog.alright"
                             color="primary"
                             hide-details
-                            :rules="[
-                              v => !!v || $t('inputs.checkbox.rules.agree')
-                      ]"
+                            :rules="v => !!v || $t('inputs.checkbox.rules.agree')"
                             required
                             value
                             hint

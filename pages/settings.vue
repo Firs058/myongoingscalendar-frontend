@@ -1,6 +1,6 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-container fill-height article :class="$device.isMobile ? 'pa-0' : 'grid-list-lg pt-0'">
-        <v-layout align-center justify-center text-xs-center>
+        <v-layout align-center justify-center>
             <v-flex xs12 md10 lg8 xl6>
                 <div v-if="!user.authenticated">
                     <v-alert
@@ -16,14 +16,14 @@
                             subheader
                             class="pa-0"
                     >
-                        <v-list-tile>
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{$t('settings.account.change_nickname.title')}}</v-list-tile-title>
-                                <v-list-tile-sub-title>{{$t('settings.account.change_nickname.sub_title',
+                        <v-list-item>
+                            <v-list-item-content>
+                                <v-list-item-title>{{$t('settings.account.change_nickname.title')}}</v-list-item-title>
+                                <v-list-item-subtitle>{{$t('settings.account.change_nickname.sub_title',
                                     [settings.nickname])}}
-                                </v-list-tile-sub-title>
-                            </v-list-tile-content>
-                            <v-list-tile-action>
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action>
                                 <v-dialog
                                         v-model="nickname.dialog"
                                         persistent
@@ -72,16 +72,16 @@
                                         </v-card-actions>
                                     </v-card>
                                 </v-dialog>
-                            </v-list-tile-action>
-                        </v-list-tile>
+                            </v-list-item-action>
+                        </v-list-item>
                         <v-divider/>
-                        <v-list-tile>
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{$t('settings.account.change_avatar.title')}}</v-list-tile-title>
-                                <v-list-tile-sub-title>{{$t('settings.account.change_avatar.sub_title')}}
-                                </v-list-tile-sub-title>
-                            </v-list-tile-content>
-                            <v-list-tile-action>
+                        <v-list-item>
+                            <v-list-item-content>
+                                <v-list-item-title>{{$t('settings.account.change_avatar.title')}}</v-list-item-title>
+                                <v-list-item-subtitle>{{$t('settings.account.change_avatar.sub_title')}}
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action>
                                 <v-btn
                                         right
                                         icon
@@ -89,16 +89,16 @@
                                 >
                                     <v-icon>chevron_right</v-icon>
                                 </v-btn>
-                            </v-list-tile-action>
-                        </v-list-tile>
+                            </v-list-item-action>
+                        </v-list-item>
                         <v-divider v-if="!user.social"/>
-                        <v-list-tile v-if="!user.social">
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{$t('settings.account.change_password.title')}}</v-list-tile-title>
-                                <v-list-tile-sub-title>{{$t('settings.account.change_password.sub_title')}}
-                                </v-list-tile-sub-title>
-                            </v-list-tile-content>
-                            <v-list-tile-action>
+                        <v-list-item v-if="!user.social">
+                            <v-list-item-content>
+                                <v-list-item-title>{{$t('settings.account.change_password.title')}}</v-list-item-title>
+                                <v-list-item-subtitle>{{$t('settings.account.change_password.sub_title')}}
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action>
                                 <v-dialog
                                         v-model="password.dialog"
                                         persistent
@@ -150,8 +150,8 @@
                                         </v-card-actions>
                                     </v-card>
                                 </v-dialog>
-                            </v-list-tile-action>
-                        </v-list-tile>
+                            </v-list-item-action>
+                        </v-list-item>
                     </v-list>
                 </v-card>
                 <v-subheader>{{$t('settings.interface.subheader')}}</v-subheader>
@@ -161,94 +161,89 @@
                             subheader
                             class="pa-0"
                     >
-                        <v-list-tile>
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{$t('settings.interface.dark.title')}}</v-list-tile-title>
-                                <v-list-tile-sub-title>{{$t('settings.interface.dark.sub_title')}}
-                                </v-list-tile-sub-title>
-                            </v-list-tile-content>
-                            <v-list-tile-action>
+                        <v-list-item>
+                            <v-list-item-content>
+                                <v-list-item-title>{{$t('settings.interface.dark.title')}}</v-list-item-title>
+                                <v-list-item-subtitle>{{$t('settings.interface.dark.sub_title')}}
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action>
                                 <v-switch
                                         v-model="dark"
                                         color="primary"
                                         hide-details
                                         class="ml-2"
                                 />
-                            </v-list-tile-action>
-                        </v-list-tile>
+                            </v-list-item-action>
+                        </v-list-item>
                         <v-divider/>
-                        <v-list-tile>
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{$t('settings.interface.hide_repeats.title')}}</v-list-tile-title>
-                                <v-list-tile-sub-title>{{$t('settings.interface.hide_repeats.sub_title')}}
-                                </v-list-tile-sub-title>
-                            </v-list-tile-content>
-                            <v-list-tile-action>
+                        <v-list-item>
+                            <v-list-item-content>
+                                <v-list-item-title>{{$t('settings.interface.hide_repeats.title')}}</v-list-item-title>
+                                <v-list-item-subtitle>{{$t('settings.interface.hide_repeats.sub_title')}}
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action>
                                 <v-switch
                                         v-model="hideRepeats"
                                         color="primary"
                                         hide-details
                                         class="ml-2"
                                 />
-                            </v-list-tile-action>
-                        </v-list-tile>
+                            </v-list-item-action>
+                        </v-list-item>
                         <v-divider/>
-                        <v-list-tile>
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{$t('settings.interface.language.title')}}</v-list-tile-title>
-                                <v-list-tile-sub-title>{{$t('settings.interface.language.sub_title')}}
-                                </v-list-tile-sub-title>
-                            </v-list-tile-content>
-                            <v-list-tile-action>
+                        <v-list-item>
+                            <v-list-item-content>
+                                <v-list-item-title>{{$t('settings.interface.language.title')}}</v-list-item-title>
+                                <v-list-item-subtitle>{{$t('settings.interface.language.sub_title')}}
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action>
                                 <v-menu>
-                                    <v-btn
-                                            right
-                                            icon
-                                            slot="activator"
-                                    >
-                                        <img :src="langImage">
-                                    </v-btn>
+                                    <template v-slot:activator="{ on }">
+                                        <v-btn
+                                                right
+                                                icon
+                                                v-on="on"
+                                        >
+                                            <v-avatar size="32px">
+                                                <img :src="langImage">
+                                            </v-avatar>
+                                        </v-btn>
+                                    </template>
                                     <v-list>
-                                        <v-list-tile
-                                                avatar
+                                        <v-list-item
                                                 v-for="lang in langs"
                                                 :key="lang.code"
                                                 @click="setLang(lang.code)"
                                         >
-                                            <v-list-tile-action>
-                                                <v-avatar
-                                                        tile
-                                                        size="36px"
-                                                        slot="activator"
-                                                >
+                                            <v-list-item-action>
+                                                <v-avatar size="32px">
                                                     <img :src="lang.img"/>
                                                 </v-avatar>
-                                            </v-list-tile-action>
-                                            <v-list-tile-content>
-                                                <v-list-tile-title v-text="lang.name"/>
-                                            </v-list-tile-content>
-                                        </v-list-tile>
+                                            </v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title v-text="lang.name"/>
+                                            </v-list-item-content>
+                                        </v-list-item>
                                         <v-divider/>
-                                        <v-list-tile avatar
-                                                     @click.stop="openUrl('https://github.com/Firs058/myongoingscalendar-frontend/tree/master/locales')">
-                                            <v-list-tile-action>
-                                                <v-avatar
-                                                        tile
-                                                        size="36px"
-                                                        slot="activator"
-                                                >
+                                        <v-list-item
+                                                @click.stop="openUrl('https://github.com/Firs058/myongoingscalendar-frontend/tree/master/locales')">
+                                            <v-list-item-action>
+                                                <v-avatar size="32px">
                                                     <font-awesome-icon :icon="['fab', 'github']" size="2x"
                                                                        class="icon alt"/>
                                                 </v-avatar>
-                                            </v-list-tile-action>
-                                            <v-list-tile-content>
-                                                <v-list-tile-title>Need more?</v-list-tile-title>
-                                            </v-list-tile-content>
-                                        </v-list-tile>
+                                            </v-list-item-action>
+                                            <v-list-item-content>
+                                                <v-list-item-title>Need more?</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
                                     </v-list>
                                 </v-menu>
-                            </v-list-tile-action>
-                        </v-list-tile>
+                            </v-list-item-action>
+                        </v-list-item>
                     </v-list>
                 </v-card>
                 <v-subheader>{{$t('settings.time.subheader')}}</v-subheader>
@@ -258,14 +253,14 @@
                             subheader
                             class="pa-0"
                     >
-                        <v-list-tile>
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{$t('settings.time.time_format.title')}}
-                                </v-list-tile-title>
-                                <v-list-tile-sub-title>{{$t('settings.time.time_format.sub_title')}}
-                                </v-list-tile-sub-title>
-                            </v-list-tile-content>
-                            <v-list-tile-action
+                        <v-list-item>
+                            <v-list-item-content>
+                                <v-list-item-title>{{$t('settings.time.time_format.title')}}
+                                </v-list-item-title>
+                                <v-list-item-subtitle>{{$t('settings.time.time_format.sub_title')}}
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action
                                     v-if="!$device.isMobile"
                                     style="min-width: 300px;"
                             >
@@ -273,23 +268,23 @@
                                         :items="timeFormats"
                                         v-model="fullTimeFormat"
                                 />
-                            </v-list-tile-action>
-                        </v-list-tile>
-                        <v-list-tile v-if="$device.isMobile">
+                            </v-list-item-action>
+                        </v-list-item>
+                        <v-list-item v-if="$device.isMobile">
                             <v-select
                                     :items="timeFormats"
                                     v-model="fullTimeFormat"
                             />
-                        </v-list-tile>
+                        </v-list-item>
                         <v-divider/>
-                        <v-list-tile>
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{$t('settings.time.timezone.title')}}
-                                </v-list-tile-title>
-                                <v-list-tile-sub-title>{{$t('settings.time.timezone.sub_title')}}
-                                </v-list-tile-sub-title>
-                            </v-list-tile-content>
-                            <v-list-tile-action
+                        <v-list-item>
+                            <v-list-item-content>
+                                <v-list-item-title>{{$t('settings.time.timezone.title')}}
+                                </v-list-item-title>
+                                <v-list-item-subtitle>{{$t('settings.time.timezone.sub_title')}}
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action
                                     v-if="!$device.isMobile"
                                     style="min-width: 300px;"
                             >
@@ -299,16 +294,16 @@
                                         v-model="timezone"
                                         :loading="timezonesLoading"
                                 />
-                            </v-list-tile-action>
-                        </v-list-tile>
-                        <v-list-tile v-if="$device.isMobile">
+                            </v-list-item-action>
+                        </v-list-item>
+                        <v-list-item v-if="$device.isMobile">
                             <v-autocomplete
                                     :items="$store.getters.timezonesListEmpty ? [timezone] : timezones"
                                     @click.native="checkAndDownloadTimezones"
                                     v-model="timezone"
                                     :loading="timezonesLoading"
                             />
-                        </v-list-tile>
+                        </v-list-item>
                     </v-list>
                 </v-card>
             </v-flex>
@@ -337,12 +332,12 @@
                 {
                     name: 'English',
                     code: 'en',
-                    img: 'https://countryflags.io/us/flat/24.png'
+                    img: '/images/us.png'
                 },
                 {
                     name: 'Русский',
                     code: 'ru',
-                    img: 'https://countryflags.io/ru/flat/24.png'
+                    img: '/images/ru.png'
                 }
             ]
         }),
@@ -418,6 +413,7 @@
                 },
                 set(value) {
                     this.$store.dispatch('setSetting', {name: 'dark', value: value});
+                    this.$vuetify.theme.dark = value;
                     this.saveSettings()
                 }
             },

@@ -1,7 +1,5 @@
-const nodeExternals = require('webpack-node-externals');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const baseUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost' : 'https://myongoingscalendar.eu';
-const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 
 module.exports = {
     env: {
@@ -13,8 +11,7 @@ module.exports = {
             {name: 'viewport', content: 'width=device-width, initial-scale=1'}
         ],
         link: [
-            {rel: 'icon', type: 'image/x-icon', href: '/images/icons/favicon.ico'},
-            {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'}
+            {rel: 'icon', type: 'image/x-icon', href: '/images/icons/favicon.ico'}
         ]
     },
     plugins: [
@@ -30,7 +27,6 @@ module.exports = {
         '~/plugins/components.js',
         '~/plugins/moment.js',
         '~/plugins/clipboard.js',
-        '~/plugins/vuetify.js',
         '~/plugins/i18n.js',
         '~/plugins/font-awesome.js',
         '~/plugins/async.js'
@@ -43,37 +39,35 @@ module.exports = {
     proxy: {
         '/api': `${baseUrl}/api`
     },
-    css: [
-        '~/assets/style/app.styl'
-    ],
-    modules: [
+    buildModules: [
         '@nuxtjs/axios',
         '@nuxtjs/proxy',
-        'nuxt-device-detect'
+        '@nuxtjs/vuetify',
+        'nuxt-device-detect',
+        'nuxt-webfontloader'
     ],
-    loading: {
-        color: '#1976d2'
-    },
+    loading: false,
     router: {
         middleware: ['sync', 'i18n']
     },
+    webfontloader: {
+        google: {
+            families: ['Roboto:300,400,500,700']
+        }
+    },
+    vuetify: {
+        treeShake: true,
+        defaultAssets: false,
+        icons: {
+            iconfont: "mdiSvg"
+        }
+    },
     build: {
-        transpile: [/^vuetify/],
         publicPath: '/dist/',
         plugins: [
-            new VuetifyLoaderPlugin(),
             new MomentLocalesPlugin({
                 localesToKeep: ['ru'],
             })
-        ],
-        extend(config, ctx) {
-            if (process.server) {
-                config.externals = [
-                    nodeExternals({
-                        whitelist: [/^vuetify/]
-                    })
-                ]
-            }
-        }
+        ]
     }
 }

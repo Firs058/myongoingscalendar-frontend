@@ -340,7 +340,7 @@
   },
   "alerts": {
     "nothing_found": "Nothing found",
-    "settings_note": "Note! These settings are temporary. Please make an account to remember these permanently"
+    "settings_note": "Note! These settings are temporary. Please make an account to remember these permanently."
   },
   "terms": {
     "headline": "Terms of Use"

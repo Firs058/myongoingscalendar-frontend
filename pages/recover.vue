@@ -1,6 +1,6 @@
 <template>
     <v-container fill-height article :class="$device.isMobile ? 'pa-0' : 'grid-list-lg pt-0'">
-        <v-layout align-center justify-center text-xs-center>
+        <v-layout align-center justify-center text-center>
             <v-flex xs12 sm10 md6 lg4 xl3>
                 <v-card color="transparent" flat>
                     <v-toolbar dense card tabs color="transparent">

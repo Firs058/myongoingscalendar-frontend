@@ -4,7 +4,7 @@
             fill-height
             :class="$device.isDesktop ? 'grid-list-lg' : 'pa-0'"
     >
-        <v-layout align-center justify-center text-xs-center>
+        <v-layout align-center justify-center text-center>
             <v-flex xs12 sm12 md4 lg4 xl3>
                 <v-layout
                         column
@@ -41,7 +41,7 @@
                     <v-btn
                             large
                             @click.stop="$router.push('/')"
-                            flat
+                            text
                             color="primary"
                     >
                         to home page
@@ -59,7 +59,7 @@
                     <v-btn
                             large
                             @click.stop="$router.push('/')"
-                            flat
+                            text
                             color="primary"
                     >
                         to home page

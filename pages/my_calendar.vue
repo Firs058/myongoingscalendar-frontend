@@ -1,11 +1,11 @@
 <template>
-    <v-container article :class="$device.isMobile ? 'pa-0' : 'grid-list-lg pt-0'">
+    <v-container article :class="$device.isMobile ? undefined : 'grid-list-lg pt-0'">
         <calendar
                 v-if="calendar.length"
                 :calendar="calendar"
                 :showAll="true"
         />
-        <v-layout v-else align-center justify-center text-xs-center>
+        <v-layout v-else align-center justify-center text-center>
             <v-flex xs12 class="mt-4">
                 <v-alert type="info" :value="true">
                     {{$t("alerts.nothing_found")}}

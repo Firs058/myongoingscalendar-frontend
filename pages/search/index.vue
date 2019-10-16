@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-container article :class="$device.isMobile ? 'grid-list-xs' : 'grid-list-lg pt-0'">
         <v-layout row wrap>
             <v-flex xs12>
@@ -29,7 +29,7 @@
                                         v-if="currentQuery"
                                         :color="`teal ${settings.dark ? 'darken-3' : 'lighten-3'}`"
                                         close
-                                        @input="currentQuery = ''"
+                                        @click:close="currentQuery = ''"
                                 >
                                     {{`${$t('search.chips.name')}: ${currentQuery}`}}
                                 </v-chip>
@@ -37,9 +37,10 @@
                                         v-for="filter in filters"
                                         :key="filter.name"
                                         v-if="filter.added"
+                                        class="ma-2"
                                         :color="`${filter.color} ${settings.dark ? 'darken-3' : 'lighten-3'}`"
                                         close
-                                        @input="filter.added = false, filter.selected ? filters.genres.selected = [] : null"
+                                        @click:close="filter.added = false, filter.selected ? filters.genres.selected = [] : null"
                                 >
                        <span v-if="filter.range">
                             {{`${$t(`search.chips.${filter.name}`)}: ${$t('search.extension.filters.from')} ${filter.range[0]} ${$t('search.extension.filters.to')} ${filter.range[1]}`}}
@@ -70,15 +71,16 @@
                                         </v-flex>
                                         <v-flex shrink>
                                             <v-tooltip top>
-                                                <v-btn
-                                                        slot="activator"
-                                                        v-if="available"
-                                                        :disabled=!filters.genres.selected.length
-                                                        icon
-                                                        @click.native="filters.genres.added=true"
-                                                >
-                                                    <v-icon>add</v-icon>
-                                                </v-btn>
+                                                <template v-slot:activator="{ on }">
+                                                    <v-btn
+                                                            v-on="on"
+                                                            :disabled=!filters.genres.selected.length
+                                                            icon
+                                                            @click.native="filters.genres.added=true"
+                                                    >
+                                                        <v-icon>add</v-icon>
+                                                    </v-btn>
+                                                </template>
                                                 <span>{{$t('search.tooltips.add_filter')}}</span>
                                             </v-tooltip>
                                         </v-flex>
@@ -114,14 +116,15 @@
                                         </v-flex>
                                         <v-flex shrink>
                                             <v-tooltip top>
-                                                <v-btn
-                                                        slot="activator"
-                                                        v-if="available"
-                                                        icon
-                                                        @click.native="filters.scores.added=true"
-                                                >
-                                                    <v-icon>add</v-icon>
-                                                </v-btn>
+                                                <template v-slot:activator="{ on }">
+                                                    <v-btn
+                                                            v-on="on"
+                                                            icon
+                                                            @click.native="filters.scores.added=true"
+                                                    >
+                                                        <v-icon>add</v-icon>
+                                                    </v-btn>
+                                                </template>
                                                 <span>{{$t('search.tooltips.add_filter')}}</span>
                                             </v-tooltip>
                                         </v-flex>
@@ -158,14 +161,15 @@
                                         </v-flex>
                                         <v-flex shrink>
                                             <v-tooltip top>
-                                                <v-btn
-                                                        slot="activator"
-                                                        v-if="available"
-                                                        icon
-                                                        @click.native="filters.years.added=true"
-                                                >
-                                                    <v-icon>add</v-icon>
-                                                </v-btn>
+                                                <template v-slot:activator="{ on }">
+                                                    <v-btn
+                                                            v-on="on"
+                                                            icon
+                                                            @click.native="filters.years.added=true"
+                                                    >
+                                                        <v-icon>add</v-icon>
+                                                    </v-btn>
+                                                </template>
                                                 <span>{{$t('search.tooltips.add_filter')}}</span>
                                             </v-tooltip>
                                         </v-flex>
@@ -192,7 +196,7 @@
                     v-if="!!asyncCache && countPages > 1"
                     fluid
             >
-                <v-layout align-top justify-center text-xs-center>
+                <v-layout align-top justify-center text-center>
                     <v-flex xs12>
                         <v-pagination
                                 :length="countPages"
@@ -205,7 +209,7 @@
         </v-layout>
         <v-layout
                 v-if="!!asyncCache && asyncCache.count === 0"
-                align-top justify-center text-xs-center
+                align-top justify-center text-center
         >
             <v-alert
                     color="info"

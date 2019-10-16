@@ -23,35 +23,34 @@
                             class="pa-0"
                     >
                         <template v-for="(anime, index) in each.anime">
-                            <v-list-tile
-                                    avatar
+                            <v-list-item
                                     :ripple="{ class: 'grey--text' }"
                                     :key="index"
                                     nuxt
                                     :to="`/title/${anime.tid}`"
                             >
-                                <v-list-tile-avatar>
+                                <v-list-item-avatar>
                                     <img :src="anime.image">
-                                </v-list-tile-avatar>
-                                <v-list-tile-content>
-                                    <v-list-tile-title>{{anime.titleen ? anime.titleen : anime.title}}
-                                    </v-list-tile-title>
-                                    <v-list-tile-sub-title>{{$t('calendar.episode', [anime.episode])}}
-                                    </v-list-tile-sub-title>
-                                    <v-list-tile-sub-title>{{$t('calendar.channel', [anime.channel])}}
-                                    </v-list-tile-sub-title>
-                                </v-list-tile-content>
-                                <v-list-tile-action>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                    <v-list-item-title>{{anime.titleen ? anime.titleen : anime.title}}
+                                    </v-list-item-title>
+                                    <v-list-item-subtitle>{{$t('calendar.episode', [anime.episode])}}
+                                    </v-list-item-subtitle>
+                                    <v-list-item-subtitle>{{$t('calendar.channel', [anime.channel])}}
+                                    </v-list-item-subtitle>
+                                </v-list-item-content>
+                                <v-list-item-action>
                                     <v-spacer/>
-                                    <v-list-tile-action-text :class="settings.dark ? 'white--text' : 'black--text'">
+                                    <v-list-item-action-text :class="settings.dark ? 'white--text' : 'black--text'">
                                         {{[anime.time, ["HH:mm"]] | moment(settings.fullTimeFormat ? 'HH:mm' : 'LT' )}}
-                                    </v-list-tile-action-text>
-                                    <v-list-tile-action-text v-if="anime.shift !== '0'" class="error--text">
+                                    </v-list-item-action-text>
+                                    <v-list-item-action-text v-if="anime.shift !== '0'" class="error--text">
                                         {{anime.shift}}
-                                    </v-list-tile-action-text>
+                                    </v-list-item-action-text>
                                     <v-spacer/>
-                                </v-list-tile-action>
-                            </v-list-tile>
+                                </v-list-item-action>
+                            </v-list-item>
                             <v-divider v-if="index + 1 < each.anime.length"/>
                         </template>
                     </v-list>

@@ -6,16 +6,16 @@
             @mouseover="showReport = true"
             @mouseleave="showReport = false"
     >
-        <v-list-tile avatar>
-            <v-list-tile-avatar>
+        <v-list-item avatar>
+            <v-list-item-avatar>
                 <img :src="comment.user.avatar">
-            </v-list-tile-avatar>
-            <v-list-tile-content>
-                <v-list-tile-title>{{comment.user.nickname}}</v-list-tile-title>
-                <v-list-tile-sub-title class="grey--text">{{ comment.added | moment('timezone', settings.timezone, 'from') }}
-                </v-list-tile-sub-title>
-            </v-list-tile-content>
-            <v-list-tile-action v-show="showReport">
+            </v-list-item-avatar>
+            <v-list-item-content>
+                <v-list-item-title>{{comment.user.nickname}}</v-list-item-title>
+                <v-list-item-subtitle class="grey--text">{{ comment.added | moment('timezone', settings.timezone, 'from') }}
+                </v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action v-show="showReport">
                 <v-tooltip top>
                     <v-btn
                             flat
@@ -30,8 +30,8 @@
                     </v-btn>
                     <span>{{authenticated ? $t('tooltips.report_a_comment') : $t('tooltips.you_must_be_logged_in')}}</span>
                 </v-tooltip>
-            </v-list-tile-action>
-        </v-list-tile>
+            </v-list-item-action>
+        </v-list-item>
         <v-textarea
                 full-width
                 v-model="comment.text"
@@ -97,7 +97,7 @@
                 @click.native.once="downloadChilds(false)"
         >
             <v-expansion-panel-content
-                    hide-actions
+                    hide-default-footer
                     ripple
                     class="elevation-0"
             >

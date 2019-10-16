@@ -1,5 +1,5 @@
 <template>
-    <v-layout align-center justify-space-between row fill-height wrap white class="py-3 px-2 mb-4">
+    <v-layout align-center justify-space-between row fill-height wrap white class="py-3 px-2 mb-4 mx-0">
             <span class="pl-3 subheading">
             Share this on social media
           </span>
@@ -13,93 +13,91 @@
                     twitter-user="MyOngoingsCalendar"
                     inline-template
             >
-                <v-layout align-center justify-end wrap>
-                    <v-flex grow>
-                    </v-flex>
-                    <div class="d-flex">
+                <v-layout align-center justify-end row fill-height>
+                    <v-flex>
                         <network network="email">
                             <v-avatar size="36px">
                                 <font-awesome-icon icon="envelope" size="lg"/>
                             </v-avatar>
                         </network>
-                    </div>
-                    <div class="d-flex">
+                    </v-flex>
+                    <v-flex>
                         <network network="facebook">
                             <v-avatar size="36px">
                                 <font-awesome-icon :icon="['fab', 'facebook']" size="lg"/>
                             </v-avatar>
                         </network>
-                    </div>
-                    <div class="d-flex">
+                    </v-flex>
+                    <v-flex>
                         <network network="line">
                             <v-avatar size="36px">
                                 <font-awesome-icon :icon="['fab', 'line']" size="lg"/>
                             </v-avatar>
                         </network>
-                    </div>
-                    <div class="d-flex">
+                    </v-flex>
+                    <v-flex>
                         <network network="linkedin">
                             <v-avatar size="36px">
                                 <font-awesome-icon :icon="['fab', 'linkedin']" size="lg"/>
                             </v-avatar>
                         </network>
-                    </div>
-                    <div class="d-flex">
+                    </v-flex>
+                    <v-flex>
                         <network network="odnoklassniki">
                             <v-avatar size="36px">
                                 <font-awesome-icon :icon="['fab', 'odnoklassniki']" size="lg"/>
                             </v-avatar>
                         </network>
-                    </div>
-                    <div class="d-flex">
+                    </v-flex>
+                    <v-flex>
                         <network network="pinterest">
                             <v-avatar size="36px">
                                 <font-awesome-icon :icon="['fab', 'pinterest']" size="lg"/>
                             </v-avatar>
                         </network>
-                    </div>
-                    <div class="d-flex">
+                    </v-flex>
+                    <v-flex>
                         <network network="reddit">
                             <v-avatar size="36px">
                                 <font-awesome-icon :icon="['fab', 'reddit']" size="lg"/>
                             </v-avatar>
                         </network>
-                    </div>
-                    <div class="d-flex">
+                    </v-flex>
+                    <v-flex>
                         <network network="skype">
                             <v-avatar size="36px">
                                 <font-awesome-icon :icon="['fab', 'skype']" size="lg"/>
                             </v-avatar>
                         </network>
-                    </div>
-                    <div class="d-flex">
+                    </v-flex>
+                    <v-flex>
                         <network network="telegram">
                             <v-avatar size="36px">
                                 <font-awesome-icon :icon="['fab', 'telegram']" size="lg"/>
                             </v-avatar>
                         </network>
-                    </div>
-                    <div class="d-flex">
+                    </v-flex>
+                    <v-flex>
                         <network network="twitter">
                             <v-avatar size="36px">
                                 <font-awesome-icon :icon="['fab', 'twitter']" size="lg"/>
                             </v-avatar>
                         </network>
-                    </div>
-                    <div class="d-flex">
+                    </v-flex>
+                    <v-flex>
                         <network network="vk">
                             <v-avatar size="36px">
                                 <font-awesome-icon :icon="['fab', 'vk']" size="lg"/>
                             </v-avatar>
                         </network>
-                    </div>
-                    <div class="d-flex">
+                    </v-flex>
+                    <v-flex>
                         <network network="weibo">
                             <v-avatar size="36px">
                                 <font-awesome-icon :icon="['fab', 'weibo']" size="lg"/>
                             </v-avatar>
                         </network>
-                    </div>
+                    </v-flex>
                 </v-layout>
             </social-sharing>
         </no-ssr>
@@ -107,7 +105,10 @@
 </template>
 
 <script>
+    import {VFlex, VLayout, VAvatar} from 'vuetify/lib'
+
     export default {
+        components: {VFlex, VLayout, VAvatar},
         props: ['url', 'description']
     }
 </script>
