@@ -41,15 +41,12 @@
                                     </v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-list-item-action>
-                                    <v-spacer/>
                                     <v-list-item-action-text :class="settings.dark ? 'white--text' : 'black--text'">
                                         {{[anime.time, ["HH:mm"]] | moment(settings.fullTimeFormat ? 'HH:mm' : 'LT' )}}
                                     </v-list-item-action-text>
-                                    <v-spacer v-if="anime.shift !== '0'"/>
                                     <v-list-item-action-text v-if="anime.shift !== '0'" class="error--text">
                                         {{anime.shift}}
                                     </v-list-item-action-text>
-                                    <v-spacer/>
                                 </v-list-item-action>
                             </v-list-item>
                             <v-divider v-if="index + 1 < each.anime.length"/>
@@ -101,3 +98,9 @@
         }
     }
 </script>
+<style scoped>
+    >>> .v-list-item__action {
+        align-self: center !important;
+        margin: 0 0 0 16px !important;
+    }
+</style>

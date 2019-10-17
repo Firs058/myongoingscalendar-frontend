@@ -5,6 +5,7 @@
             :style="`backgroundColor: ${this.anime.image.hex ? this.settings.dark ? this.anime.image.hex.dark : this.anime.image.hex.light : null}`"
             hover
             ripple
+            tile
     >
         <v-img
                 :src="anime.image.full"
