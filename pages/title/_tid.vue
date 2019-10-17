@@ -2,7 +2,7 @@
     <v-container article :class="$device.isMobile ? 'pa-0' : 'py-0'">
         <v-layout align-center justify-center>
             <v-flex xs12>
-                <v-card color="transparent" flat>
+                <v-card color="transparent" flat tile>
                     <v-img
                             :lazy-src="title.image.full"
                             aspect-ratio="1"
@@ -18,7 +18,7 @@
                                 :style="`background:linear-gradient(to top, ${settings.dark ? title.image.hex ? title.image.hex.dark : 'rgba(0,0,0,0.5)' : title.image.hex ? title.image.hex.light : 'rgba(255,255,255,0.5)'}, ${settings.dark ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'});`"
                         >
                             <v-flex xs12 sm6>
-                                <v-card color="transparent" flat>
+                                <v-card color="transparent" flat tile>
                                     <v-card-title class="text-center mx-3">
                                         <v-spacer/>
                                         <h1
@@ -48,28 +48,16 @@
                                     <v-card-actions v-if="!title.outdated">
                                         <v-spacer/>
                                         <v-tooltip top>
-                                            <template v-if="title && !marked" v-slot:activator="{ on }">
+                                            <template v-slot:activator="{ on }">
                                                 <v-btn
                                                         v-on="on"
-                                                        color="success"
-                                                        @click.native.stop="toggleTitle"
+                                                        :color="title && !marked ? 'success' : 'error'"
+                                                        @click.native.stop="title && !marked ? toggleTitle() : deletion = true"
                                                         :disabled="!authenticated"
                                                         :loading="button.loading"
                                                         class="ma-1 extended"
                                                 >
-                                                    {{$t('buttons.add')}}
-                                                </v-btn>
-                                            </template>
-                                            <template v-else v-slot:activator="{ on }">
-                                                <v-btn
-                                                        v-on="on"
-                                                        color="error"
-                                                        @click.native.stop="deletion = true"
-                                                        :disabled="!authenticated"
-                                                        :loading="button.loading"
-                                                        class="ma-1 extended"
-                                                >
-                                                    {{$t('buttons.remove')}}
+                                                    {{title && !marked ? $t('buttons.add') : $t('buttons.remove')}}
                                                 </v-btn>
                                             </template>
                                             <span>{{authenticated ? marked ? $t('tooltips.remove_from_my_calendar') : $t('tooltips.add_to_my_calendar') : $t('tooltips.you_must_be_logged_in')}}</span>
@@ -92,7 +80,7 @@
                     <v-sheet class="py-10 px-4" :light="settings.dark" color="grey lighten-2">
                         <v-layout wrap>
                             <v-flex xs12 md6>
-                                <v-card color="transparent" flat>
+                                <v-card color="transparent" flat tile>
                                     <h1
                                             class="text-left mb-4"
                                             :class="$device.isMobile ? 'headline font-weight-bold' : 'display-1 font-weight-bold'"
@@ -149,10 +137,10 @@
                                             <span>{{$t('tooltips.open_link_in_new_window')}}</span>
                                         </v-tooltip>
                                     </div>
-                                    <!--    <social
-                                                :url="globalUrl"
-                                                :description="globalTitle"
-                                        />-->
+                                    <social
+                                            :url="globalUrl"
+                                            :description="globalTitle"
+                                    />
                                 </v-card>
                             </v-flex>
                             <v-flex xs12 md6>
@@ -198,11 +186,10 @@
                     </v-sheet>
                     <v-sheet>
                         <lazy-hydrate when-visible>
-                            <v-card color="transparent" flat>
-                                <v-toolbar dense text tabs>
+                            <v-card flat>
+                                <v-toolbar dense text tabs flat>
                                     <v-tabs
                                             centered
-                                            color="transparent"
                                             v-model="broadcast.active"
                                             fixed-tabs
                                     >
@@ -226,7 +213,7 @@
                                                 :items="i.items"
                                                 :items-per-page.sync="i.items.length"
                                                 hide-default-footer
-                                                hide-default-header
+                                                :hide-default-header="$device.isMobile"
                                         >
                                             <template
                                                     slot="items"
@@ -277,19 +264,21 @@
                         <lazy-hydrate when-visible>
                             <v-card color="transparent" flat>
                                 <v-container fluid>
-                                    <v-tooltip top>
-                                        <template v-slot:activator="{ on }">
-                                            <v-btn
-                                                    v-on="on"
-                                                    class="success"
-                                                    @click.native.stop="openDialog"
-                                                    :disabled="!authenticated"
-                                            >
-                                                {{$t('buttons.add_comment')}}
-                                            </v-btn>
-                                        </template>
-                                        <span>{{authenticated ? $t('buttons.add_comment') : $t('tooltips.you_must_be_logged_in')}}</span>
-                                    </v-tooltip>
+                                    <v-layout align-center justify-center>
+                                        <v-tooltip top>
+                                            <template v-slot:activator="{ on }">
+                                                <v-btn
+                                                        v-on="on"
+                                                        class="success"
+                                                        @click.native.stop="openDialog"
+                                                        :disabled="!authenticated"
+                                                >
+                                                    {{$t('buttons.add_comment')}}
+                                                </v-btn>
+                                            </template>
+                                            <span>{{authenticated ? $t('buttons.add_comment') : $t('tooltips.you_must_be_logged_in')}}</span>
+                                        </v-tooltip>
+                                    </v-layout>
                                 </v-container>
                                 <v-container
                                         v-if="!!comments.nodes && comments.nodes.length"

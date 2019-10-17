@@ -11,7 +11,7 @@
                     <v-text-field
                             v-model="filterInput"
                             :label="$t('inputs.search.label.2')"
-                            prepend-inner-icon="filter_list"
+                            :prepend-inner-icon="icons.mdiFilterVariant"
                             hide-details
                             clearable
                             solo
@@ -55,12 +55,18 @@
 </template>
 
 <script>
+    import {
+        mdiFilterVariant
+    } from '@mdi/js';
     import {mapGetters} from 'vuex'
 
     export default {
         data: () => ({
             showCount: 4,
-            filterInput: ''
+            filterInput: '',
+            icons:{
+                mdiFilterVariant
+            }
         }),
         async asyncData({app, store}) {
             if (store.getters.ongoingsListEmpty) {

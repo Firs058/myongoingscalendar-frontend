@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <loading v-if="loading"/>
     <v-container
             v-else
@@ -8,45 +8,43 @@
     >
         <v-layout align-center justify-center text-center>
             <v-flex xs12 sm12 md8 lg6 xl6>
-                <v-card>
+                <v-card tile>
                     <v-card-text>
                         <v-btn
-                                flat
+                                text
                                 @click.native="adminRequest('hex')"
                         >Force HEX
                         </v-btn>
                         <v-btn
-                                flat
+                                text
                                 @click.native="adminRequest('elastic')"
                         >Fill elastic
                         </v-btn>
                         <v-btn
-                                flat
+                                text
                                 @click.native="adminRequest('avatars')"
                         >Fill avatars
                         </v-btn>
                         <v-btn
-                                flat
+                                text
                                 @click.native="adminRequest('mal')"
                         >Force parse MAL
                         </v-btn>
                         <v-btn
-                                flat
+                                text
                                 @click.native="adminRequest('ann')"
                         >Force parse ANN
                         </v-btn>
                         <v-btn
-                                flat
+                                text
                                 @click.native="adminRequest('anidb')"
                         >Force parse AniDB
                         </v-btn>
                     </v-card-text>
-                </v-card>
-                <v-card>
                     <v-data-table
                             :headers="list.headers"
                             :items="list.items"
-                            :pagination.sync="pagination"
+                            :options="options"
                             hide-default-footer
                     >
                         <template
@@ -59,11 +57,15 @@
                             <td>{{ props.item.tid }}</td>
                             <td>{{ props.item.title }}</td>
                             <td>{{ props.item.titleen }}</td>
-                            <td class="justify-center layout px-0">
-                                <v-btn icon class="mx-0" @click="editItem(props.item)">
-                                    <v-icon color="teal">edit</v-icon>
-                                </v-btn>
-                            </td>
+                        </template>
+                        <template v-slot:item.action="{ item }">
+                            <v-icon
+                                    small
+                                    class="mr-2"
+                                    @click="editItem(item)"
+                            >
+                                {{icons.mdiPencil}}
+                            </v-icon>
                         </template>
                     </v-data-table>
                 </v-card>
@@ -95,8 +97,8 @@
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer/>
-                            <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
-                            <v-btn color="blue darken-1" flat @click.native="save">Save</v-btn>
+                            <v-btn text @click.native="dialog = false">Close</v-btn>
+                            <v-btn color="success" text @click.native="save">Save</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -106,13 +108,16 @@
 </template>
 
 <script>
+    import {
+        mdiPencil
+    } from '@mdi/js';
 
     export default {
         async asyncData({app, store}) {
             const data = await app.$axios.$post('api/admin/data');
             return {
-                pagination: {
-                    rowsPerPage: -1,
+                options: {
+                    itemsPerPage: -1,
                     sortBy: 'tid'
                 },
                 list: {
@@ -123,7 +128,8 @@
                         {sortable: false, text: 'ANN id', value: 'annid', align: 'center'},
                         {sortable: false, text: 'Syoboi id', value: 'tid', align: 'center'},
                         {sortable: false, text: 'Japan name', value: 'title', align: 'center'},
-                        {sortable: false, text: 'English name', value: 'titleen', align: 'center'}
+                        {sortable: false, text: 'English name', value: 'titleen', align: 'center'},
+                        {sortable: false, text: 'Actions', value: 'action', align: 'center'}
                     ],
                     item: {
                         aid: '',
@@ -133,6 +139,9 @@
                         title: '',
                         titleen: ''
                     }
+                },
+                icons: {
+                    mdiPencil
                 }
             }
         },

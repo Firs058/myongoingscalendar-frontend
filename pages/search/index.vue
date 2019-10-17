@@ -5,7 +5,7 @@
                 <v-text-field
                         v-model="currentQuery"
                         :label="$t('inputs.search.label.1')"
-                        prepend-inner-icon="search"
+                        :prepend-inner-icon="icons.mdiMagnify"
                         hide-details
                         solo
                         flat
@@ -17,8 +17,8 @@
                 <v-subheader class="pr-0">
                     {{$t("search.founded", [asyncCache.count])}}
                     <v-spacer/>
-                    <v-btn flat icon @click="expand = !expand">
-                        <v-icon>filter_list</v-icon>
+                    <v-btn text icon @click="expand = !expand">
+                        <v-icon>{{icons.mdiFilterVariant}}</v-icon>
                     </v-btn>
                 </v-subheader>
                 <v-layout row wrap>
@@ -78,7 +78,7 @@
                                                             icon
                                                             @click.native="filters.genres.added=true"
                                                     >
-                                                        <v-icon>add</v-icon>
+                                                        <v-icon>{{icons.mdiPlus}}</v-icon>
                                                     </v-btn>
                                                 </template>
                                                 <span>{{$t('search.tooltips.add_filter')}}</span>
@@ -122,7 +122,7 @@
                                                             icon
                                                             @click.native="filters.scores.added=true"
                                                     >
-                                                        <v-icon>add</v-icon>
+                                                        <v-icon>{{icons.mdiPlus}}</v-icon>
                                                     </v-btn>
                                                 </template>
                                                 <span>{{$t('search.tooltips.add_filter')}}</span>
@@ -167,7 +167,7 @@
                                                             icon
                                                             @click.native="filters.years.added=true"
                                                     >
-                                                        <v-icon>add</v-icon>
+                                                        <v-icon>{{icons.mdiPlus}}</v-icon>
                                                     </v-btn>
                                                 </template>
                                                 <span>{{$t('search.tooltips.add_filter')}}</span>
@@ -223,12 +223,22 @@
 </template>
 
 <script>
+    import {
+        mdiFilterVariant,
+        mdiMagnify,
+        mdiPlus
+    } from '@mdi/js';
     import {mapGetters} from 'vuex'
 
     export default {
         data: () => ({
             countPages: 1,
-            expand: false
+            expand: false,
+            icons:{
+                mdiFilterVariant,
+                mdiMagnify,
+                mdiPlus
+            }
         }),
         async asyncData({query, app, store}) {
             if (store.getters.supplyListEmpty) {

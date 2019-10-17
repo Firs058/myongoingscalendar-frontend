@@ -2,17 +2,8 @@
     <v-container fill-height article :class="$device.isMobile ? 'pa-0' : 'grid-list-lg pt-0'">
         <v-layout align-center justify-center text-center>
             <v-flex xs12 sm10 md6 lg4 xl3>
+                <h1>{{$t('registration.headline')}}</h1>
                 <v-card color="transparent" flat>
-                    <v-toolbar dense flat tabs color="transparent">
-                        <v-tabs fixed centered>
-                            <v-tab nuxt to="/login">
-                                <span class="headline">{{$t('login.headline')}}</span>
-                            </v-tab>
-                            <v-tab nuxt to="/registration">
-                                <span class="headline">{{$t('registration.headline')}}</span>
-                            </v-tab>
-                        </v-tabs>
-                    </v-toolbar>
                     <v-form v-model="valid" ref="form" lazy-validation class="pa-3 pt-4">
                         <v-text-field
                                 :label="$t('inputs.nickname.label')"
@@ -24,7 +15,7 @@
                             v => v && v.length <= 20 || $t('inputs.nickname.rules.lengthMax')
                   ]"
                                 :hint="$t('inputs.nickname.hint')"
-                                prepend-icon="person"
+                                :prepend-icon="icons.mdiAccount"
                                 required
                         />
                         <v-text-field
@@ -35,7 +26,7 @@
                             v => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || $t('inputs.email.rules.valid')
                   ]"
                                 :hint="$t('inputs.email.hint.2')"
-                                prepend-icon="email"
+                                :prepend-icon="icons.mdiEmail"
                                 required
                         />
                         <v-text-field
@@ -47,10 +38,10 @@
                             v => (v !== email || v !== nickname) || $t('inputs.password.rules.valid'),
                             v => v && v.length >= 8 || $t('inputs.password.rules.length')
                   ]"
-                                :append-icon="hidePass ? 'visibility' : 'visibility_off'"
+                                :append-icon="hidePass ? icons.mdiEye : icons.mdiEyeOff"
                                 @click:append="() => (hidePass = !hidePass)"
                                 :type="hidePass ? 'password' : 'text'"
-                                prepend-icon="lock"
+                                :prepend-icon="icons.mdiLock"
                                 required
                         />
                         <v-text-field
@@ -62,10 +53,10 @@
                             v => v === password || $t('inputs.confirm_password.rules.valid'),
                             v => v && v.length >= 8 || $t('inputs.confirm_password.rules.length')
                   ]"
-                                :append-icon="confirmHidePass ? 'visibility' : 'visibility_off'"
+                                :append-icon="confirmHidePass ? icons.mdiEye : icons.mdiEyeOff"
                                 @click:append="() => (confirmHidePass = !confirmHidePass)"
                                 :type="confirmHidePass ? 'password' : 'text'"
-                                prepend-icon="lock"
+                                :prepend-icon="icons.mdiLock"
                                 required
                         />
                         <v-checkbox
@@ -114,6 +105,13 @@
 </template>
 
 <script>
+    import {
+        mdiAccount,
+        mdiEmail,
+        mdiLock,
+        mdiEye,
+        mdiEyeOff
+    } from '@mdi/js';
     import {mapGetters} from 'vuex'
 
     export default {
@@ -128,7 +126,14 @@
                 email: '',
                 hidePass: true,
                 confirmPassword: '',
-                confirmHidePass: true
+                confirmHidePass: true,
+                icons:{
+                    mdiAccount,
+                    mdiEmail,
+                    mdiLock,
+                    mdiEye,
+                    mdiEyeOff
+                }
             }
         },
         head() {

@@ -2,12 +2,8 @@
     <v-container fill-height article :class="$device.isMobile ? 'pa-0' : 'grid-list-lg pt-0'">
         <v-layout align-center justify-center text-center>
             <v-flex xs12 sm10 md6 lg4 xl3>
+                <h1>{{$t('recover.headline')}}</h1>
                 <v-card color="transparent" flat>
-                    <v-toolbar dense card tabs color="transparent">
-                        <v-spacer/>
-                        <span class="headline">{{$t('recover.headline')}}</span>
-                        <v-spacer/>
-                    </v-toolbar>
                     <v-form v-model="valid" ref="form" lazy-validation class="pa-3 pt-4">
                         <v-text-field
                                 :label="$t('inputs.email.label')"
@@ -17,7 +13,7 @@
                             v => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || $t('inputs.email.rules.valid')
                   ]"
                                 :hint="$t('inputs.email.hint.3')"
-                                prepend-icon="email"
+                                :prepend-icon="icons.mdiEmail"
                                 required
                         />
                         <vue-recaptcha
@@ -46,12 +42,19 @@
 </template>
 
 <script>
+    import {
+        mdiEmail
+    } from '@mdi/js';
+
     export default {
         data: () => ({
             sitekey: '6LdMemkUAAAAAEhtdLuLej6GkuS89V0smYUo3DjC',
             loading: false,
             valid: true,
-            email: ''
+            email: '',
+            icons:{
+                mdiEmail
+            }
         }),
         head() {
             return {

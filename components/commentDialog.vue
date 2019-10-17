@@ -37,7 +37,7 @@
                 <v-spacer/>
                 <v-btn
                         color="error"
-                        flat
+                        text
                         @click.native="dialog = false"
                 >
                     {{$t('buttons.cancel')}}

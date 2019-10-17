@@ -2,17 +2,8 @@
     <v-container fill-height article :class="$device.isMobile ? 'pa-0' : 'grid-list-lg pt-0'">
         <v-layout align-center justify-center text-center>
             <v-flex xs12 sm10 md6 lg4 xl3>
+                <h1>{{$t('login.headline')}}</h1>
                 <v-card color="transparent" flat>
-                    <v-toolbar flat dense tabs color="transparent">
-                        <v-tabs fixed centered>
-                            <v-tab nuxt to="/login">
-                                <span class="headline">{{$t('login.headline')}}</span>
-                            </v-tab>
-                            <v-tab nuxt to="/registration">
-                                <span class="headline">{{$t('registration.headline')}}</span>
-                            </v-tab>
-                        </v-tabs>
-                    </v-toolbar>
                     <v-form v-model="valid" ref="form" lazy-validation class="pa-3 pt-4">
                         <v-text-field
                                 :label="$t('inputs.email.label')"
@@ -22,7 +13,7 @@
                              v => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || $t('inputs.email.rules.valid')
                   ]"
                                 :hint="$t('inputs.email.hint.1')"
-                                prepend-icon="email"
+                                :prepend-icon="icons.mdiEmail"
                                 required
                         />
                         <v-text-field
@@ -34,15 +25,19 @@
                              v => v && v.length >= 8 || $t('inputs.password.rules.length'),
                   ]"
                                 :hint="$t('inputs.password.hint')"
-                                :append-icon="hidePass ? 'visibility' : 'visibility_off'"
+                                :append-icon="hidePass ? icons.mdiEye : icons.mdiEyeOff"
                                 @click:append="() => (hidePass = !hidePass)"
                                 :type="hidePass ? 'password' : 'text'"
-                                prepend-icon="lock"
+                                :prepend-icon="icons.mdiLock"
                                 required
                         />
                     </v-form>
                     <v-list class="transparent">
                         <v-list-item>
+                            <v-spacer/>
+                            <v-list-item-action>
+                                <a @click.stop="$router.push('/registration')">{{$t('registration.headline')}}</a>
+                            </v-list-item-action>
                             <v-spacer/>
                             <v-list-item-action>
                                 <a @click.stop="$router.push('/recover')">{{$t('login.forgot_pass')}}</a>
@@ -145,6 +140,12 @@
 </template>
 
 <script>
+    import {
+        mdiEmail,
+        mdiLock,
+        mdiEye,
+        mdiEyeOff
+    } from '@mdi/js';
     export default {
         data: () => ({
             loadingBtn: false,
@@ -179,7 +180,13 @@
                     icon: ['fab', 'github'],
                     loading: false
                 }
-            ]
+            ],
+            icons: {
+                mdiEmail,
+                mdiLock,
+                mdiEye,
+                mdiEyeOff
+            }
         }),
         head() {
             return {

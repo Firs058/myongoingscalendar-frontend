@@ -17,10 +17,9 @@
                         <template v-slot:activator="{ on }">
                             <v-icon
                                     v-on="on"
-                                    large
+                                    x-large
                                     color="red darken-1"
                                     class="ma-3"
-                                    style="font-size: 48px;"
                             >
                                 {{icons.mdiHeart}}
                             </v-icon>

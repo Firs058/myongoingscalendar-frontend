@@ -10,14 +10,15 @@
                 fixed
                 width="240"
         >
-            <div class="mb-4 mt-2 text-center"
-                 :style="`cursor: pointer;`"
-                 @click.stop="$router.push('/')"
+            <div
+                    class="mb-4 mt-2 text-center"
+                    :style="`cursor: pointer;`"
+                    @click.stop="$router.push('/')"
             >
                 <div class="title mx-3">MyOngoingsCalendar</div>
                 <div class="grey--text mx-3">{{settings.timezone}}</div>
             </div>
-            <v-list dense nav>
+            <v-list dense flat>
                 <v-list-item
                         ripple
                         to="/"
@@ -136,7 +137,7 @@
                         <v-list-item-action>
                             <v-avatar
                                     tile
-                                    size="24px"
+                                    size="16px"
                                     slot="activator"
                             >
                                 <img :src="donate.img"/>
@@ -224,7 +225,7 @@
                     :to="{ name: 'search', query: lastQuery }"
                     nuxt
             >
-                <v-icon>{{icons.mdiMagnifyOutline}}</v-icon>
+                <v-icon>{{icons.mdiMagnify}}</v-icon>
             </v-btn>
             <v-app-bar-nav-icon @click.stop="menu = !menu"/>
         </v-app-bar>

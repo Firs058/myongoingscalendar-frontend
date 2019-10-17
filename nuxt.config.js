@@ -43,21 +43,17 @@ module.exports = {
         '@nuxtjs/axios',
         '@nuxtjs/proxy',
         '@nuxtjs/vuetify',
-        'nuxt-device-detect',
-        'nuxt-webfontloader'
+        'nuxt-device-detect'
     ],
     loading: false,
     router: {
         middleware: ['sync', 'i18n']
     },
-    webfontloader: {
-        google: {
-            families: ['Roboto:300,400,500,700']
-        }
-    },
     vuetify: {
         treeShake: true,
-        defaultAssets: false,
+        defaultAssets: {
+            icons: false
+        },
         icons: {
             iconfont: "mdiSvg"
         }

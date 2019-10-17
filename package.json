@@ -31,7 +31,6 @@
     "nuxt": "^2.10.1",
     "nuxt-device-detect": "^1.1.5",
     "nuxt-i18n": "^6.3.0",
-    "nuxt-webfontloader": "^1.1.0",
     "vue": "^2.6.10",
     "vue-async-computed": "^3.7.0",
     "vue-chartjs": "^3.4.2",

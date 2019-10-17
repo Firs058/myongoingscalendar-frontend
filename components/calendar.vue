@@ -16,7 +16,7 @@
                         :class="each.day.today ? 'orange--text text-capitalize' : each.day.weekend ? 'red--text text-capitalize' : 'text-capitalize'">
                     {{each.day.today ? $t('calendar.today') : each.day.date}}
                 </v-subheader>
-                <v-card flat>
+                <v-card flat tile>
                     <v-list
                             three-line
                             subheader
@@ -45,6 +45,7 @@
                                     <v-list-item-action-text :class="settings.dark ? 'white--text' : 'black--text'">
                                         {{[anime.time, ["HH:mm"]] | moment(settings.fullTimeFormat ? 'HH:mm' : 'LT' )}}
                                     </v-list-item-action-text>
+                                    <v-spacer v-if="anime.shift !== '0'"/>
                                     <v-list-item-action-text v-if="anime.shift !== '0'" class="error--text">
                                         {{anime.shift}}
                                     </v-list-item-action-text>

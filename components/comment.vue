@@ -1,10 +1,8 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-card
             flat
             color="transparent"
             class="my-2"
-            @mouseover="showReport = true"
-            @mouseleave="showReport = false"
     >
         <v-list-item avatar>
             <v-list-item-avatar>
@@ -12,22 +10,26 @@
             </v-list-item-avatar>
             <v-list-item-content>
                 <v-list-item-title>{{comment.user.nickname}}</v-list-item-title>
-                <v-list-item-subtitle class="grey--text">{{ comment.added | moment('timezone', settings.timezone, 'from') }}
+                <v-list-item-subtitle class="grey--text">{{ comment.added | moment('timezone', settings.timezone,
+                    'from') }}
                 </v-list-item-subtitle>
             </v-list-item-content>
-            <v-list-item-action v-show="showReport">
+            <v-list-item-action>
                 <v-tooltip top>
-                    <v-btn
-                            flat
-                            slot="activator"
-                            @click.native="addReport"
-                            :loading="loadingReport"
-                            :disabled="!authenticated"
-                            fab
-                            small
-                    >
-                        <v-icon>report</v-icon>
-                    </v-btn>
+                    <template v-slot:activator="{ on }">
+                        <v-btn
+                                text
+                                v-on="on"
+                                @click.native="addReport"
+                                :loading="loadingReport"
+                                :disabled="!authenticated"
+                                fab
+                                small
+                                icon
+                        >
+                            <v-icon small>{{icons.mdiAlertOctagon}}</v-icon>
+                        </v-btn>
+                    </template>
                     <span>{{authenticated ? $t('tooltips.report_a_comment') : $t('tooltips.you_must_be_logged_in')}}</span>
                 </v-tooltip>
             </v-list-item-action>
@@ -43,50 +45,58 @@
         />
         <v-card-actions style="margin-left: 61px;" class="pa-0">
             <v-tooltip top>
-                <v-btn
-                        flat
-                        slot="activator"
-                        @click.native="addLike"
-                        :disabled="!authenticated"
-                        :loading="loadingLike"
-                        :color="comment.liked ? 'primary' : null"
-                        small
-                        fab
-                        :class="comment.liked ? null : 'mr-2'"
-                >
-                    <v-icon>thumb_up</v-icon>
-                </v-btn>
+                <template v-slot:activator="{ on }">
+                    <v-btn
+                            text
+                            v-on="on"
+                            @click.native="addLike"
+                            :disabled="!authenticated"
+                            :loading="loadingLike"
+                            :color="comment.liked ? 'primary' : null"
+                            small
+                            fab
+                            :class="comment.liked ? null : 'mr-2'"
+                            icon
+                    >
+                        <v-icon small>{{icons.mdiThumbUp}}</v-icon>
+                    </v-btn>
+                </template>
                 <span>{{authenticated ?  $t('tooltips.like') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
             <div v-if="comment.likes" class="mr-2">{{comment.likes}}</div>
             <v-tooltip top>
-                <v-btn
-                        flat
-                        slot="activator"
-                        @click.native="addDislike"
-                        :disabled="!authenticated"
-                        :loading="loadingDislike"
-                        :color="comment.disliked ? 'primary' : null"
-                        small
-                        fab
-                        :class="comment.disliked ? null : 'mr-2'"
-                >
-                    <v-icon>thumb_down</v-icon>
-                </v-btn>
+                <template v-slot:activator="{ on }">
+                    <v-btn
+                            text
+                            v-on="on"
+                            @click.native="addDislike"
+                            :disabled="!authenticated"
+                            :loading="loadingDislike"
+                            :color="comment.disliked ? 'primary' : null"
+                            small
+                            fab
+                            :class="comment.disliked ? null : 'mr-2'"
+                            icon
+                    >
+                        <v-icon small>{{icons.mdiThumbDown}}</v-icon>
+                    </v-btn>
+                </template>
                 <span>{{authenticated ?  $t('tooltips.dislike') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
             <div v-if="comment.dislikes" class="mr-2">{{comment.dislikes}}</div>
             <v-tooltip top>
-                <v-btn
-                        small
-                        flat
-                        slot="activator"
-                        @click.native="openDialog()"
-                        :disabled="!authenticated"
-                >
-                    <v-icon left>reply</v-icon>
-                    {{$t('buttons.reply')}}
-                </v-btn>
+                <template v-slot:activator="{ on }">
+                    <v-btn
+                            small
+                            text
+                            v-on="on"
+                            @click.native="openDialog()"
+                            :disabled="!authenticated"
+                    >
+                        <v-icon left>{{icons.mdiReplay}}</v-icon>
+                        {{$t('buttons.reply')}}
+                    </v-btn>
+                </template>
                 <span>{{authenticated ?  $t('buttons.reply') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
         </v-card-actions>
@@ -141,6 +151,12 @@
 </template>
 
 <script>
+    import {
+        mdiThumbUp,
+        mdiThumbDown,
+        mdiReplay,
+        mdiAlertOctagon
+    } from '@mdi/js';
     import {mapGetters} from 'vuex'
 
     export default {
@@ -153,8 +169,13 @@
             offset: 0,
             more: 0,
             comments: [],
-            showReport: false,
-            expansion: [false]
+            expansion: [false],
+            icons: {
+                mdiThumbUp,
+                mdiThumbDown,
+                mdiReplay,
+                mdiAlertOctagon
+            }
         }),
         props: ['comment'],
         methods: {
@@ -174,7 +195,7 @@
             },
             addReport() {
                 this.loadingReport = true;
-                this.$anime.userApi(`title/${this.comment.tid}/comments/${this.comment.tid}/${this.comment.id}/report`)
+                this.$anime.userApi(`title/${this.comment.tid}/comments/${this.comment.id}/report`)
                     .then(result => this.$toast.showToast({code: result.data.status.code}))
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.loadingReport = false)
@@ -215,19 +236,5 @@
     }
 </script>
 <style scoped>
-    >>> .v-input__control {
-        padding: 0 !important;
-    }
 
-    >>> .v-expansion-panel__header {
-        padding: 12px 30px !important;
-    }
-
-    >>> .v-expansion-panel .v-expansion-panel__container {
-        background-color: transparent !important;
-    }
-
-    .with_border {
-        border-left: 5px solid gainsboro;
-    }
 </style>

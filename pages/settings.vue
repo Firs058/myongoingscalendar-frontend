@@ -29,13 +29,15 @@
                                         persistent
                                         max-width="500px"
                                 >
-                                    <v-btn
-                                            right
-                                            icon
-                                            slot="activator"
-                                    >
-                                        <v-icon>open_in_new</v-icon>
-                                    </v-btn>
+                                    <template v-slot:activator="{ on }">
+                                        <v-btn
+                                                v-on="on"
+                                                right
+                                                icon
+                                        >
+                                            <v-icon>{{icons.mdiOpenInNew}}</v-icon>
+                                        </v-btn>
+                                    </template>
                                     <v-card>
                                         <v-card-title>
                                             <span class="headline">{{$t('settings.account.change_nickname.dialog.headline')}}</span>
@@ -59,7 +61,7 @@
                                         <v-card-actions>
                                             <v-spacer/>
                                             <v-btn
-                                                    flat
+                                                    text
                                                     @click.native="nickname.dialog = false"
                                             >{{$t('buttons.cancel')}}
                                             </v-btn>
@@ -87,7 +89,7 @@
                                         icon
                                         @click.stop="openUrl('https://gravatar.com/')"
                                 >
-                                    <v-icon>chevron_right</v-icon>
+                                    <v-icon>{{icons.mdiArrowRight}}</v-icon>
                                 </v-btn>
                             </v-list-item-action>
                         </v-list-item>
@@ -104,13 +106,15 @@
                                         persistent
                                         max-width="500px"
                                 >
-                                    <v-btn
-                                            right
-                                            icon
-                                            slot="activator"
-                                    >
-                                        <v-icon>open_in_new</v-icon>
-                                    </v-btn>
+                                    <template v-slot:activator="{ on }">
+                                        <v-btn
+                                                v-on="on"
+                                                right
+                                                icon
+                                        >
+                                            <v-icon>{{icons.mdiOpenInNew}}</v-icon>
+                                        </v-btn>
+                                    </template>
                                     <v-card>
                                         <v-card-title>
                                             <span class="headline">{{$t('settings.account.change_password.dialog.headline')}}</span>
@@ -126,7 +130,7 @@
                                   v => (v !== user.email || v !== settings.nickname) || $t('inputs.password.rules.valid'),
                                   v => v && v.length >= 8 || $t('inputs.password.rules.length')
                         ]"
-                                                        :append-icon="password.hidePass ? 'visibility' : 'visibility_off'"
+                                                        :append-icon="password.hidePass ? icons.mdiEye : icons.mdiEyeOff"
                                                         @click:append="() => (password.hidePass = !password.hidePass)"
                                                         :type="password.hidePass ? 'password' : 'text'"
                                                         required
@@ -137,7 +141,7 @@
                                         <v-card-actions>
                                             <v-spacer/>
                                             <v-btn
-                                                    flat
+                                                    text
                                                     @click.native="password.dialog = false"
                                             >{{$t('buttons.cancel')}}
                                             </v-btn>
@@ -312,6 +316,13 @@
 </template>
 
 <script>
+    import {
+        mdiArrowRight,
+        mdiOpenInNew,
+        mdiEye,
+        mdiEyeOff
+    } from '@mdi/js';
+
     export default {
         data: () => ({
             valid: false,
@@ -339,7 +350,13 @@
                     code: 'ru',
                     img: '/images/ru.png'
                 }
-            ]
+            ],
+            icons: {
+                mdiArrowRight,
+                mdiOpenInNew,
+                mdiEye,
+                mdiEyeOff
+            }
         }),
         methods: {
             submitNickname() {

@@ -40,6 +40,9 @@
                             gridLines: {
                                 drawBorder: false,
                                 color: this.settings.dark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)'
+                            },
+                            scaleLabel: {
+                                display: true
                             }
                         }],
                         xAxes: [{
@@ -52,6 +55,9 @@
                             },
                             gridLines: {
                                 display: false
+                            },
+                            scaleLabel: {
+                                display: true
                             }
                         }]
                     },
@@ -63,7 +69,12 @@
                         cornerRadius: 2,
                         caretSize: 0,
                         displayColors: false,
+                        intersect: false,
                         mode: 'index'
+                    },
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
                     }
                 }
             }
