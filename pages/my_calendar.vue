@@ -1,5 +1,5 @@
 <template>
-    <v-container article :class="$device.isMobile ? undefined : 'grid-list-lg pt-0'">
+    <v-container article :class="$device.isMobile ? 'py-0' : 'grid-list-lg pt-0'">
         <calendar
                 v-if="calendar.length"
                 :calendar="calendar"

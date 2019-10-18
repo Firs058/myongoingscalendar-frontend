@@ -22,10 +22,9 @@
                             subheader
                             class="pa-0"
                     >
-                        <template v-for="(anime, index) in each.anime">
+                        <v-list-item-group v-for="(anime, index) in each.anime" :key="index">
                             <v-list-item
                                     :ripple="{ class: 'grey--text' }"
-                                    :key="index"
                                     nuxt
                                     :to="`/title/${anime.tid}`"
                             >
@@ -50,7 +49,7 @@
                                 </v-list-item-action>
                             </v-list-item>
                             <v-divider v-if="index + 1 < each.anime.length"/>
-                        </template>
+                        </v-list-item-group>
                     </v-list>
                 </v-card>
             </v-flex>

@@ -19,170 +19,172 @@
                 <div class="grey--text mx-3">{{settings.timezone}}</div>
             </div>
             <v-list dense flat>
-                <v-list-item
-                        ripple
-                        to="/"
-                        nuxt
-                >
-                    <v-list-item-action>
-                        <v-icon>{{icons.mdiHome}}</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>{{$t('menu.home')}}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item
-                        ripple
-                        v-if="authenticated"
-                        to="/my_calendar"
-                        nuxt
-                >
-                    <v-list-item-action>
-                        <v-icon>{{icons.mdiCalendarCheck}}</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>{{$t('menu.my_calendar')}}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item
-                        ripple
-                        to="/list"
-                        nuxt
-                >
-                    <v-list-item-action>
-                        <v-icon>{{icons.mdiFormatListBulleted}}</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>{{$t('menu.ongoings_list')}}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item
-                        ripple
-                        :to="{ name: 'search', query: lastQuery}"
-                        :disabled="$route.name === 'search'"
-                        nuxt
-                >
-                    <v-list-item-action>
-                        <v-icon>{{icons.mdiMagnify}}</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>{{$t('menu.search')}}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item
-                        ripple
-                        v-if="!authenticated"
-                        to="/login"
-                        nuxt
-                >
-                    <v-list-item-action>
-                        <v-icon>{{icons.mdiLogin}}</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>{{$t('menu.login')}}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item
-                        ripple
-                        v-if="!authenticated"
-                        to="/registration"
-                        nuxt
-                >
-                    <v-list-item-action>
-                        <v-icon>{{icons.mdiAccountPlus}}</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>{{$t('menu.registration')}}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item
-                        ripple
-                        to="/about"
-                        nuxt
-                >
-                    <v-list-item-action>
-                        <v-icon>{{icons.mdiInformationVariant}}</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>{{$t('menu.about')}}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item
-                        ripple
-                        to="/settings"
-                        nuxt
-                >
-                    <v-list-item-action>
-                        <v-icon>{{icons.mdiSettings}}</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>{{$t('menu.settings')}}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-group
-                        v-for="item in 1"
-                        :value="item.active"
-                        :key="item.name"
-                        :prepend-icon="icons.mdiGiftOutline"
-                        no-action
-                >
-                    <template v-slot:activator>
-                        <v-list-item-title dense>{{$t('menu.donate')}}</v-list-item-title>
-                    </template>
+                <v-list-item-group color="primary">
                     <v-list-item
-                            v-for="donate in donates"
-                            :key="donate.name"
-                            @click="donate.action === 'url' ? openUrl(donate.address) : copyToClipboard(donate.name, donate.address)"
+                            ripple
+                            to="/"
+                            nuxt
                     >
                         <v-list-item-action>
-                            <v-avatar
-                                    tile
-                                    size="16px"
-                                    slot="activator"
-                            >
-                                <img :src="donate.img"/>
-                            </v-avatar>
+                            <v-icon>{{icons.mdiHome}}</v-icon>
                         </v-list-item-action>
                         <v-list-item-content>
-                            <v-list-item-title v-text="donate.name"/>
+                            <v-list-item-title>{{$t('menu.home')}}</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                </v-list-group>
-                <v-list-item
-                        v-if="authenticated && admin"
-                        to="/admin"
-                        nuxt
-                >
-                    <v-list-item-action>
-                        <v-icon>{{icons.mdiPencil}}</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>Admin</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item v-if="authenticated">
-                    <v-list-item-avatar>
-                        <img :src="settings.avatar"/>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                        <v-list-item-subtitle>{{$t('menu.logged_as')}}</v-list-item-subtitle>
-                        <v-list-item-title>{{user.email}}</v-list-item-title>
-                    </v-list-item-content>
-                    <v-list-item-action>
-                        <v-tooltip top>
-                            <template v-slot:activator="{ on }">
-                                <v-btn
-                                        v-on="on"
-                                        icon
-                                        @click.stop="logout()"
+                    <v-list-item
+                            ripple
+                            v-if="authenticated"
+                            to="/my_calendar"
+                            nuxt
+                    >
+                        <v-list-item-action>
+                            <v-icon>{{icons.mdiCalendarCheck}}</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title>{{$t('menu.my_calendar')}}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item
+                            ripple
+                            to="/list"
+                            nuxt
+                    >
+                        <v-list-item-action>
+                            <v-icon>{{icons.mdiFormatListBulleted}}</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title>{{$t('menu.ongoings_list')}}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item
+                            ripple
+                            :to="{ name: 'search', query: lastQuery}"
+                            :disabled="$route.name === 'search'"
+                            nuxt
+                    >
+                        <v-list-item-action>
+                            <v-icon>{{icons.mdiMagnify}}</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title>{{$t('menu.search')}}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item
+                            ripple
+                            v-if="!authenticated"
+                            to="/login"
+                            nuxt
+                    >
+                        <v-list-item-action>
+                            <v-icon>{{icons.mdiLogin}}</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title>{{$t('menu.login')}}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item
+                            ripple
+                            v-if="!authenticated"
+                            to="/registration"
+                            nuxt
+                    >
+                        <v-list-item-action>
+                            <v-icon>{{icons.mdiAccountPlus}}</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title>{{$t('menu.registration')}}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item
+                            ripple
+                            to="/about"
+                            nuxt
+                    >
+                        <v-list-item-action>
+                            <v-icon>{{icons.mdiInformationVariant}}</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title>{{$t('menu.about')}}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item
+                            ripple
+                            to="/settings"
+                            nuxt
+                    >
+                        <v-list-item-action>
+                            <v-icon>{{icons.mdiSettings}}</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title>{{$t('menu.settings')}}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-group
+                            v-for="item in 1"
+                            :value="item.active"
+                            :key="item.name"
+                            :prepend-icon="icons.mdiGiftOutline"
+                            no-action
+                    >
+                        <template v-slot:activator>
+                            <v-list-item-title dense>{{$t('menu.donate')}}</v-list-item-title>
+                        </template>
+                        <v-list-item
+                                v-for="donate in donates"
+                                :key="donate.name"
+                                @click="donate.action === 'url' ? openUrl(donate.address) : copyToClipboard(donate.name, donate.address)"
+                        >
+                            <v-list-item-action>
+                                <v-avatar
+                                        tile
+                                        size="16px"
+                                        slot="activator"
                                 >
-                                    <v-icon>{{icons.mdiExitToApp}}</v-icon>
-                                </v-btn>
-                            </template>
-                            {{$t('menu.exit')}}
-                        </v-tooltip>
-                    </v-list-item-action>
-                </v-list-item>
+                                    <img :src="donate.img"/>
+                                </v-avatar>
+                            </v-list-item-action>
+                            <v-list-item-content>
+                                <v-list-item-title v-text="donate.name"/>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list-group>
+                    <v-list-item
+                            v-if="authenticated && admin"
+                            to="/admin"
+                            nuxt
+                    >
+                        <v-list-item-action>
+                            <v-icon>{{icons.mdiPencil}}</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title>Admin</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item v-if="authenticated">
+                        <v-list-item-avatar>
+                            <img :src="settings.avatar"/>
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                            <v-list-item-subtitle>{{$t('menu.logged_as')}}</v-list-item-subtitle>
+                            <v-list-item-title>{{user.email}}</v-list-item-title>
+                        </v-list-item-content>
+                        <v-list-item-action>
+                            <v-tooltip top>
+                                <template v-slot:activator="{ on }">
+                                    <v-btn
+                                            v-on="on"
+                                            icon
+                                            @click.stop="logout()"
+                                    >
+                                        <v-icon>{{icons.mdiExitToApp}}</v-icon>
+                                    </v-btn>
+                                </template>
+                                {{$t('menu.exit')}}
+                            </v-tooltip>
+                        </v-list-item-action>
+                    </v-list-item>
+                </v-list-item-group>
             </v-list>
             <template v-slot:append>
                 <div class="mb-2 mt-4">
@@ -224,6 +226,7 @@
                     icon
                     :to="{ name: 'search', query: lastQuery }"
                     nuxt
+                    exact-active-class="undefined"
             >
                 <v-icon>{{icons.mdiMagnify}}</v-icon>
             </v-btn>
@@ -358,3 +361,8 @@
         }
     }
 </script>
+<style scoped>
+    .v-btn--active:before {
+        opacity: 0 !important;
+    }
+</style>
