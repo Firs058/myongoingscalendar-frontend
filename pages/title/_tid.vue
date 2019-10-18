@@ -493,7 +493,7 @@
                 return this.$t("meta_info.title.meta.description", [this.title.en ? this.title.en : this.title.ja, this.title.firstyear])
             },
             globalImage() {
-                return `${process.env.baseUrl}${this.title.image}`
+                return `${process.env.baseUrl}${this.title.image.full}`
             },
             tableHeaders() {
                 let headers = this.broadcast.headers;
