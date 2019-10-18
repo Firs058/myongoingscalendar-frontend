@@ -43,8 +43,9 @@
                     fluid
             >
                 <v-alert
+                        tile
                         color="info"
-                        icon="info"
+                        :icon="icons.mdiAlertDecagram"
                         value="true"
                 >
                     {{$t("alerts.nothing_found")}}
@@ -56,7 +57,8 @@
 
 <script>
     import {
-        mdiFilterVariant
+        mdiFilterVariant,
+        mdiAlertDecagram
     } from '@mdi/js';
     import {mapGetters} from 'vuex'
 
@@ -65,7 +67,8 @@
             showCount: 4,
             filterInput: '',
             icons:{
-                mdiFilterVariant
+                mdiFilterVariant,
+                mdiAlertDecagram
             }
         }),
         async asyncData({app, store}) {

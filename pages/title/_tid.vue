@@ -258,11 +258,11 @@
                             </v-card>
                         </v-dialog>
                     </v-sheet>
-                    <v-sheet :color="settings.dark ? 'grey darken-3' : 'grey lighten-4'" class="pb-5">
+                    <v-sheet :color="settings.dark ? 'grey darken-3' : 'grey lighten-4'">
                         <lazy-hydrate when-visible>
                             <v-card color="transparent" flat>
                                 <v-container fluid>
-                                    <v-layout align-center justify-center>
+                                    <v-row align="center" justify="center">
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on }">
                                                 <v-btn
@@ -276,26 +276,27 @@
                                             </template>
                                             <span>{{authenticated ? $t('buttons.add_comment') : $t('tooltips.you_must_be_logged_in')}}</span>
                                         </v-tooltip>
-                                    </v-layout>
+                                    </v-row>
                                 </v-container>
                                 <v-container
                                         v-if="!!comments.nodes && comments.nodes.length"
                                         fluid
                                         :class="!$device.isDesktop ? 'pa-0' : null"
                                 >
-                                    <v-layout row wrap>
-                                        <v-flex xs12 v-for="(comment, index) in comments.nodes"
-                                                :key="index">
-                                            <comment :comment="comment"/>
-                                        </v-flex>
-                                    </v-layout>
+                                    <div class="d-flex flex-column">
+                                        <comment
+                                                xs12 v-for="(comment, index) in comments.nodes"
+                                                :key="index"
+                                                :comment="comment"
+                                        />
+                                    </div>
                                 </v-container>
                                 <v-container
                                         fluid
-                                        :class="!$device.isDesktop ? 'pa-0' : null"
                                         v-if="comments.more > 0"
                                 >
-                                    <v-layout row wrap align-center justify-center>
+
+                                    <v-row align="center" justify="center">
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on }">
                                                 <v-btn
@@ -311,7 +312,7 @@
                                             </template>
                                             <span>{{$t('comments.show_more.1')}}</span>
                                         </v-tooltip>
-                                    </v-layout>
+                                    </v-row>
                                 </v-container>
                                 <comment-dialog/>
                             </v-card>

@@ -212,9 +212,9 @@
                 align-top justify-center text-center
         >
             <v-alert
+                    tile
                     color="info"
-                    icon="info"
-                    value="true"
+                    :icon="icons.mdiAlertDecagram"
             >
                 {{$t("alerts.nothing_found")}}
             </v-alert>
@@ -226,7 +226,8 @@
     import {
         mdiFilterVariant,
         mdiMagnify,
-        mdiPlus
+        mdiPlus,
+        mdiAlertDecagram
     } from '@mdi/js';
     import {mapGetters} from 'vuex'
 
@@ -237,7 +238,8 @@
             icons:{
                 mdiFilterVariant,
                 mdiMagnify,
-                mdiPlus
+                mdiPlus,
+                mdiAlertDecagram
             }
         }),
         async asyncData({query, app, store}) {

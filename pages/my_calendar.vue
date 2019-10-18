@@ -7,7 +7,7 @@
         />
         <v-layout v-else align-center justify-center text-center>
             <v-flex xs12 class="mt-4">
-                <v-alert type="info" :value="true">
+                <v-alert tile type="info" :value="true">
                     {{$t("alerts.nothing_found")}}
                 </v-alert>
             </v-flex>

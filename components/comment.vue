@@ -10,8 +10,8 @@
             </v-list-item-avatar>
             <v-list-item-content>
                 <v-list-item-title>{{comment.user.nickname}}</v-list-item-title>
-                <v-list-item-subtitle class="grey--text">{{ comment.added | moment('timezone', settings.timezone,
-                    'from') }}
+                <v-list-item-subtitle class="grey--text">
+                    {{ comment.added | moment('timezone', settings.timezone, 'from') }}
                 </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
@@ -41,9 +41,9 @@
                 auto-grow
                 rows="1"
                 hide-details
-                style="margin-left: 60px;"
+                style="margin-left: 67px;"
         />
-        <v-card-actions style="margin-left: 61px;" class="pa-0">
+        <v-card-actions style="margin-left: 68px;" class="pa-0">
             <v-tooltip top>
                 <template v-slot:activator="{ on }">
                     <v-btn
@@ -109,7 +109,6 @@
                     :class="settings.dark ? 'grey darken-3' : 'grey lighten-4'"
             >
                 <v-expansion-panel-header
-                        style="margin-left: 49px;"
                         hide-actions
                         @click.native.once="downloadChilds(false)"
                 >
@@ -132,10 +131,9 @@
                     </v-container>
                     <v-container
                             fluid
-                            :class="$device.isMobile ? 'pa-0' : null"
                             v-if="comment.replies > 10 && more > 0"
                     >
-                        <v-layout row wrap align-center justify-center>
+                        <v-row align="center" justify="center">
                             <v-tooltip top>
                                 <template v-slot:activator="{ on }">
                                     <v-btn
@@ -151,7 +149,7 @@
                                 </template>
                                 <span>{{$t('comments.show_more.1')}}</span>
                             </v-tooltip>
-                        </v-layout>
+                        </v-row>
                     </v-container>
                 </v-expansion-panel-content>
             </v-expansion-panel>
