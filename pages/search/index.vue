@@ -131,7 +131,7 @@
                                     </v-layout>
                                     <v-subheader v-if="!filters.years.added">{{$t('search.chips.years')}}</v-subheader>
                                     <v-layout v-if="!filters.years.added" row>
-                                        <v-flex shrink>
+                                        <v-flex shrink style="width: 80px">
                                             <v-text-field
                                                     v-model="filters.years.range[0]"
                                                     class="mt-0"
@@ -149,7 +149,7 @@
                                                     step="1"
                                             ></v-range-slider>
                                         </v-flex>
-                                        <v-flex shrink>
+                                        <v-flex shrink style="width: 80px">
                                             <v-text-field
                                                     v-model="filters.years.range[1]"
                                                     class="mt-0"

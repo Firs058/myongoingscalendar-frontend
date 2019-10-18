@@ -4,13 +4,14 @@
             <v-flex xs12 md10 lg8 xl6>
                 <div v-if="!user.authenticated">
                     <v-alert
+                            tile
                             type="info"
                             :value="true"
                     >{{$t('alerts.settings_note')}}
                     </v-alert>
                 </div>
                 <v-subheader v-if="user.authenticated">{{$t('settings.account.subheader')}}</v-subheader>
-                <v-card v-if="user.authenticated" flat>
+                <v-card v-if="user.authenticated" flat tile>
                     <v-list
                             two-line
                             subheader
@@ -159,7 +160,7 @@
                     </v-list>
                 </v-card>
                 <v-subheader>{{$t('settings.interface.subheader')}}</v-subheader>
-                <v-card flat>
+                <v-card flat tile>
                     <v-list
                             two-line
                             subheader
@@ -251,7 +252,7 @@
                     </v-list>
                 </v-card>
                 <v-subheader>{{$t('settings.time.subheader')}}</v-subheader>
-                <v-card flat>
+                <v-card flat tile>
                     <v-list
                             two-line
                             subheader

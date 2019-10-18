@@ -348,14 +348,16 @@
   "privacy": {
     "headline": "Privacy Policy"
   },
+  "social": {
+    "share" : "Share this on social media"
+  },
   "tooltips": {
     "share": "Share",
     "remove_from_my_calendar": "Remove from my calendar",
     "add_to_my_calendar": "Add to my calendar",
     "you_must_be_logged_in": "You must be logged in",
-    "open_link_in_new_window": "Open link in new window",
+    "open_link_in_new_window": "Open {0} in new window",
     "report_a_comment": "Report a comment",
-    "search_by_score": "Search anime by score from {0} to {1}",
     "search_by_genre": "Search anime by genre \"{0}\"",
     "like": "Like",
     "dislike": "Dislike"

@@ -123,7 +123,7 @@
                 <v-card-actions>
                     <v-spacer/>
                     <v-btn
-                            flat
+                            text
                             @click.native="dialog.visible = false"
                     >{{$t('buttons.decline')}}
                     </v-btn>

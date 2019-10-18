@@ -4,7 +4,7 @@
             color="transparent"
             class="my-2"
     >
-        <v-list-item avatar>
+        <v-list-item>
             <v-list-item-avatar>
                 <img :src="comment.user.avatar">
             </v-list-item-avatar>
@@ -100,53 +100,62 @@
                 <span>{{authenticated ?  $t('buttons.reply') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
         </v-card-actions>
-        <v-expansion-panel
+        <v-expansion-panels
                 v-if="comment.replies > 0"
-                popout
-                v-model="expansion"
-                @click.native.once="downloadChilds(false)"
+                inset
         >
-            <v-expansion-panel-content
-                    hide-default-footer
-                    ripple
-                    class="elevation-0"
+            <v-expansion-panel
+                    v-model="expansion"
+                    :class="settings.dark ? 'grey darken-3' : 'grey lighten-4'"
             >
-                <template slot="header">
+                <v-expansion-panel-header
+                        style="margin-left: 49px;"
+                        hide-actions
+                        @click.native.once="downloadChilds(false)"
+                >
                     {{$t('comments.show_all.2', [comment.replies])}}
-                </template>
-                <v-container
-                        fluid
-                        :class="$device.isMobile ? 'pa-0 with_border' : 'with_border'"
+                </v-expansion-panel-header>
+                <v-expansion-panel-content
+                        hide-default-footer
+                        ripple
+                        class="elevation-0"
                 >
-                    <v-layout row wrap>
-                        <v-flex xs12 v-for="(comment, index) in comments" :key="index">
-                            <comment :comment="comment"/>
-                        </v-flex>
-                    </v-layout>
-                </v-container>
-                <v-container
-                        fluid
-                        :class="$device.isMobile ? 'pa-0' : null"
-                        v-if="comment.replies > 10 && more > 0"
-                >
-                    <v-layout row wrap align-center justify-center>
-                        <v-tooltip top>
-                            <v-btn
-                                    slot="activator"
-                                    flat
-                                    @click.native="downloadChilds(true)"
-                                    :loading="loadingChilds"
-                            >
-                                <v-icon left>arrow_drop_down</v-icon>
-                                {{$t('comments.show_more.2', [more])}}
-                                <v-icon right>arrow_drop_down</v-icon>
-                            </v-btn>
-                            <span>{{$t('comments.show_more.1')}}</span>
-                        </v-tooltip>
-                    </v-layout>
-                </v-container>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
+                    <v-container
+                            :class="{ 'white-border': settings.dark, 'black-border': !settings.dark }"
+                            fluid
+                    >
+                        <v-layout row wrap>
+                            <v-flex xs12 v-for="(comment, index) in comments" :key="index">
+                                <comment :comment="comment"/>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                    <v-container
+                            fluid
+                            :class="$device.isMobile ? 'pa-0' : null"
+                            v-if="comment.replies > 10 && more > 0"
+                    >
+                        <v-layout row wrap align-center justify-center>
+                            <v-tooltip top>
+                                <template v-slot:activator="{ on }">
+                                    <v-btn
+                                            v-on:on
+                                            text
+                                            @click.native="downloadChilds(true)"
+                                            :loading="loadingChilds"
+                                    >
+                                        <v-icon left>{{icons.mdiArrowDown}}</v-icon>
+                                        {{$t('comments.show_more.2', [more])}}
+                                        <v-icon right>{{icons.mdiArrowDown}}</v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>{{$t('comments.show_more.1')}}</span>
+                            </v-tooltip>
+                        </v-layout>
+                    </v-container>
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+        </v-expansion-panels>
     </v-card>
 </template>
 
@@ -155,7 +164,8 @@
         mdiThumbUp,
         mdiThumbDown,
         mdiReplay,
-        mdiAlertOctagon
+        mdiAlertOctagon,
+        mdiArrowDown
     } from '@mdi/js';
     import {mapGetters} from 'vuex'
 
@@ -174,7 +184,8 @@
                 mdiThumbUp,
                 mdiThumbDown,
                 mdiReplay,
-                mdiAlertOctagon
+                mdiAlertOctagon,
+                mdiArrowDown
             }
         }),
         props: ['comment'],
@@ -236,5 +247,17 @@
     }
 </script>
 <style scoped>
+    >>> .v-expansion-panel::before {
+        box-shadow: 0 0 0 0 !important;
+    }
 
+    .white-border {
+        border-left-style: solid;
+        border-color: white;
+    }
+
+    .black-border {
+        border-left-style: solid;
+        border-color: black;
+    }
 </style>

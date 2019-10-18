@@ -69,11 +69,12 @@
                         </v-layout>
                     </v-img>
                     <v-alert
+                            tile
                             v-if="title.outdated"
                             class="ma-0"
                             :value="true"
                             color="info"
-                            icon="new_releases"
+                            :icon="icons.mdiAlertDecagram"
                     >
                         {{$t('title.information.outdated')}}
                     </v-alert>
@@ -123,18 +124,16 @@
                                                 :key="index"
                                         >
                                             <template v-slot:activator="{ on }">
-                                                <v-btn
-                                                        ripple
-                                                        text
-                                                        color="primary"
-                                                        @click.stop="openLink(link.link)"
+                                                <v-avatar
+                                                        class="mr-5"
+                                                        size="32"
                                                         v-on="on"
-                                                        class="ma-1"
+                                                        @click.stop="openLink(link.link)"
                                                 >
-                                                    {{link.name}}
-                                                </v-btn>
+                                                    <img :src="link.icon"/>
+                                                </v-avatar>
                                             </template>
-                                            <span>{{$t('tooltips.open_link_in_new_window')}}</span>
+                                            <span>{{$t('tooltips.open_link_in_new_window', [link.name])}}</span>
                                         </v-tooltip>
                                     </div>
                                     <social
@@ -259,8 +258,7 @@
                             </v-card>
                         </v-dialog>
                     </v-sheet>
-                    <v-sheet :color="settings.dark ? 'grey darken-3' : 'grey lighten-4'" :dark="settings.dark"
-                             class="pb-5">
+                    <v-sheet :color="settings.dark ? 'grey darken-3' : 'grey lighten-4'" class="pb-5">
                         <lazy-hydrate when-visible>
                             <v-card color="transparent" flat>
                                 <v-container fluid>
@@ -306,9 +304,9 @@
                                                         @click.native.stop="downloadComments"
                                                         :loading="comments.loading"
                                                 >
-                                                    <v-icon left>arrow_drop_down</v-icon>
+                                                    <v-icon left>{{icons.mdiArrowDown}}</v-icon>
                                                     {{ $t('comments.show_more.2', [comments.more])}}
-                                                    <v-icon right>arrow_drop_down</v-icon>
+                                                    <v-icon right>{{icons.mdiArrowDown}}</v-icon>
                                                 </v-btn>
                                             </template>
                                             <span>{{$t('comments.show_more.1')}}</span>
@@ -331,7 +329,9 @@
         mdiStarHalf,
         mdiStarOutline,
         mdiTag,
-        mdiTelevision
+        mdiTelevision,
+        mdiArrowDown,
+        mdiAlertDecagram
     } from '@mdi/js';
     import {mapGetters} from 'vuex'
 
@@ -347,7 +347,9 @@
                 mdiStarHalf,
                 mdiStarOutline,
                 mdiTag,
-                mdiTelevision
+                mdiTelevision,
+                mdiArrowDown,
+                mdiAlertDecagram
             }
         }),
         validate({params}) {
@@ -456,13 +458,21 @@
             downloadComments() {
                 this.comments.offset += 10;
                 this.comments.loading = true;
-                this.$anime.api(`comments/${this.tid}/root/${this.comments.offset}`)
-                    .then(result => {
-                        this.comments.nodes.length ? result.data.payload.nodes.forEach(e => this.comments.nodes.push(e)) : this.comments.nodes = result.data.payload.nodes;
-                        this.comments.more = result.data.payload.fromPath - this.comments.nodes.length;
-                    })
-                    .catch(code => this.$toast.showToast(code))
-                    .finally(() => this.comments.loading = false)
+                this.authenticated
+                    ? this.$anime.userApi(`title/${this.tid}/comments/root/${this.comments.offset}`)
+                        .then(result => {
+                            this.comments.nodes.length ? result.data.payload.nodes.forEach(e => this.comments.nodes.push(e)) : this.comments.nodes = result.data.payload.nodes;
+                            this.comments.more = result.data.payload.fromPath - this.comments.nodes.length;
+                        })
+                        .catch(code => this.$toast.showToast(code))
+                        .finally(() => this.comments.loading = false)
+                    : this.$anime.api(`title/${this.tid}/comments/root/${this.comments.offset}`)
+                        .then(result => {
+                            this.comments.nodes.length ? result.data.payload.nodes.forEach(e => this.comments.nodes.push(e)) : this.comments.nodes = result.data.payload.nodes;
+                            this.comments.more = result.data.payload.fromPath - this.comments.nodes.length;
+                        })
+                        .catch(code => this.$toast.showToast(code))
+                        .finally(() => this.comments.loading = false)
             }
         },
         computed: {
@@ -510,7 +520,8 @@
         height: 50px;
     }
 
-    .v-chip >>> .v-chip__content {
+    .v-chip >>> .v-chip__content,
+    .v-avatar {
         cursor: pointer;
     }
 

@@ -1,6 +1,15 @@
 <template>
-    <v-layout align-center justify-space-between row fill-height wrap white class="py-3 px-2 mb-4 mx-0">
-        <span class="pl-3 subheading">Share this on social media</span>
+    <v-layout
+            align-center
+            :justify-space-between="!$device.isMobile"
+            :justify-center="$device.isMobile"
+            row
+            fill-height
+            wrap
+            white
+            class="py-3 px-2 mb-4 mx-0"
+    >
+        <span class="pa-3 subheading">{{$t('social.share')}}</span>
         <no-ssr>
             <social-sharing
                     :url="url"
