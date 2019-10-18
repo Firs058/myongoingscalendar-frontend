@@ -191,6 +191,7 @@
                                             centered
                                             v-model="broadcast.active"
                                             fixed-tabs
+                                            :background-color="settings.dark ? 'grey darken-2' : 'grey lighten-4'"
                                     >
                                         <v-tab
                                                 v-for="i in broadcast.tabs"
@@ -213,6 +214,7 @@
                                                 :items-per-page.sync="i.items.length"
                                                 hide-default-footer
                                                 :hide-default-header="$device.isMobile"
+                                                :class="settings.dark ? 'grey darken-2' : 'grey lighten-4'"
                                         >
                                             <template
                                                     slot="items"
@@ -258,10 +260,10 @@
                             </v-card>
                         </v-dialog>
                     </v-sheet>
-                    <v-sheet :color="settings.dark ? 'grey darken-3' : 'grey lighten-4'">
+                    <v-sheet :color="settings.dark ? 'grey darken-3' : 'grey lighten-4'" class="pb-8">
                         <lazy-hydrate when-visible>
                             <v-card color="transparent" flat>
-                                <v-container fluid>
+                                <v-container fluid class="pa-5">
                                     <v-row align="center" justify="center">
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on }">
@@ -531,5 +533,9 @@
         -ms-filter: blur(10px);
         filter: blur(10px);
         transform: scale(1.1);
+    }
+
+    .theme--dark.v-datatable {
+        background-color: transparent;
     }
 </style>
