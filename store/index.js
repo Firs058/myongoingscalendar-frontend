@@ -1,3 +1,5 @@
+import jstz from "jstz";
+
 export const state = () => ({
     locales: ['en', 'ru'],
     user: {
@@ -17,7 +19,7 @@ export const state = () => ({
             lang: 'en'
         },
         guest: {
-            timezone: '',
+            timezone: jstz.determine().name(),
             dark: true,
             hideRepeats: true,
             fullTimeFormat: true,
