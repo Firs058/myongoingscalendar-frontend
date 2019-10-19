@@ -10,7 +10,7 @@
             class="py-3 px-2 mb-4 mx-0"
     >
         <span class="pa-3 subheading">{{$t('social.share')}}</span>
-        <no-ssr>
+        <client-only>
             <social-sharing
                     :url="url"
                     :title="description + ' schedule on MyOngoingsCalendar'"
@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </social-sharing>
-        </no-ssr>
+        </client-only>
     </v-layout>
 </template>
 

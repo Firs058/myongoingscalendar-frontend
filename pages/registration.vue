@@ -78,7 +78,7 @@
                                 <a @click.stop="$router.push('/privacy')">{{$tc("privacy.headline", 1)}}</a>
                             </template>
                         </v-checkbox>
-                        <no-ssr>
+                        <client-only>
                             <vue-recaptcha
                                     ref="invisibleRecaptcha"
                                     @verify="onVerify"
@@ -86,7 +86,7 @@
                                     :sitekey="sitekey"
                                     size="invisible"
                             />
-                        </no-ssr>
+                        </client-only>
                     </v-form>
                     <v-card-actions class="pa-3">
                         <v-btn

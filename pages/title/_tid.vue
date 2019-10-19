@@ -128,6 +128,7 @@
                                                         class="mr-5"
                                                         size="32"
                                                         v-on="on"
+                                                        tile
                                                         @click.stop="openLink(link.link)"
                                                 >
                                                     <img :src="link.icon"/>
@@ -192,6 +193,7 @@
                                             v-model="broadcast.active"
                                             fixed-tabs
                                             :background-color="settings.dark ? 'grey darken-2' : 'grey lighten-4'"
+                                            dark
                                     >
                                         <v-tab
                                                 v-for="i in broadcast.tabs"
@@ -217,10 +219,10 @@
                                                 :class="settings.dark ? 'grey darken-2' : 'grey lighten-4'"
                                         >
                                             <template
-                                                    slot="items"
+                                                    slot="item"
                                                     slot-scope="props"
                                             >
-                                                <tr>
+                                                <tr class="text-center">
                                                     <td>{{ props.item.date }}</td>
                                                     <td>{{ [props.item.time, ["HH:mm"]] |
                                                         moment(settings.fullTimeFormat ? 'HH:mm' : 'LT')
