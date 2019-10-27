@@ -9,7 +9,7 @@
             ...mapGetters([
                 'settings'
             ]),
-            chartOptions() {
+            options() {
                 const mainColor = this.settings.dark ? 'white' : 'black';
                 const fontFamily = "'Roboto', sans-serif";
                 return {
@@ -62,6 +62,10 @@
                         }]
                     },
                     tooltips: {
+                        callbacks: {
+                            title: (item, data) => `${this.$t("title.chart.ratings_on")} ${data['labels'][item[0]['index']]}`,
+                            label: (item, data) => `${data.datasets[item.datasetIndex].label}: ${data.datasets[item.datasetIndex].data[item.index]}/10`
+                        },
                         titleFontFamily: fontFamily,
                         bodyFontFamily: fontFamily,
                         footerFontFamily: fontFamily,
@@ -80,7 +84,7 @@
             }
         },
         mounted() {
-            this.renderChart(this.chartData, this.chartOptions)
+            this.renderChart(this.chartData, this.options)
         }
     }
 </script>

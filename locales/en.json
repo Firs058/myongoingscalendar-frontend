@@ -43,6 +43,9 @@
       "deletion": {
         "title": "Confirm deletion"
       }
+    },
+    "chart":{
+      "ratings_on" : "Ratings on"
     }
   },
   "comments": {
