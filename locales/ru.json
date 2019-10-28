@@ -43,9 +43,6 @@
       "deletion": {
         "title": "Подтвердите удаление"
       }
-    },
-    "chart":{
-      "ratings_on" : "Рейтинги на"
     }
   },
   "comments": {
