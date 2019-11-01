@@ -11,34 +11,12 @@
                 <v-card tile>
                     <v-card-text>
                         <v-btn
+                                v-for="(button, index) in buttons"
+                                :key="index"
                                 text
-                                @click.native="adminRequest('hex')"
-                        >Force HEX
-                        </v-btn>
-                        <v-btn
-                                text
-                                @click.native="adminRequest('elastic')"
-                        >Fill elastic
-                        </v-btn>
-                        <v-btn
-                                text
-                                @click.native="adminRequest('avatars')"
-                        >Fill avatars
-                        </v-btn>
-                        <v-btn
-                                text
-                                @click.native="adminRequest('mal')"
-                        >Force parse MAL
-                        </v-btn>
-                        <v-btn
-                                text
-                                @click.native="adminRequest('ann')"
-                        >Force parse ANN
-                        </v-btn>
-                        <v-btn
-                                text
-                                @click.native="adminRequest('anidb')"
-                        >Force parse AniDB
+                                @click.native="adminRequest(button.path)"
+                        >
+                            {{button.name}}
                         </v-btn>
                     </v-card-text>
                     <v-data-table
@@ -140,6 +118,36 @@
                         titleen: ''
                     }
                 },
+                buttons: [
+                    {
+                        path: 'hex',
+                        name: 'Force HEX'
+                    },
+                    {
+                        path: 'elastic',
+                        name: 'Fill elastic'
+                    },
+                    {
+                        path: 'avatars',
+                        name: 'Fill avatars'
+                    },
+                    {
+                        path: 'mal',
+                        name: 'Force parse MAL'
+                    },
+                    {
+                        path: 'ann',
+                        name: 'Force parse ANN'
+                    },
+                    {
+                        path: 'anidb',
+                        name: 'Force parse AniDB'
+                    },
+                    {
+                        path: 'syoboi',
+                        name: 'Force parse Syoboi'
+                    }
+                ],
                 icons: {
                     mdiPencil
                 }
