@@ -27,7 +27,7 @@
                                         />
                                         <v-spacer/>
                                     </v-card-title>
-                                    <v-card-actions v-if="rating">
+                                    <v-card-actions v-if="title.ratings.length">
                                         <v-spacer/>
                                         <v-rating
                                                 :value="rating"
@@ -49,16 +49,17 @@
                                         <v-spacer/>
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on }">
-                                                <v-btn
-                                                        v-on="on"
-                                                        :color="title && !marked ? 'success' : 'error'"
-                                                        @click.native.stop="title && !marked ? toggleTitle() : deletion = true"
-                                                        :disabled="!authenticated"
-                                                        :loading="button.loading"
-                                                        class="ma-1 extended"
-                                                >
-                                                    {{title && !marked ? $t('buttons.add') : $t('buttons.remove')}}
-                                                </v-btn>
+                                                <div v-on="on" class="d-inline-block">
+                                                    <v-btn
+                                                            :color="title && !marked ? 'success' : 'error'"
+                                                            @click.native.stop="title && !marked ? toggleTitle() : deletion = true"
+                                                            :disabled="!authenticated"
+                                                            :loading="button.loading"
+                                                            class="ma-1 extended"
+                                                    >
+                                                        {{title && !marked ? $t('buttons.add') : $t('buttons.remove')}}
+                                                    </v-btn>
+                                                </div>
                                             </template>
                                             <span>{{authenticated ? marked ? $t('tooltips.remove_from_my_calendar') : $t('tooltips.add_to_my_calendar') : $t('tooltips.you_must_be_logged_in')}}</span>
                                         </v-tooltip>
@@ -78,7 +79,11 @@
                     >
                         {{$t('title.information.outdated')}}
                     </v-alert>
-                    <v-sheet class="py-10 px-4" :light="settings.dark" color="grey lighten-2">
+                    <v-sheet
+                            tile
+                            class="py-10 px-4" :light="settings.dark"
+                            color="grey lighten-2"
+                    >
                         <v-layout wrap>
                             <v-flex xs12 md6>
                                 <v-card color="transparent" flat tile>
@@ -98,6 +103,7 @@
                                                     <v-chip
                                                             v-on="on"
                                                             slot-scope="{ hover }"
+                                                            color="grey lighten-1"
                                                             :class="`elevation-${hover ? 2 : 0} ma-2`"
                                                             @click.native="$router.push({ name: 'search', query: { genres: [genre.id] }})"
                                                     >
@@ -176,6 +182,7 @@
                         </v-layout>
                     </v-sheet>
                     <v-sheet
+                            tile
                             v-if="showChart && title.chartData.datasets.length"
                             class="pa-4"
                             :color="settings.dark ? 'grey darken-1' : 'grey lighten-3'"
@@ -184,7 +191,7 @@
                             <line-chart :chartData="title.chartData"/>
                         </lazy-hydrate>
                     </v-sheet>
-                    <v-sheet>
+                    <v-sheet tile>
                         <lazy-hydrate when-visible>
                             <v-card flat>
                                 <v-toolbar dense text tabs flat>
@@ -256,27 +263,32 @@
                                     <v-btn color="error" text @click.native="deletion = false">
                                         {{$t('buttons.disagree')}}
                                     </v-btn>
-                                    <v-btn color="success" @click.native="toggleTitle">{{$t('buttons.agree')}}
+                                    <v-btn color="success" text @click.native="toggleTitle">{{$t('buttons.agree')}}
                                     </v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
                     </v-sheet>
-                    <v-sheet :color="settings.dark ? 'grey darken-3' : 'grey lighten-4'" class="pb-8">
+                    <v-sheet
+                            tile
+                            :color="settings.dark ? 'grey darken-3' : 'grey lighten-4'"
+                            class="pb-8"
+                    >
                         <lazy-hydrate when-visible>
                             <v-card color="transparent" flat>
                                 <v-container fluid class="pa-5">
                                     <v-row align="center" justify="center">
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on }">
-                                                <v-btn
-                                                        v-on="on"
-                                                        class="success"
-                                                        @click.native.stop="openDialog"
-                                                        :disabled="!authenticated"
-                                                >
-                                                    {{$t('buttons.add_comment')}}
-                                                </v-btn>
+                                                <div v-on="on" class="d-inline-block">
+                                                    <v-btn
+                                                            class="success"
+                                                            @click.native.stop="openDialog"
+                                                            :disabled="!authenticated"
+                                                    >
+                                                        {{$t('buttons.add_comment')}}
+                                                    </v-btn>
+                                                </div>
                                             </template>
                                             <span>{{authenticated ? $t('buttons.add_comment') : $t('tooltips.you_must_be_logged_in')}}</span>
                                         </v-tooltip>
@@ -503,10 +515,8 @@
                 return headers;
             },
             rating() {
-                if (this.title.ratings.length) {
-                    const arr = this.title.ratings.map(e => e.score);
-                    return Number((arr.reduce((a, b) => a + b) / arr.length).toFixed(2))
-                }
+                const arr = this.title.ratings.map(e => e.score);
+                return Number((arr.reduce((a, b) => a + b) / arr.length).toFixed(2))
             }
         },
         activated() {

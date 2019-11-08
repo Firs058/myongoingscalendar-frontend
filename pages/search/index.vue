@@ -72,14 +72,15 @@
                                         <v-flex shrink>
                                             <v-tooltip top>
                                                 <template v-slot:activator="{ on }">
-                                                    <v-btn
-                                                            v-on="on"
-                                                            :disabled=!filters.genres.selected.length
-                                                            icon
-                                                            @click.native="filters.genres.added=true"
-                                                    >
-                                                        <v-icon>{{icons.mdiPlus}}</v-icon>
-                                                    </v-btn>
+                                                    <div v-on="on" class="d-inline-block">
+                                                        <v-btn
+                                                                :disabled=!filters.genres.selected.length
+                                                                icon
+                                                                @click.native="filters.genres.added=true"
+                                                        >
+                                                            <v-icon>{{icons.mdiPlus}}</v-icon>
+                                                        </v-btn>
+                                                    </div>
                                                 </template>
                                                 <span>{{$t('search.tooltips.add_filter')}}</span>
                                             </v-tooltip>
@@ -235,7 +236,7 @@
         data: () => ({
             countPages: 1,
             expand: false,
-            icons:{
+            icons: {
                 mdiFilterVariant,
                 mdiMagnify,
                 mdiPlus,

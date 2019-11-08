@@ -67,6 +67,7 @@
                                             >{{$t('buttons.cancel')}}
                                             </v-btn>
                                             <v-btn
+                                                    text
                                                     color="success"
                                                     :disabled="!nickname.valid"
                                                     @click.native="submitNickname"
@@ -147,6 +148,7 @@
                                             >{{$t('buttons.cancel')}}
                                             </v-btn>
                                             <v-btn
+                                                    text
                                                     color="success"
                                                     :disabled="!password.valid"
                                                     @click.native="submitPassword"

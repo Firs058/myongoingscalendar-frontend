@@ -2,24 +2,33 @@
     <v-app>
         <v-navigation-drawer
                 :class="{transparent : !$device.isMobile}"
+                :color="`grey ${settings.dark ? 'darken-4' : 'lighten-4'}`"
                 v-model="menu"
                 :permanent="!$device.isMobile"
                 :right="$device.isMobile"
                 app
                 floating
                 fixed
-                width="240"
+                width="250"
         >
-            <div
-                    class="mb-4 mt-2 text-center"
-                    :style="`cursor: pointer;`"
-                    @click.stop="$router.push('/')"
-            >
-                <div class="title mx-3">MyOngoingsCalendar</div>
-                <div class="grey--text mx-3">{{settings.timezone}}</div>
-            </div>
-            <v-list dense flat>
-                <v-list-item-group color="primary">
+            <template v-slot:prepend>
+                <div class="ma-3 text-center" :style="`cursor: pointer;`">
+                    <div
+                            @click.stop="$router.push('/')"
+                            class="title"
+                    >
+                        MyOngoingsCalendar
+                    </div>
+                    <div
+                            @click.stop="$router.push('/settings')"
+                            :class="settings.timezone.length > 20 ? 'grey--text caption' : 'grey--text subtitle-1'"
+                    >
+                        {{settings.timezone}}
+                    </div>
+                </div>
+            </template>
+            <v-list dense>
+                <v-list-item-group active-class="primary--text">
                     <v-list-item
                             ripple
                             to="/"
@@ -128,7 +137,9 @@
                             no-action
                     >
                         <template v-slot:activator>
-                            <v-list-item-title dense>{{$t('menu.donate')}}</v-list-item-title>
+                            <v-list-item-content>
+                                <v-list-item-title v-text="$t('menu.donate')"></v-list-item-title>
+                            </v-list-item-content>
                         </template>
                         <v-list-item
                                 v-for="donate in donates"
@@ -211,16 +222,12 @@
         </v-navigation-drawer>
         <v-app-bar
                 v-if="$device.isMobile"
+                :color="`grey ${settings.dark ? 'darken-4' : 'lighten-4'}`"
                 fixed
                 app
                 dense
         >
-                <span
-                        @click.stop="$router.push('/')"
-                        class="headline font-weight-medium"
-                >
-                    MOC
-                </span>
+            <span @click.stop="$router.push('/')" class="headline font-weight-medium">MOC</span>
             <v-spacer/>
             <v-btn
                     icon

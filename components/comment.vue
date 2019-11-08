@@ -17,18 +17,19 @@
             <v-list-item-action>
                 <v-tooltip top>
                     <template v-slot:activator="{ on }">
-                        <v-btn
-                                text
-                                v-on="on"
-                                @click.native="addReport"
-                                :loading="loadingReport"
-                                :disabled="!authenticated"
-                                fab
-                                small
-                                icon
-                        >
-                            <v-icon small>{{icons.mdiAlertOctagon}}</v-icon>
-                        </v-btn>
+                        <div v-on="on" class="d-inline-block">
+                            <v-btn
+                                    text
+                                    @click.native="addReport"
+                                    :loading="loadingReport"
+                                    :disabled="!authenticated"
+                                    fab
+                                    small
+                                    icon
+                            >
+                                <v-icon small>{{icons.mdiAlertOctagon}}</v-icon>
+                            </v-btn>
+                        </div>
                     </template>
                     <span>{{authenticated ? $t('tooltips.report_a_comment') : $t('tooltips.you_must_be_logged_in')}}</span>
                 </v-tooltip>
@@ -46,56 +47,59 @@
         <v-card-actions style="margin-left: 68px;" class="pa-0">
             <v-tooltip top>
                 <template v-slot:activator="{ on }">
-                    <v-btn
-                            text
-                            v-on="on"
-                            @click.native="addLike"
-                            :disabled="!authenticated"
-                            :loading="loadingLike"
-                            :color="comment.liked ? 'primary' : null"
-                            small
-                            fab
-                            :class="comment.liked ? null : 'mr-2'"
-                            icon
-                    >
-                        <v-icon small>{{icons.mdiThumbUp}}</v-icon>
-                    </v-btn>
+                    <div v-on="on" class="d-inline-block">
+                        <v-btn
+                                text
+                                @click.native="addLike"
+                                :disabled="!authenticated"
+                                :loading="loadingLike"
+                                :color="comment.liked ? 'primary' : null"
+                                small
+                                fab
+                                :class="comment.liked ? null : 'mr-2'"
+                                icon
+                        >
+                            <v-icon small>{{icons.mdiThumbUp}}</v-icon>
+                        </v-btn>
+                    </div>
                 </template>
                 <span>{{authenticated ?  $t('tooltips.like') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
             <div v-if="comment.likes" class="mr-2">{{comment.likes}}</div>
             <v-tooltip top>
                 <template v-slot:activator="{ on }">
-                    <v-btn
-                            text
-                            v-on="on"
-                            @click.native="addDislike"
-                            :disabled="!authenticated"
-                            :loading="loadingDislike"
-                            :color="comment.disliked ? 'primary' : null"
-                            small
-                            fab
-                            :class="comment.disliked ? null : 'mr-2'"
-                            icon
-                    >
-                        <v-icon small>{{icons.mdiThumbDown}}</v-icon>
-                    </v-btn>
+                    <div v-on="on" class="d-inline-block">
+                        <v-btn
+                                text
+                                @click.native="addDislike"
+                                :disabled="!authenticated"
+                                :loading="loadingDislike"
+                                :color="comment.disliked ? 'primary' : null"
+                                small
+                                fab
+                                :class="comment.disliked ? null : 'mr-2'"
+                                icon
+                        >
+                            <v-icon small>{{icons.mdiThumbDown}}</v-icon>
+                        </v-btn>
+                    </div>
                 </template>
                 <span>{{authenticated ?  $t('tooltips.dislike') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
             <div v-if="comment.dislikes" class="mr-2">{{comment.dislikes}}</div>
             <v-tooltip top>
                 <template v-slot:activator="{ on }">
-                    <v-btn
-                            small
-                            text
-                            v-on="on"
-                            @click.native="openDialog()"
-                            :disabled="!authenticated"
-                    >
-                        <v-icon left>{{icons.mdiReplay}}</v-icon>
-                        {{$t('buttons.reply')}}
-                    </v-btn>
+                    <div v-on="on" class="d-inline-block">
+                        <v-btn
+                                small
+                                text
+                                @click.native="openDialog()"
+                                :disabled="!authenticated"
+                        >
+                            <v-icon left>{{icons.mdiReplay}}</v-icon>
+                            {{$t('buttons.reply')}}
+                        </v-btn>
+                    </div>
                 </template>
                 <span>{{authenticated ?  $t('buttons.reply') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>

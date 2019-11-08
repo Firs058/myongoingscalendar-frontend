@@ -106,7 +106,7 @@
                             v-model="dialog.alright"
                             color="primary"
                             hide-details
-                            :rules="v => !!v || $t('inputs.checkbox.rules.agree')"
+                            :rules="[v => !!v || $t('inputs.checkbox.rules.agree')]"
                             required
                             value
                             hint
@@ -128,6 +128,7 @@
                     >{{$t('buttons.decline')}}
                     </v-btn>
                     <v-btn
+                            text
                             color="success"
                             :disabled="!dialog.alright"
                             @click.native="authViaProvider(dialog.selected)"

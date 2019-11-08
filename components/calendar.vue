@@ -39,7 +39,7 @@
                                     <v-list-item-subtitle>{{$t('calendar.channel', [anime.channel])}}
                                     </v-list-item-subtitle>
                                 </v-list-item-content>
-                                <v-list-item-action>
+                                <v-list-item-action class="d-flex flex-column align-center">
                                     <v-list-item-action-text :class="settings.dark ? 'white--text' : 'black--text'">
                                         {{[anime.time, ["HH:mm"]] | moment(settings.fullTimeFormat ? 'HH:mm' : 'LT' )}}
                                     </v-list-item-action-text>

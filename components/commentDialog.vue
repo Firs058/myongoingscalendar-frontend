@@ -43,6 +43,7 @@
                     {{$t('buttons.cancel')}}
                 </v-btn>
                 <v-btn
+                        text
                         color="success"
                         :loading="loading"
                         @click.native="addComment"
