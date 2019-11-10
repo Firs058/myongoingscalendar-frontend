@@ -106,7 +106,7 @@
                                                             link
                                                             nuxt
                                                             dark
-                                                            :class="`elevation-${hover ? 2 : 0} mr-2 grey darken-1`"
+                                                            :class="`elevation-${hover ? 2 : 0} ma-2 grey darken-1`"
                                                             :to="{name: 'search', query: { genres: [genre.id] }}"
                                                     >
                                                         {{genre.name}}
