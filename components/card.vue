@@ -28,8 +28,8 @@
                         <span>{{$t("card.recommended")}}</span>
                     </v-tooltip>
                 </v-flex>
-                <v-card-title class="subtitle-1 font-weight-bold pb-0">{{anime.en ? anime.en : anime.ja}}</v-card-title>
-                <v-card-text v-if="anime.dateStart"> {{$t("card.start", [anime.dateStart])}}</v-card-text>
+                <v-card-title class="subtitle-1 font-weight-bold">{{anime.en ? anime.en : anime.ja}}</v-card-title>
+                <v-card-subtitle v-if="anime.dateStart"> {{$t("card.start", [anime.dateStart])}}</v-card-subtitle>
             </v-layout>
         </v-img>
     </v-card>

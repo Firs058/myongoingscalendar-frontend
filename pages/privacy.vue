@@ -9,7 +9,7 @@
         <v-subheader>Updated: 04.08.2018</v-subheader>
         <h1>{{$tc("privacy.headline", 1)}}</h1>
         <v-card class="subheading" color="transparent" flat>
-          <v-card-text class="text-left">
+          <v-card-text class="text-left text-justify">
             <p>
               In this Privacy Policy, “Service”, “we” or “us” means MyOngoingsCalendar.eu. Your privacy is important to
               us.

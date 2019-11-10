@@ -21,13 +21,13 @@
                     </div>
                     <div
                             @click.stop="$router.push('/settings')"
-                            :class="settings.timezone.length > 20 ? 'grey--text caption' : 'grey--text subtitle-1'"
+                            :class="`grey--text text--darken ${settings.timezone.length > 20 ? 'caption' : 'subtitle-1'}`"
                     >
                         {{settings.timezone}}
                     </div>
                 </div>
             </template>
-            <v-list dense>
+            <v-list :dense="$device.isMobile">
                 <v-list-item-group active-class="primary--text">
                     <v-list-item
                             ripple
@@ -129,37 +129,18 @@
                             <v-list-item-title>{{$t('menu.settings')}}</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-group
-                            v-for="item in 1"
-                            :value="item.active"
-                            :key="item.name"
-                            :prepend-icon="icons.mdiGiftOutline"
-                            no-action
+                    <v-list-item
+                            ripple
+                            to="/donate"
+                            nuxt
                     >
-                        <template v-slot:activator>
-                            <v-list-item-content>
-                                <v-list-item-title v-text="$t('menu.donate')"></v-list-item-title>
-                            </v-list-item-content>
-                        </template>
-                        <v-list-item
-                                v-for="donate in donates"
-                                :key="donate.name"
-                                @click="donate.action === 'url' ? openUrl(donate.address) : copyToClipboard(donate.name, donate.address)"
-                        >
-                            <v-list-item-action>
-                                <v-avatar
-                                        tile
-                                        size="16px"
-                                        slot="activator"
-                                >
-                                    <img :src="donate.img"/>
-                                </v-avatar>
-                            </v-list-item-action>
-                            <v-list-item-content>
-                                <v-list-item-title v-text="donate.name"/>
-                            </v-list-item-content>
-                        </v-list-item>
-                    </v-list-group>
+                        <v-list-item-action>
+                            <v-icon>{{icons.mdiGiftOutline}}</v-icon>
+                        </v-list-item-action>
+                        <v-list-item-content>
+                            <v-list-item-title>{{$t('menu.donate')}}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
                     <v-list-item
                             v-if="authenticated && admin"
                             to="/admin"
@@ -172,30 +153,30 @@
                             <v-list-item-title>Admin</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item v-if="authenticated">
-                        <v-list-item-avatar>
-                            <img :src="settings.avatar"/>
-                        </v-list-item-avatar>
-                        <v-list-item-content>
-                            <v-list-item-subtitle>{{$t('menu.logged_as')}}</v-list-item-subtitle>
-                            <v-list-item-title>{{user.email}}</v-list-item-title>
-                        </v-list-item-content>
-                        <v-list-item-action>
-                            <v-tooltip top>
-                                <template v-slot:activator="{ on }">
-                                    <v-btn
-                                            v-on="on"
-                                            icon
-                                            @click.stop="logout()"
-                                    >
-                                        <v-icon>{{icons.mdiExitToApp}}</v-icon>
-                                    </v-btn>
-                                </template>
-                                {{$t('menu.exit')}}
-                            </v-tooltip>
-                        </v-list-item-action>
-                    </v-list-item>
                 </v-list-item-group>
+                <v-list-item v-if="authenticated">
+                    <v-list-item-avatar>
+                        <img :src="settings.avatar"/>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-subtitle>{{$t('menu.logged_as')}}</v-list-item-subtitle>
+                        <v-list-item-title>{{user.email}}</v-list-item-title>
+                    </v-list-item-content>
+                    <v-list-item-action>
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on }">
+                                <v-btn
+                                        v-on="on"
+                                        icon
+                                        @click.stop="logout()"
+                                >
+                                    <v-icon>{{icons.mdiExitToApp}}</v-icon>
+                                </v-btn>
+                            </template>
+                            {{$t('menu.exit')}}
+                        </v-tooltip>
+                    </v-list-item-action>
+                </v-list-item>
             </v-list>
             <template v-slot:append>
                 <div class="mb-2 mt-4">
@@ -291,32 +272,6 @@
                     link: '/privacy'
                 }
             ],
-            donates: [
-                {
-                    name: 'BTC',
-                    address: '1Cg4285GruhnSo8ZJoL7ZKvF78uhfzZvNB',
-                    img: '/images/btc.png',
-                    action: 'copy'
-                },
-                {
-                    name: 'ZEC',
-                    address: 't1UGGf7A4SmhwRKyv6G4m13FqXR9vQbHPW8',
-                    img: '/images/zec.png',
-                    action: 'copy'
-                },
-                {
-                    name: 'DonorBox',
-                    address: 'https://donorbox.org/myongoingscalendar',
-                    img: '/images/donorbox.png',
-                    action: 'url'
-                },
-                {
-                    name: 'Patreon',
-                    address: ' https://www.patreon.com/bePatron?u=10947418',
-                    img: '/images/patreon.png',
-                    action: 'url'
-                },
-            ],
             icons: {
                 mdiSettings,
                 mdiInformationVariant,
@@ -346,11 +301,6 @@
             logout() {
                 this.$auth.logout()
                     .then(() => this.$toast.showToast({code: 11015}))
-            },
-            openUrl: url => window.open(url),
-            copyToClipboard(name, address) {
-                this.$copyText(address)
-                    .then(() => this.$toast.showToast({code: 11016}))
             }
         },
         computed: {

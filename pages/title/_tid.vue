@@ -103,11 +103,12 @@
                                                     <v-chip
                                                             v-on="on"
                                                             slot-scope="{ hover }"
-                                                            color="grey lighten-1"
-                                                            :class="`elevation-${hover ? 2 : 0} ma-2`"
-                                                            @click.native="$router.push({ name: 'search', query: { genres: [genre.id] }})"
+                                                            link
+                                                            nuxt
+                                                            dark
+                                                            :class="`elevation-${hover ? 2 : 0} mr-2 grey darken-1`"
+                                                            :to="{name: 'search', query: { genres: [genre.id] }}"
                                                     >
-                                                        <v-icon left>{{icons.mdiTag}}</v-icon>
                                                         {{genre.name}}
                                                     </v-chip>
                                                 </v-hover>
@@ -119,7 +120,7 @@
                                         <v-icon small>{{icons.mdiTelevision}}</v-icon>
                                         {{title.episodes + $t('title.information.episodes')}}
                                     </div>
-                                    <div class="text-left mb-4"
+                                    <div class="text-left mb-4 text-justify"
                                          v-if="title.description !== 'Not have description'">
                                         {{title.description}}
                                     </div>
@@ -200,8 +201,9 @@
                                             v-model="broadcast.active"
                                             fixed-tabs
                                             :background-color="settings.dark ? 'grey darken-2' : 'grey lighten-4'"
-                                            dark
+                                            :color="settings.dark ? 'white' : 'black'"
                                     >
+                                        <v-tabs-slider color="primary"/>
                                         <v-tab
                                                 v-for="i in broadcast.tabs"
                                                 :key="i.name"
@@ -345,7 +347,6 @@
         mdiStar,
         mdiStarHalf,
         mdiStarOutline,
-        mdiTag,
         mdiTelevision,
         mdiArrowDown,
         mdiAlertDecagram
@@ -363,7 +364,6 @@
                 mdiStar,
                 mdiStarHalf,
                 mdiStarOutline,
-                mdiTag,
                 mdiTelevision,
                 mdiArrowDown,
                 mdiAlertDecagram
@@ -533,11 +533,6 @@
     .v-btn.extended {
         min-width: 225px;
         height: 50px;
-    }
-
-    .v-chip >>> .v-chip__content,
-    .v-avatar {
-        cursor: pointer;
     }
 
     .v-responsive.v-image >>> .v-image__image.v-image__image--preload.v-image__image--cover {

@@ -8,8 +8,8 @@
       <v-flex xs12 sm12 md8 lg6 xl6>
         <v-subheader>Updated: 10.06.2018</v-subheader>
         <h1>{{$tc("terms.headline", 1)}}</h1>
-        <v-card class="subheading" color="transparent" flat>
-          <v-card-text class="text-left">
+        <v-card class="subheading " color="transparent" flat>
+          <v-card-text class="text-left text-justify">
             <p>Hi! Thank you for visiting MyOngoingsCalendar.eu (next - “Service”).</p>
             <p>
               This Agreement may be amended without notice or at any time. Any amendments to the Terms of Use will
