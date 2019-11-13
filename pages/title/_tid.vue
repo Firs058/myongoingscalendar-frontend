@@ -535,6 +535,10 @@
         height: 50px;
     }
 
+    .v-avatar {
+        cursor: pointer;
+    }
+
     .v-responsive.v-image >>> .v-image__image.v-image__image--preload.v-image__image--cover {
         -webkit-filter: blur(10px);
         -ms-filter: blur(10px);
