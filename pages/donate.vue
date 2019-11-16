@@ -18,7 +18,13 @@
                             <v-list-item-content>
                                 <v-list-item-title v-text="donate.name"/>
                             </v-list-item-content>
-                            <v-chip v-if="donate.prefer" color="primary" pill>{{$t('donate.prefer')}}</v-chip>
+                            <v-chip
+                                    v-if="donate.prefer"
+                                    color="primary"
+                                    pill
+                            >
+                                {{$t('donate.prefer')}}
+                            </v-chip>
                             <v-list-item-action>
                                 <v-btn icon>
                                     <v-icon>{{donate.icon}}</v-icon>

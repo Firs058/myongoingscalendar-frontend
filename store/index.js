@@ -47,7 +47,6 @@ export const state = () => ({
     skeleton: {
         main: 'grey'
     },
-    ongoingsList: [],
     calendar: [],
     timezones: [],
     tokens: {},
@@ -65,7 +64,6 @@ export const mutations = {
     SET_COMMENT: (state, obj) => state.comment = obj,
     SET_COMMENT_DIALOG: (state, bool) => state.comment.dialog = bool,
     SET_SYNCED: (state, bool) => state.synced = bool,
-    SET_ONGOINGS_LIST: (state, obj) => state.ongoingsList = obj,
     SET_CALENDAR: (state, obj) => state.calendar = obj,
     SET_TIMEZONES: (state, obj) => state.timezones = obj,
     SET_TOKENS: (state, obj) => state.tokens = obj,
@@ -102,7 +100,6 @@ export const actions = {
     setComment: ({commit}, obj) => commit('SET_COMMENT', obj),
     setCommentDialog: ({commit}, bool) => commit('SET_COMMENT_DIALOG', bool),
     setSynced: ({commit}, bool) => commit('SET_SYNCED', bool),
-    setOngoingsList: ({commit}, obj) => commit('SET_ONGOINGS_LIST', obj),
     setCalendar: ({commit}, obj) => commit('SET_CALENDAR', obj),
     setTimezones: ({commit}, obj) => commit('SET_TIMEZONES', obj),
     setTokens: ({commit}, obj) => commit('SET_TOKENS', obj),
@@ -110,8 +107,6 @@ export const actions = {
 };
 
 export const getters = {
-    ongoingsList: state => state.ongoingsList,
-    ongoingsListEmpty: state => !!state.ongoingsList && !Object.keys(state.ongoingsList).length,
     timezonesListEmpty: state => !!state.timezones && !Object.keys(state.timezones).length,
     authenticated: state => state.user.authenticated,
     settings: state => state.user.authenticated ? state.settings.user : state.settings.guest,

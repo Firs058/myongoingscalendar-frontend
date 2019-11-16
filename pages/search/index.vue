@@ -298,7 +298,10 @@
                     if (this.filters.scores.added) payload.scores = this.filters.scores.range;
                     if (this.filters.years.added) payload.years = this.filters.years.range;
 
-                    return this.$anime.api('es/autocomplete', payload)
+                    return new Promise((resolve, reject) =>
+                        this.authenticated
+                            ? this.$anime.userApi('es/autocomplete', payload).then(r => resolve(r)).catch(c => reject(c))
+                            : this.$anime.api('es/autocomplete', payload).then(r => resolve(r)).catch(c => reject(c)))
                         .then(response => {
                             this.countPages = Math.ceil(response.data.payload.count / 12) || 1;
                             return response.data.payload
@@ -306,7 +309,10 @@
                         .then(cache => {
                             if (this.countPages < this.currentPage) {
                                 this.currentPage = 1;
-                                this.$anime.api('es/autocomplete', payload)
+                                new Promise((resolve, reject) =>
+                                    this.authenticated
+                                        ? this.$anime.userApi('es/autocomplete', payload).then(r => resolve(r)).catch(c => reject(c))
+                                        : this.$anime.api('es/autocomplete', payload).then(r => resolve(r)).catch(c => reject(c)))
                                     .then(response => {
                                         this.countPages = Math.ceil(response.data.payload.count / 12) || 1;
                                         return response.data.payload
@@ -318,22 +324,18 @@
                             this.$router.replace({query: payload});
                             this.$store.dispatch('setSearchGlobalLastQuery', payload)
                         })
-                },
-                shouldUpdate() {
-                    return this.shouldShow
+
                 }
             }
         },
         computed: {
             ...mapGetters([
                 'settings',
-                'supply'
+                'supply',
+                'authenticated'
             ]),
             selected() {
                 return Object.values(this.filters).some(v => v.added) || !!this.currentQuery.length
-            },
-            available() {
-                return !Object.values(this.filters).every(v => v.added)
             },
             genresList() {
                 return this.supply.genres.sort((a, b) => a.name.localeCompare(b.name))

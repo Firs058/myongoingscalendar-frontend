@@ -73,9 +73,9 @@
                         >
                             <template slot="label">
                                 {{$t('inputs.checkbox.label')}}&nbsp;
-                                <a @click.stop="$router.push('/terms')">{{$tc("terms.headline", 1)}}</a>
-                                &nbsp;and&nbsp;
-                                <a @click.stop="$router.push('/privacy')">{{$tc("privacy.headline", 1)}}</a>
+                                <a @click.stop="$router.push('/terms')">{{$tc("terms.short", 2).toLowerCase()}}</a>
+                                &nbsp;{{$t('inputs.checkbox.and')}}&nbsp;
+                                <a @click.stop="$router.push('/privacy')">{{$tc("privacy.short", 2).toLowerCase()}}</a>
                             </template>
                         </v-checkbox>
                         <client-only>

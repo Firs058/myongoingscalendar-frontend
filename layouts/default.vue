@@ -67,8 +67,7 @@
                 </v-list-item>
                 <v-list-item
                         ripple
-                        :to="{ name: 'search', query: lastQuery}"
-                        :disabled="$route.name === 'search'"
+                        :to="{ name: 'search', query: lastQuery }"
                         nuxt
                 >
                     <v-list-item-icon>

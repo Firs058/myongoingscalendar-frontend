@@ -16,6 +16,14 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     spanGaps: true,
+                    title: {
+                        display: true,
+                        text: this.$t('title.chart.title').toUpperCase(),
+                        position: 'top',
+                        fontFamily: fontFamily,
+                        fontColor: mainColor,
+                        fontSize: 16
+                    },
                     legend: {
                         position: 'top',
                         labels: {

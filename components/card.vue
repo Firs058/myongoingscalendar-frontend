@@ -25,11 +25,25 @@
                                 {{icons.mdiHeart}}
                             </v-icon>
                         </template>
-                        <span>{{$t("card.recommended")}}</span>
+                        <span class="text-uppercase">{{$t("card.recommended")}}</span>
                     </v-tooltip>
                 </v-flex>
                 <v-card-title class="subtitle-1 font-weight-bold">{{anime.en ? anime.en : anime.ja}}</v-card-title>
-                <v-card-subtitle v-if="anime.dateStart"> {{$t("card.start", [anime.dateStart])}}</v-card-subtitle>
+                <v-card-subtitle
+                        v-if="anime.dateStart"
+                        class="d-flex align-center justify-space-between"
+                        style="width: 100%"
+                >
+                    {{$t("card.start", [anime.dateStart])}}
+                    <v-chip
+                            v-if="anime.watchingStatus"
+                            x-small
+                            :color="watchingStatusColor(anime.watchingStatus)"
+                            class="ml-auto text-uppercase"
+                    >
+                        {{$t(`card.watching_status.${anime.watchingStatus}`)}}
+                    </v-chip>
+                </v-card-subtitle>
             </v-layout>
         </v-img>
     </v-card>
@@ -50,6 +64,20 @@
         props: [
             'anime'
         ],
+        methods: {
+            watchingStatusColor(status) {
+                switch (status) {
+                    case 'NEW':
+                        return `orange ${this.settings.dark ? 'darken-1' : 'lighten-2'}`;
+                    case 'WATCHING':
+                        return `green ${this.settings.dark ? 'darken-1' : 'lighten-2'}`;
+                    case 'WATCHED':
+                        return `primary ${this.settings.dark ? 'darken-1' : 'lighten-2'}`;
+                    case 'DROPPED':
+                        return `red ${this.settings.dark ? 'darken-1' : 'lighten-2'}`;
+                }
+            }
+        },
         computed: {
             ...mapGetters([
                 'settings'

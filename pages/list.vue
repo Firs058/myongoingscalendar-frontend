@@ -4,7 +4,7 @@
                 slot-scope="{ hydrated }"
                 v-if="hydrated"
                 article
-                :class="$device.isMobile ? 'grid-list-xs' : 'grid-list-lg pt-0'"
+                :class="$device.isMobile ? 'grid-list-lg' : 'grid-list-lg pt-0'"
         >
             <v-layout row wrap>
                 <v-flex xs12>
@@ -31,7 +31,7 @@
                     <v-flex
                             v-for="anime in dateGroup.animes"
                             :key="anime.tid"
-                            xs6 md3 lg2
+                            xs12 sm6 md4 lg3 xl2
                     >
                         <card :anime="anime"/>
                     </v-flex>
@@ -60,22 +60,21 @@
         mdiFilterVariant,
         mdiAlertDecagram
     } from '@mdi/js';
-    import {mapGetters} from 'vuex'
 
     export default {
         data: () => ({
             showCount: 4,
             filterInput: '',
-            icons:{
+            icons: {
                 mdiFilterVariant,
                 mdiAlertDecagram
             }
         }),
         async asyncData({app, store}) {
-            if (store.getters.ongoingsListEmpty) {
-                const data = await app.$axios.$post('api/public/title/list');
-                store.dispatch('setOngoingsList', data.payload)
-            }
+            const data = store.getters.authenticated
+                ? await app.$axios.$post('api/user/title/list')
+                : await app.$axios.$post('api/public/title/list');
+            return {ongoingsList: data.payload};
         },
         head() {
             return {
@@ -139,9 +138,6 @@
             }
         },
         computed: {
-            ...mapGetters([
-                'ongoingsList'
-            ]),
             filteredOngoingsList() {
                 let list = this.ongoingsList;
                 let input = this.filterInput;
@@ -168,6 +164,9 @@
             globalTitle() {
                 return this.$t("meta_info.list.title", ['| MyOngoingsCalendar'])
             }
+        },
+        deactivated() {
+            this.$destroy()
         }
     }
 </script>

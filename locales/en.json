@@ -13,7 +13,7 @@
     "search": "Search"
   },
   "calendar": {
-    "today" : "Today",
+    "today": "Today",
     "episode": "Episode № {0}",
     "channel": "Channel: {0}"
   },
@@ -43,6 +43,9 @@
       "deletion": {
         "title": "Confirm deletion"
       }
+    },
+    "chart": {
+      "title": "Rating changes over time"
     }
   },
   "comments": {
@@ -156,7 +159,8 @@
       "label": "I agree to",
       "rules": {
         "agree": "You must agree to continue"
-      }
+      },
+      "and" : "and"
     },
     "search": {
       "label": {
@@ -175,7 +179,13 @@
   },
   "card": {
     "start": "Start: {0}",
-    "recommended": "RECOMMENDED"
+    "recommended": "Recommended",
+    "watching_status": {
+      "NEW": "New",
+      "WATCHING": "Watching",
+      "WATCHED": "Watched",
+      "DROPPED": "Dropped"
+    }
   },
   "search": {
     "founded": "{0} founded",
@@ -353,13 +363,15 @@
     "settings_note": "Note! These settings are temporary. Please make an account to remember these permanently."
   },
   "terms": {
-    "headline": "Terms of Use"
+    "headline": "Terms of Use",
+    "short" : "Terms"
   },
   "privacy": {
-    "headline": "Privacy Policy"
+    "headline": "Privacy Policy",
+    "short": "Policy"
   },
   "social": {
-    "share" : "Share this on social media"
+    "share": "Share this on social media"
   },
   "tooltips": {
     "share": "Share",

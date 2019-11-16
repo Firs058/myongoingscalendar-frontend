@@ -34,14 +34,12 @@
                                                 color="yellow darken-3"
                                                 background-color="grey"
                                                 dense
-                                                size="28"
                                                 readonly
                                                 half-increments
                                                 length="10"
                                                 :empty-icon="icons.mdiStarOutline"
                                                 :full-icon="icons.mdiStar"
                                                 :half-icon="icons.mdiStarHalf"
-
                                         />
                                         <v-spacer/>
                                     </v-card-actions>
@@ -105,8 +103,8 @@
                                                             slot-scope="{ hover }"
                                                             link
                                                             nuxt
-                                                            dark
-                                                            :class="`elevation-${hover ? 2 : 0} ma-2 grey darken-1`"
+                                                            :dark="settings.dark"
+                                                            :class="`elevation-${hover ? 2 : 0} ma-2 grey ${settings.dark ? 'darken-1' : 'lighten-1'}`"
                                                             :to="{name: 'search', query: { genres: [genre.id] }}"
                                                     >
                                                         {{genre.name}}
