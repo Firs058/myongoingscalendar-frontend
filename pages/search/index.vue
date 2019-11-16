@@ -189,7 +189,7 @@
             <v-flex
                     v-for="anime in asyncCache.animes"
                     :key="anime.tid"
-                    xs6 md3 lg2
+                    xs12 sm6 md4 lg3 xl2
             >
                 <card :anime="anime"/>
             </v-flex>
