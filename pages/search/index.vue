@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-container article :class="$device.isMobile ? 'grid-list-xs' : 'grid-list-lg pt-0'">
+    <v-container article :class="$device.isMobile ? 'grid-list-lg' : 'grid-list-lg pt-0'">
         <v-layout row wrap>
             <v-flex xs12>
                 <v-text-field
