@@ -20,7 +20,7 @@
                     <v-list
                             three-line
                             subheader
-                            :class="`pa-0 ${settings.dark ? undefined : 'grey lighten-4'}`"
+                            :class="settings.dark ? 'pa-0' : 'pa-0 grey lighten-4'"
                     >
                         <v-list-item-group v-for="(anime, index) in each.anime" :key="index">
                             <v-list-item

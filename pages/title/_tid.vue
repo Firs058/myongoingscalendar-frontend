@@ -19,17 +19,13 @@
                         >
                             <v-flex xs12 sm6>
                                 <v-card color="transparent" flat tile>
-                                    <v-card-title class="text-center mx-3">
-                                        <v-spacer/>
+                                    <div class="d-flex flex-column align-center text-center">
                                         <h1
-                                                :class="$device.isMobile ? 'headline font-weight-bold' : 'display-1 font-weight-bold'"
+                                                :class="`font-weight-bold ma-5 ${$device.isMobile ? 'headline' : 'display-1'}`"
                                                 v-text="globalTitle"
                                         />
-                                        <v-spacer/>
-                                    </v-card-title>
-                                    <v-card-actions v-if="title.ratings.length">
-                                        <v-spacer/>
                                         <v-rating
+                                                v-if="title.ratings.length"
                                                 :value="rating"
                                                 color="yellow darken-3"
                                                 background-color="grey"
@@ -40,12 +36,9 @@
                                                 :empty-icon="icons.mdiStarOutline"
                                                 :full-icon="icons.mdiStar"
                                                 :half-icon="icons.mdiStarHalf"
+                                                class="mb-4"
                                         />
-                                        <v-spacer/>
-                                    </v-card-actions>
-                                    <v-card-actions v-if="!title.outdated">
-                                        <v-spacer/>
-                                        <v-tooltip top>
+                                        <v-tooltip top v-if="!title.outdated">
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on" class="d-inline-block">
                                                     <v-btn
@@ -61,8 +54,7 @@
                                             </template>
                                             <span>{{authenticated ? marked ? $t('tooltips.remove_from_my_calendar') : $t('tooltips.add_to_my_calendar') : $t('tooltips.you_must_be_logged_in')}}</span>
                                         </v-tooltip>
-                                        <v-spacer/>
-                                    </v-card-actions>
+                                    </div>
                                 </v-card>
                             </v-flex>
                         </v-layout>
@@ -517,12 +509,9 @@
                 return Number((arr.reduce((a, b) => a + b) / arr.length).toFixed(2))
             }
         },
-        activated() {
+        mounted() {
             this.$vuetify.goTo(0);
             this.showChart = true;
-        },
-        deactivated() {
-            this.$destroy()
         }
     }
 </script>

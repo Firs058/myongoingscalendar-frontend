@@ -164,9 +164,6 @@
             globalTitle() {
                 return this.$t("meta_info.list.title", ['| MyOngoingsCalendar'])
             }
-        },
-        deactivated() {
-            this.$destroy()
         }
     }
 </script>

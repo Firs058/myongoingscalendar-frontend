@@ -348,9 +348,6 @@
             shouldShow() {
                 return !!this.currentQuery || this.filters.genres.added || this.filters.scores.added || this.filters.years.added
             }
-        },
-        deactivated() {
-            this.$destroy()
         }
     }
 </script>

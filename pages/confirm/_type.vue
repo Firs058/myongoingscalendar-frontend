@@ -23,7 +23,7 @@
                 ]
             }
         },
-        activated() {
+        mounted() {
             if (this.token)
                 this.$auth.confirm(this.type, {token: this.token})
                     .then(result => {

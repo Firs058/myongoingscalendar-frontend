@@ -15,7 +15,7 @@
                     <v-list
                             two-line
                             subheader
-                            class="pa-0"
+                            :class="settings.dark ? 'pa-0' : 'pa-0 grey lighten-4'"
                     >
                         <v-list-item>
                             <v-list-item-content>
@@ -166,7 +166,7 @@
                     <v-list
                             two-line
                             subheader
-                            class="pa-0"
+                            :class="settings.dark ? 'pa-0' : 'pa-0 grey lighten-4'"
                     >
                         <v-list-item>
                             <v-list-item-content>
@@ -258,7 +258,7 @@
                     <v-list
                             two-line
                             subheader
-                            class="pa-0"
+                            :class="settings.dark ? 'pa-0' : 'pa-0 grey lighten-4'"
                     >
                         <v-list-item>
                             <v-list-item-content>
@@ -480,7 +480,7 @@
                 return this.langs.filter(o => o.code === this.$store.getters.settings.lang)[0].img
             }
         },
-        activated() {
+        mounted() {
             this.$vuetify.goTo(0);
         }
     }

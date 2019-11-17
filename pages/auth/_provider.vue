@@ -54,7 +54,7 @@
         computed: mapGetters([
             'settings'
         ]),
-        activated() {
+        mounted() {
             this.initSocialLogin();
         }
     }

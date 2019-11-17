@@ -41,9 +41,6 @@
             mapGetters([
                 'authenticated'
             ]),
-        middleware: 'authenticated',
-        deactivated() {
-            this.$destroy()
-        }
+        middleware: 'authenticated'
     }
 </script>

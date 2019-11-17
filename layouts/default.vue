@@ -219,7 +219,7 @@
             <v-app-bar-nav-icon @click.stop="menu = !menu"/>
         </v-app-bar>
         <v-content>
-            <nuxt keep-alive/>
+            <nuxt/>
         </v-content>
         <v-snackbar
                 left
