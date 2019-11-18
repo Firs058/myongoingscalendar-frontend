@@ -215,7 +215,7 @@
                                                 v-on="on"
                                         >
                                             <v-avatar size="32px">
-                                                <img :src="langImage" :alt="lang.name">
+                                                <img :src="currentLang.img" :alt="currentLang.name">
                                             </v-avatar>
                                         </v-btn>
                                     </template>
@@ -227,7 +227,7 @@
                                         >
                                             <v-list-item-action>
                                                 <v-avatar size="32px">
-                                                    <img :src="lang.img"/>
+                                                    <img :src="lang.img" :alt="lang.name"/>
                                                 </v-avatar>
                                             </v-list-item-action>
                                             <v-list-item-content>
@@ -476,8 +476,8 @@
                     this.saveSettings();
                 }
             },
-            langImage() {
-                return this.langs.filter(o => o.code === this.$store.getters.settings.lang)[0].img
+            currentLang() {
+                return this.langs.filter(o => o.code === this.$store.getters.settings.lang)[0]
             }
         },
         mounted() {

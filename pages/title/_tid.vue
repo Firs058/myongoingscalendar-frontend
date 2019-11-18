@@ -19,46 +19,44 @@
                                 :style="`background:linear-gradient(to top, ${settings.dark ? title.image.hex ? title.image.hex.dark : 'rgba(0,0,0,0.5)' : title.image.hex ? title.image.hex.light : 'rgba(255,255,255,0.5)'}, ${settings.dark ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'});`"
                         >
                             <v-flex xs12 sm6>
-                                <v-card color="transparent" flat tile>
-                                    <div class="d-flex flex-column align-center text-center">
-                                        <h1
-                                                :class="`font-weight-bold ma-5 ${$device.isMobile ? 'headline' : 'display-1'}`"
-                                                v-text="globalTitle"
-                                        />
-                                        <v-rating
-                                                v-if="title.avgRating"
-                                                :value="title.avgRating"
-                                                color="yellow darken-3"
-                                                background-color="grey"
-                                                dense
-                                                readonly
-                                                half-increments
-                                                length="10"
-                                                :empty-icon="icons.mdiStarOutline"
-                                                :full-icon="icons.mdiStar"
-                                                :half-icon="icons.mdiStarHalf"
-                                                class="mb-4"
-                                        />
-                                        <div v-if="!title.outdated">
-                                            <v-tooltip top>
-                                                <template v-slot:activator="{ on }">
-                                                    <div v-on="on" class="d-inline-block">
-                                                        <v-btn
-                                                                :color="title && !marked ? 'success' : 'error'"
-                                                                @click.native.stop="title && !marked ? toggleTitle() : deletion = true"
-                                                                :disabled="!authenticated"
-                                                                :loading="button.loading"
-                                                                class="ma-1 extended"
-                                                        >
-                                                            {{title && !marked ? $t('buttons.add') : $t('buttons.remove')}}
-                                                        </v-btn>
-                                                    </div>
-                                                </template>
-                                                <span>{{authenticated ? marked ? $t('tooltips.remove_from_my_calendar') : $t('tooltips.add_to_my_calendar') : $t('tooltips.you_must_be_logged_in')}}</span>
-                                            </v-tooltip>
-                                        </div>
+                                <div class="d-flex flex-column align-center text-center">
+                                    <h1
+                                            :class="`font-weight-bold ma-5 ${$device.isMobile ? 'headline' : 'display-1'}`"
+                                            v-text="globalTitle"
+                                    />
+                                    <v-rating
+                                            v-if="title.avgRating"
+                                            :value="title.avgRating"
+                                            color="yellow darken-3"
+                                            background-color="grey"
+                                            dense
+                                            readonly
+                                            half-increments
+                                            length="10"
+                                            :empty-icon="icons.mdiStarOutline"
+                                            :full-icon="icons.mdiStar"
+                                            :half-icon="icons.mdiStarHalf"
+                                            class="mb-4"
+                                    />
+                                    <div v-if="!title.outdated">
+                                        <v-tooltip top>
+                                            <template v-slot:activator="{ on }">
+                                                <div v-on="on" class="d-inline-block">
+                                                    <v-btn
+                                                            :color="title && !marked ? 'success' : 'error'"
+                                                            @click.native.stop="title && !marked ? toggleTitle() : deletion = true"
+                                                            :disabled="!authenticated"
+                                                            :loading="button.loading"
+                                                            class="ma-1 extended"
+                                                    >
+                                                        {{title && !marked ? $t('buttons.add') : $t('buttons.remove')}}
+                                                    </v-btn>
+                                                </div>
+                                            </template>
+                                            <span>{{authenticated ? marked ? $t('tooltips.remove_from_my_calendar') : $t('tooltips.add_to_my_calendar') : $t('tooltips.you_must_be_logged_in')}}</span>
+                                        </v-tooltip>
                                     </div>
-                                </v-card>
+                                </div>
                             </v-flex>
                         </v-layout>
                     </v-img>
