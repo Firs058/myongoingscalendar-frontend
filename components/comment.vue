@@ -6,7 +6,7 @@
     >
         <v-list-item>
             <v-list-item-avatar>
-                <img :src="comment.user.avatar">
+                <img :src="comment.user.avatar" :alt="comment.user.nickname">
             </v-list-item-avatar>
             <v-list-item-content>
                 <v-list-item-title>{{comment.user.nickname}}</v-list-item-title>

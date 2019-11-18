@@ -154,7 +154,7 @@
                 <v-divider v-if="authenticated"/>
                 <v-list-item v-if="authenticated">
                     <v-list-item-avatar>
-                        <img :src="settings.avatar"/>
+                        <img :src="settings.avatar" alt="user"/>
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-subtitle>{{$t('menu.logged_as')}}</v-list-item-subtitle>

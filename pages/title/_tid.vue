@@ -8,6 +8,7 @@
                             aspect-ratio="1"
                             :height="$device.isDesktop ? '50vh' : undefined"
                             width="100%"
+                            :alt="globalTitle"
                     >
                         <v-layout
                                 align-center
@@ -25,8 +26,8 @@
                                                 v-text="globalTitle"
                                         />
                                         <v-rating
-                                                v-if="title.ratings.length"
-                                                :value="rating"
+                                                v-if="title.avgRating"
+                                                :value="title.avgRating"
                                                 color="yellow darken-3"
                                                 background-color="grey"
                                                 dense
@@ -38,22 +39,24 @@
                                                 :half-icon="icons.mdiStarHalf"
                                                 class="mb-4"
                                         />
-                                        <v-tooltip top v-if="!title.outdated">
-                                            <template v-slot:activator="{ on }">
-                                                <div v-on="on" class="d-inline-block">
-                                                    <v-btn
-                                                            :color="title && !marked ? 'success' : 'error'"
-                                                            @click.native.stop="title && !marked ? toggleTitle() : deletion = true"
-                                                            :disabled="!authenticated"
-                                                            :loading="button.loading"
-                                                            class="ma-1 extended"
-                                                    >
-                                                        {{title && !marked ? $t('buttons.add') : $t('buttons.remove')}}
-                                                    </v-btn>
-                                                </div>
-                                            </template>
-                                            <span>{{authenticated ? marked ? $t('tooltips.remove_from_my_calendar') : $t('tooltips.add_to_my_calendar') : $t('tooltips.you_must_be_logged_in')}}</span>
-                                        </v-tooltip>
+                                        <div v-if="!title.outdated">
+                                            <v-tooltip top>
+                                                <template v-slot:activator="{ on }">
+                                                    <div v-on="on" class="d-inline-block">
+                                                        <v-btn
+                                                                :color="title && !marked ? 'success' : 'error'"
+                                                                @click.native.stop="title && !marked ? toggleTitle() : deletion = true"
+                                                                :disabled="!authenticated"
+                                                                :loading="button.loading"
+                                                                class="ma-1 extended"
+                                                        >
+                                                            {{title && !marked ? $t('buttons.add') : $t('buttons.remove')}}
+                                                        </v-btn>
+                                                    </div>
+                                                </template>
+                                                <span>{{authenticated ? marked ? $t('tooltips.remove_from_my_calendar') : $t('tooltips.add_to_my_calendar') : $t('tooltips.you_must_be_logged_in')}}</span>
+                                            </v-tooltip>
+                                        </div>
                                     </div>
                                 </v-card>
                             </v-flex>
@@ -128,7 +131,7 @@
                                                         tile
                                                         @click.stop="openLink(link.link)"
                                                 >
-                                                    <img :src="link.icon"/>
+                                                    <img :src="link.icon" :alt="link.name"/>
                                                 </v-avatar>
                                             </template>
                                             <span>{{$t('tooltips.open_link_in_new_window', [link.name])}}</span>
@@ -147,6 +150,7 @@
                                         :class="$device.isMobile ? undefined : 'elevation-20'"
                                         max-width="350px"
                                         class="mx-auto"
+                                        :alt="globalTitle"
                                 >
                                     <v-layout
                                             slot="placeholder"
@@ -168,6 +172,7 @@
                                         height="500px"
                                         allowfullscreen
                                         allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                                        title="Trailer or PV"
                                 />
                             </v-flex>
                         </v-layout>
@@ -503,10 +508,6 @@
                 let headers = this.broadcast.headers;
                 headers.forEach(header => header.text = this.$t(`title.schedule.headers.${header.value}`));
                 return headers;
-            },
-            rating() {
-                const arr = this.title.ratings.map(e => e.score);
-                return Number((arr.reduce((a, b) => a + b) / arr.length).toFixed(2))
             }
         },
         mounted() {

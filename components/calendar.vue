@@ -29,7 +29,7 @@
                                     :to="`/title/${anime.tid}`"
                             >
                                 <v-list-item-avatar>
-                                    <img :src="anime.image">
+                                    <img :src="anime.image" :alt="anime.titleen ? anime.titleen : anime.title">
                                 </v-list-item-avatar>
                                 <v-list-item-content>
                                     <v-list-item-title>{{anime.titleen ? anime.titleen : anime.title}}

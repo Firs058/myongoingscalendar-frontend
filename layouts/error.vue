@@ -13,7 +13,7 @@
                         v-if="error.statusCode === 404"
                 >
                     <v-flex>
-                        <span class="display-4">404</span>
+                        <span class="display-3">404</span>
                     </v-flex>
                     <v-flex>
                         <v-card
@@ -54,7 +54,7 @@
                         v-else-if="error.statusCode === 500"
                 >
                     <v-flex xs12>
-                        <span class="display-4">Timeout exceeded</span>
+                        <span class="display-3">Timeout exceeded</span>
                     </v-flex>
                     <v-btn
                             large
@@ -72,7 +72,7 @@
                         v-else
                 >
                     <v-flex xs12>
-                        <span class="display-4">An error occurred</span>
+                        <span class="display-3">An error occurred</span>
                     </v-flex>
                     <v-btn
                             large

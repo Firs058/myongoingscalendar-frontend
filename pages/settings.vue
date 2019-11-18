@@ -215,7 +215,7 @@
                                                 v-on="on"
                                         >
                                             <v-avatar size="32px">
-                                                <img :src="langImage">
+                                                <img :src="langImage" :alt="lang.name">
                                             </v-avatar>
                                         </v-btn>
                                     </template>

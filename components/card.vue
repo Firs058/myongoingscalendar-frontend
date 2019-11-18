@@ -11,6 +11,7 @@
                 :src="anime.image.full"
                 aspect-ratio="0.7"
                 :gradient="`to bottom, transparent 0%, transparent 40%, ${this.anime.image.hex ? this.settings.dark ? this.anime.image.hex.dark : this.anime.image.hex.light : 'rgba(0, 0, 0, 0.4)'} 100%`"
+                :alt="anime.en ? anime.en : anime.ja"
         >
             <v-layout align-start justify-end column fill-height class="ma-0">
                 <v-flex v-if="anime.recommended">

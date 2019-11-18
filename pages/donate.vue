@@ -12,7 +12,7 @@
                         >
                             <v-list-item-action>
                                 <v-avatar>
-                                    <img :src="donate.img"/>
+                                    <img :src="donate.img" :alt="donate.name"/>
                                 </v-avatar>
                             </v-list-item-action>
                             <v-list-item-content>

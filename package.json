@@ -25,7 +25,7 @@
     "js-cookie": "^2.2.1",
     "jstz": "^2.1.1",
     "moment": "^2.24.0",
-    "moment-locales-webpack-plugin": "^1.1.0",
+    "moment-locales-webpack-plugin": "^1.1.2",
     "moment-timezone": "^0.5.27",
     "node-vibrant": "^3.2.0-alpha",
     "nuxt": "^2.10.2",
