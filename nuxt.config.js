@@ -56,7 +56,14 @@ module.exports = {
         },
         icons: {
             iconfont: "mdiSvg"
-        }
+        },
+        theme: {
+            themes: {
+                dark: {
+                    primary: '#2196F3',
+                }
+            },
+        },
     },
     build: {
         publicPath: '/dist/',

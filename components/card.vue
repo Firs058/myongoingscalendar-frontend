@@ -10,42 +10,43 @@
         <v-img
                 :src="anime.image.full"
                 aspect-ratio="0.7"
-                :gradient="`to bottom, transparent 0%, transparent 40%, ${this.anime.image.hex ? this.settings.dark ? this.anime.image.hex.dark : this.anime.image.hex.light : 'rgba(0, 0, 0, 0.4)'} 100%`"
+                :gradient="`to bottom, transparent 0%, transparent 30%, ${this.anime.image.hex ? this.settings.dark ? this.anime.image.hex.dark : this.anime.image.hex.light : 'rgba(0, 0, 0, 0.4)'} 100%`"
                 :alt="anime.en ? anime.en : anime.ja"
         >
-            <v-layout align-start justify-end column fill-height class="ma-0">
-                <v-flex v-if="anime.recommended">
-                    <v-tooltip top>
-                        <template v-slot:activator="{ on }">
-                            <v-icon
-                                    v-on="on"
-                                    x-large
-                                    color="red darken-1"
-                                    class="ma-3"
-                            >
-                                {{icons.mdiHeart}}
-                            </v-icon>
-                        </template>
-                        <span class="text-uppercase">{{$t("card.recommended")}}</span>
-                    </v-tooltip>
-                </v-flex>
-                <v-card-title class="subtitle-1 font-weight-bold">{{anime.en ? anime.en : anime.ja}}</v-card-title>
-                <v-card-subtitle
-                        v-if="anime.dateStart"
-                        class="d-flex align-center justify-space-between"
-                        style="width: 100%"
-                >
-                    {{$t("card.start", [anime.dateStart])}}
-                    <v-chip
-                            v-if="anime.watchingStatus"
-                            x-small
-                            :color="watchingStatusColor(anime.watchingStatus)"
-                            class="ml-auto text-uppercase"
-                    >
-                        {{$t(`card.watching_status.${anime.watchingStatus}`)}}
-                    </v-chip>
-                </v-card-subtitle>
-            </v-layout>
+            <div class="d-flex flex-column justify-end fill-height ma-0">
+                <div class="d-flex justify-start mb-auto" v-if="anime.watchingStatus || anime.recommended">
+                    <div class="d-flex justify-center align-center" v-if="anime.watchingStatus">
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on }">
+                                <v-chip
+                                        :color="watchingStatusColor(anime.watchingStatus)"
+                                        class="text-uppercase ma-4"
+                                >
+                                    {{$t(`card.watching_status.${anime.watchingStatus}`)}}
+                                </v-chip>
+                            </template>
+                            <span class="text-uppercase">{{$t("card.recommended")}}</span>
+                        </v-tooltip>
+                    </div>
+                    <div class="d-flex ml-auto" v-if="anime.recommended">
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on }">
+                                <v-icon
+                                        v-on="on"
+                                        x-large
+                                        color="red darken-1"
+                                        class="mx-4 my-3"
+                                >
+                                    {{icons.mdiHeart}}
+                                </v-icon>
+                            </template>
+                            <span class="text-uppercase">{{$t("card.recommended")}}</span>
+                        </v-tooltip>
+                    </div>
+                </div>
+                <v-card-title>{{anime.en ? anime.en : anime.ja}}</v-card-title>
+                <v-card-subtitle v-if="anime.dateStart">{{$t("card.start", [anime.dateStart])}}</v-card-subtitle>
+            </div>
         </v-img>
     </v-card>
 </template>

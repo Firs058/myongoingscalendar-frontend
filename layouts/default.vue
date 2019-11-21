@@ -177,8 +177,8 @@
                 </v-list-item>
             </v-list>
             <template v-slot:append>
-                <div class="mb-2 mt-4">
-                    <v-layout row wrap justify-center>
+                <div class="d-flex justify-start flex-column pb-2">
+                    <div class="d-flex justify-center align-center">
                         <v-btn
                                 class="caption"
                                 color="primary"
@@ -191,11 +191,11 @@
                         >
                             {{$tc(link.name + ".headline", 1)}}
                         </v-btn>
-                        <v-flex xs12 py-1 px-1 text-center class="caption">
-                            myongoingscalendar@gmail.com
-                            <br>&copy; {{year > 2017 ? '2017 - ' + year : year}} <strong>MyOngoingsCalendar.eu</strong>
-                        </v-flex>
-                    </v-layout>
+                    </div>
+                    <v-flex xs12 py-1 px-1 text-center class="caption">
+                        myongoingscalendar@gmail.com
+                        <br>&copy; {{year > 2017 ? '2017 - ' + year : year}} <strong>MyOngoingsCalendar.eu</strong>
+                    </v-flex>
                 </div>
             </template>
         </v-navigation-drawer>

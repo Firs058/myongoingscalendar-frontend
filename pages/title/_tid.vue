@@ -90,10 +90,9 @@
                                                 :key="index"
                                         >
                                             <template v-slot:activator="{ on }">
-                                                <v-hover slot="activator">
+                                                <v-hover v-slot:default="{ hover }">
                                                     <v-chip
                                                             v-on="on"
-                                                            slot-scope="{ hover }"
                                                             link
                                                             nuxt
                                                             :dark="settings.dark"
@@ -179,91 +178,88 @@
                             tile
                             v-if="showChart && title.chartData.datasets.length"
                             class="pa-4"
-                            :color="settings.dark ? 'grey darken-1' : 'grey lighten-3'"
+                            :class="settings.dark ? 'grey darken-2' : 'grey lighten-4'"
                     >
                         <lazy-hydrate when-visible>
                             <line-chart :chartData="title.chartData"/>
                         </lazy-hydrate>
                     </v-sheet>
-                    <v-sheet tile>
-                        <lazy-hydrate when-visible>
-                            <v-card flat>
-                                <v-toolbar dense text tabs flat>
-                                    <v-tabs
-                                            centered
-                                            v-model="broadcast.active"
-                                            fixed-tabs
-                                            :background-color="settings.dark ? 'grey darken-2' : 'grey lighten-4'"
-                                            :color="settings.dark ? 'white' : 'black'"
-                                    >
-                                        <v-tabs-slider color="primary"/>
-                                        <v-tab
-                                                v-for="i in broadcast.tabs"
-                                                :key="i.name"
-                                                :href="'#tab-' + i.name"
-                                        >
-                                            {{$t(`title.schedule.tabs.${i.name}`)}}
-                                        </v-tab>
-                                    </v-tabs>
-                                </v-toolbar>
-                                <v-tabs-items v-model="broadcast.active">
-                                    <v-tab-item
+                    <lazy-hydrate when-visible>
+                        <v-sheet tile :color="settings.dark ? 'grey darken-3' : 'grey lighten-4'">
+                            <v-toolbar dense text tabs flat>
+                                <v-tabs
+                                        centered
+                                        v-model="broadcast.active"
+                                        fixed-tabs
+                                        background-color="transparent"
+                                        :color="settings.dark ? 'white' : 'black'"
+                                >
+                                    <v-tabs-slider color="primary"/>
+                                    <v-tab
                                             v-for="i in broadcast.tabs"
                                             :key="i.name"
-                                            :value="'tab-' + i.name"
+                                            :href="'#tab-' + i.name"
                                     >
-                                        <v-data-table
-                                                :headers="tableHeaders"
-                                                :items="i.items"
-                                                :items-per-page.sync="i.items.length"
-                                                hide-default-footer
-                                                :hide-default-header="$device.isMobile"
-                                                :class="settings.dark ? 'grey darken-2' : 'grey lighten-4'"
+                                        {{$t(`title.schedule.tabs.${i.name}`)}}
+                                    </v-tab>
+                                </v-tabs>
+                            </v-toolbar>
+                            <v-tabs-items v-model="broadcast.active">
+                                <v-tab-item
+                                        v-for="i in broadcast.tabs"
+                                        :key="i.name"
+                                        :value="'tab-' + i.name"
+                                >
+                                    <v-data-table
+                                            :headers="tableHeaders"
+                                            :items="i.items"
+                                            :items-per-page.sync="i.items.length"
+                                            hide-default-footer
+                                            :hide-default-header="$device.isMobile"
+                                    >
+                                        <template
+                                                slot="item"
+                                                slot-scope="props"
                                         >
-                                            <template
-                                                    slot="item"
-                                                    slot-scope="props"
-                                            >
-                                                <tr class="text-center">
-                                                    <td>{{ props.item.date }}</td>
-                                                    <td>{{ [props.item.time, ["HH:mm"]] |
-                                                        moment(settings.fullTimeFormat ? 'HH:mm' : 'LT')
-                                                        }}
-                                                        <span
-                                                                v-if="props.item.shift !== '0'"
-                                                                class="error--text"
-                                                        >
+                                            <tr class="text-center">
+                                                <td>{{ props.item.date }}</td>
+                                                <td>{{ [props.item.time, ["HH:mm"]] |
+                                                    moment(settings.fullTimeFormat ? 'HH:mm' : 'LT')
+                                                    }}
+                                                    <span
+                                                            v-if="props.item.shift !== '0'"
+                                                            class="error--text"
+                                                    >
                                                                     {{'&nbsp' + props.item.shift}}
                                                                 </span>
-                                                    </td>
-                                                    <td>{{ props.item.channel }}</td>
-                                                    <td>{{ props.item.episode }}</td>
-                                                    <td>{{ props.item.episodename }}</td>
-                                                </tr>
-                                            </template>
-                                        </v-data-table>
-                                    </v-tab-item>
-                                </v-tabs-items>
-                            </v-card>
-                        </lazy-hydrate>
-                        <v-dialog
-                                v-model="deletion"
-                                max-width="300"
-                        >
-                            <v-card>
-                                <v-card-title class="headline">{{$t('title.dialogs.deletion.title')}}</v-card-title>
-                                <v-card-text>{{globalTitle}}</v-card-text>
-                                <v-card-actions>
-                                    <v-spacer/>
-                                    <v-btn color="error" text @click.native="deletion = false">
-                                        {{$t('buttons.disagree')}}
-                                    </v-btn>
-                                    <v-btn color="success" text @click.native="toggleTitle">{{$t('buttons.agree')}}
-                                    </v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
-                    </v-sheet>
+                                                </td>
+                                                <td>{{ props.item.channel }}</td>
+                                                <td>{{ props.item.episode }}</td>
+                                                <td>{{ props.item.episodename }}</td>
+                                            </tr>
+                                        </template>
+                                    </v-data-table>
+                                </v-tab-item>
+                            </v-tabs-items>
+                            <v-dialog
+                                    v-model="deletion"
+                                    max-width="300"
+                            >
+                                <v-card>
+                                    <v-card-title class="headline">{{$t('title.dialogs.deletion.title')}}</v-card-title>
+                                    <v-card-text>{{globalTitle}}</v-card-text>
+                                    <v-card-actions>
+                                        <v-spacer/>
+                                        <v-btn color="error" text @click.native="deletion = false">
+                                            {{$t('buttons.disagree')}}
+                                        </v-btn>
+                                        <v-btn color="success" text @click.native="toggleTitle">{{$t('buttons.agree')}}
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                        </v-sheet>
+                    </lazy-hydrate>
                     <v-sheet
                             tile
                             :color="settings.dark ? 'grey darken-3' : 'grey lighten-4'"
@@ -530,9 +526,5 @@
         -ms-filter: blur(10px);
         filter: blur(10px);
         transform: scale(1.1);
-    }
-
-    .theme--dark.v-datatable {
-        background-color: transparent;
     }
 </style>

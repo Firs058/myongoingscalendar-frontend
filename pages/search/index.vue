@@ -6,29 +6,25 @@
                         v-model="currentQuery"
                         :label="$t('inputs.search.label.1')"
                         :prepend-inner-icon="icons.mdiMagnify"
+                        :append-icon="icons.mdiFilterVariant"
                         hide-details
                         solo
                         flat
+                        @click:append="expand = !expand"
                 />
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs12 v-if="!!asyncCache && asyncCache.count > 0 && shouldShow">
-                <v-subheader class="pr-0">
-                    {{$t("search.founded", [asyncCache.count])}}
-                    <v-spacer/>
-                    <v-btn text icon @click="expand = !expand">
-                        <v-icon>{{icons.mdiFilterVariant}}</v-icon>
-                    </v-btn>
-                </v-subheader>
+            <v-flex xs12 >
                 <v-layout row wrap>
                     <v-flex xs12>
                         <v-card flat :color="!expand ? 'transparent' : undefined">
-                            <div class="pa-2">
+                            <div class="pa-2" v-if="shouldShow">
                                 <v-chip
                                         v-if="currentQuery"
                                         :color="`teal ${settings.dark ? 'darken-3' : 'lighten-3'}`"
                                         close
+                                        class="ma-2"
                                         @click:close="currentQuery = ''"
                                 >
                                     {{`${$t('search.chips.name')}: ${currentQuery}`}}
@@ -182,6 +178,8 @@
                 </v-layout>
             </v-flex>
         </v-layout>
+        <v-subheader v-if="!!asyncCache && asyncCache.count > 0 && shouldShow" class="pr-0">{{$t("search.founded", [asyncCache.count])}}</v-subheader>
+
         <v-layout
                 v-if="!!asyncCache && asyncCache.count > 0 && shouldShow"
                 row wrap justify-left
