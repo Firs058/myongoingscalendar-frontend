@@ -4,7 +4,6 @@
             :to="`/title/${anime.tid}`"
             :style="`backgroundColor: ${this.anime.image.hex ? this.settings.dark ? this.anime.image.hex.dark : this.anime.image.hex.light : null}`"
             hover
-            ripple
             tile
     >
         <v-img
@@ -21,6 +20,7 @@
                                 <v-chip
                                         :color="watchingStatusColor(anime.watchingStatus)"
                                         class="text-uppercase ma-4"
+                                        small
                                 >
                                     {{$t(`card.watching_status.${anime.watchingStatus}`)}}
                                 </v-chip>
@@ -33,7 +33,7 @@
                             <template v-slot:activator="{ on }">
                                 <v-icon
                                         v-on="on"
-                                        x-large
+                                        size="32"
                                         color="red darken-1"
                                         class="mx-4 my-3"
                                 >
