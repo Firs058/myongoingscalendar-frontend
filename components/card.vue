@@ -15,18 +15,13 @@
             <div class="d-flex flex-column justify-end fill-height ma-0">
                 <div class="d-flex justify-start mb-auto" v-if="anime.watchingStatus || anime.recommended">
                     <div class="d-flex justify-center align-center" v-if="anime.watchingStatus">
-                        <v-tooltip top>
-                            <template v-slot:activator="{ on }">
-                                <v-chip
-                                        :color="watchingStatusColor(anime.watchingStatus)"
-                                        class="text-uppercase ma-4"
-                                        small
-                                >
-                                    {{$t(`card.watching_status.${anime.watchingStatus}`)}}
-                                </v-chip>
-                            </template>
-                            <span class="text-uppercase">{{$t("card.recommended")}}</span>
-                        </v-tooltip>
+                        <v-chip
+                                :color="watchingStatusColor(anime.watchingStatus)"
+                                class="text-uppercase ma-4"
+                                small
+                        >
+                            {{$t(`card.watching_status.${anime.watchingStatus}`)}}
+                        </v-chip>
                     </div>
                     <div class="d-flex ml-auto" v-if="anime.recommended">
                         <v-tooltip top>
