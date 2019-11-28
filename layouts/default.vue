@@ -178,7 +178,7 @@
             </v-list>
             <template v-slot:append>
                 <div class="d-flex justify-start flex-column pb-2">
-                    <div class="d-flex justify-center align-center">
+                    <div class="d-flex justify-center flex-wrap align-center">
                         <v-btn
                                 class="caption"
                                 text
