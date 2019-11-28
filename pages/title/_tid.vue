@@ -83,28 +83,33 @@
                                             :class="$device.isMobile ? 'headline font-weight-bold' : 'display-1 font-weight-bold'"
                                             v-text="title.ja"
                                     />
-                                    <div class="text-left mb-4" v-if="title.genres && title.genres.length">
-                                        <v-tooltip
-                                                top
-                                                v-for="(genre, index) in title.genres"
-                                                :key="index"
+                                    <div class="mb-4" v-if="title.genres && title.genres.length">
+                                        <v-chip-group
+                                                multiple
+                                                column
+                                                :dark="settings.dark"
                                         >
-                                            <template v-slot:activator="{ on }">
-                                                <v-hover v-slot:default="{ hover }">
-                                                    <v-chip
-                                                            v-on="on"
-                                                            link
-                                                            nuxt
-                                                            :dark="settings.dark"
-                                                            :class="`elevation-${hover ? 2 : 0} ma-2 grey ${settings.dark ? 'darken-1' : 'lighten-1'}`"
-                                                            :to="{name: 'search', query: { genres: [genre.id] }}"
-                                                    >
-                                                        {{genre.name}}
-                                                    </v-chip>
-                                                </v-hover>
-                                            </template>
-                                            <span>{{$t('tooltips.search_by_genre', [genre.name])}}</span>
-                                        </v-tooltip>
+                                            <v-tooltip
+                                                    top
+                                                    v-for="(genre, index) in title.genres"
+                                                    :key="index"
+                                            >
+                                                <template v-slot:activator="{ on }">
+                                                    <v-hover v-slot:default="{ hover }">
+                                                        <v-chip
+                                                                v-on="on"
+                                                                link
+                                                                nuxt
+                                                                :class="`elevation-${hover ? 2 : 0} grey ${settings.dark ? 'darken-1' : 'lighten-1'}`"
+                                                                :to="{name: 'search', query: { genres: [genre.id] }}"
+                                                        >
+                                                            {{genre.name}}
+                                                        </v-chip>
+                                                    </v-hover>
+                                                </template>
+                                                <span>{{$t('tooltips.search_by_genre', [genre.name])}}</span>
+                                            </v-tooltip>
+                                        </v-chip-group>
                                     </div>
                                     <div class="text-left mb-4" v-if="title.episodes">
                                         <v-icon small>{{icons.mdiTelevision}}</v-icon>
@@ -178,14 +183,14 @@
                             tile
                             v-if="showChart && title.chartData.datasets.length"
                             class="pa-4"
-                            :class="settings.dark ? 'grey darken-2' : 'grey lighten-4'"
+                            :class="settings.dark ? 'grey darken-1' : 'grey lighten-3'"
                     >
                         <lazy-hydrate when-visible>
                             <line-chart :chartData="title.chartData"/>
                         </lazy-hydrate>
                     </v-sheet>
                     <lazy-hydrate when-visible>
-                        <v-sheet tile :color="settings.dark ? 'grey darken-3' : 'grey lighten-4'">
+                        <v-sheet tile>
                             <v-toolbar dense text tabs flat>
                                 <v-tabs
                                         centered
@@ -194,7 +199,7 @@
                                         background-color="transparent"
                                         :color="settings.dark ? 'white' : 'black'"
                                 >
-                                    <v-tabs-slider color="primary"/>
+                                    <v-tabs-slider :color="settings.dark ? 'white' : 'black'"/>
                                     <v-tab
                                             v-for="i in broadcast.tabs"
                                             :key="i.name"
@@ -332,14 +337,7 @@
 </template>
 
 <script>
-    import {
-        mdiStar,
-        mdiStarHalf,
-        mdiStarOutline,
-        mdiTelevision,
-        mdiArrowDown,
-        mdiAlertDecagram
-    } from '@mdi/js';
+    import {icons} from '../../mixins/icons'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -348,15 +346,7 @@
             button: {
                 loading: false
             },
-            showChart: false,
-            icons: {
-                mdiStar,
-                mdiStarHalf,
-                mdiStarOutline,
-                mdiTelevision,
-                mdiArrowDown,
-                mdiAlertDecagram
-            }
+            showChart: false
         }),
         validate({params}) {
             return /^\d+$/.test(params.tid)
@@ -481,6 +471,9 @@
                         .finally(() => this.comments.loading = false)
             }
         },
+        mixins: [
+            icons
+        ],
         computed: {
             ...mapGetters([
                 'settings',

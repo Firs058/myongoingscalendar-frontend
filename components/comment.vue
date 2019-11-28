@@ -162,13 +162,7 @@
 </template>
 
 <script>
-    import {
-        mdiThumbUp,
-        mdiThumbDown,
-        mdiReplay,
-        mdiAlertOctagon,
-        mdiArrowDown
-    } from '@mdi/js';
+    import {icons} from '../mixins/icons'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -181,16 +175,12 @@
             offset: 0,
             more: 0,
             comments: [],
-            expansion: [false],
-            icons: {
-                mdiThumbUp,
-                mdiThumbDown,
-                mdiReplay,
-                mdiAlertOctagon,
-                mdiArrowDown
-            }
+            expansion: [false]
         }),
         props: ['comment'],
+        mixins: [
+            icons
+        ],
         methods: {
             addLike() {
                 this.loadingLike = true;

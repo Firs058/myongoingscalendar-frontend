@@ -5,6 +5,7 @@
             :style="`backgroundColor: ${this.anime.image.hex ? this.settings.dark ? this.anime.image.hex.dark : this.anime.image.hex.light : null}`"
             hover
             tile
+            :ripple="!$device.isMobile"
     >
         <v-img
                 :src="anime.image.full"
@@ -47,17 +48,10 @@
 </template>
 
 <script>
-    import {
-        mdiHeart
-    } from '@mdi/js';
+    import {icons} from '../mixins/icons'
     import {mapGetters} from 'vuex'
 
     export default {
-        data: () => ({
-            icons: {
-                mdiHeart
-            }
-        }),
         props: [
             'anime'
         ],
@@ -75,6 +69,9 @@
                 }
             }
         },
+        mixins: [
+            icons
+        ],
         computed: {
             ...mapGetters([
                 'settings'

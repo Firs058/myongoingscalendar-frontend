@@ -42,19 +42,14 @@
 </template>
 
 <script>
-    import {
-        mdiEmail
-    } from '@mdi/js';
+    import {icons} from '../mixins/icons'
 
     export default {
         data: () => ({
             sitekey: '6LdMemkUAAAAAEhtdLuLej6GkuS89V0smYUo3DjC',
             loading: false,
             valid: true,
-            email: '',
-            icons:{
-                mdiEmail
-            }
+            email: ''
         }),
         head() {
             return {
@@ -90,6 +85,9 @@
             recaptchaScript.setAttribute('src', 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit');
             document.body.appendChild(recaptchaScript)
         },
+        mixins: [
+            icons
+        ],
         middleware: ['guest']
     }
 </script>

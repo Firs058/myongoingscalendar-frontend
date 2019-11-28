@@ -24,7 +24,7 @@
                     >
                         <v-list-item-group v-for="(anime, index) in each.anime" :key="index">
                             <v-list-item
-                                    :ripple="{ class: 'grey--text' }"
+                                    :ripple="!$device.isMobile ? { class: 'grey--text' } : false"
                                     nuxt
                                     :to="`/title/${anime.tid}`"
                             >

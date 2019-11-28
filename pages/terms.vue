@@ -169,7 +169,6 @@
 
 <script>
   export default {
-    data: () => ({}),
     head() {
       return {
         title: this.$t("meta_info.terms.title", ['| MyOngoingsCalendar']),

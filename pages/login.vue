@@ -141,12 +141,8 @@
 </template>
 
 <script>
-    import {
-        mdiEmail,
-        mdiLock,
-        mdiEye,
-        mdiEyeOff
-    } from '@mdi/js';
+    import {icons} from '../mixins/icons'
+
     export default {
         data: () => ({
             loadingBtn: false,
@@ -181,13 +177,7 @@
                     icon: ['fab', 'github'],
                     loading: false
                 }
-            ],
-            icons: {
-                mdiEmail,
-                mdiLock,
-                mdiEye,
-                mdiEyeOff
-            }
+            ]
         }),
         head() {
             return {
@@ -226,6 +216,9 @@
                     .finally(() => this.providers[selected.index].loading = false)
             }
         },
+        mixins: [
+            icons
+        ],
         middleware: ['guest']
     }
 </script>

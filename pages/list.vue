@@ -56,19 +56,12 @@
 </template>
 
 <script>
-    import {
-        mdiFilterVariant,
-        mdiAlertDecagram
-    } from '@mdi/js';
+    import {icons} from '../mixins/icons'
 
     export default {
         data: () => ({
             showCount: 4,
-            filterInput: '',
-            icons: {
-                mdiFilterVariant,
-                mdiAlertDecagram
-            }
+            filterInput: ''
         }),
         async asyncData({app, store}) {
             const data = store.getters.authenticated
@@ -137,6 +130,9 @@
                 }
             }
         },
+        mixins: [
+            icons
+        ],
         computed: {
             filteredOngoingsList() {
                 let list = this.ongoingsList;

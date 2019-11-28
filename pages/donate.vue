@@ -27,7 +27,7 @@
                             </v-chip>
                             <v-list-item-action>
                                 <v-btn icon>
-                                    <v-icon>{{donate.icon}}</v-icon>
+                                    <v-icon>{{icons[donate.icon]}}</v-icon>
                                 </v-btn>
                             </v-list-item-action>
                         </v-list-item>
@@ -39,10 +39,7 @@
 </template>
 
 <script>
-    import {
-        mdiContentCopy,
-        mdiArrowRight
-    } from '@mdi/js';
+    import {icons} from '../mixins/icons'
 
     export default {
         data: () => ({
@@ -53,7 +50,7 @@
                     img: '/images/patreon.png',
                     action: 'url',
                     prefer: true,
-                    icon: mdiArrowRight
+                    icon: 'mdiArrowRight'
                 },
                 {
                     name: 'DonorBox',
@@ -61,7 +58,7 @@
                     img: '/images/donorbox.png',
                     action: 'url',
                     prefer: true,
-                    icon: mdiArrowRight
+                    icon: 'mdiArrowRight'
                 },
                 {
                     name: 'ZEC',
@@ -69,7 +66,7 @@
                     img: '/images/zec.png',
                     action: 'copy',
                     prefer: false,
-                    icon: mdiContentCopy
+                    icon: 'mdiContentCopy'
                 },
                 {
                     name: 'BTC',
@@ -77,7 +74,7 @@
                     img: '/images/btc.png',
                     action: 'copy',
                     prefer: false,
-                    icon: mdiContentCopy
+                    icon: 'mdiContentCopy'
                 }
             ]
         }),
@@ -92,6 +89,9 @@
                 ]
             }
         },
+        mixins: [
+            icons
+        ],
         methods: {
             openUrl: url => window.open(url),
             copyToClipboard(name, address) {

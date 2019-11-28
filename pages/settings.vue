@@ -319,12 +319,7 @@
 </template>
 
 <script>
-    import {
-        mdiArrowRight,
-        mdiOpenInNew,
-        mdiEye,
-        mdiEyeOff
-    } from '@mdi/js';
+    import {icons} from '../mixins/icons'
 
     export default {
         data: () => ({
@@ -353,14 +348,11 @@
                     code: 'ru',
                     img: '/images/ru.png'
                 }
-            ],
-            icons: {
-                mdiArrowRight,
-                mdiOpenInNew,
-                mdiEye,
-                mdiEyeOff
-            }
+            ]
         }),
+        mixins: [
+            icons
+        ],
         methods: {
             submitNickname() {
                 if (this.user.authenticated && this.$refs.nicknameForm.validate()) {

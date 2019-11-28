@@ -105,13 +105,7 @@
 </template>
 
 <script>
-    import {
-        mdiAccount,
-        mdiEmail,
-        mdiLock,
-        mdiEye,
-        mdiEyeOff
-    } from '@mdi/js';
+    import {icons} from '../mixins/icons'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -126,14 +120,7 @@
                 email: '',
                 hidePass: true,
                 confirmPassword: '',
-                confirmHidePass: true,
-                icons:{
-                    mdiAccount,
-                    mdiEmail,
-                    mdiLock,
-                    mdiEye,
-                    mdiEyeOff
-                }
+                confirmHidePass: true
             }
         },
         head() {
@@ -184,6 +171,9 @@
             recaptchaScript.setAttribute('src', 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit');
             document.body.appendChild(recaptchaScript)
         },
+        mixins: [
+            icons
+        ],
         middleware: ['guest']
     }
 </script>

@@ -15,11 +15,16 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs12 >
+            <v-flex xs12>
                 <v-layout row wrap>
                     <v-flex xs12>
                         <v-card flat :color="!expand ? 'transparent' : undefined">
-                            <div class="pa-2" v-if="shouldShow">
+                            <v-chip-group
+                                    v-if="shouldShow"
+                                    multiple
+                                    column
+                                    :dark="settings.dark"
+                            >
                                 <v-chip
                                         v-if="currentQuery"
                                         :color="`teal ${settings.dark ? 'darken-3' : 'lighten-3'}`"
@@ -45,7 +50,7 @@
                             {{`${$t(`search.chips.${filter.name}`)}: ${getGenresName}`}}
                        </span>
                                 </v-chip>
-                            </div>
+                            </v-chip-group>
                             <v-expand-transition>
                                 <v-card-text v-if="expand">
                                     <v-subheader v-if="!filters.genres.added">{{$t('search.chips.genres')}}
@@ -178,7 +183,9 @@
                 </v-layout>
             </v-flex>
         </v-layout>
-        <v-subheader v-if="!!asyncCache && asyncCache.count > 0 && shouldShow" class="pr-0">{{$t("search.founded", [asyncCache.count])}}</v-subheader>
+        <v-subheader v-if="!!asyncCache && asyncCache.count > 0 && shouldShow" class="pr-0">{{$t("search.founded",
+            [asyncCache.count])}}
+        </v-subheader>
 
         <v-layout
                 v-if="!!asyncCache && asyncCache.count > 0 && shouldShow"
@@ -222,24 +229,13 @@
 </template>
 
 <script>
-    import {
-        mdiFilterVariant,
-        mdiMagnify,
-        mdiPlus,
-        mdiAlertDecagram
-    } from '@mdi/js';
+    import {icons} from '../../mixins/icons'
     import {mapGetters} from 'vuex'
 
     export default {
         data: () => ({
             countPages: 1,
-            expand: false,
-            icons: {
-                mdiFilterVariant,
-                mdiMagnify,
-                mdiPlus,
-                mdiAlertDecagram
-            }
+            expand: false
         }),
         async asyncData({query, app, store}) {
             if (store.getters.supplyListEmpty) {
@@ -326,6 +322,9 @@
                 }
             }
         },
+        mixins: [
+            icons
+        ],
         computed: {
             ...mapGetters([
                 'settings',

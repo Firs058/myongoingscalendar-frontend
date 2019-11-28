@@ -73,7 +73,7 @@
                         titleFontFamily: fontFamily,
                         bodyFontFamily: fontFamily,
                         footerFontFamily: fontFamily,
-                        backgroundColor: '#616161',
+                        backgroundColor: this.settings.dark ? '#616161' : '#757575',
                         cornerRadius: 2,
                         caretSize: 0,
                         displayColors: false,

@@ -181,7 +181,6 @@
                     <div class="d-flex justify-center align-center">
                         <v-btn
                                 class="caption"
-                                color="primary"
                                 text
                                 v-for="link in footerLinks"
                                 :key="link.name"
@@ -240,20 +239,7 @@
 </template>
 
 <script>
-    import {
-        mdiSettings,
-        mdiInformationVariant,
-        mdiAccountPlus,
-        mdiLogin,
-        mdiMagnify,
-        mdiFormatListBulleted,
-        mdiCalendarCheck,
-        mdiHome,
-        mdiPencil,
-        mdiExitToApp,
-        mdiClose,
-        mdiGiftOutline
-    } from '@mdi/js';
+    import {icons} from '../mixins/icons'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -269,21 +255,7 @@
                     name: 'privacy',
                     link: '/privacy'
                 }
-            ],
-            icons: {
-                mdiSettings,
-                mdiInformationVariant,
-                mdiAccountPlus,
-                mdiLogin,
-                mdiMagnify,
-                mdiFormatListBulleted,
-                mdiCalendarCheck,
-                mdiHome,
-                mdiPencil,
-                mdiExitToApp,
-                mdiClose,
-                mdiGiftOutline
-            }
+            ]
         }),
         head() {
             return {
@@ -301,6 +273,9 @@
                     .then(() => this.$toast.showToast({code: 11015}))
             }
         },
+        mixins: [
+            icons
+        ],
         computed: {
             ...mapGetters([
                 'user',
