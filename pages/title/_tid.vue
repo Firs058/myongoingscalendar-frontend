@@ -388,7 +388,7 @@
                     },
                     {
                         property: 'og:title',
-                        content: this.globalTitle + ' schedule',
+                        content: this.globalTitle,
                         template: '%s | MyOngoingsCalendar'
                     },
                     {
@@ -417,7 +417,7 @@
                     },
                     {
                         name: 'twitter:title',
-                        content: this.globalTitle + ' schedule',
+                        content: this.globalTitle,
                         template: '%s | MyOngoingsCalendar'
                     },
                     {
@@ -486,7 +486,7 @@
                 return `${process.env.baseUrl}${this.$route.fullPath}`
             },
             globalDescription() {
-                return this.$t("meta_info.title.meta.description", [this.title.en ? this.title.en : this.title.ja, this.title.firstyear])
+                return this.$t("meta_info.title.meta.description", [this.title.en ? this.title.en : this.title.ja, this.title.firstYear])
             },
             globalImage() {
                 return `${process.env.baseUrl}${this.title.image.full}`
