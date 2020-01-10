@@ -93,6 +93,7 @@
                                                     top
                                                     v-for="(genre, index) in title.genres"
                                                     :key="index"
+                                                    eager
                                             >
                                                 <template v-slot:activator="{ on }">
                                                     <v-hover v-slot:default="{ hover }">
@@ -353,6 +354,7 @@
         },
         async asyncData({params, app, store}) {
             const data = await app.$axios.$post(store.getters.authenticated ? `api/user/title/${params.tid}` : `api/public/title/${params.tid}`, {timezone: store.getters.settings.timezone});
+            console.log(data.payload);
             return {
                 tid: params.tid,
                 title: data.payload.title,
