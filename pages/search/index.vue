@@ -139,8 +139,9 @@
                             v-model="filters.genres.selected"
                     >
                         <v-chip
-                                v-for="genre in genresList"
-                                :key="genre.name"
+                                v-for="(genre, i) in supply.genres"
+                                :key="i"
+                                :value="genre.id"
                                 filter
                         >
                             {{genre.name}}
