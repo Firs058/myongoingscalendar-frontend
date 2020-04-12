@@ -8,8 +8,7 @@ module.exports = {
     head: {
         meta: [
             {charset: 'utf-8'},
-            {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-            {name: 'google-site-verification', content: 'XYNXmJI5XPFQwvDE04hZnZ_NFN1p3ighYHzA0uvPmCI'}
+            {name: 'viewport', content: 'width=device-width, initial-scale=1'}
         ],
         link: [
             {rel: 'icon', type: 'image/x-icon', href: '/images/icons/favicon.ico'}
@@ -17,13 +16,11 @@ module.exports = {
     },
     plugins: [
         {src: '~/plugins/tokens', mode: 'client'},
-        {src: '~/plugins/toast.js', mode: 'client'},
-        {src: '~/plugins/anime.js', mode: 'client'},
         {src: '~/plugins/sharing.js', mode: 'client'},
         {src: '~/plugins/scroll.js', mode: 'client'},
         {src: '~/plugins/ga.js', mode: 'client'},
         '~/plugins/axios.js',
-        '~/plugins/auth.js',
+        '~/plugins/api.js',
         '~/plugins/persistedstate.js',
         '~/plugins/components.js',
         '~/plugins/moment.js',
@@ -46,32 +43,27 @@ module.exports = {
         '@nuxtjs/vuetify',
         'nuxt-device-detect'
     ],
+    css: [
+        '~/assets/roboto.css'
+    ],
     loading: false,
     router: {
         middleware: ['sync', 'i18n']
     },
     vuetify: {
+        customVariables: ['~/assets/variables.scss'],
         treeShake: true,
-        defaultAssets: {
-            icons: false
-        },
+        defaultAssets: false,
         icons: {
             iconfont: "mdiSvg"
-        },
-        theme: {
-            themes: {
-                dark: {
-                    primary: '#2196F3',
-                }
-            },
-        },
+        }
     },
     build: {
         publicPath: '/dist/',
         plugins: [
             new MomentLocalesPlugin({
-                localesToKeep: ['ru'],
+                localesToKeep: ['ru']
             })
         ]
     }
-}
+};

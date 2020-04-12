@@ -15,7 +15,7 @@
                     <v-list
                             two-line
                             subheader
-                            :class="settings.dark ? 'pa-0' : 'pa-0 grey lighten-4'"
+                            class="pa-0"
                     >
                         <v-list-item>
                             <v-list-item-content>
@@ -35,6 +35,7 @@
                                                 v-on="on"
                                                 right
                                                 icon
+                                                aria-label="Open In New"
                                         >
                                             <v-icon>{{icons.mdiOpenInNew}}</v-icon>
                                         </v-btn>
@@ -64,6 +65,7 @@
                                             <v-btn
                                                     text
                                                     @click.native="nickname.dialog = false"
+                                                    :aria-label="$t('buttons.cancel')"
                                             >{{$t('buttons.cancel')}}
                                             </v-btn>
                                             <v-btn
@@ -71,6 +73,7 @@
                                                     color="success"
                                                     :disabled="!nickname.valid"
                                                     @click.native="submitNickname"
+                                                    :aria-label="$t('buttons.save')"
                                             >{{$t('buttons.save')}}
                                             </v-btn>
                                         </v-card-actions>
@@ -90,6 +93,7 @@
                                         right
                                         icon
                                         @click.stop="openUrl('https://gravatar.com/')"
+                                        aria-label="Arrow Right"
                                 >
                                     <v-icon>{{icons.mdiArrowRight}}</v-icon>
                                 </v-btn>
@@ -113,6 +117,7 @@
                                                 v-on="on"
                                                 right
                                                 icon
+                                                aria-label="Open In New"
                                         >
                                             <v-icon>{{icons.mdiOpenInNew}}</v-icon>
                                         </v-btn>
@@ -145,6 +150,7 @@
                                             <v-btn
                                                     text
                                                     @click.native="password.dialog = false"
+                                                    :aria-label="$t('buttons.cancel')"
                                             >{{$t('buttons.cancel')}}
                                             </v-btn>
                                             <v-btn
@@ -152,6 +158,7 @@
                                                     color="success"
                                                     :disabled="!password.valid"
                                                     @click.native="submitPassword"
+                                                    :aria-label="$t('buttons.save')"
                                             >{{$t('buttons.save')}}
                                             </v-btn>
                                         </v-card-actions>
@@ -166,7 +173,7 @@
                     <v-list
                             two-line
                             subheader
-                            :class="settings.dark ? 'pa-0' : 'pa-0 grey lighten-4'"
+                            class="pa-0"
                     >
                         <v-list-item>
                             <v-list-item-content>
@@ -213,6 +220,7 @@
                                                 right
                                                 icon
                                                 v-on="on"
+                                                aria-label="lang"
                                         >
                                             <v-avatar size="32px">
                                                 <img :src="currentLang.img" :alt="currentLang.name">
@@ -258,7 +266,7 @@
                     <v-list
                             two-line
                             subheader
-                            :class="settings.dark ? 'pa-0' : 'pa-0 grey lighten-4'"
+                            class="pa-0"
                     >
                         <v-list-item>
                             <v-list-item-content>

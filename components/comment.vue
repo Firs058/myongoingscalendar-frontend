@@ -1,50 +1,32 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-card
+            tile
             flat
             color="transparent"
-            class="my-2"
+            class="mt-2"
     >
-        <v-list-item>
+        <v-list-item v-if="$device.isMobile">
             <v-list-item-avatar>
                 <img :src="comment.user.avatar" :alt="comment.user.nickname">
             </v-list-item-avatar>
             <v-list-item-content>
                 <v-list-item-title>{{comment.user.nickname}}</v-list-item-title>
-                <v-list-item-subtitle class="grey--text">
+                <v-list-item-subtitle :class="{'grey--text': true, 'text--lighten-1': settings.dark}">
                     {{ comment.added | moment('timezone', settings.timezone, 'from') }}
                 </v-list-item-subtitle>
             </v-list-item-content>
-            <v-list-item-action>
-                <v-tooltip top>
-                    <template v-slot:activator="{ on }">
-                        <div v-on="on" class="d-inline-block">
-                            <v-btn
-                                    text
-                                    @click.native="addReport"
-                                    :loading="loadingReport"
-                                    :disabled="!authenticated"
-                                    fab
-                                    small
-                                    icon
-                            >
-                                <v-icon small>{{icons.mdiAlertOctagon}}</v-icon>
-                            </v-btn>
-                        </div>
-                    </template>
-                    <span>{{authenticated ? $t('tooltips.report_a_comment') : $t('tooltips.you_must_be_logged_in')}}</span>
-                </v-tooltip>
-            </v-list-item-action>
         </v-list-item>
-        <v-textarea
-                full-width
-                v-model="comment.text"
-                readonly
-                auto-grow
-                rows="1"
-                hide-details
-                style="margin-left: 67px;"
-        />
-        <v-card-actions style="margin-left: 68px;" class="pa-0">
+        <v-list-item v-else class="pr-0">
+            <v-list-item-avatar>
+                <img :src="comment.user.avatar" :alt="comment.user.nickname">
+            </v-list-item-avatar>
+            <v-list-item-content>
+                <v-list-item-title>{{comment.user.nickname}}</v-list-item-title>
+                <v-list-item-subtitle :class="{'grey--text': true, 'text--lighten-1': settings.dark}">
+                    {{ comment.added | moment('timezone', settings.timezone, 'from') }}
+                </v-list-item-subtitle>
+            </v-list-item-content>
+            <v-spacer/>
             <v-tooltip top>
                 <template v-slot:activator="{ on }">
                     <div v-on="on" class="d-inline-block">
@@ -56,8 +38,8 @@
                                 :color="comment.liked ? 'primary' : null"
                                 small
                                 fab
-                                :class="comment.liked ? null : 'mr-2'"
                                 icon
+                                :aria-label="authenticated ?  $t('tooltips.like') : $t('tooltips.you_must_be_logged_in')"
                         >
                             <v-icon small>{{icons.mdiThumbUp}}</v-icon>
                         </v-btn>
@@ -65,7 +47,12 @@
                 </template>
                 <span>{{authenticated ?  $t('tooltips.like') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
-            <div v-if="comment.likes" class="mr-2">{{comment.likes}}</div>
+            <div
+                    v-if="!!scoreCount"
+                    :class="{ 'mx-2': true, 'success--text': scoreCount > 0, 'error--text': scoreCount < 0}"
+            >
+                {{scoreCount}}
+            </div>
             <v-tooltip top>
                 <template v-slot:activator="{ on }">
                     <div v-on="on" class="d-inline-block">
@@ -77,8 +64,8 @@
                                 :color="comment.disliked ? 'primary' : null"
                                 small
                                 fab
-                                :class="comment.disliked ? null : 'mr-2'"
                                 icon
+                                :aria-label="authenticated ?  $t('tooltips.dislike') : $t('tooltips.you_must_be_logged_in')"
                         >
                             <v-icon small>{{icons.mdiThumbDown}}</v-icon>
                         </v-btn>
@@ -86,37 +73,147 @@
                 </template>
                 <span>{{authenticated ?  $t('tooltips.dislike') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
-            <div v-if="comment.dislikes" class="mr-2">{{comment.dislikes}}</div>
             <v-tooltip top>
                 <template v-slot:activator="{ on }">
                     <div v-on="on" class="d-inline-block">
                         <v-btn
                                 small
                                 text
-                                @click.native="openDialog()"
+                                fab
+                                icon
+                                @click.native="$store.dispatch('openCommentDialog', {tid: comment.tid, id: comment.id})"
                                 :disabled="!authenticated"
+                                :aria-label="authenticated ?  $t('buttons.reply') : $t('tooltips.you_must_be_logged_in')"
                         >
-                            <v-icon left>{{icons.mdiReplay}}</v-icon>
-                            {{$t('buttons.reply')}}
+                            <v-icon small>{{icons.mdiReplay}}</v-icon>
                         </v-btn>
                     </div>
                 </template>
                 <span>{{authenticated ?  $t('buttons.reply') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
+            <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                    <div v-on="on" class="d-inline-block">
+                        <v-btn
+                                text
+                                @click.native="addReport"
+                                :loading="loadingReport"
+                                :disabled="!authenticated"
+                                fab
+                                small
+                                icon
+                                :aria-label="authenticated ? $t('tooltips.report_a_comment') : $t('tooltips.you_must_be_logged_in')"
+                        >
+                            <v-icon small>{{icons.mdiAlertOctagon}}</v-icon>
+                        </v-btn>
+                    </div>
+                </template>
+                <span>{{authenticated ? $t('tooltips.report_a_comment') : $t('tooltips.you_must_be_logged_in')}}</span>
+            </v-tooltip>
+        </v-list-item>
+        <div
+                v-text="comment.text"
+                :style="{'padding-left': '72px', 'white-space': 'pre-wrap'}"
+        />
+        <v-card-actions v-if="$device.isMobile" style="margin-left: 61px;" class="pa-0">
+            <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                    <div v-on="on" class="d-inline-block">
+                        <v-btn
+                                text
+                                @click.native="addLike"
+                                :disabled="!authenticated"
+                                :loading="loadingLike"
+                                :color="comment.liked ? 'primary' : null"
+                                small
+                                fab
+                                icon
+                                :aria-label="authenticated ?  $t('tooltips.like') : $t('tooltips.you_must_be_logged_in')"
+                        >
+                            <v-icon small>{{icons.mdiThumbUp}}</v-icon>
+                        </v-btn>
+                    </div>
+                </template>
+                <span>{{authenticated ?  $t('tooltips.like') : $t('tooltips.you_must_be_logged_in')}}</span>
+            </v-tooltip>
+            <div
+                    v-if="!!scoreCount"
+                    :class="{'mx-2': true, 'success--text': scoreCount > 0, 'error--text': scoreCount < 0}"
+            >
+                {{scoreCount}}
+            </div>
+            <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                    <div v-on="on" class="d-inline-block">
+                        <v-btn
+                                text
+                                @click.native="addDislike"
+                                :disabled="!authenticated"
+                                :loading="loadingDislike"
+                                :color="comment.disliked ? 'primary' : null"
+                                small
+                                fab
+                                icon
+                                :aria-label="authenticated ?  $t('tooltips.dislike') : $t('tooltips.you_must_be_logged_in')"
+                        >
+                            <v-icon small>{{icons.mdiThumbDown}}</v-icon>
+                        </v-btn>
+                    </div>
+                </template>
+                <span>{{authenticated ?  $t('tooltips.dislike') : $t('tooltips.you_must_be_logged_in')}}</span>
+            </v-tooltip>
+            <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                    <div v-on="on" class="d-inline-block">
+                        <v-btn
+                                small
+                                text
+                                fab
+                                icon
+                                @click.native="$store.dispatch('openCommentDialog', {tid: comment.tid, id: comment.id})"
+                                :disabled="!authenticated"
+                                :aria-label="authenticated ?  $t('buttons.reply') : $t('tooltips.you_must_be_logged_in')"
+                        >
+                            <v-icon small>{{icons.mdiReplay}}</v-icon>
+                        </v-btn>
+                    </div>
+                </template>
+                <span>{{authenticated ?  $t('buttons.reply') : $t('tooltips.you_must_be_logged_in')}}</span>
+            </v-tooltip>
+            <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                    <div v-on="on" class="d-inline-block">
+                        <v-btn
+                                text
+                                @click.native="addReport"
+                                :loading="loadingReport"
+                                :disabled="!authenticated"
+                                fab
+                                small
+                                icon
+                                :aria-label="authenticated ? $t('tooltips.report_a_comment') : $t('tooltips.you_must_be_logged_in')"
+                        >
+                            <v-icon small>{{icons.mdiAlertOctagon}}</v-icon>
+                        </v-btn>
+                    </div>
+                </template>
+                <span>{{authenticated ? $t('tooltips.report_a_comment') : $t('tooltips.you_must_be_logged_in')}}</span>
+            </v-tooltip>
         </v-card-actions>
         <v-expansion-panels
+                v-model="expansion"
                 v-if="comment.replies > 0"
-                inset
+                flat
+                tile
         >
-            <v-expansion-panel
-                    v-model="expansion"
-                    :class="settings.dark ? 'grey darken-3' : 'grey lighten-4'"
-            >
+            <v-expansion-panel class="transparent">
                 <v-expansion-panel-header
                         hide-actions
                         @click.native.once="downloadChilds(false)"
+                        class="primary--text"
                 >
-                    {{$t('comments.show_all.2', [comment.replies])}}
+                    {{$t(!!expansion || typeof expansion === 'undefined' ? 'comments.show_all.2' :
+                    'comments.show_all.3', [comment.replies])}}
                 </v-expansion-panel-header>
                 <v-expansion-panel-content
                         hide-default-footer
@@ -128,8 +225,11 @@
                             fluid
                     >
                         <v-layout row wrap>
-                            <v-flex xs12 v-for="(comment, index) in comments" :key="index">
-                                <comment :comment="comment"/>
+                            <v-flex xs12>
+                                <comment
+                                        v-for="(comment, index) in comments" :key="index"
+                                        :comment="comment"
+                                />
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -145,6 +245,7 @@
                                             text
                                             @click.native="downloadChilds(true)"
                                             :loading="loadingChilds"
+                                            :aria-label="$t('comments.show_more.2', [more])"
                                     >
                                         <v-icon left>{{icons.mdiArrowDown}}</v-icon>
                                         {{$t('comments.show_more.2', [more])}}
@@ -175,7 +276,7 @@
             offset: 0,
             more: 0,
             comments: [],
-            expansion: [false]
+            expansion: []
         }),
         props: ['comment'],
         mixins: [
@@ -203,13 +304,6 @@
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.loadingReport = false)
             },
-            openDialog() {
-                this.$store.dispatch('setComment', {
-                    dialog: true,
-                    id: this.comment.id,
-                    tid: this.comment.tid
-                })
-            },
             downloadChilds(next) {
                 if (next) this.offset += 10;
                 this.loadingChilds = true;
@@ -229,20 +323,20 @@
                         })
                         .catch(code => this.$toast.showToast(code))
                         .finally(() => this.loadingChilds = false)
-
             }
         },
-        computed: mapGetters([
-            'settings',
-            'authenticated'
-        ])
+        computed: {
+            ...mapGetters([
+                'settings',
+                'authenticated'
+            ]),
+            scoreCount() {
+                return this.comment.likes - this.comment.dislikes
+            }
+        }
     }
 </script>
 <style scoped>
-    >>> .v-expansion-panel::before {
-        box-shadow: 0 0 0 0 !important;
-    }
-
     .white-border {
         border-left-style: solid;
         border-color: white;

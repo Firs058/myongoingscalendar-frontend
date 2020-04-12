@@ -1,13 +1,17 @@
 <template>
-    <v-container article :class="$device.isMobile ? 'py-0' : 'grid-list-lg pt-0'">
-        <calendar
-                v-if="calendar.length"
-                :calendar="calendar"
-                :showAll="true"
-        />
-        <v-layout v-else align-center justify-center text-center>
+    <v-container
+            article
+            :class="{'grid-list-lg pt-0': !$device.isMobile, 'py-0': $device.isMobile}"
+    >
+        <calendar :calendar="calendar" :showAll="true"/>
+        <v-layout v-if="!!calendar.length && !Object.keys(calendar).length" align-center justify-center text-center>
             <v-flex xs12 class="mt-4">
-                <v-alert tile type="info" :value="true">
+                <v-alert
+                        tile
+                        type="info"
+                        :value="true"
+                        class="mt-4"
+                >
                     {{$t("alerts.nothing_found")}}
                 </v-alert>
             </v-flex>
@@ -16,14 +20,13 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
-
     export default {
         async asyncData({app, store}) {
-            const data = await app.$axios.$post('api/user/calendar', {
+            const params = {
                 timezone: store.getters.settings.timezone,
                 hideRepeats: store.getters.settings.hideRepeats
-            });
+            };
+            const {data} = await app.$anime.userApi('calendar', params);
             return {calendar: data.payload}
         },
         head() {
@@ -37,10 +40,6 @@
                 ]
             }
         },
-        computed:
-            mapGetters([
-                'authenticated'
-            ]),
         middleware: 'authenticated'
     }
 </script>

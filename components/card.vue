@@ -17,7 +17,7 @@
                 <div class="d-flex justify-start mb-auto" v-if="anime.watchingStatus || anime.recommended">
                     <div class="d-flex justify-center align-center" v-if="anime.watchingStatus">
                         <v-chip
-                                :color="watchingStatusColor(anime.watchingStatus)"
+                                :color="statusColor"
                                 class="text-uppercase ma-4"
                                 small
                         >
@@ -55,27 +55,25 @@
         props: [
             'anime'
         ],
-        methods: {
-            watchingStatusColor(status) {
-                switch (status) {
-                    case 'NEW':
-                        return `orange ${this.settings.dark ? 'darken-1' : 'lighten-2'}`;
-                    case 'WATCHING':
-                        return `green ${this.settings.dark ? 'darken-1' : 'lighten-2'}`;
-                    case 'WATCHED':
-                        return `primary ${this.settings.dark ? 'darken-1' : 'lighten-2'}`;
-                    case 'DROPPED':
-                        return `red ${this.settings.dark ? 'darken-1' : 'lighten-2'}`;
-                }
-            }
-        },
         mixins: [
             icons
         ],
         computed: {
             ...mapGetters([
                 'settings'
-            ])
+            ]),
+            statusColor() {
+                switch (this.anime.watchingStatus) {
+                    case 'NEW':
+                        return `orange ${this.settings.dark ? 'darken-3' : 'lighten-2'}`;
+                    case 'WATCHING':
+                        return `green ${this.settings.dark ? 'darken-3' : 'lighten-2'}`;
+                    case 'WATCHED':
+                        return `blue ${this.settings.dark ? 'darken-3' : 'lighten-2'}`;
+                    case 'DROPPED':
+                        return `red ${this.settings.dark ? 'darken-3' : 'lighten-2'}`;
+                }
+            }
         }
     }
 </script>

@@ -1,7 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <v-app>
         <v-navigation-drawer
-                :class="{transparent : !$device.isMobile}"
                 :color="`grey ${settings.dark ? 'darken-4' : 'lighten-4'}`"
                 v-model="menu"
                 :permanent="!$device.isMobile"
@@ -21,7 +20,7 @@
                     </div>
                     <div
                             @click.stop="$router.push('/settings')"
-                            :class="`grey--text text--darken ${settings.timezone.length > 20 ? 'caption' : 'subtitle-1'}`"
+                            :class="`grey--text ${settings.dark ? 'text--darken' : 'text--darken-2'} ${settings.timezone.length > 20 ? 'caption' : 'subtitle-1'}`"
                     >
                         {{settings.timezone}}
                     </div>
@@ -121,7 +120,7 @@
                         nuxt
                 >
                     <v-list-item-icon>
-                        <v-icon>{{icons.mdiSettings}}</v-icon>
+                        <v-icon>{{icons.mdiAccountCog}}</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
                         <v-list-item-title>{{$t('menu.settings')}}</v-list-item-title>
@@ -167,6 +166,7 @@
                                         v-on="on"
                                         icon
                                         @click.stop="logout()"
+                                        :aria-label="$t('menu.exit')"
                                 >
                                     <v-icon>{{icons.mdiExitToApp}}</v-icon>
                                 </v-btn>
@@ -187,8 +187,9 @@
                                 :to="link.link"
                                 small
                                 nuxt
+                                :aria-label="$tc(`${link.name}.headline`, 1)"
                         >
-                            {{$tc(link.name + ".headline", 1)}}
+                            {{$tc(`${link.name}.headline`, 1)}}
                         </v-btn>
                     </div>
                     <v-flex xs12 py-1 px-1 text-center class="caption">
@@ -212,6 +213,7 @@
                     :to="{ name: 'search', query: lastQuery }"
                     nuxt
                     exact-active-class="undefined"
+                    :aria-label="$t('menu.search')"
             >
                 <v-icon>{{icons.mdiMagnify}}</v-icon>
             </v-btn>
@@ -224,6 +226,7 @@
                 left
                 :timeout="toast.timeout"
                 :color="toast.color"
+                :class="toast.class"
                 v-model="toast.active"
         >
             {{$t("status." + toast.code)}}
@@ -231,6 +234,7 @@
                     text
                     icon
                     @click.native="$store.dispatch('setToastActive', false)"
+                    :aria-label="$t('menu.exit')"
             >
                 <v-icon>{{icons.mdiClose}}</v-icon>
             </v-btn>
@@ -241,6 +245,7 @@
 <script>
     import {icons} from '../mixins/icons'
     import {mapGetters} from 'vuex'
+    import colors from 'vuetify/lib/util/colors'
 
     export default {
         data: () => ({
@@ -287,7 +292,17 @@
             ])
         },
         created() {
-            this.$vuetify.theme.dark = this.settings.dark
+            this.$vuetify.theme.dark = this.settings.dark;
+            this.$vuetify.theme.themes.dark = {
+                primary: {base: colors.blue.lighten3},
+                error: {base: colors.red.lighten3},
+                success: {base: colors.green.lighten3},
+                info: {base: colors.blue.darken3}
+            };
+            this.$vuetify.theme.applyVueMeta23()
+        },
+        mounted() {
+            this.$meta().refresh()
         }
     }
 </script>

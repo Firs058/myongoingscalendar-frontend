@@ -49,10 +49,12 @@
                         <v-btn
                                 @click="submit"
                                 :disabled="!valid"
-                                class="primary"
+                                color="blue darken-3"
                                 :loading="loadingBtn"
                                 block
-                        >{{$t('buttons.next')}}
+                                :aria-label="$t('buttons.next')"
+                        >
+                            {{$t('buttons.next')}}
                         </v-btn>
                     </v-card-actions>
                     <v-card-text>
@@ -80,6 +82,7 @@
                                         v-on="on"
                                         icon
                                         class="mx-2"
+                                        :aria-label="$t('login.provider', [i.name])"
                                 >
                                     <font-awesome-icon :icon="i.icon" size="2x" class="icon alt"/>
                                 </v-btn>
@@ -125,14 +128,18 @@
                     <v-btn
                             text
                             @click.native="dialog.visible = false"
-                    >{{$t('buttons.decline')}}
+                            :aria-label="$t('buttons.decline')"
+                    >
+                        {{$t('buttons.decline')}}
                     </v-btn>
                     <v-btn
                             text
                             color="success"
                             :disabled="!dialog.alright"
                             @click.native="authViaProvider(dialog.selected)"
-                    >{{$t('buttons.accept')}}
+                            :aria-label="$t('buttons.accept')"
+                    >
+                        {{$t('buttons.accept')}}
                     </v-btn>
                 </v-card-actions>
             </v-card>

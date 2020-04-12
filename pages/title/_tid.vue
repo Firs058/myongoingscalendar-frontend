@@ -35,19 +35,35 @@
                                             length="10"
                                             :empty-icon="icons.mdiStarOutline"
                                             :full-icon="icons.mdiStar"
-                                            :half-icon="icons.mdiStarHalf"
+                                            :half-icon="icons.mdiStarHalfFull"
                                             class="mb-4"
-                                    />
+
+                                    >
+                                        <template slot="item" slot-scope="item">
+                                            <v-icon :color="item.isHalfFilled || item.isFilled ? 'yellow darken-3' : 'grey'">
+                                                {{item.isHalfFilled
+                                                ? icons.mdiStarHalfFull
+                                                : item.isFilled
+                                                ? icons.mdiStar
+                                                : icons.mdiStarOutline}}
+                                            </v-icon>
+                                        </template>
+                                    </v-rating>
                                     <div v-if="!title.outdated">
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on" class="d-inline-block">
                                                     <v-btn
-                                                            :color="title && !marked ? 'success' : 'error'"
+                                                            :class="{
+                                                                'ma-1 extended': true,
+                                                                'green': title && !marked,
+                                                                'red': title && marked,
+                                                                'darken-3': settings.dark,
+                                                              }"
                                                             @click.native.stop="title && !marked ? toggleTitle() : deletion = true"
                                                             :disabled="!authenticated"
                                                             :loading="button.loading"
-                                                            class="ma-1 extended"
+                                                            :aria-label="title && !marked ? $t('buttons.add') : $t('buttons.remove')"
                                                     >
                                                         {{title && !marked ? $t('buttons.add') : $t('buttons.remove')}}
                                                     </v-btn>
@@ -65,14 +81,15 @@
                             v-if="title.outdated"
                             class="ma-0"
                             :value="true"
-                            color="info"
+                            type="info"
                             :icon="icons.mdiAlertDecagram"
                     >
                         {{$t('title.information.outdated')}}
                     </v-alert>
                     <v-sheet
                             tile
-                            class="py-10 px-4" :light="settings.dark"
+                            class="py-10 px-4"
+                            :light="settings.dark"
                             color="grey lighten-2"
                     >
                         <v-layout wrap>
@@ -162,8 +179,10 @@
                                             justify-center
                                             class="ma-0"
                                     >
-                                        <v-progress-circular indeterminate
-                                                             color="grey lighten-5"></v-progress-circular>
+                                        <v-progress-circular
+                                                indeterminate
+                                                color="grey lighten-5"
+                                        />
                                     </v-layout>
                                 </v-img>
                             </v-flex>
@@ -184,7 +203,7 @@
                             tile
                             v-if="showChart && title.chartData.datasets.length"
                             class="pa-4"
-                            :class="settings.dark ? 'grey darken-1' : 'grey lighten-3'"
+                            :class="settings.dark ? 'grey darken-2' : 'grey lighten-3'"
                     >
                         <lazy-hydrate when-visible>
                             <line-chart :chartData="title.chartData"/>
@@ -192,24 +211,22 @@
                     </v-sheet>
                     <lazy-hydrate when-visible>
                         <v-sheet tile>
-                            <v-toolbar dense text tabs flat>
-                                <v-tabs
-                                        centered
-                                        v-model="broadcast.active"
-                                        fixed-tabs
-                                        background-color="transparent"
-                                        :color="settings.dark ? 'white' : 'black'"
+                            <v-tabs
+                                    centered
+                                    v-model="broadcast.active"
+                                    fixed-tabs
+                                    background-color="transparent"
+                                    :color="settings.dark ? 'white' : 'black'"
+                            >
+                                <v-tabs-slider/>
+                                <v-tab
+                                        v-for="i in broadcast.tabs"
+                                        :key="i.name"
+                                        :href="'#tab-' + i.name"
                                 >
-                                    <v-tabs-slider :color="settings.dark ? 'white' : 'black'"/>
-                                    <v-tab
-                                            v-for="i in broadcast.tabs"
-                                            :key="i.name"
-                                            :href="'#tab-' + i.name"
-                                    >
-                                        {{$t(`title.schedule.tabs.${i.name}`)}}
-                                    </v-tab>
-                                </v-tabs>
-                            </v-toolbar>
+                                    {{$t(`title.schedule.tabs.${i.name}`)}}
+                                </v-tab>
+                            </v-tabs>
                             <v-tabs-items v-model="broadcast.active">
                                 <v-tab-item
                                         v-for="i in broadcast.tabs"
@@ -222,6 +239,7 @@
                                             :items-per-page.sync="i.items.length"
                                             hide-default-footer
                                             :hide-default-header="$device.isMobile"
+                                            :no-data-text="$t('title.schedule.no_data')"
                                     >
                                         <template
                                                 slot="item"
@@ -234,10 +252,14 @@
                                                     }}
                                                     <span
                                                             v-if="props.item.shift !== '0'"
-                                                            class="error--text"
+                                                            :class="{
+                                                                'red--text': true,
+                                                                'text--lighten-3': settings.dark,
+                                                                'text--darken-4' : !settings.dark,
+                                                            }"
                                                     >
-                                                                    {{'&nbsp' + props.item.shift}}
-                                                                </span>
+                                                        {{'&nbsp' + props.item.shift}}
+                                                    </span>
                                                 </td>
                                                 <td>{{ props.item.channel }}</td>
                                                 <td>{{ props.item.episode }}</td>
@@ -256,10 +278,22 @@
                                     <v-card-text>{{globalTitle}}</v-card-text>
                                     <v-card-actions>
                                         <v-spacer/>
-                                        <v-btn color="error" text @click.native="deletion = false">
+                                        <v-btn
+                                                color="error"
+                                                text
+                                                @click.native="deletion = false"
+                                                :aria-label="$t('buttons.disagree')"
+                                        >
                                             {{$t('buttons.disagree')}}
                                         </v-btn>
-                                        <v-btn color="success" text @click.native="toggleTitle">{{$t('buttons.agree')}}
+                                        <v-btn
+                                                color="success"
+                                                text
+                                                @click.native="toggleTitle"
+                                                :loading="button.loading"
+                                                :aria-label="$t('buttons.agree')"
+                                        >
+                                            {{$t('buttons.agree')}}
                                         </v-btn>
                                     </v-card-actions>
                                 </v-card>
@@ -268,7 +302,6 @@
                     </lazy-hydrate>
                     <v-sheet
                             tile
-                            :color="settings.dark ? 'grey darken-3' : 'grey lighten-4'"
                             class="pb-8"
                     >
                         <lazy-hydrate when-visible>
@@ -279,9 +312,13 @@
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on" class="d-inline-block">
                                                     <v-btn
-                                                            class="success"
-                                                            @click.native.stop="openDialog"
+                                                            :class="{
+                                                                'green': true,
+                                                                'darken-3': settings.dark,
+                                                              }"
+                                                            @click.native.stop="$store.dispatch('openCommentDialog', {tid})"
                                                             :disabled="!authenticated"
+                                                            :aria-label="$t('buttons.add_comment')"
                                                     >
                                                         {{$t('buttons.add_comment')}}
                                                     </v-btn>
@@ -298,7 +335,8 @@
                                 >
                                     <div class="d-flex flex-column">
                                         <comment
-                                                xs12 v-for="(comment, index) in comments.nodes"
+                                                xs12
+                                                v-for="(comment, index) in comments.nodes"
                                                 :key="index"
                                                 :comment="comment"
                                         />
@@ -317,6 +355,8 @@
                                                         text
                                                         @click.native.stop="downloadComments"
                                                         :loading="comments.loading"
+                                                        color="primary"
+                                                        :aria-label="$t('comments.show_more.2', [comments.more])"
                                                 >
                                                     <v-icon left>{{icons.mdiArrowDown}}</v-icon>
                                                     {{ $t('comments.show_more.2', [comments.more])}}
@@ -354,7 +394,6 @@
         },
         async asyncData({params, app, store}) {
             const data = await app.$axios.$post(store.getters.authenticated ? `api/user/title/${params.tid}` : `api/public/title/${params.tid}`, {timezone: store.getters.settings.timezone});
-            console.log(data.payload);
             return {
                 tid: params.tid,
                 title: data.payload.title,
@@ -436,41 +475,25 @@
         methods: {
             openLink: url => window.open(url),
             toggleTitle() {
-                this.deletion = false;
                 this.button.loading = true;
                 this.$anime.userApi(`title/${this.tid}/toggle`)
                     .then(result => {
+                        this.deletion = false;
                         this.marked = !this.marked;
                         this.$toast.showToast({code: result.data.status.code});
                     })
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.button.loading = false)
             },
-            openDialog() {
-                this.$store.dispatch('setComment', {
-                    dialog: true,
-                    id: null,
-                    tid: Number(this.tid)
-                })
-            },
-            downloadComments() {
+            async downloadComments() {
                 this.comments.offset += 10;
                 this.comments.loading = true;
-                this.authenticated
-                    ? this.$anime.userApi(`title/${this.tid}/comments/root/${this.comments.offset}`)
-                        .then(result => {
-                            this.comments.nodes.length ? result.data.payload.nodes.forEach(e => this.comments.nodes.push(e)) : this.comments.nodes = result.data.payload.nodes;
-                            this.comments.more = result.data.payload.fromPath - this.comments.nodes.length;
-                        })
-                        .catch(code => this.$toast.showToast(code))
-                        .finally(() => this.comments.loading = false)
-                    : this.$anime.api(`title/${this.tid}/comments/root/${this.comments.offset}`)
-                        .then(result => {
-                            this.comments.nodes.length ? result.data.payload.nodes.forEach(e => this.comments.nodes.push(e)) : this.comments.nodes = result.data.payload.nodes;
-                            this.comments.more = result.data.payload.fromPath - this.comments.nodes.length;
-                        })
-                        .catch(code => this.$toast.showToast(code))
-                        .finally(() => this.comments.loading = false)
+                const {data} = this.authenticated
+                    ? await this.$anime.userApi(`title/${this.tid}/comments/root/${this.comments.offset}`).catch(code => this.$toast.showToast(code))
+                    : await this.$anime.api(`title/${this.tid}/comments/root/${this.comments.offset}`).catch(code => this.$toast.showToast(code));
+                this.comments.nodes.length ? data.payload.nodes.forEach(e => this.comments.nodes.push(e)) : this.comments.nodes = data.payload.nodes;
+                this.comments.more = data.payload.fromPath - this.comments.nodes.length;
+                this.comments.loading = false
             }
         },
         mixins: [
@@ -521,5 +544,9 @@
         -ms-filter: blur(10px);
         filter: blur(10px);
         transform: scale(1.1);
+    }
+
+    >>> .v-tabs-items {
+        background-color: transparent !important;
     }
 </style>

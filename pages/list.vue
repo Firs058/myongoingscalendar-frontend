@@ -19,10 +19,12 @@
                     />
                 </v-flex>
             </v-layout>
-            <v-layout row wrap
-                      v-if="Object.keys(filteredOngoingsList).length"
-                      v-for="dateGroup in filteredOngoingsList.slice(0, showCount)"
-                      :key="dateGroup.dateStart"
+            <v-layout
+                    row
+                    wrap
+                    v-if="!ongoingsListIsEmpty"
+                    v-for="dateGroup in filteredOngoingsList.slice(0, showCount)"
+                    :key="dateGroup.dateStart"
             >
                 <v-flex xs12>
                     <v-subheader>{{dateGroup.dateStart}}</v-subheader>
@@ -40,16 +42,13 @@
             <infinite-loading @infinite="infiniteHandler"/>
             <v-layout
                     v-if="!Object.keys(filteredOngoingsList).length"
-                    fluid
+                    align-center justify-center text-center
             >
-                <v-alert
-                        tile
-                        color="info"
-                        :icon="icons.mdiAlertDecagram"
-                        value="true"
-                >
-                    {{$t("alerts.nothing_found")}}
-                </v-alert>
+                <v-flex xs12>
+                    <v-alert tile type="info" :value="true">
+                        {{$t("alerts.nothing_found")}}
+                    </v-alert>
+                </v-flex>
             </v-layout>
         </v-container>
     </lazy-hydrate>
@@ -60,13 +59,13 @@
 
     export default {
         data: () => ({
-            showCount: 4,
+            showCount: 3,
             filterInput: ''
         }),
         async asyncData({app, store}) {
-            const data = store.getters.authenticated
-                ? await app.$axios.$post('api/user/title/list')
-                : await app.$axios.$post('api/public/title/list');
+            const {data} = store.getters.authenticated
+                ? await app.$anime.userApi('title/list')
+                : await app.$anime.api('title/list');
             return {ongoingsList: data.payload};
         },
         head() {
@@ -122,18 +121,21 @@
         },
         methods: {
             infiniteHandler($state) {
-                if (this.filteredOngoingsList.slice(0, this.showCount).length < this.filteredOngoingsList.length) {
-                    this.showCount++;
-                    $state.loaded();
-                } else {
-                    $state.complete();
-                }
+                if (!this.ongoingsListIsEmpty) {
+                    if (this.filteredOngoingsList.slice(0, this.showCount).length < this.filteredOngoingsList.length) {
+                        this.showCount++;
+                        $state.loaded();
+                    } else $state.complete()
+                } else $state.complete()
             }
         },
         mixins: [
             icons
         ],
         computed: {
+            ongoingsListIsEmpty() {
+                return !!this.ongoingsList && !Object.keys(this.ongoingsList).length
+            },
             filteredOngoingsList() {
                 let list = this.ongoingsList;
                 let input = this.filterInput;

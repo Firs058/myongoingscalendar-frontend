@@ -29,10 +29,12 @@
                         <v-btn
                                 @click="submit"
                                 :disabled="!valid"
-                                class="primary"
+                                color="blue darken-3"
                                 :loading="loading"
                                 block
-                        >{{$t('buttons.next')}}
+                                :aria-label="$t('buttons.next')"
+                        >
+                            {{$t('buttons.next')}}
                         </v-btn>
                     </v-card-actions>
                 </v-card>

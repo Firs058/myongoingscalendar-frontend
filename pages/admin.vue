@@ -15,6 +15,7 @@
                                 :key="index"
                                 text
                                 @click.native="adminRequest(button.path)"
+                                :aria-label="button.name"
                         >
                             {{button.name}}
                         </v-btn>
@@ -75,8 +76,21 @@
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer/>
-                            <v-btn text @click.native="dialog = false">Close</v-btn>
-                            <v-btn color="success" text @click.native="save">Save</v-btn>
+                            <v-btn
+                                    text
+                                    @click.native="dialog = false"
+                                    aria-label="Close"
+                            >
+                                Close
+                            </v-btn>
+                            <v-btn
+                                    color="success"
+                                    text
+                                    @click.native="save"
+                                    aria-label="Save"
+                            >
+                                Save
+                            </v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>

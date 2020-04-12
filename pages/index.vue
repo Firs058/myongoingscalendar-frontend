@@ -1,23 +1,25 @@
 <template>
-    <v-container article :class="$device.isMobile ? 'py-0' : 'grid-list-lg pt-0'">
+    <v-container
+            article
+            :class="{'grid-list-lg pt-0': !$device.isMobile, 'py-0': $device.isMobile}"
+    >
         <calendar :calendar="calendar"/>
     </v-container>
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
-
     export default {
         async asyncData({app, store}) {
-            const data = await app.$axios.$post('api/public/calendar', {
+            const params = {
                 timezone: store.getters.settings.timezone,
                 hideRepeats: store.getters.settings.hideRepeats
-            });
-            store.dispatch('setCalendar', data.payload)
+            };
+            const {data} = await app.$anime.api('calendar', params);
+            return {
+                calendar: data.payload,
+                year: new Date().getFullYear()
+            }
         },
-        data: () => ({
-            year: new Date().getFullYear()
-        }),
         head() {
             return {
                 title: this.globalTitle,
@@ -70,10 +72,6 @@
             }
         },
         computed: {
-            ...mapGetters([
-                'authenticated',
-                'calendar'
-            ]),
             globalUrl() {
                 return `${process.env.baseUrl}${this.$route.fullPath}`
             },

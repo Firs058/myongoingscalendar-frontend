@@ -20,13 +20,13 @@
                             </v-list-item-content>
                             <v-chip
                                     v-if="donate.prefer"
-                                    color="primary"
                                     pill
+                                    :dark="settings.dark"
                             >
                                 {{$t('donate.prefer')}}
                             </v-chip>
                             <v-list-item-action>
-                                <v-btn icon>
+                                <v-btn icon aria-label="donate">
                                     <v-icon>{{icons[donate.icon]}}</v-icon>
                                 </v-btn>
                             </v-list-item-action>
@@ -40,6 +40,7 @@
 
 <script>
     import {icons} from '../mixins/icons'
+    import {mapGetters} from 'vuex'
 
     export default {
         data: () => ({
@@ -88,6 +89,11 @@
                     }
                 ]
             }
+        },
+        computed: {
+            ...mapGetters([
+                'settings'
+            ])
         },
         mixins: [
             icons

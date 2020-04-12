@@ -1,4 +1,5 @@
 import jstz from "jstz";
+import Vue from 'vue'
 
 export const state = () => ({
     locales: ['en', 'ru'],
@@ -30,7 +31,8 @@ export const state = () => ({
         timeout: 0,
         color: '',
         code: 11000,
-        active: false
+        active: false,
+        class: {}
     },
     search: {
         global: {
@@ -40,14 +42,13 @@ export const state = () => ({
     },
     comment: {
         dialog: false,
+        valid: true,
+        loading: false,
         id: 0,
-        tid: 0
+        tid: 0,
+        text: ''
     },
     synced: false,
-    skeleton: {
-        main: 'grey'
-    },
-    calendar: [],
     timezones: [],
     tokens: {},
     tempTokens: {}
@@ -61,10 +62,8 @@ export const mutations = {
     SET_TOAST_ACTIVE: (state, bool) => state.toast.active = bool,
     SET_SEARCH_SUPPLY: (state, obj) => state.search.global.supply = obj,
     SET_SEARCH_LAST_QUERY: (state, string) => state.search.global.lastQuery = string,
-    SET_COMMENT: (state, obj) => state.comment = obj,
-    SET_COMMENT_DIALOG: (state, bool) => state.comment.dialog = bool,
+    SET_COMMENT: (state, obj) => Array.isArray(obj) ? obj.forEach(e => state.comment[e.name] = e.value) : state.comment[obj.name] = obj.value,
     SET_SYNCED: (state, bool) => state.synced = bool,
-    SET_CALENDAR: (state, obj) => state.calendar = obj,
     SET_TIMEZONES: (state, obj) => state.timezones = obj,
     SET_TOKENS: (state, obj) => state.tokens = obj,
     SET_TEMP_TOKENS: (state, obj) => state.tempTokens = obj
@@ -72,7 +71,7 @@ export const mutations = {
 
 export const actions = {
     setUser: ({commit}, obj) => commit('SET_USER', obj),
-    setUserToDefault: ({commit}) => {
+    setUserToDefault: ({commit, getters}) => {
         commit('SET_USER', {
             authenticated: false,
             email: '',
@@ -80,8 +79,9 @@ export const actions = {
             roles: []
         });
         commit('SET_TOKENS', {});
+        Vue.prototype.$nuxt.$vuetify.theme.dark = getters.settings.dark;
     },
-    setUserAndTokensAndSettings: ({commit}, obj) => {
+    setUserAndTokensAndSettings: ({commit, getters}, obj) => {
         commit('SET_USER', {
             authenticated: true,
             email: obj.email,
@@ -90,6 +90,7 @@ export const actions = {
         });
         commit('SET_TOKENS', obj.tokens);
         commit('SET_SETTINGS', obj.settings);
+        Vue.prototype.$nuxt.$vuetify.theme.dark = getters.settings.dark;
     },
     setSetting: ({commit}, obj) => commit('SET_SETTING', obj),
     setSettings: ({commit}, obj) => commit('SET_SETTINGS', obj),
@@ -98,19 +99,41 @@ export const actions = {
     setSearchGlobalSupply: ({commit}, obj) => commit('SET_SEARCH_SUPPLY', obj),
     setSearchGlobalLastQuery: ({commit}, string) => commit('SET_SEARCH_LAST_QUERY', string),
     setComment: ({commit}, obj) => commit('SET_COMMENT', obj),
-    setCommentDialog: ({commit}, bool) => commit('SET_COMMENT_DIALOG', bool),
     setSynced: ({commit}, bool) => commit('SET_SYNCED', bool),
-    setCalendar: ({commit}, obj) => commit('SET_CALENDAR', obj),
     setTimezones: ({commit}, obj) => commit('SET_TIMEZONES', obj),
     setTokens: ({commit}, obj) => commit('SET_TOKENS', obj),
-    setTempTokens: ({commit}, obj) => commit('SET_TEMP_TOKENS', obj)
+    setTempTokens: ({commit}, obj) => commit('SET_TEMP_TOKENS', obj),
+    async addComment({commit, getters}) {
+        commit('SET_COMMENT', {name: 'loading', value: true});
+        const comment = getters.comment;
+        await this.$anime.userApi('title/comments/add', {
+            id: comment.id,
+            tid: comment.tid,
+            text: comment.text
+        })
+            .then(result => {
+                commit('SET_COMMENT', [
+                    {name: 'dialog', value: false},
+                    {name: 'text', value: ''}
+                ]);
+                this.$toast.showToast({code: result.data.status.code})
+            })
+            .catch(code => this.$toast.showToast(code))
+            .finally(() => commit('SET_COMMENT', {name: 'loading', value: false}))
+    },
+    openCommentDialog({commit}, obj) {
+        commit('SET_COMMENT', [
+            {name: 'dialog', value: true},
+            {name: 'id', value: !!obj.id ? Number(obj.id) : null},
+            {name: 'tid', value: !!obj.tid ? Number(obj.tid) : null}
+        ]);
+    }
 };
 
 export const getters = {
     timezonesListEmpty: state => !!state.timezones && !Object.keys(state.timezones).length,
     authenticated: state => state.user.authenticated,
     settings: state => state.user.authenticated ? state.settings.user : state.settings.guest,
-    calendar: state => state.calendar,
     user: state => state.user,
     admin: state => state.user.roles.includes('ROLE_ADMIN'),
     toast: state => state.toast,

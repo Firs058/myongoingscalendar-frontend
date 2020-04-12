@@ -43,6 +43,7 @@
                             @click.stop="$router.push('/')"
                             text
                             color="primary"
+                            aria-label="to home page"
                     >
                         to home page
                     </v-btn>
@@ -59,6 +60,7 @@
                             @click.stop="$router.push('/')"
                             text
                             color="primary"
+                            aria-label="to home page"
                     >
                         to home page
                     </v-btn>
@@ -75,6 +77,7 @@
                             @click.stop="$router.push('/')"
                             flat
                             color="primary"
+                            aria-label="to home page"
                     >
                         to home page
                     </v-btn>

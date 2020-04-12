@@ -1,9 +1,9 @@
 <template>
     <v-dialog
-            v-model="comment.dialog"
+            v-model="dialog"
             max-width="700"
     >
-        <v-card v-if="settings.nickname === 'Anonymous'">
+        <v-card v-if="anonymous">
             <v-card-title class="headline">{{$t('comments.dialog.error.headline')}}</v-card-title>
             <v-card-text>
                 <div>
@@ -15,6 +15,7 @@
                 <v-btn
                         color="success"
                         @click.native="$router.push({ name: 'settings'})"
+                        :aria-label="$t('buttons.to_settings')"
                 >
                     {{$t('buttons.to_settings')}}
                 </v-btn>
@@ -39,6 +40,7 @@
                         color="error"
                         text
                         @click.native="dialog = false"
+                        :aria-label="$t('buttons.cancel')"
                 >
                     {{$t('buttons.cancel')}}
                 </v-btn>
@@ -46,8 +48,9 @@
                         text
                         color="success"
                         :loading="loading"
-                        @click.native="addComment"
+                        @click.native="$store.dispatch('addComment')"
                         :disabled="!valid"
+                        :aria-label="$t('buttons.add')"
                 >
                     {{$t('buttons.add')}}
                 </v-btn>
@@ -57,39 +60,39 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
-
     export default {
-        data: () => ({
-            valid: true,
-            loading: false,
-            text: ''
-        }),
-        methods: {
-            addComment() {
-                this.loading = true;
-                this.$anime.userApi('title/comments/add', {id: this.comment.id, tid: this.comment.tid, text: this.text})
-                    .then(result => {
-                        this.dialog = false;
-                        this.text = '';
-                        this.$toast.showToast({code: result.data.status.code})
-                    })
-                    .catch(code => this.$toast.showToast(code))
-                    .finally(() => this.loading = false)
-            }
-        },
         computed: {
-            ...mapGetters([
-                'comment',
-                'settings'
-            ]),
             dialog: {
                 get() {
-                    return this.$store.state.comment.dialog
+                    return this.$store.getters.comment.dialog
                 },
                 set(value) {
-                    this.$store.dispatch('setCommentDialog', value)
+                    this.$store.dispatch('setComment', {name: 'dialog', value})
                 }
+            },
+            text: {
+                get() {
+                    return this.$store.getters.comment.text
+                },
+                set(value) {
+                    this.$store.dispatch('setComment', {name: 'text', value})
+                }
+            },
+            valid: {
+                get() {
+                    return this.$store.getters.comment.valid
+                },
+                set(value) {
+                    this.$store.dispatch('setComment', {name: 'valid', value})
+                }
+            },
+            loading: {
+                get() {
+                    return this.$store.getters.comment.loading
+                }
+            },
+            anonymous() {
+                return this.$store.getters.settings.nickname === 'Anonymous'
             }
         }
     }
