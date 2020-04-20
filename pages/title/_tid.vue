@@ -50,7 +50,7 @@
                                         </template>
                                     </v-rating>
                                     <div v-if="!title.outdated">
-                                        <v-tooltip top>
+                                        <v-tooltip top :disabled="!$device.isDesktop">
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on" class="d-inline-block">
                                                     <v-btn
@@ -111,6 +111,7 @@
                                                     v-for="(genre, index) in title.genres"
                                                     :key="index"
                                                     eager
+                                                    :disabled="!$device.isDesktop"
                                             >
                                                 <template v-slot:activator="{ on }">
                                                     <v-hover v-slot:default="{ hover }">
@@ -142,6 +143,7 @@
                                                 top
                                                 v-for="(link, index) in title.links"
                                                 :key="index"
+                                                :disabled="!$device.isDesktop"
                                         >
                                             <template v-slot:activator="{ on }">
                                                 <v-avatar
@@ -308,7 +310,7 @@
                             <v-card color="transparent" flat>
                                 <v-container fluid class="pa-5">
                                     <v-row align="center" justify="center">
-                                        <v-tooltip top>
+                                        <v-tooltip top :disabled="!$device.isDesktop">
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on" class="d-inline-block">
                                                     <v-btn
@@ -348,7 +350,7 @@
                                 >
 
                                     <v-row align="center" justify="center">
-                                        <v-tooltip top>
+                                        <v-tooltip top :disabled="!$device.isDesktop">
                                             <template v-slot:activator="{ on }">
                                                 <v-btn
                                                         v-on="on"

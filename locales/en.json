@@ -10,7 +10,8 @@
     "settings": "Settings",
     "donate": "Donate",
     "exit": "Exit",
-    "search": "Search"
+    "search": "Search",
+    "feedback": "Leave feedback"
   },
   "calendar": {
     "today": "Today",
@@ -70,6 +71,11 @@
       }
     }
   },
+  "feedback": {
+    "headline": "Leave feedback",
+    "hint_for_anonymous": "Leave feedback or share your development ideas. Contacting us in this way will not work, as we will not be able to answer you. For direct communication, use myongoingscalendar@gmail.com",
+    "hint_for_authenticated": "Leave feedback or share your development ideas. For direct communication, it is better to write to myongoingscalendar@gmail.com"
+  },
   "login": {
     "headline": "Log in",
     "remember": "Remember?",
@@ -114,7 +120,8 @@
     "to_settings": "To settings",
     "accept": "Accept",
     "decline": "Decline",
-    "close": "Close"
+    "close": "Close",
+    "send": "Send"
   },
   "inputs": {
     "nickname": {
@@ -162,7 +169,7 @@
       "rules": {
         "agree": "You must agree to continue"
       },
-      "and" : "and"
+      "and": "and"
     },
     "search": {
       "label": {
@@ -365,7 +372,7 @@
   },
   "terms": {
     "headline": "Terms of Use",
-    "short" : "Terms"
+    "short": "Terms"
   },
   "privacy": {
     "headline": "Privacy Policy",
@@ -437,6 +444,7 @@
     "11014": "Thanks for report",
     "11015": "Successful exit",
     "11016": "Address copied to clipboard",
-    "11017": "Need re login"
+    "11017": "Need re login",
+    "11018": "Thanks for feedback!"
   }
 }

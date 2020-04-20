@@ -3,25 +3,7 @@
             v-model="dialog"
             max-width="700"
     >
-        <v-card v-if="anonymous">
-            <v-card-title class="headline">{{$t('comments.dialog.error.headline')}}</v-card-title>
-            <v-card-text>
-                <div>
-                    {{$t('comments.dialog.error.text')}}
-                </div>
-            </v-card-text>
-            <v-card-actions>
-                <v-spacer/>
-                <v-btn
-                        color="success"
-                        @click.native="$router.push({ name: 'settings'})"
-                        :aria-label="$t('buttons.to_settings')"
-                >
-                    {{$t('buttons.to_settings')}}
-                </v-btn>
-            </v-card-actions>
-        </v-card>
-        <v-card v-else>
+        <v-card v-if="authenticated">
             <v-card-title class="headline">{{$t('comments.dialog.success.headline')}}</v-card-title>
             <v-card-text>
                 <v-form v-model="valid" ref="form" lazy-validation>
@@ -53,6 +35,24 @@
                         :aria-label="$t('buttons.add')"
                 >
                     {{$t('buttons.add')}}
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+        <v-card v-else>
+            <v-card-title class="headline">{{$t('comments.dialog.error.headline')}}</v-card-title>
+            <v-card-text>
+                <div>
+                    {{$t('comments.dialog.error.text')}}
+                </div>
+            </v-card-text>
+            <v-card-actions>
+                <v-spacer/>
+                <v-btn
+                        color="success"
+                        @click.native="$router.push({ name: 'settings'})"
+                        :aria-label="$t('buttons.to_settings')"
+                >
+                    {{$t('buttons.to_settings')}}
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -91,8 +91,8 @@
                     return this.$store.getters.comment.loading
                 }
             },
-            anonymous() {
-                return this.$store.getters.settings.nickname === 'Anonymous'
+            authenticated() {
+                return this.$store.getters.authenticated
             }
         }
     }

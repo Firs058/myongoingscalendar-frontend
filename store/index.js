@@ -48,6 +48,12 @@ export const state = () => ({
         tid: 0,
         text: ''
     },
+    feedback: {
+        dialog: false,
+        valid: true,
+        loading: false,
+        text: ''
+    },
     synced: false,
     timezones: [],
     tokens: {},
@@ -63,6 +69,7 @@ export const mutations = {
     SET_SEARCH_SUPPLY: (state, obj) => state.search.global.supply = obj,
     SET_SEARCH_LAST_QUERY: (state, string) => state.search.global.lastQuery = string,
     SET_COMMENT: (state, obj) => Array.isArray(obj) ? obj.forEach(e => state.comment[e.name] = e.value) : state.comment[obj.name] = obj.value,
+    SET_FEEDBACK: (state, obj) => Array.isArray(obj) ? obj.forEach(e => state.feedback[e.name] = e.value) : state.feedback[obj.name] = obj.value,
     SET_SYNCED: (state, bool) => state.synced = bool,
     SET_TIMEZONES: (state, obj) => state.timezones = obj,
     SET_TOKENS: (state, obj) => state.tokens = obj,
@@ -99,6 +106,7 @@ export const actions = {
     setSearchGlobalSupply: ({commit}, obj) => commit('SET_SEARCH_SUPPLY', obj),
     setSearchGlobalLastQuery: ({commit}, string) => commit('SET_SEARCH_LAST_QUERY', string),
     setComment: ({commit}, obj) => commit('SET_COMMENT', obj),
+    setFeedback: ({commit}, obj) => commit('SET_FEEDBACK', obj),
     setSynced: ({commit}, bool) => commit('SET_SYNCED', bool),
     setTimezones: ({commit}, obj) => commit('SET_TIMEZONES', obj),
     setTokens: ({commit}, obj) => commit('SET_TOKENS', obj),
@@ -121,6 +129,20 @@ export const actions = {
             .catch(code => this.$toast.showToast(code))
             .finally(() => commit('SET_COMMENT', {name: 'loading', value: false}))
     },
+    async addFeedback({commit, getters}, recaptchaToken) {
+        commit('SET_FEEDBACK', {name: 'loading', value: true});
+        const params = {text: getters.feedback.text, recaptchaToken};
+        const {data} = getters.authenticated
+            ? await this.$anime.userApi('feedback/add', params).catch(code => this.$toast.showToast(code))
+            : await this.$anime.api('feedback/add', params).catch(code => this.$toast.showToast(code));
+
+        this.$toast.showToast({code: data.status.code});
+        commit('SET_FEEDBACK', [
+            {name: 'dialog', value: false},
+            {name: 'text', value: ''},
+            {name: 'loading', value: false}
+        ])
+    },
     openCommentDialog({commit}, obj) {
         commit('SET_COMMENT', [
             {name: 'dialog', value: true},
@@ -141,6 +163,7 @@ export const getters = {
     supplyListEmpty: state => !!state.search.global.supply && !Object.keys(state.search.global.supply).length,
     lastQuery: state => state.search.global.lastQuery,
     comment: state => state.comment,
+    feedback: state => state.feedback,
     synced: state => state.synced,
     tokens: state => state.tokens,
     tempTokens: state => state.tempTokens

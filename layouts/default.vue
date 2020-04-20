@@ -139,6 +139,17 @@
                     </v-list-item-content>
                 </v-list-item>
                 <v-list-item
+                        ripple
+                        @click="$store.dispatch('setFeedback', {name: 'dialog', value: true})"
+                >
+                    <v-list-item-icon>
+                        <v-icon>{{icons.mdiMessageAlert}}</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>{{$t('menu.feedback')}}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item
                         v-if="authenticated && admin"
                         to="/admin"
                         nuxt
@@ -160,7 +171,7 @@
                         <v-list-item-title>{{user.email}}</v-list-item-title>
                     </v-list-item-content>
                     <v-list-item-action>
-                        <v-tooltip top>
+                        <v-tooltip top :disabled="!$device.isDesktop">
                             <template v-slot:activator="{ on }">
                                 <v-btn
                                         v-on="on"
@@ -219,6 +230,7 @@
             </v-btn>
             <v-app-bar-nav-icon @click.stop="menu = !menu"/>
         </v-app-bar>
+        <feedback-dialog/>
         <v-content>
             <nuxt/>
         </v-content>

@@ -31,7 +31,8 @@ import {
     mdiEye,
     mdiEyeOff,
     mdiAccount,
-    mdiOpenInNew
+    mdiOpenInNew,
+    mdiMessageAlert
 } from '@mdi/js';
 
 export const icons = {
@@ -69,7 +70,8 @@ export const icons = {
             mdiEye,
             mdiEyeOff,
             mdiAccount,
-            mdiOpenInNew
+            mdiOpenInNew,
+            mdiMessageAlert
         }
     })
 };

@@ -1,9 +1,11 @@
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+const recaptchaSitekey = '6LdMemkUAAAAAEhtdLuLej6GkuS89V0smYUo3DjC';
 const baseUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost' : 'https://myongoingscalendar.eu';
 
 module.exports = {
     env: {
-        baseUrl: baseUrl
+        baseUrl,
+        recaptchaSitekey
     },
     head: {
         meta: [

@@ -13,7 +13,11 @@
                     <template slot="append" v-if="notSelected">
                         <v-menu offset-y>
                             <template v-slot:activator="{ on: onMenu }">
-                                <v-tooltip :bottom="!$device.isMobile" :left="$device.isMobile">
+                                <v-tooltip
+                                        :bottom="!$device.isMobile"
+                                        :left="$device.isMobile"
+                                        :disabled="!$device.isDesktop"
+                                >
                                     <template v-slot:activator="{ on: onTooltip }">
                                         <v-icon v-on="{ ...onMenu, ...onTooltip }">
                                             {{icons.mdiFilterVariant}}

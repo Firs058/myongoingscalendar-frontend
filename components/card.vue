@@ -25,7 +25,7 @@
                         </v-chip>
                     </div>
                     <div class="d-flex ml-auto" v-if="anime.recommended">
-                        <v-tooltip top>
+                        <v-tooltip top :disabled="!$device.isDesktop">
                             <template v-slot:activator="{ on }">
                                 <v-icon
                                         v-on="on"

@@ -20,7 +20,8 @@
                                 ref="invisibleRecaptcha"
                                 @verify="onVerify"
                                 @expired="onExpired"
-                                :sitekey="sitekey"
+                                :sitekey="recaptchaSitekey"
+                                :loadRecaptchaScript="true"
                                 size="invisible"
                         >
                         </vue-recaptcha>
@@ -48,7 +49,6 @@
 
     export default {
         data: () => ({
-            sitekey: '6LdMemkUAAAAAEhtdLuLej6GkuS89V0smYUo3DjC',
             loading: false,
             valid: true,
             email: ''
@@ -82,10 +82,10 @@
                 this.$refs.invisibleRecaptcha.reset()
             }
         },
-        mounted() {
-            let recaptchaScript = document.createElement('script');
-            recaptchaScript.setAttribute('src', 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit');
-            document.body.appendChild(recaptchaScript)
+        computed: {
+            recaptchaSitekey(){
+                return process.env.recaptchaSitekey
+            }
         },
         mixins: [
             icons

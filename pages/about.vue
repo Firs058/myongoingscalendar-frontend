@@ -13,7 +13,7 @@
             button you can found in menu. Do not forget to recommend to friends!
           </v-card-text>
           <v-card-text>
-            Have questions/suggestions? - myongoingscalendar@gmail.com
+            Have questions/suggestions? - myongoingscalendar@gmail.com or leave feedback
           </v-card-text>
         </v-card>
       </v-flex>

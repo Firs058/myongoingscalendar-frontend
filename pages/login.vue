@@ -58,7 +58,7 @@
                         </v-btn>
                     </v-card-actions>
                     <v-card-text>
-                        <v-tooltip top>
+                        <v-tooltip top :disabled="!$device.isDesktop">
                             <template v-slot:activator="{ on }">
                                 <span v-on="on">{{$t('login.or_with')}}</span>
                             </template>
@@ -71,6 +71,7 @@
                                 top
                                 v-for="(i, index) in providers"
                                 :key="i.name"
+                                :disabled="!$device.isDesktop"
                         >
                             <template v-slot:activator="{ on }">
                                 <v-btn

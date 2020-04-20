@@ -83,7 +83,8 @@
                                     ref="invisibleRecaptcha"
                                     @verify="onVerify"
                                     @expired="onExpired"
-                                    :sitekey="sitekey"
+                                    :sitekey="recaptchaSitekey"
+                                    :loadRecaptchaScript="true"
                                     size="invisible"
                             />
                         </client-only>
@@ -113,7 +114,6 @@
     export default {
         data() {
             return {
-                sitekey: '6LdMemkUAAAAAEhtdLuLej6GkuS89V0smYUo3DjC',
                 loading: false,
                 valid: true,
                 alright: false,
@@ -165,13 +165,13 @@
                 this.$refs.invisibleRecaptcha.reset()
             }
         },
-        computed: mapGetters([
-            'settings'
-        ]),
-        mounted() {
-            let recaptchaScript = document.createElement('script');
-            recaptchaScript.setAttribute('src', 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit');
-            document.body.appendChild(recaptchaScript)
+        computed: {
+            ...mapGetters([
+                'settings'
+            ]),
+            recaptchaSitekey() {
+                return process.env.recaptchaSitekey
+            }
         },
         mixins: [
             icons

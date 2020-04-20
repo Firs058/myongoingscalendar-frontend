@@ -27,7 +27,7 @@
                 </v-list-item-subtitle>
             </v-list-item-content>
             <v-spacer/>
-            <v-tooltip top>
+            <v-tooltip top :disabled="!$device.isDesktop">
                 <template v-slot:activator="{ on }">
                     <div v-on="on" class="d-inline-block">
                         <v-btn
@@ -53,7 +53,7 @@
             >
                 {{scoreCount}}
             </div>
-            <v-tooltip top>
+            <v-tooltip top :disabled="!$device.isDesktop">
                 <template v-slot:activator="{ on }">
                     <div v-on="on" class="d-inline-block">
                         <v-btn
@@ -73,7 +73,7 @@
                 </template>
                 <span>{{authenticated ?  $t('tooltips.dislike') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
-            <v-tooltip top>
+            <v-tooltip top :disabled="!$device.isDesktop">
                 <template v-slot:activator="{ on }">
                     <div v-on="on" class="d-inline-block">
                         <v-btn
@@ -91,7 +91,7 @@
                 </template>
                 <span>{{authenticated ?  $t('buttons.reply') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
-            <v-tooltip top>
+            <v-tooltip top :disabled="!$device.isDesktop">
                 <template v-slot:activator="{ on }">
                     <div v-on="on" class="d-inline-block">
                         <v-btn
@@ -116,7 +116,7 @@
                 :style="{'padding-left': '72px', 'white-space': 'pre-wrap'}"
         />
         <v-card-actions v-if="$device.isMobile" style="margin-left: 61px;" class="pa-0">
-            <v-tooltip top>
+            <v-tooltip top :disabled="!$device.isDesktop">
                 <template v-slot:activator="{ on }">
                     <div v-on="on" class="d-inline-block">
                         <v-btn
@@ -142,7 +142,7 @@
             >
                 {{scoreCount}}
             </div>
-            <v-tooltip top>
+            <v-tooltip top :disabled="!$device.isDesktop">
                 <template v-slot:activator="{ on }">
                     <div v-on="on" class="d-inline-block">
                         <v-btn
@@ -162,7 +162,7 @@
                 </template>
                 <span>{{authenticated ?  $t('tooltips.dislike') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
-            <v-tooltip top>
+            <v-tooltip top :disabled="!$device.isDesktop">
                 <template v-slot:activator="{ on }">
                     <div v-on="on" class="d-inline-block">
                         <v-btn
@@ -180,7 +180,7 @@
                 </template>
                 <span>{{authenticated ?  $t('buttons.reply') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
-            <v-tooltip top>
+            <v-tooltip top :disabled="!$device.isDesktop">
                 <template v-slot:activator="{ on }">
                     <div v-on="on" class="d-inline-block">
                         <v-btn
@@ -238,7 +238,7 @@
                             v-if="comment.replies > 10 && more > 0"
                     >
                         <v-row align="center" justify="center">
-                            <v-tooltip top>
+                            <v-tooltip top :disabled="!$device.isDesktop">
                                 <template v-slot:activator="{ on }">
                                     <v-btn
                                             v-on:on
