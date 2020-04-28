@@ -12,7 +12,7 @@
                         >
                             <v-list-item-action>
                                 <v-avatar>
-                                    <img :src="donate.img" :alt="donate.name"/>
+                                    <img :src="webpIsSupported ? donate.img.webp : donate.img.png" :alt="donate.name"/>
                                 </v-avatar>
                             </v-list-item-action>
                             <v-list-item-content>
@@ -48,7 +48,10 @@
                 {
                     name: 'Patreon',
                     address: ' https://www.patreon.com/bePatron?u=10947418',
-                    img: '/images/patreon.png',
+                    img: {
+                        png: '/images/patreon.png',
+                        webp: '/images/webp/patreon.webp',
+                    },
                     action: 'url',
                     prefer: true,
                     icon: 'mdiArrowRight'
@@ -56,7 +59,10 @@
                 {
                     name: 'DonorBox',
                     address: 'https://donorbox.org/myongoingscalendar',
-                    img: '/images/donorbox.png',
+                    img: {
+                        png: '/images/donorbox.png',
+                        webp: '/images/webp/donorbox.webp',
+                    },
                     action: 'url',
                     prefer: true,
                     icon: 'mdiArrowRight'
@@ -64,7 +70,10 @@
                 {
                     name: 'ZEC',
                     address: 't1UGGf7A4SmhwRKyv6G4m13FqXR9vQbHPW8',
-                    img: '/images/zec.png',
+                    img: {
+                        png: '/images/zec.png',
+                        webp: '/images/webp/zec.webp',
+                    },
                     action: 'copy',
                     prefer: false,
                     icon: 'mdiContentCopy'
@@ -72,7 +81,10 @@
                 {
                     name: 'BTC',
                     address: '1Cg4285GruhnSo8ZJoL7ZKvF78uhfzZvNB',
-                    img: '/images/btc.png',
+                    img: {
+                        png: '/images/btc.png',
+                        webp: '/images/webp/btc.webp',
+                    },
                     action: 'copy',
                     prefer: false,
                     icon: 'mdiContentCopy'
@@ -92,7 +104,8 @@
         },
         computed: {
             ...mapGetters([
-                'settings'
+                'settings',
+                'webpIsSupported'
             ])
         },
         mixins: [

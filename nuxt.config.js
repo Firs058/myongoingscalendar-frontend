@@ -17,7 +17,7 @@ module.exports = {
         ]
     },
     plugins: [
-        {src: '~/plugins/tokens', mode: 'client'},
+        {src: '~/plugins/ready.js', mode: 'client'},
         {src: '~/plugins/sharing.js', mode: 'client'},
         {src: '~/plugins/scroll.js', mode: 'client'},
         {src: '~/plugins/ga.js', mode: 'client'},

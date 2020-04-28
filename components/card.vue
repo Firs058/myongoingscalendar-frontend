@@ -2,15 +2,15 @@
     <v-card
             nuxt
             :to="`/title/${anime.tid}`"
-            :style="`backgroundColor: ${this.anime.image.hex ? this.settings.dark ? this.anime.image.hex.dark : this.anime.image.hex.light : null}`"
+            :style="`backgroundColor: ${Object.keys(anime.image.hex).length ? settings.dark ? anime.image.hex.dark : anime.image.hex.light : null}`"
             hover
             tile
             :ripple="!$device.isMobile"
     >
         <v-img
-                :src="anime.image.full"
+                :src="getImagePath({paths: anime.image.paths, type: 'FULL'})"
                 aspect-ratio="0.7"
-                :gradient="`to bottom, transparent 0%, transparent 30%, ${this.anime.image.hex ? this.settings.dark ? this.anime.image.hex.dark : this.anime.image.hex.light : 'rgba(0, 0, 0, 0.4)'} 100%`"
+                :gradient="`to bottom, transparent 0%, transparent 30%, ${Object.keys(anime.image.hex).length ? settings.dark ? anime.image.hex.dark : anime.image.hex.light : 'rgba(0, 0, 0, 0.4)'} 100%`"
                 :alt="anime.en ? anime.en : anime.ja"
         >
             <div class="d-flex flex-column justify-end fill-height ma-0">
@@ -49,6 +49,7 @@
 
 <script>
     import {icons} from '../mixins/icons'
+    import {image} from '../mixins/image'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -56,7 +57,8 @@
             'anime'
         ],
         mixins: [
-            icons
+            icons,
+            image
         ],
         computed: {
             ...mapGetters([

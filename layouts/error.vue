@@ -22,7 +22,7 @@
                                 flat
                         >
                             <v-img
-                                    src="/images/oops.png"
+                                    :src="webpIsSupported ? '/images/webp/oops.webp' : '/images/oops.png'"
                                     aspect-ratio="1"
                                     height="600px"
                             >
@@ -75,7 +75,7 @@
                     <v-btn
                             large
                             @click.stop="$router.push('/')"
-                            flat
+                            text
                             color="primary"
                             aria-label="to home page"
                     >
@@ -84,6 +84,7 @@
                 </v-layout>
             </v-flex>
         </v-layout>
+        <toast/>
     </v-container>
 </template>
 
@@ -101,5 +102,15 @@
                 ]
             }
         },
+        computed: {
+            webpIsSupported: {
+                get() {
+                    return this.$store.getters.webpIsSupported
+                }
+            }
+        },
+        mounted() {
+            this.$toast.showToast({code: this.error.code})
+        }
     }
 </script>

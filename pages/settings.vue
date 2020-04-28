@@ -223,7 +223,7 @@
                                                 aria-label="lang"
                                         >
                                             <v-avatar size="32px">
-                                                <img :src="currentLang.img" :alt="currentLang.name">
+                                                <img :src="webpIsSupported ? currentLang.img.webp : currentLang.img.png" :alt="currentLang.name">
                                             </v-avatar>
                                         </v-btn>
                                     </template>
@@ -235,7 +235,7 @@
                                         >
                                             <v-list-item-action>
                                                 <v-avatar size="32px">
-                                                    <img :src="lang.img" :alt="lang.name"/>
+                                                    <img :src="webpIsSupported ? lang.img.webp : lang.img.png" :alt="lang.name"/>
                                                 </v-avatar>
                                             </v-list-item-action>
                                             <v-list-item-content>
@@ -349,12 +349,18 @@
                 {
                     name: 'English',
                     code: 'en',
-                    img: '/images/us.png'
+                    img: {
+                        png: '/images/us.png',
+                        webp: '/images/webp/us.webp',
+                    }
                 },
                 {
                     name: 'Русский',
                     code: 'ru',
-                    img: '/images/ru.png'
+                    img: {
+                        png: '/images/ru.png',
+                        webp: '/images/webp/ru.webp',
+                    }
                 }
             ]
         }),
@@ -478,6 +484,11 @@
             },
             currentLang() {
                 return this.langs.filter(o => o.code === this.$store.getters.settings.lang)[0]
+            },
+            webpIsSupported: {
+                get() {
+                    return this.$store.getters.webpIsSupported
+                }
             }
         },
         mounted() {

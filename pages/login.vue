@@ -107,7 +107,7 @@
                 <v-card-actions>
                     <v-spacer/>
                     <v-checkbox
-                            v-model="dialog.alright"
+                            v-model="agreeWithTermsAndPolicy"
                             color="primary"
                             hide-details
                             :rules="[v => !!v || $t('inputs.checkbox.rules.agree')]"
@@ -136,7 +136,7 @@
                     <v-btn
                             text
                             color="success"
-                            :disabled="!dialog.alright"
+                            :disabled="!agreeWithTermsAndPolicy"
                             @click.native="authViaProvider(dialog.selected)"
                             :aria-label="$t('buttons.accept')"
                     >
@@ -160,7 +160,6 @@
             hidePass: true,
             dialog: {
                 visible: false,
-                alright: false,
                 selected: {}
             },
             providers: [
@@ -213,7 +212,7 @@
             },
             confirmAuth(provider, index) {
                 this.dialog.selected = {provider, index};
-                this.dialog.visible = true;
+                this.agreeWithTermsAndPolicy ? this.authViaProvider(this.dialog.selected) : this.dialog.visible = true;
             },
             authViaProvider(selected) {
                 this.dialog.visible = false;
@@ -222,6 +221,16 @@
                     .then(url => window.location.href = url)
                     .catch(code => this.$toast.showToast(code))
                     .finally(() => this.providers[selected.index].loading = false)
+            }
+        },
+        computed: {
+            agreeWithTermsAndPolicy: {
+                get() {
+                    return this.$store.getters.agreeWithTermsAndPolicy
+                },
+                set(value) {
+                    this.$store.dispatch('setAgreeWithTermsAndPolicy', value)
+                }
             }
         },
         mixins: [

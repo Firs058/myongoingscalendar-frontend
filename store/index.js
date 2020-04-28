@@ -57,7 +57,9 @@ export const state = () => ({
     synced: false,
     timezones: [],
     tokens: {},
-    tempTokens: {}
+    tempTokens: {},
+    webpIsSupported: true,
+    agreeWithTermsAndPolicy: false
 });
 
 export const mutations = {
@@ -73,7 +75,9 @@ export const mutations = {
     SET_SYNCED: (state, bool) => state.synced = bool,
     SET_TIMEZONES: (state, obj) => state.timezones = obj,
     SET_TOKENS: (state, obj) => state.tokens = obj,
-    SET_TEMP_TOKENS: (state, obj) => state.tempTokens = obj
+    SET_TEMP_TOKENS: (state, obj) => state.tempTokens = obj,
+    SET_WEBP_IS_SUPPORTED: (state, bool) => state.webpIsSupported = bool,
+    SET_AGREE_WITH_TERMS_AND_POLICY: (state, bool) => state.agreeWithTermsAndPolicy = bool
 };
 
 export const actions = {
@@ -149,7 +153,9 @@ export const actions = {
             {name: 'id', value: !!obj.id ? Number(obj.id) : null},
             {name: 'tid', value: !!obj.tid ? Number(obj.tid) : null}
         ]);
-    }
+    },
+    setWebpIsSupported: ({commit}, bool) => commit('SET_WEBP_IS_SUPPORTED', bool),
+    setAgreeWithTermsAndPolicy: ({commit}, bool) => commit('SET_AGREE_WITH_TERMS_AND_POLICY', bool)
 };
 
 export const getters = {
@@ -166,7 +172,9 @@ export const getters = {
     feedback: state => state.feedback,
     synced: state => state.synced,
     tokens: state => state.tokens,
-    tempTokens: state => state.tempTokens
+    tempTokens: state => state.tempTokens,
+    webpIsSupported: state => state.webpIsSupported,
+    agreeWithTermsAndPolicy: state => state.agreeWithTermsAndPolicy
 };
 
 export const strict = false;

@@ -4,7 +4,7 @@
             <v-flex xs12>
                 <v-card color="transparent" flat tile>
                     <v-img
-                            :lazy-src="title.image.full"
+                            :lazy-src="titleImagePath"
                             aspect-ratio="1"
                             :height="$device.isDesktop ? '50vh' : undefined"
                             width="100%"
@@ -16,7 +16,7 @@
                                 row
                                 wrap
                                 fill-height
-                                :style="`background:linear-gradient(to top, ${settings.dark ? title.image.hex ? title.image.hex.dark : 'rgba(0,0,0,0.5)' : title.image.hex ? title.image.hex.light : 'rgba(255,255,255,0.5)'}, ${settings.dark ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'});`"
+                                :style="`background:linear-gradient(to top, ${settings.dark ? Object.keys(title.image.hex).length ? title.image.hex.dark : 'rgba(0,0,0,0.5)' : Object.keys(title.image.hex).length ? title.image.hex.light : 'rgba(255,255,255,0.5)'}, ${settings.dark ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'});`"
                         >
                             <v-flex xs12 sm6>
                                 <div class="d-flex flex-column align-center text-center">
@@ -153,7 +153,7 @@
                                                         tile
                                                         @click.stop="openLink(link.link)"
                                                 >
-                                                    <img :src="link.icon" :alt="link.name"/>
+                                                    <img :src="getImagePath({paths: link.image.paths, type: 'FULL'})" :alt="link.name"/>
                                                 </v-avatar>
                                             </template>
                                             <span>{{$t('tooltips.open_link_in_new_window', [link.name])}}</span>
@@ -167,7 +167,7 @@
                             </v-flex>
                             <v-flex xs12 md6>
                                 <v-img
-                                        :src="title.image.full"
+                                        :src="titleImagePath"
                                         aspect-ratio="0.7"
                                         :class="$device.isMobile ? undefined : 'elevation-20'"
                                         max-width="350px"
@@ -381,6 +381,7 @@
 
 <script>
     import {icons} from '../../mixins/icons'
+    import {image} from '../../mixins/image'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -499,7 +500,8 @@
             }
         },
         mixins: [
-            icons
+            icons,
+            image
         ],
         computed: {
             ...mapGetters([
@@ -516,12 +518,15 @@
                 return this.$t("meta_info.title.meta.description", [this.title.en ? this.title.en : this.title.ja, this.title.firstYear])
             },
             globalImage() {
-                return `${process.env.baseUrl}${this.title.image.full}`
+                return `${process.env.baseUrl}${this.titleImagePath}`
             },
             tableHeaders() {
                 let headers = this.broadcast.headers;
                 headers.forEach(header => header.text = this.$t(`title.schedule.headers.${header.value}`));
                 return headers;
+            },
+            titleImagePath() {
+                return this.getImagePath({paths: this.title.image.paths, type: 'FULL'})
             }
         },
         mounted() {

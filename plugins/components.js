@@ -7,6 +7,7 @@ import Comment from '~/components/comment'
 import CommentDialog from '~/components/commentDialog'
 import FeedbackDialog from '~/components/feedbackDialog'
 import Chart from '~/components/chart'
+import Toast from '~/components/toast'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueRecaptcha from 'vue-recaptcha'
@@ -23,3 +24,4 @@ Vue.component('comment-dialog', CommentDialog);
 Vue.component('feedback-dialog', FeedbackDialog);
 Vue.component('line-chart', Chart);
 Vue.component('lazy-hydrate', LazyHydrate);
+Vue.component('toast', Toast);

@@ -154,7 +154,7 @@
                 return `${process.env.baseUrl}${this.$route.fullPath}`
             },
             globalImage() {
-                return `${process.env.baseUrl}/images/empty.png`
+                return `${process.env.baseUrl}${this.$store.getters.webpIsSupported ? '/images/webp/empty.webp' : '/images/empty.png'}`
             },
             globalDescription() {
                 return this.$t("meta_info.list.meta.description")

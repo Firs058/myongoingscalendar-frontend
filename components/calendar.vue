@@ -36,7 +36,10 @@
                                 :to="`/title/${anime.tid}`"
                         >
                             <v-list-item-avatar>
-                                <img :src="anime.image" :alt="anime.titleen ? anime.titleen : anime.title">
+                                <img
+                                        :src="getImagePath({paths: anime.image.paths, type: 'THUMBNAIL'})"
+                                        :alt="anime.titleen ? anime.titleen : anime.title"
+                                >
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <v-list-item-title>{{anime.titleen ? anime.titleen : anime.title}}
@@ -73,6 +76,7 @@
 </template>
 
 <script>
+    import {image} from '../mixins/image'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -90,6 +94,9 @@
                 } else $state.complete()
             }
         },
+        mixins: [
+            image
+        ],
         computed: {
             ...mapGetters([
                 'settings'

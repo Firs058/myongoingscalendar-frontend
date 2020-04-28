@@ -60,7 +60,7 @@
                                 required
                         />
                         <v-checkbox
-                                v-model="alright"
+                                v-model="agreeWithTermsAndPolicy"
                                 color="primary"
                                 hide-details
                                 :rules="[
@@ -116,7 +116,6 @@
             return {
                 loading: false,
                 valid: true,
-                alright: false,
                 nickname: '',
                 password: '',
                 email: '',
@@ -171,6 +170,14 @@
             ]),
             recaptchaSitekey() {
                 return process.env.recaptchaSitekey
+            },
+            agreeWithTermsAndPolicy: {
+                get() {
+                    return this.$store.getters.agreeWithTermsAndPolicy
+                },
+                set(value) {
+                    this.$store.dispatch('setAgreeWithTermsAndPolicy', value)
+                }
             }
         },
         mixins: [
