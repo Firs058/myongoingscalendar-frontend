@@ -24,31 +24,38 @@
                                             :class="`font-weight-bold ma-5 ${$device.isMobile ? 'headline' : 'display-1'}`"
                                             v-text="globalTitle"
                                     />
-                                    <v-rating
-                                            v-if="title.avgRating"
-                                            :value="title.avgRating"
-                                            color="yellow darken-3"
-                                            background-color="grey"
-                                            dense
-                                            readonly
-                                            half-increments
-                                            length="10"
-                                            :empty-icon="icons.mdiStarOutline"
-                                            :full-icon="icons.mdiStar"
-                                            :half-icon="icons.mdiStarHalfFull"
-                                            class="mb-4"
+                                    <v-tooltip top :disabled="!$device.isDesktop">
+                                        <template v-slot:activator="{ on }">
+                                            <div v-on="on">
+                                                <v-rating
+                                                        v-if="title.avgRating"
+                                                        :value="title.avgRating"
+                                                        color="yellow darken-3"
+                                                        background-color="grey"
+                                                        dense
+                                                        readonly
+                                                        half-increments
+                                                        length="10"
+                                                        :empty-icon="icons.mdiStarOutline"
+                                                        :full-icon="icons.mdiStar"
+                                                        :half-icon="icons.mdiStarHalfFull"
+                                                        class="mb-4"
 
-                                    >
-                                        <template slot="item" slot-scope="item">
-                                            <v-icon :color="item.isHalfFilled || item.isFilled ? 'yellow darken-3' : 'grey'">
-                                                {{item.isHalfFilled
-                                                ? icons.mdiStarHalfFull
-                                                : item.isFilled
-                                                ? icons.mdiStar
-                                                : icons.mdiStarOutline}}
-                                            </v-icon>
+                                                >
+                                                    <template slot="item" slot-scope="item">
+                                                        <v-icon :color="item.isHalfFilled || item.isFilled ? 'yellow darken-3' : 'grey'">
+                                                            {{item.isHalfFilled
+                                                            ? icons.mdiStarHalfFull
+                                                            : item.isFilled
+                                                            ? icons.mdiStar
+                                                            : icons.mdiStarOutline}}
+                                                        </v-icon>
+                                                    </template>
+                                                </v-rating>
+                                            </div>
                                         </template>
-                                    </v-rating>
+                                        <span>{{$t('title.information.weighted_average_rating',[title.avgRating])}}</span>
+                                    </v-tooltip>
                                     <div v-if="!title.outdated">
                                         <v-tooltip top :disabled="!$device.isDesktop">
                                             <template v-slot:activator="{ on }">
@@ -153,7 +160,10 @@
                                                         tile
                                                         @click.stop="openLink(link.link)"
                                                 >
-                                                    <img :src="getImagePath({paths: link.image.paths, type: 'FULL'})" :alt="link.name"/>
+                                                    <img
+                                                            :src="getImagePath({paths: link.image.paths, type: 'FULL'})"
+                                                            :alt="link.name"
+                                                    />
                                                 </v-avatar>
                                             </template>
                                             <span>{{$t('tooltips.open_link_in_new_window', [link.name])}}</span>

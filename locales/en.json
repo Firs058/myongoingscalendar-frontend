@@ -24,7 +24,8 @@
   "title": {
     "information": {
       "episodes": " episodes",
-      "outdated": "This page info may be outdated"
+      "outdated": "This page info may be outdated",
+      "weighted_average_rating": "Weighted average rating: {0}"
     },
     "schedule": {
       "subheader": "Schedule",
