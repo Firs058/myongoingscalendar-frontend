@@ -148,7 +148,7 @@
                                 :value="genre.id"
                                 filter
                         >
-                            {{genre.name}}
+                            {{translateGenre(genre)}}
                         </v-chip>
                     </v-chip-group>
                     <v-range-slider
@@ -238,6 +238,7 @@
 
 <script>
     import {icons} from '../../mixins/icons'
+    import {translate} from '../../mixins/translate'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -336,7 +337,8 @@
             }
         },
         mixins: [
-            icons
+            icons,
+            translate
         ],
         computed: {
             ...mapGetters([
@@ -355,7 +357,7 @@
             },
             getGenresName() {
                 let arr = [];
-                this.filters.genres.selected.forEach(id => arr.push(` ${this.genresList.find(item => item.id === parseInt(id)).name}`));
+                this.filters.genres.selected.forEach(id => arr.push(` ${this.translateGenre(this.genresList.find(item => item.id === parseInt(id)))}`));
                 return arr;
             },
             shouldShow() {
@@ -364,8 +366,3 @@
         }
     }
 </script>
-<style scoped>
-    >>> .v-expansion-panel .v-expansion-panel__container {
-        background-color: transparent !important;
-    }
-</style>

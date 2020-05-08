@@ -129,11 +129,11 @@
                                                                 :class="`elevation-${hover ? 2 : 0} grey ${settings.dark ? 'darken-1' : 'lighten-1'}`"
                                                                 :to="{name: 'search', query: { genres: [genre.id] }}"
                                                         >
-                                                            {{genre.name}}
+                                                            {{translateGenre(genre)}}
                                                         </v-chip>
                                                     </v-hover>
                                                 </template>
-                                                <span>{{$t('tooltips.search_by_genre', [genre.name])}}</span>
+                                                <span>{{$t('tooltips.search_by_genre', [translateGenre(genre)])}}</span>
                                             </v-tooltip>
                                         </v-chip-group>
                                     </div>
@@ -392,6 +392,7 @@
 <script>
     import {icons} from '../../mixins/icons'
     import {image} from '../../mixins/image'
+    import {translate} from '../../mixins/translate'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -511,7 +512,8 @@
         },
         mixins: [
             icons,
-            image
+            image,
+            translate
         ],
         computed: {
             ...mapGetters([
