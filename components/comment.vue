@@ -18,7 +18,8 @@
         </v-list-item>
         <v-list-item v-else class="pr-0">
             <v-list-item-avatar>
-                <img :src="comment.user.avatar" :alt="comment.user.nickname">
+                <img v-if="avatarPath !== null" :src="avatarPath" :alt="comment.user.nickname">
+                <v-icon v-else class="grey">{{icons.mdiAccount}}</v-icon>
             </v-list-item-avatar>
             <v-list-item-content>
                 <v-list-item-title>{{comment.user.nickname}}</v-list-item-title>
@@ -264,6 +265,7 @@
 
 <script>
     import {icons} from '../mixins/icons'
+    import {image} from '../mixins/image'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -280,7 +282,8 @@
         }),
         props: ['comment'],
         mixins: [
-            icons
+            icons,
+            image
         ],
         methods: {
             addLike() {
@@ -332,6 +335,9 @@
             ]),
             scoreCount() {
                 return this.comment.likes - this.comment.dislikes
+            },
+            avatarPath(){
+                return !!this.comment.user.avatar ? this.getAvatarPath({paths: this.comment.user.avatar.paths}) : null
             }
         }
     }

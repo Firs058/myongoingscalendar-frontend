@@ -64,6 +64,7 @@
                                             <v-spacer/>
                                             <v-btn
                                                     text
+                                                    :disabled="nickname.loading"
                                                     @click.native="nickname.dialog = false"
                                                     :aria-label="$t('buttons.cancel')"
                                             >{{$t('buttons.cancel')}}
@@ -72,6 +73,7 @@
                                                     text
                                                     color="success"
                                                     :disabled="!nickname.valid"
+                                                    :loading="nickname.loading"
                                                     @click.native="submitNickname"
                                                     :aria-label="$t('buttons.save')"
                                             >{{$t('buttons.save')}}
@@ -79,24 +81,6 @@
                                         </v-card-actions>
                                     </v-card>
                                 </v-dialog>
-                            </v-list-item-action>
-                        </v-list-item>
-                        <v-divider/>
-                        <v-list-item>
-                            <v-list-item-content>
-                                <v-list-item-title>{{$t('settings.account.change_avatar.title')}}</v-list-item-title>
-                                <v-list-item-subtitle>{{$t('settings.account.change_avatar.sub_title')}}
-                                </v-list-item-subtitle>
-                            </v-list-item-content>
-                            <v-list-item-action>
-                                <v-btn
-                                        right
-                                        icon
-                                        @click.stop="openUrl('https://gravatar.com/')"
-                                        aria-label="Arrow Right"
-                                >
-                                    <v-icon>{{icons.mdiArrowRight}}</v-icon>
-                                </v-btn>
                             </v-list-item-action>
                         </v-list-item>
                         <v-divider v-if="!user.social"/>
@@ -141,7 +125,20 @@
                                                         @click:append="() => (password.hidePass = !password.hidePass)"
                                                         :type="password.hidePass ? 'password' : 'text'"
                                                         required
-                                                        autofocus
+                                                />
+                                                <v-text-field
+                                                        :label="$t('inputs.confirm_password.label')"
+                                                        :hint="$t('inputs.confirm_password.hint')"
+                                                        v-model="password.confirmPassword"
+                                                        :rules="[
+                            v => !!v || $t('inputs.confirm_password.rules.required'),
+                            v => v === password.value || $t('inputs.confirm_password.rules.valid'),
+                            v => v && v.length >= 8 || $t('inputs.confirm_password.rules.length')
+                  ]"
+                                                        :append-icon="password.confirmHidePass ? icons.mdiEye : icons.mdiEyeOff"
+                                                        @click:append="() => (password.confirmHidePass = !password.confirmHidePass)"
+                                                        :type="password.confirmHidePass ? 'password' : 'text'"
+                                                        required
                                                 />
                                             </v-form>
                                         </v-card-text>
@@ -150,6 +147,7 @@
                                             <v-btn
                                                     text
                                                     @click.native="password.dialog = false"
+                                                    :disabled="password.loading"
                                                     :aria-label="$t('buttons.cancel')"
                                             >{{$t('buttons.cancel')}}
                                             </v-btn>
@@ -157,7 +155,92 @@
                                                     text
                                                     color="success"
                                                     :disabled="!password.valid"
+                                                    :loading="password.loading"
                                                     @click.native="submitPassword"
+                                                    :aria-label="$t('buttons.save')"
+                                            >{{$t('buttons.save')}}
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-dialog>
+                            </v-list-item-action>
+                        </v-list-item>
+                        <v-divider/>
+                        <v-list-item>
+                            <v-list-item-content>
+                                <v-list-item-title>{{$t('settings.account.change_avatar.title')}}</v-list-item-title>
+                                <v-list-item-subtitle>{{$t('settings.account.change_avatar.sub_title')}}
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action>
+                                <v-dialog
+                                        v-model="avatar.dialog"
+                                        persistent
+                                        max-width="500px"
+                                >
+                                    <template v-slot:activator="{ on }">
+                                        <v-btn
+                                                v-on="on"
+                                                right
+                                                icon
+                                                aria-label="Open In New"
+                                                :class="{grey: !settings.avatar}"
+                                        >
+                                            <v-avatar v-if="avatarPath !== null" size="32px">
+                                                <img :src="avatarPath" alt="avatar">
+                                            </v-avatar>
+                                            <v-icon v-else large>{{icons.mdiAccount}}</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <v-card>
+                                        <v-card-title>
+                                            <span class="headline">{{$t('settings.account.change_avatar.dialog.headline')}}</span>
+                                        </v-card-title>
+                                        <v-card-text>
+                                            <v-img
+                                                    v-if="avatar.valid && avatar.preview"
+                                                    aspect-ratio="1"
+                                                    :max-width="avatar.rules.width"
+                                                    :src="avatar.preview"
+                                                    class="mx-auto mb-3"
+                                                    alt="preview"
+                                            />
+                                            <v-file-input
+                                                    :accept="acceptFormats"
+                                                    :placeholder="$t('settings.account.change_avatar.dialog.input.placeholder', [avatar.rules.formats.join(', '), avatar.rules.width, avatar.rules.height, avatar.rules.size / 1000])"
+                                                    show-size
+                                                    :label="$t('settings.account.change_avatar.dialog.input.label')"
+                                                    :error-messages="avatar.errors"
+                                                    :prepend-icon="icons.mdiFileImage"
+                                                    v-model="avatar.file"
+                                            />
+                                        </v-card-text>
+                                        <v-card-actions>
+                                            <v-btn
+                                                    v-if="!!settings.avatar"
+                                                    text
+                                                    color="error"
+                                                    :loading="avatar.remove.loading"
+                                                    :disabled="avatar.loading"
+                                                    @click.native="removeAvatar"
+                                                    :aria-label="$t('buttons.remove')"
+                                            >
+                                                {{$t('buttons.remove')}}
+                                            </v-btn>
+                                            <v-spacer/>
+                                            <v-btn
+                                                    text
+                                                    :disabled="avatar.loading || avatar.remove.loading"
+                                                    @click.native="avatar.dialog = false"
+                                                    :aria-label="$t('buttons.cancel')"
+                                            >{{$t('buttons.cancel')}}
+                                            </v-btn>
+                                            <v-btn
+                                                    text
+                                                    color="success"
+                                                    :loading="avatar.loading"
+                                                    :disabled="!avatar.valid || avatar.remove.loading"
+                                                    @click.native="submitAvatar"
                                                     :aria-label="$t('buttons.save')"
                                             >{{$t('buttons.save')}}
                                             </v-btn>
@@ -223,7 +306,8 @@
                                                 aria-label="lang"
                                         >
                                             <v-avatar size="32px">
-                                                <img :src="webpIsSupported ? currentLang.img.webp : currentLang.img.png" :alt="currentLang.name">
+                                                <img :src="webpIsSupported ? currentLang.img.webp : currentLang.img.png"
+                                                     :alt="currentLang.name">
                                             </v-avatar>
                                         </v-btn>
                                     </template>
@@ -235,7 +319,8 @@
                                         >
                                             <v-list-item-action>
                                                 <v-avatar size="32px">
-                                                    <img :src="webpIsSupported ? lang.img.webp : lang.img.png" :alt="lang.name"/>
+                                                    <img :src="webpIsSupported ? lang.img.webp : lang.img.png"
+                                                         :alt="lang.name"/>
                                                 </v-avatar>
                                             </v-list-item-action>
                                             <v-list-item-content>
@@ -328,22 +413,42 @@
 
 <script>
     import {icons} from '../mixins/icons'
+    import {image} from '../mixins/image'
 
     export default {
         data: () => ({
-            valid: false,
-            menu: false,
             timezonesLoading: false,
             nickname: {
                 dialog: false,
+                loading: false,
                 valid: true,
                 value: ''
             },
             password: {
                 dialog: false,
+                loading: false,
                 hidePass: true,
+                confirmHidePass: true,
                 valid: true,
-                value: ''
+                value: '',
+                confirmPassword: ''
+            },
+            avatar: {
+                dialog: false,
+                loading: false,
+                valid: true,
+                errors: [],
+                file: null,
+                preview: '',
+                rules: {
+                    width: 200,
+                    height: 200,
+                    size: 150000,
+                    formats: ['jpg', 'jpeg', 'png']
+                },
+                remove: {
+                    loading: false
+                }
             },
             langs: [
                 {
@@ -365,26 +470,73 @@
             ]
         }),
         mixins: [
-            icons
+            icons,
+            image
         ],
+        watch: {
+            'avatar.file'(v) {
+                if (!!v)
+                    this.validateAvatar(v, this.avatar.rules)
+                        .then(e => {
+                            this.avatar.valid = e.valid;
+                            this.avatar.errors = e.valid ? [] : [e.errors]
+                        });
+                else {
+                    this.avatar.errors = [];
+                    this.avatar.preview = '';
+                }
+            }
+        },
         methods: {
             submitNickname() {
                 if (this.user.authenticated && this.$refs.nicknameForm.validate()) {
-                    this.nickname.dialog = false;
+                    this.nickname.loading = true;
                     this.$auth.changeNickname({nickname: this.nickname.value})
                         .then(code => {
                             this.$store.dispatch('setSetting', {name: 'nickname', value: this.nickname.value});
-                            this.$toast.showToast(code)
+                            this.$toast.showToast(code);
+                            this.nickname.dialog = false;
                         })
                         .catch(code => this.$toast.showToast(code))
+                        .finally(() => this.nickname.loading = false)
                 }
             },
             submitPassword() {
                 if (this.user.authenticated && this.$refs.passwordForm.validate()) {
-                    this.password.dialog = false;
+                    this.password.loading = true;
                     this.$auth.changePass({password: this.password.value})
-                        .then(code => this.$toast.showToast(code))
+                        .then(code => {
+                            this.$toast.showToast(code);
+                            this.password.dialog = false;
+                        })
                         .catch(code => this.$toast.showToast(code))
+                        .finally(() => this.password.loading = false)
+                }
+            },
+            submitAvatar() {
+                if (this.user.authenticated && this.avatar.valid) {
+                    this.avatar.loading = true;
+                    let formData = new FormData();
+                    formData.append("avatar", this.avatar.file);
+                    this.$auth.changeAvatar(formData)
+                        .then(code => {
+                            this.$toast.showToast(code);
+                            this.avatar.dialog = false;
+                        })
+                        .catch(code => this.$toast.showToast(code))
+                        .finally(() => this.avatar.loading = false)
+                }
+            },
+            removeAvatar() {
+                if (this.user.authenticated && !!this.settings.avatar) {
+                    this.avatar.remove.loading = true;
+                    this.$auth.removeAvatar()
+                        .then(code => {
+                            this.$toast.showToast(code);
+                            this.avatar.dialog = false;
+                        })
+                        .catch(code => this.$toast.showToast(code))
+                        .finally(() => this.avatar.remove.loading = false)
                 }
             },
             openUrl: url => window.open(url),
@@ -404,6 +556,35 @@
                         .then(data => this.$store.dispatch('setTimezones', data.payload))
                         .finally(() => this.timezonesLoading = false)
                 }
+            },
+            validateAvatar(file, {width, height, size, formats}) {
+                return new Promise(resolve => {
+                    if (!this.acceptFormats.includes(file['type']))
+                        resolve({
+                            valid: false,
+                            errors: this.$t('settings.account.change_avatar.dialog.rules.type', [formats.join(', ')])
+                        });
+                    if (Number(file.size) >= Number(size))
+                        resolve({
+                            valid: false,
+                            errors: this.$t('settings.account.change_avatar.dialog.rules.size', [size / 1000])
+                        });
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        const image = new Image();
+                        image.onerror = () => resolve({
+                            valid: false,
+                            errors: this.$t('settings.account.change_avatar.dialog.rules.error')
+                        });
+                        image.onload = () => resolve({
+                            valid: image.width <= Number(width) && image.height <= Number(height),
+                            errors: this.$t('settings.account.change_avatar.dialog.rules.dimensions', [width, height])
+                        });
+                        image.src = reader.result;
+                        this.avatar.preview = reader.result;
+                    };
+                    reader.readAsDataURL(file);
+                })
             }
         },
         head() {
@@ -489,6 +670,12 @@
                 get() {
                     return this.$store.getters.webpIsSupported
                 }
+            },
+            acceptFormats() {
+                return this.avatar.rules.formats.map(e => `image/${e}`).join(', ')
+            },
+            avatarPath() {
+                return !!this.settings.avatar ? this.getAvatarPath({paths: this.settings.avatar.paths}) : null
             }
         },
         mounted() {

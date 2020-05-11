@@ -11,7 +11,7 @@ export const state = () => ({
     },
     settings: {
         user: {
-            avatar: '',
+            avatar: {},
             nickname: '',
             timezone: '',
             dark: true,

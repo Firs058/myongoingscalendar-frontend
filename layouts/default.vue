@@ -164,7 +164,8 @@
                 <v-divider v-if="authenticated"/>
                 <v-list-item v-if="authenticated">
                     <v-list-item-avatar>
-                        <img :src="settings.avatar" alt="user"/>
+                        <img v-if="avatarPath !== null" :src="avatarPath" alt="user"/>
+                        <v-icon v-else class="grey">{{icons.mdiAccount}}</v-icon>
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-subtitle>{{$t('menu.logged_as')}}</v-list-item-subtitle>
@@ -240,6 +241,7 @@
 
 <script>
     import {icons} from '../mixins/icons'
+    import {image} from '../mixins/image'
     import {mapGetters} from 'vuex'
     import colors from 'vuetify/lib/util/colors'
 
@@ -275,7 +277,8 @@
             }
         },
         mixins: [
-            icons
+            icons,
+            image
         ],
         computed: {
             ...mapGetters([
@@ -285,7 +288,10 @@
                 'lastQuery',
                 'admin',
                 'authenticated'
-            ])
+            ]),
+            avatarPath() {
+                return !!this.settings.avatar ? this.getAvatarPath({paths: this.settings.avatar.paths}) : null
+            }
         },
         created() {
             this.$vuetify.theme.dark = this.settings.dark;

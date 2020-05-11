@@ -153,7 +153,7 @@
       "rules": {
         "required": "Password is required",
         "valid": "Password should not be similar to email or nickname",
-        "length": "Password must be more than 7 characters"
+        "length": "Password must be more than 8 characters"
       }
     },
     "confirm_password": {
@@ -231,7 +231,20 @@
       },
       "change_avatar": {
         "title": "Change avatar",
-        "sub_title": "Set the desired one on gravatar service and re-enter here"
+        "sub_title": "Upload image",
+        "dialog": {
+          "headline": "Upload new image",
+          "input":{
+            "placeholder": "Click to file upload. Allowed {0} formats. Max {1}*{2} pixels and {3}kb.",
+            "label": "Avatar"
+          },
+          "rules": {
+            "type": "Avatar should be one of formats: {0}!",
+            "size": "Avatar size should be less than {0}kB!",
+            "error": "Can't load image",
+            "dimensions": "Avatar dimensions should be max {0}*{1} pixels!"
+          }
+        }
       },
       "change_password": {
         "title": "Change password",
@@ -471,6 +484,7 @@
     "10031": "Access is available only through a social network",
     "10032": "Password recovery is not available for accounts created through a social network",
     "10033": "You can't interact with outdated anime",
+    "10034": "Wrong file",
     "11000": "OK",
     "11001": "OK, check you mail to activate account",
     "11002": "Account successful activated",
@@ -489,6 +503,8 @@
     "11015": "Successful exit",
     "11016": "Address copied to clipboard",
     "11017": "Need re login",
-    "11018": "Thanks for feedback!"
+    "11018": "Thanks for feedback!",
+    "11019": "Avatar saved",
+    "11020": "Avatar removed"
   }
 }

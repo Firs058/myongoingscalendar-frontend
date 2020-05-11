@@ -4,6 +4,8 @@ const
     RECOVER_URL = 'api/auth/pass/recover',
     CHANGE_PASS_URL = 'api/user/pass/change',
     CHANGE_NICKNAME_URL = 'api/user/nickname/change',
+    CHANGE_AVATAR_URL = 'api/user/avatar/change',
+    REMOVE_AVATAR_URL = 'api/user/avatar/remove',
     SAVE_SETTINGS_URL = 'api/user/settings/save';
 
 export default (axios, redirect, store) => () => ({
@@ -66,6 +68,32 @@ export default (axios, redirect, store) => () => ({
                         ? resolve({code: response.data.status.code})
                         : reject({code: response.data.status.code})
                 )
+                .catch(() => reject({code: 10015}))
+        }),
+
+    changeAvatar: formData =>
+        new Promise((resolve, reject) => {
+            axios
+                .post(CHANGE_AVATAR_URL, formData)
+                .then(response => {
+                    if (response.data.status.code >= 11000) {
+                        store.dispatch('setSetting', {name: 'avatar', value: response.data.payload});
+                        resolve({code: response.data.status.code});
+                    } else reject({code: response.data.status.code});
+                })
+                .catch(() => reject({code: 10015}))
+        }),
+
+    removeAvatar: () =>
+        new Promise((resolve, reject) => {
+            axios
+                .post(REMOVE_AVATAR_URL)
+                .then(response => {
+                    if (response.data.status.code >= 11000) {
+                        store.dispatch('setSetting', {name: 'avatar', value: null});
+                        resolve({code: response.data.status.code});
+                    } else reject({code: response.data.status.code});
+                })
                 .catch(() => reject({code: 10015}))
         }),
 

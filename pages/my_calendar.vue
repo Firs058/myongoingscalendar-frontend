@@ -4,7 +4,7 @@
             :class="{'grid-list-lg pt-0': !$device.isMobile, 'py-0': $device.isMobile}"
     >
         <calendar :calendar="calendar" :showAll="true"/>
-        <v-layout v-if="!!calendar.length && !Object.keys(calendar).length" align-center justify-center text-center>
+        <v-layout v-if="!calendar.length" align-center justify-center text-center>
             <v-flex xs12 class="mt-4">
                 <v-alert
                         tile

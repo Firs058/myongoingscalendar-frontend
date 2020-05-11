@@ -142,10 +142,6 @@
                         name: 'Fill elastic'
                     },
                     {
-                        path: 'avatars',
-                        name: 'Fill avatars'
-                    },
-                    {
                         path: 'mal',
                         name: 'Force parse MAL'
                     },
