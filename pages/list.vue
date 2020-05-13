@@ -33,7 +33,11 @@
                     <v-flex
                             v-for="anime in dateGroup.animes"
                             :key="anime.tid"
-                            xs12 sm6 md4 lg3 xl2
+                            xs12
+                            sm6
+                            :md4="$device.isDesktop"
+                            lg4
+                            :xl2="$device.isDesktop"
                     >
                         <card :anime="anime"/>
                     </v-flex>

@@ -5,9 +5,10 @@
             :style="`backgroundColor: ${Object.keys(anime.image.hex).length ? settings.dark ? anime.image.hex.dark : anime.image.hex.light : null}`"
             hover
             tile
-            :ripple="!$device.isMobile"
+            :ripple="$device.isDesktop"
     >
         <v-img
+                v-if="$device.isDesktop"
                 :src="getImagePath({paths: anime.image.paths, type: 'FULL'})"
                 aspect-ratio="0.7"
                 :gradient="`to bottom, transparent 0%, transparent 30%, ${Object.keys(anime.image.hex).length ? settings.dark ? anime.image.hex.dark : anime.image.hex.light : 'rgba(0, 0, 0, 0.4)'} 100%`"
@@ -25,7 +26,7 @@
                         </v-chip>
                     </div>
                     <div class="d-flex ml-auto" v-if="anime.recommended">
-                        <v-tooltip top :disabled="!$device.isDesktop">
+                        <v-tooltip top>
                             <template v-slot:activator="{ on }">
                                 <v-icon
                                         v-on="on"
@@ -44,6 +45,43 @@
                 <v-card-subtitle v-if="anime.dateStart">{{$t("card.start", [anime.dateStart])}}</v-card-subtitle>
             </div>
         </v-img>
+        <div v-else class="d-flex flex-no-wrap justify-space-between">
+            <div class="d-flex flex-column flex-no-wrap justify-space-between flex-grow-1">
+                <div>
+                    <v-card-title class="subtitle-1">{{anime.en ? anime.en : anime.ja}}</v-card-title>
+                    <v-card-subtitle v-if="anime.dateStart" class="caption">
+                        {{$t("card.start", [anime.dateStart])}}
+                    </v-card-subtitle>
+                </div>
+                <v-card-text
+                        v-if="anime.watchingStatus || anime.recommended"
+                        class="mt-auto d-flex flex-no-wrap justify-space-between"
+                >
+                    <v-chip
+                            v-if="anime.watchingStatus"
+                            :color="statusColor"
+                            class="text-uppercase"
+                            small
+                    >
+                        {{$t(`card.watching_status.${anime.watchingStatus}`)}}
+                    </v-chip>
+                    <v-spacer/>
+                    <v-icon
+                            v-if="anime.recommended"
+                            size="24"
+                            color="red darken-1"
+                    >
+                        {{icons.mdiHeart}}
+                    </v-icon>
+                </v-card-text>
+            </div>
+            <v-img
+                    max-width="150"
+                    min-width="150"
+                    aspect-ratio="0.7"
+                    :src="getImagePath({paths: anime.image.paths, type: 'FULL'})"
+            />
+        </div>
     </v-card>
 </template>
 
