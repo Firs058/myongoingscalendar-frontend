@@ -46,6 +46,12 @@
             </div>
         </v-img>
         <div v-else class="d-flex flex-no-wrap justify-space-between">
+            <v-img
+                    max-width="150"
+                    min-width="150"
+                    aspect-ratio="0.7"
+                    :src="getImagePath({paths: anime.image.paths, type: 'FULL'})"
+            />
             <div class="d-flex flex-column flex-no-wrap justify-space-between flex-grow-1">
                 <div>
                     <v-card-title class="subtitle-1">{{anime.en ? anime.en : anime.ja}}</v-card-title>
@@ -75,12 +81,6 @@
                     </v-icon>
                 </v-card-text>
             </div>
-            <v-img
-                    max-width="150"
-                    min-width="150"
-                    aspect-ratio="0.7"
-                    :src="getImagePath({paths: anime.image.paths, type: 'FULL'})"
-            />
         </div>
     </v-card>
 </template>
