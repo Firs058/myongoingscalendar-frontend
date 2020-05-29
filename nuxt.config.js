@@ -20,7 +20,6 @@ module.exports = {
         {src: '~/plugins/ready.js', mode: 'client'},
         {src: '~/plugins/sharing.js', mode: 'client'},
         {src: '~/plugins/scroll.js', mode: 'client'},
-        {src: '~/plugins/ga.js', mode: 'client'},
         '~/plugins/axios.js',
         '~/plugins/api.js',
         '~/plugins/persistedstate.js',
@@ -43,7 +42,12 @@ module.exports = {
         '@nuxtjs/axios',
         '@nuxtjs/proxy',
         '@nuxtjs/vuetify',
-        'nuxt-device-detect'
+        'nuxt-device-detect',
+        ['@nuxtjs/google-analytics', {
+            id: 'UA-97415670-1',
+            ignoreRoutes: ['/admin'],
+            dev: false
+        }]
     ],
     css: [
         '~/assets/roboto.css'
