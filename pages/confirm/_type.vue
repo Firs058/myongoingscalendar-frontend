@@ -24,17 +24,19 @@
             }
         },
         mounted() {
-            if (this.token)
-                this.$auth.confirm(this.type, {token: this.token})
-                    .then(result => {
-                        this.$toast.showToast({code: result.code});
-                        this.$router.push(result.redirect)
+            if (this.token) {
+                const params = {token: this.token};
+                this.$auth.confirm({type: this.type, params})
+                    .then(({code, payload, redirect}) => {
+                        this.$store.dispatch('setUserAndTokensAndSettings', payload);
+                        this.$toast.showToast({code});
+                        this.$router.push(redirect)
                     })
-                    .catch(result => {
-                        this.$toast.showToast({code: result.code});
-                        this.$router.push(result.redirect)
+                    .catch(({code, redirect}) => {
+                        this.$toast.showToast({code});
+                        this.$router.push(redirect)
                     });
-            else this.$toast.showToast({text: 10014})
+            } else this.$toast.showToast({code: 10014})
         },
         middleware: ['guest']
     }

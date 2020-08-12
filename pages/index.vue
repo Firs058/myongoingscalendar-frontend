@@ -14,9 +14,9 @@
                 timezone: store.getters.settings.timezone,
                 hideRepeats: store.getters.settings.hideRepeats
             };
-            const {data} = await app.$anime.api('calendar', params);
+            const {calendar} = await app.$anime.getCalendar({forUser: false, params});
             return {
-                calendar: data.payload,
+                calendar,
                 year: new Date().getFullYear()
             }
         },
@@ -73,10 +73,10 @@
         },
         computed: {
             globalUrl() {
-                return `${process.env.baseUrl}${this.$route.fullPath}`
+                return `${process.env.BASE_URL}${this.$route.fullPath}`
             },
             globalImage() {
-                return `${process.env.baseUrl}${this.$store.getters.webpIsSupported ? '/images/webp/empty.webp' : '/images/empty.png'}`
+                return `${process.env.BASE_URL}${this.$store.getters.webpIsSupported ? '/images/webp/empty.webp' : '/images/empty.png'}`
             },
             globalDescription() {
                 return this.$t("meta_info.home.meta.description", [this.year])

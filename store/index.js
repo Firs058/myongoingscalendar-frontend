@@ -28,7 +28,6 @@ export const state = () => ({
         }
     },
     toast: {
-        timeout: 0,
         color: '',
         code: 11000,
         active: false,
@@ -82,7 +81,7 @@ export const mutations = {
 
 export const actions = {
     setUser: ({commit}, obj) => commit('SET_USER', obj),
-    setUserToDefault: ({commit, getters}) => {
+    logout: ({commit, getters}) => {
         commit('SET_USER', {
             authenticated: false,
             email: '',
@@ -90,17 +89,19 @@ export const actions = {
             roles: []
         });
         commit('SET_TOKENS', {});
+        commit('SET_SYNCED', false);
         Vue.prototype.$nuxt.$vuetify.theme.dark = getters.settings.dark;
     },
-    setUserAndTokensAndSettings: ({commit, getters}, obj) => {
+    setUserAndTokensAndSettings: ({commit, getters}, {email, social, roles, tokens, settings}) => {
         commit('SET_USER', {
             authenticated: true,
-            email: obj.email,
-            social: obj.social,
-            roles: obj.roles
+            email,
+            social,
+            roles
         });
-        commit('SET_TOKENS', obj.tokens);
-        commit('SET_SETTINGS', obj.settings);
+        commit('SET_TOKENS', tokens);
+        commit('SET_SETTINGS', settings);
+        commit('SET_SYNCED', true);
         Vue.prototype.$nuxt.$vuetify.theme.dark = getters.settings.dark;
     },
     setSetting: ({commit}, obj) => commit('SET_SETTING', obj),
@@ -118,34 +119,40 @@ export const actions = {
     async addComment({commit, getters}) {
         commit('SET_COMMENT', {name: 'loading', value: true});
         const comment = getters.comment;
-        await this.$anime.userApi('title/comments/add', {
+        const params = {
             id: comment.id,
             tid: comment.tid,
             text: comment.text
-        })
-            .then(result => {
+        };
+
+        await this.$anime.addComment({params})
+            .then(({code}) => {
                 commit('SET_COMMENT', [
                     {name: 'dialog', value: false},
-                    {name: 'text', value: ''}
+                    {name: 'text', value: ''},
+                    {name: 'loading', value: false}
                 ]);
-                this.$toast.showToast({code: result.data.status.code})
+                this.$toast.showToast({code})
             })
-            .catch(code => this.$toast.showToast(code))
-            .finally(() => commit('SET_COMMENT', {name: 'loading', value: false}))
+            .catch(({code}) => this.$toast.showToast({code}));
     },
     async addFeedback({commit, getters}, recaptchaToken) {
         commit('SET_FEEDBACK', {name: 'loading', value: true});
-        const params = {text: getters.feedback.text, recaptchaToken};
-        const {data} = getters.authenticated
-            ? await this.$anime.userApi('feedback/add', params).catch(code => this.$toast.showToast(code))
-            : await this.$anime.api('feedback/add', params).catch(code => this.$toast.showToast(code));
+        const params = {
+            text: getters.feedback.text,
+            recaptchaToken
+        };
 
-        this.$toast.showToast({code: data.status.code});
-        commit('SET_FEEDBACK', [
-            {name: 'dialog', value: false},
-            {name: 'text', value: ''},
-            {name: 'loading', value: false}
-        ])
+        await this.$anime.addFeedback({params})
+            .then(({code}) => {
+                commit('SET_FEEDBACK', [
+                    {name: 'dialog', value: false},
+                    {name: 'text', value: ''},
+                    {name: 'loading', value: false}
+                ]);
+                this.$toast.showToast({code})
+            })
+            .catch(({code}) => this.$toast.showToast({code}));
     },
     openCommentDialog({commit}, obj) {
         commit('SET_COMMENT', [
@@ -174,7 +181,8 @@ export const getters = {
     tokens: state => state.tokens,
     tempTokens: state => state.tempTokens,
     webpIsSupported: state => state.webpIsSupported,
-    agreeWithTermsAndPolicy: state => state.agreeWithTermsAndPolicy
+    agreeWithTermsAndPolicy: state => state.agreeWithTermsAndPolicy,
+    apiUrl: (state, getters) => getters.authenticated ? process.env.USER_API_URL : process.env.API_URL
 };
 
 export const strict = false;

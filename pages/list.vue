@@ -66,11 +66,9 @@
             showCount: 3,
             filterInput: ''
         }),
-        async asyncData({app, store}) {
-            const {data} = store.getters.authenticated
-                ? await app.$anime.userApi('title/list')
-                : await app.$anime.api('title/list');
-            return {ongoingsList: data.payload};
+        async asyncData({app}) {
+            const {ongoingsList} = await app.$anime.getOngoingsList();
+            return {ongoingsList};
         },
         head() {
             return {
@@ -144,21 +142,20 @@
                 let list = this.ongoingsList;
                 let input = this.filterInput;
                 if (input) {
-                    let filtered = [];
                     input = input.trim().toLowerCase();
-                    list.forEach(e => {
-                        let found = e.animes.filter(e => (e.en ? e.en : e.ja).toLowerCase().includes(input) || (e.ja ? e.ja : e.en).toLowerCase().includes(input));
-                        if (found.length) filtered.push({dateStart: e.dateStart, animes: found})
-                    });
-                    return filtered
+                    return list.reduce((filtered, item) => {
+                        let found = item.animes.filter(e => (e.en ? e.en : e.ja).toLowerCase().includes(input) || (e.ja ? e.ja : e.en).toLowerCase().includes(input));
+                        if (found.length) filtered.push({dateStart: item.dateStart, animes: found});
+                        return filtered
+                    }, []);
                 }
                 return list
             },
             globalUrl() {
-                return `${process.env.baseUrl}${this.$route.fullPath}`
+                return `${process.env.BASE_URL}${this.$route.fullPath}`
             },
             globalImage() {
-                return `${process.env.baseUrl}${this.$store.getters.webpIsSupported ? '/images/webp/empty.webp' : '/images/empty.png'}`
+                return `${process.env.BASE_URL}${this.$store.getters.webpIsSupported ? '/images/webp/empty.webp' : '/images/empty.png'}`
             },
             globalDescription() {
                 return this.$t("meta_info.list.meta.description")

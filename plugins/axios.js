@@ -11,6 +11,15 @@ export default ({store, $axios, redirect}) => {
             return setHeaders(config, store.getters.tokens.accessToken);
     });
 
+    $axios.onResponse(response => {
+        const code = response.data.status.code;
+        if (code === 10012 || code === 11017) {
+            store.dispatch('logout');
+            return redirect('/login')
+        }
+        return response;
+    });
+
     function refreshTokens(config, refreshToken) {
         const instance = axios.create({
             baseURL: process.env.baseUrl,
@@ -21,7 +30,7 @@ export default ({store, $axios, redirect}) => {
         return instance.post('/api/auth/refresh', {token: refreshToken})
             .then(response => {
                 if (response.data.status.code === 11017) {
-                    store.dispatch('setUserToDefault');
+                    store.dispatch('logout');
                     redirect('/login');
                 } else {
                     store.dispatch('setTokens', response.data.payload.tokens);
@@ -35,7 +44,10 @@ export default ({store, $axios, redirect}) => {
 
     function setHeaders(config, accessToken) {
         accessToken
-            ? config.headers = {'Authorization': `Bearer ${accessToken}`, 'Accept-Language': store.getters.settings.lang}
+            ? config.headers = {
+                'Authorization': `Bearer ${accessToken}`,
+                'Accept-Language': store.getters.settings.lang
+            }
             : config.headers = {'Accept-Language': store.getters.settings.lang};
         return config;
     }

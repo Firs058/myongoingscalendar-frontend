@@ -70,10 +70,14 @@
             },
             onVerify(response) {
                 this.loading = true;
-                this.$auth.recover({email: this.email, recaptchaToken: response})
-                    .then(code => this.$toast.showToast(code))
-                    .catch(code => {
-                        this.$toast.showToast(code);
+                const params = {
+                    email: this.email,
+                    recaptchaToken: response
+                };
+                this.$auth.recover({params})
+                    .then(({code}) => this.$toast.showToast({code}))
+                    .catch(({code}) => {
+                        this.$toast.showToast({code});
                         this.$refs.invisibleRecaptcha.reset()
                     })
                     .finally(() => this.loading = false)
@@ -83,8 +87,8 @@
             }
         },
         computed: {
-            recaptchaSitekey(){
-                return process.env.recaptchaSitekey
+            recaptchaSitekey() {
+                return process.env.RECAPTCHA_SITE_KEY
             }
         },
         mixins: [

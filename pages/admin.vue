@@ -105,15 +105,15 @@
     } from '@mdi/js';
 
     export default {
-        async asyncData({app, store}) {
-            const data = await app.$axios.$post('api/admin/data');
+        async asyncData({app}) {
+            const {items} = await app.$anime.getAdminData();
             return {
                 options: {
                     itemsPerPage: -1,
                     sortBy: 'tid'
                 },
                 list: {
-                    items: data.payload,
+                    items,
                     headers: [
                         {sortable: false, text: 'AniDB id', value: 'aid', align: 'center'},
                         {sortable: false, text: 'MAL id', value: 'malid', align: 'center'},
@@ -174,15 +174,15 @@
             },
             save() {
                 this.dialog = false;
-                this.$anime.adminApi('update', this.list.item)
-                    .then(result => this.$toast.showToast({code: result.data.status.code}))
-                    .catch(code => this.$toast.showToast(code))
+                this.$anime.adminApi({path: 'update', params: this.list.item})
+                    .then(({code}) => this.$toast.showToast({code}))
+                    .catch(({code}) => this.$toast.showToast({code}))
             },
             adminRequest(path) {
                 this.loading = true;
-                this.$anime.adminApi(path)
-                    .then(result => this.$toast.showToast({code: result.data.status.code}))
-                    .catch(code => this.$toast.showToast(code))
+                this.$anime.adminApi({path})
+                    .then(({code}) => this.$toast.showToast({code}))
+                    .catch(({code}) => this.$toast.showToast({code}))
                     .finally(() => this.loading = false)
             }
         },

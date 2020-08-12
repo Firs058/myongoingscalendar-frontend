@@ -1,157 +1,124 @@
-const
-    LOGIN_URL = 'api/auth/login',
-    REGISTRATION_URL = 'api/auth/registration',
-    RECOVER_URL = 'api/auth/pass/recover',
-    CHANGE_PASS_URL = 'api/user/pass/change',
-    CHANGE_NICKNAME_URL = 'api/user/nickname/change',
-    CHANGE_AVATAR_URL = 'api/user/avatar/change',
-    REMOVE_AVATAR_URL = 'api/user/avatar/remove',
-    SAVE_SETTINGS_URL = 'api/user/settings/save';
+const LOGIN_URL = 'api/auth/login';
+const REGISTRATION_URL = 'api/auth/registration';
+const RECOVER_URL = 'api/auth/pass/recover';
+const CHANGE_PASS_URL = 'api/user/pass/change';
+const CHANGE_NICKNAME_URL = 'api/user/nickname/change';
+const CHANGE_AVATAR_URL = 'api/user/avatar/change';
+const REMOVE_AVATAR_URL = 'api/user/avatar/remove';
+const SAVE_SETTINGS_URL = 'api/user/settings/save';
 
-export default (axios, redirect, store) => () => ({
-    login: creds =>
-        new Promise((resolve, reject) => {
+const BREAKOUT_CODE = 11000;
+const REJECT_CODE = 10015;
+
+export default (axios) => () => ({
+    login: ({params}) =>
+        new Promise((resolve, reject) =>
             axios
-                .post(LOGIN_URL, creds)
-                .then(response => {
-                    if (response.data.status.code >= 11000) {
-                        store.dispatch('setUserAndTokensAndSettings', response.data.payload);
-                        resolve({code: response.data.status.code});
-                    } else reject({code: response.data.status.code});
-                })
-                .catch(() => reject({code: 10015}))
-        }),
+                .post(LOGIN_URL, params)
+                .then(({data: {payload: {email, social, roles, tokens, settings}, status: {code}}}) =>
+                    code >= BREAKOUT_CODE
+                        ? resolve({
+                            email,
+                            social,
+                            roles,
+                            tokens,
+                            settings,
+                            code
+                        })
+                        : reject({code}))
+                .catch(() => reject({code: REJECT_CODE}))),
 
-    registration: creds =>
-        new Promise((resolve, reject) => {
+    registration: ({params}) =>
+        new Promise((resolve, reject) =>
             axios
-                .post(REGISTRATION_URL, creds)
-                .then(response =>
-                    response.data.status.code >= 11000
-                        ? resolve({code: response.data.status.code})
-                        : reject({code: response.data.status.code})
-                )
-                .catch(() => reject({code: 10015}))
-        }),
+                .post(REGISTRATION_URL, params)
+                .then(({data: {payload, status: {code}}}) => code >= BREAKOUT_CODE ? resolve({code}) : reject({code}))
+                .catch(() => reject({code: REJECT_CODE}))),
 
-    recover: creds =>
-        new Promise((resolve, reject) => {
+    recover: ({params}) =>
+        new Promise((resolve, reject) =>
             axios
-                .post(RECOVER_URL, creds)
-                .then(response =>
-                    response.data.status.code >= 11000
-                        ? resolve({code: response.data.status.code})
-                        : reject({code: response.data.status.code})
-                )
-                .catch(() =>
-                    reject({code: 10015}))
-        }),
+                .post(RECOVER_URL, params)
+                .then(({data: {payload, status: {code}}}) => code >= BREAKOUT_CODE ? resolve({code}) : reject({code}))
+                .catch(() => reject({code: REJECT_CODE}))),
 
-    changeNickname: creds =>
-        new Promise((resolve, reject) => {
+    changeNickname: ({params}) =>
+        new Promise((resolve, reject) =>
             axios
-                .post(CHANGE_NICKNAME_URL, creds)
-                .then(response =>
-                    response.data.status.code >= 11000
-                        ? resolve({code: response.data.status.code})
-                        : reject({code: response.data.status.code})
-                )
-                .catch(() => reject({code: 10015}))
-        }),
+                .post(CHANGE_NICKNAME_URL, params)
+                .then(({data: {payload, status: {code}}}) => code >= BREAKOUT_CODE ? resolve({code}) : reject({code}))
+                .catch(() => reject({code: REJECT_CODE}))),
 
-    changePass: creds =>
-        new Promise((resolve, reject) => {
+    changePass: ({params}) =>
+        new Promise((resolve, reject) =>
             axios
-                .post(CHANGE_PASS_URL, creds)
-                .then(response =>
-                    response.data.status.code >= 11000
-                        ? resolve({code: response.data.status.code})
-                        : reject({code: response.data.status.code})
-                )
-                .catch(() => reject({code: 10015}))
-        }),
+                .post(CHANGE_PASS_URL, params)
+                .then(({data: {payload, status: {code}}}) => code >= BREAKOUT_CODE ? resolve({code}) : reject({code}))
+                .catch(() => reject({code: REJECT_CODE}))),
 
-    changeAvatar: formData =>
-        new Promise((resolve, reject) => {
+    changeAvatar: ({formData}) =>
+        new Promise((resolve, reject) =>
             axios
                 .post(CHANGE_AVATAR_URL, formData)
-                .then(response => {
-                    if (response.data.status.code >= 11000) {
-                        store.dispatch('setSetting', {name: 'avatar', value: response.data.payload});
-                        resolve({code: response.data.status.code});
-                    } else reject({code: response.data.status.code});
-                })
-                .catch(() => reject({code: 10015}))
-        }),
+                .then(({data: {payload, status: {code}}}) => code >= BREAKOUT_CODE ? resolve({
+                    avatar: payload,
+                    code
+                }) : reject({code}))
+                .catch(() => reject({code: REJECT_CODE}))),
 
     removeAvatar: () =>
-        new Promise((resolve, reject) => {
+        new Promise((resolve, reject) =>
             axios
                 .post(REMOVE_AVATAR_URL)
-                .then(response => {
-                    if (response.data.status.code >= 11000) {
-                        store.dispatch('setSetting', {name: 'avatar', value: null});
-                        resolve({code: response.data.status.code});
-                    } else reject({code: response.data.status.code});
-                })
-                .catch(() => reject({code: 10015}))
-        }),
+                .then(({data: {payload, status: {code}}}) => code >= BREAKOUT_CODE ? resolve({code}) : reject({code}))
+                .catch(() => reject({code: REJECT_CODE}))),
 
-    logout: () =>
-        new Promise(resolve => {
-            store.dispatch('setUserToDefault');
-            store.dispatch('setSynced', false);
-            redirect('/');
-            resolve()
-        }),
+    saveSettings: ({params}) => axios.post(SAVE_SETTINGS_URL, params),
 
-    saveSettings: settings => axios.post(SAVE_SETTINGS_URL, settings),
-
-    getSocialAuthorizationUrl: provider =>
+    getSocialAuthorizationUrl: ({provider}) =>
         new Promise((resolve, reject) =>
-            axios.post(`api/auth/${provider}/url`)
-                .then(response => resolve(response.data.payload))
-                .catch(() => reject({code: 10015}))),
+            axios
+                .post(`api/auth/${provider}/url`)
+                .then(({data: {payload}}) => resolve({url: payload}))
+                .catch(() => reject({code: REJECT_CODE}))),
 
-    socialLogin(provider, creds) {
-        return new Promise((resolve, reject) => {
-            axios.post(`api/auth/${provider}`, creds)
-                .then(response => {
-                    if (response.data.status.code >= 11000) {
-                        store.dispatch('setUserAndTokensAndSettings', response.data.payload);
-                        resolve({code: response.data.status.code});
-                    } else reject({code: response.data.status.code});
-                })
-                .catch(() => reject({code: 10015}))
-        })
-    },
+    socialLogin: ({provider, params}) =>
+        new Promise((resolve, reject) =>
+            axios
+                .post(`api/auth/${provider}`, params)
+                .then(({data: {payload: {email, social, roles, tokens, settings}, status: {code}}}) =>
+                    code >= BREAKOUT_CODE
+                        ? resolve({
+                            email,
+                            social,
+                            roles,
+                            tokens,
+                            settings,
+                            code
+                        })
+                        : reject({code}))
+                .catch(() => reject({code: REJECT_CODE}))),
 
-    confirm(type, creds) {
-        return new Promise((resolve, reject) => {
-            axios.post(type === 'registration' ? `${REGISTRATION_URL}/confirm` : `${RECOVER_URL}/confirm`, creds)
-                .then(response => {
-                    if (response.data.status.code >= 11000)
-                        if (response.data.payload) {
-                            store.dispatch('setUserAndTokensAndSettings', response.data.payload);
-                            resolve({
-                                code: response.data.status.code,
-                                redirect: '/settings'
-                            })
-                        } else resolve({
-                            code: response.data.status.code,
-                            redirect: '/login'
+    confirm: ({type, params}) =>
+        new Promise((resolve, reject) =>
+            axios
+                .post(type === 'registration' ? `${REGISTRATION_URL}/confirm` : `${RECOVER_URL}/confirm`, params)
+                .then(({data: {payload, status: {code}}}) => {
+                    if (code >= BREAKOUT_CODE)
+                        resolve({
+                            code,
+                            payload,
+                            redirect: !!payload ? '/settings' : '/login'
                         });
-                    else if (response.data.status.code === 11004)
+                    else if (code === 11004)
                         reject({
-                            code: response.data.status.code,
+                            code,
                             redirect: '/recover'
                         });
                     else reject({
-                            code: response.data.status.code,
+                            code,
                             redirect: '/'
                         });
                 })
-                .catch(() => reject({code: 10015}))
-        })
-    }
+                .catch(() => reject({code: REJECT_CODE})))
 })

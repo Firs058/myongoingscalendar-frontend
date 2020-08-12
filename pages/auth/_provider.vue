@@ -25,28 +25,38 @@
         },
         methods: {
             initSocialLogin() {
-                let creds;
-                switch (this.provider) {
+                let params;
+                const provider = this.provider;
+                switch (provider) {
                     case 'twitter':
-                        creds = {
+                        params = {
                             oauth_token: this.query.oauth_token,
                             oauth_verifier: this.query.oauth_verifier,
                             userSettings: this.settings
                         };
                         break;
                     default:
-                        creds = {
+                        params = {
                             state: this.query.state,
                             code: this.query.code,
                             userSettings: this.settings
                         };
                         break;
                 }
-                this.$auth.socialLogin(this.provider, creds)
-                    .then(code => this.$toast.showToast(code))
+                this.$auth.socialLogin({provider, params})
+                    .then(({email, social, roles, tokens, settings, code}) => {
+                        this.$store.dispatch('setUserAndTokensAndSettings', {
+                            email,
+                            social,
+                            roles,
+                            tokens,
+                            settings
+                        });
+                        this.$toast.showToast({code});
+                    })
                     .then(() => this.$router.push('/'))
-                    .catch(code => {
-                        this.$toast.showToast(code);
+                    .catch(({code}) => {
+                        this.$toast.showToast({code});
                         this.$router.push('/login')
                     })
             }

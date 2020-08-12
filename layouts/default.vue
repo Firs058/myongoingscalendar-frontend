@@ -20,7 +20,7 @@
                     </div>
                     <div
                             @click.stop="$router.push('/settings')"
-                            :class="`grey--text ${settings.dark ? 'text--darken' : 'text--darken-2'} ${settings.timezone.length > 20 ? 'caption' : 'subtitle-1'}`"
+                            :class="timezoneClass"
                     >
                         {{settings.timezone}}
                     </div>
@@ -165,7 +165,7 @@
                 <v-list-item v-if="authenticated">
                     <v-list-item-avatar>
                         <img v-if="avatarPath !== null" :src="avatarPath" alt="user"/>
-                        <v-icon v-else class="grey">{{icons.mdiAccount}}</v-icon>
+                        <v-icon v-else>{{icons.mdiAccount}}</v-icon>
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-subtitle>{{$t('menu.logged_as')}}</v-list-item-subtitle>
@@ -232,9 +232,9 @@
             <v-app-bar-nav-icon @click.stop="menu = !menu"/>
         </v-app-bar>
         <feedback-dialog/>
-        <v-content>
+        <v-main>
             <nuxt/>
-        </v-content>
+        </v-main>
         <toast/>
     </v-app>
 </template>
@@ -272,8 +272,9 @@
         },
         methods: {
             logout() {
-                this.$auth.logout()
-                    .then(() => this.$toast.showToast({code: 11015}))
+                this.$store.dispatch('logout');
+                this.$router.push('/');
+                this.$toast.showToast({code: 11015});
             }
         },
         mixins: [
@@ -291,6 +292,12 @@
             ]),
             avatarPath() {
                 return !!this.settings.avatar ? this.getAvatarPath({paths: this.settings.avatar.paths}) : null
+            },
+            textDarken() {
+                return this.settings.dark ? 'text--darken' : 'text--darken-2'
+            },
+            timezoneClass() {
+                return `grey--text ${this.textDarken} ${this.settings.timezone.length > 20 ? 'caption' : 'subtitle-1'}`
             }
         },
         created() {

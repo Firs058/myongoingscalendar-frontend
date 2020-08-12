@@ -201,12 +201,14 @@
             submit() {
                 if (this.$refs.form.validate()) {
                     this.loadingBtn = true;
-                    this.$auth.login({email: this.email, password: this.password})
-                        .then(code => {
-                            this.$toast.showToast(code);
+                    const params = {email: this.email, password: this.password};
+                    this.$auth.login({params})
+                        .then(({email, social, roles, tokens, settings, code}) => {
+                            this.$store.dispatch('setUserAndTokensAndSettings', {email, social, roles, tokens, settings});
+                            this.$toast.showToast({code});
                             this.$router.push('/');
                         })
-                        .catch(code => this.$toast.showToast(code))
+                        .catch(({code}) => this.$toast.showToast({code}))
                         .finally(() => this.loadingBtn = false)
                 }
             },
@@ -217,9 +219,9 @@
             authViaProvider(selected) {
                 this.dialog.visible = false;
                 this.providers[selected.index].loading = true;
-                this.$auth.getSocialAuthorizationUrl(selected.provider)
-                    .then(url => window.location.href = url)
-                    .catch(code => this.$toast.showToast(code))
+                this.$auth.getSocialAuthorizationUrl({provider: selected.provider})
+                    .then(({url}) => window.location.href = url)
+                    .catch(({code}) => this.$toast.showToast({code}))
                     .finally(() => this.providers[selected.index].loading = false)
             }
         },

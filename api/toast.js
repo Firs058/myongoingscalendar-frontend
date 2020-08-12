@@ -1,12 +1,19 @@
+const BREAKOUT_CODE = 11000;
+
 export default store => () => ({
-    showToast: v => {
+    showToast: ({code}) => {
         if (process.client) {
             const dark = store.getters.settings.dark;
+            const colors = {
+                'green': code >= BREAKOUT_CODE,
+                'red': code < BREAKOUT_CODE,
+                'darken-3': dark
+            };
+
             store.dispatch('setToast', {
                 active: true,
-                timeout: 6000,
-                code: v.code,
-                color: v.code >= 11000 ? `green ${dark ? 'darken-3' : undefined}` : `red ${dark ? 'darken-3' : undefined}`,
+                code,
+                color: Object.entries(colors).filter(([key, value]) => !!value).map(([key]) => key).join(" "),
                 class: {
                     'white--text': dark,
                     'black--text': !dark

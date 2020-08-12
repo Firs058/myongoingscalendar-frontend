@@ -2,7 +2,7 @@
     <v-card
             nuxt
             :to="`/title/${anime.tid}`"
-            :style="`backgroundColor: ${Object.keys(anime.image.hex).length ? settings.dark ? anime.image.hex.dark : anime.image.hex.light : null}`"
+            :style="`backgroundColor: ${getBackgroundColor({gradient: false})}`"
             hover
             tile
             :ripple="$device.isDesktop"
@@ -11,11 +11,11 @@
                 v-if="$device.isDesktop"
                 :src="getImagePath({paths: anime.image.paths, type: 'FULL'})"
                 aspect-ratio="0.7"
-                :gradient="`to bottom, transparent 0%, transparent 30%, ${Object.keys(anime.image.hex).length ? settings.dark ? anime.image.hex.dark : anime.image.hex.light : 'rgba(0, 0, 0, 0.4)'} 100%`"
-                :alt="anime.en ? anime.en : anime.ja"
+                :gradient="`to bottom, transparent 0%, transparent 30%, ${getBackgroundColor({gradient: true})} 100%`"
+                :alt="title"
         >
             <div class="d-flex flex-column justify-end fill-height ma-0">
-                <div class="d-flex justify-start mb-auto" v-if="anime.watchingStatus || anime.recommended">
+                <div class="d-flex justify-start mb-auto" v-if="haveStatusOrIcons">
                     <div class="d-flex justify-center align-center" v-if="anime.watchingStatus">
                         <v-chip
                                 :color="statusColor"
@@ -25,23 +25,36 @@
                             {{$t(`card.watching_status.${anime.watchingStatus}`)}}
                         </v-chip>
                     </div>
-                    <div class="d-flex ml-auto" v-if="anime.recommended">
+                    <div class="d-flex ml-auto" v-if="haveStatusIcons">
                         <v-tooltip top>
                             <template v-slot:activator="{ on }">
                                 <v-icon
                                         v-on="on"
                                         size="32"
                                         color="red darken-1"
-                                        class="mx-4 my-3"
+                                        class="ml-4 mr-2 my-3"
                                 >
                                     {{icons.mdiHeart}}
+                                </v-icon>
+                            </template>
+                            <span class="text-uppercase">{{$t("card.favorite")}}</span>
+                        </v-tooltip>
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on }">
+                                <v-icon
+                                        v-on="on"
+                                        size="32"
+                                        color="yellow darken-3"
+                                        class="mr-4 my-3"
+                                >
+                                    {{icons.mdiStar}}
                                 </v-icon>
                             </template>
                             <span class="text-uppercase">{{$t("card.recommended")}}</span>
                         </v-tooltip>
                     </div>
                 </div>
-                <v-card-title>{{anime.en ? anime.en : anime.ja}}</v-card-title>
+                <v-card-title>{{title}}</v-card-title>
                 <v-card-subtitle v-if="anime.dateStart">{{$t("card.start", [anime.dateStart])}}</v-card-subtitle>
             </div>
         </v-img>
@@ -54,13 +67,13 @@
             />
             <div class="d-flex flex-column flex-no-wrap justify-space-between flex-grow-1">
                 <div>
-                    <v-card-title class="subtitle-1">{{anime.en ? anime.en : anime.ja}}</v-card-title>
+                    <v-card-title class="subtitle-1">{{title}}</v-card-title>
                     <v-card-subtitle v-if="anime.dateStart" class="caption">
                         {{$t("card.start", [anime.dateStart])}}
                     </v-card-subtitle>
                 </div>
                 <v-card-text
-                        v-if="anime.watchingStatus || anime.recommended"
+                        v-if="haveStatusOrIcons"
                         class="mt-auto d-flex flex-no-wrap justify-space-between"
                 >
                     <v-chip
@@ -73,11 +86,19 @@
                     </v-chip>
                     <v-spacer/>
                     <v-icon
-                            v-if="anime.recommended"
+                            v-if="anime.favorite"
                             size="24"
                             color="red darken-1"
+                            class="mr-2"
                     >
                         {{icons.mdiHeart}}
+                    </v-icon>
+                    <v-icon
+                            v-if="anime.recommended"
+                            size="24"
+                            color="yellow darken-3"
+                    >
+                        {{icons.mdiStar}}
                     </v-icon>
                 </v-card-text>
             </div>
@@ -98,21 +119,45 @@
             icons,
             image
         ],
+        methods: {
+            getColor({status}) {
+                const shade = this.settings.dark ? 'darken-3' : 'lighten-2';
+                const colors = {
+                    NEW: `orange ${shade}`,
+                    WATCHING: `green ${shade}`,
+                    WATCHED: `blue ${shade}`,
+                    DROPPED: `red ${shade}`
+                };
+                return colors[status];
+            },
+            getBackgroundColor({gradient}) {
+                const anime = this.anime;
+                return Object.keys(anime.image.hex).length
+                    ? this.settings.dark
+                        ? anime.image.hex.dark
+                        : anime.image.hex.light
+                    : gradient
+                        ? 'rgba(0, 0, 0, 0.4)'
+                        : null
+            }
+        },
         computed: {
             ...mapGetters([
                 'settings'
             ]),
             statusColor() {
-                switch (this.anime.watchingStatus) {
-                    case 'NEW':
-                        return `orange ${this.settings.dark ? 'darken-3' : 'lighten-2'}`;
-                    case 'WATCHING':
-                        return `green ${this.settings.dark ? 'darken-3' : 'lighten-2'}`;
-                    case 'WATCHED':
-                        return `blue ${this.settings.dark ? 'darken-3' : 'lighten-2'}`;
-                    case 'DROPPED':
-                        return `red ${this.settings.dark ? 'darken-3' : 'lighten-2'}`;
-                }
+                return this.getColor({status: this.anime.watchingStatus});
+            },
+            title() {
+                const anime = this.anime;
+                return anime.en ? anime.en : anime.ja
+            },
+            haveStatusIcons() {
+                const anime = this.anime;
+                return anime.favorite || anime.recommended
+            },
+            haveStatusOrIcons(){
+                return !!this.anime.watchingStatus || this.haveStatusIcons
             }
         }
     }

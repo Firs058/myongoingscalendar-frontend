@@ -40,7 +40,7 @@
                                 small
                                 fab
                                 icon
-                                :aria-label="authenticated ?  $t('tooltips.like') : $t('tooltips.you_must_be_logged_in')"
+                                :aria-label="authenticated ? $t('tooltips.like') : $t('tooltips.you_must_be_logged_in')"
                         >
                             <v-icon small>{{icons.mdiThumbUp}}</v-icon>
                         </v-btn>
@@ -66,7 +66,7 @@
                                 small
                                 fab
                                 icon
-                                :aria-label="authenticated ?  $t('tooltips.dislike') : $t('tooltips.you_must_be_logged_in')"
+                                :aria-label="authenticated ? $t('tooltips.dislike') : $t('tooltips.you_must_be_logged_in')"
                         >
                             <v-icon small>{{icons.mdiThumbDown}}</v-icon>
                         </v-btn>
@@ -84,7 +84,7 @@
                                 icon
                                 @click.native="$store.dispatch('openCommentDialog', {tid: comment.tid, id: comment.id})"
                                 :disabled="!authenticated"
-                                :aria-label="authenticated ?  $t('buttons.reply') : $t('tooltips.you_must_be_logged_in')"
+                                :aria-label="authenticated ? $t('buttons.reply') : $t('tooltips.you_must_be_logged_in')"
                         >
                             <v-icon small>{{icons.mdiReplay}}</v-icon>
                         </v-btn>
@@ -129,13 +129,13 @@
                                 small
                                 fab
                                 icon
-                                :aria-label="authenticated ?  $t('tooltips.like') : $t('tooltips.you_must_be_logged_in')"
+                                :aria-label="authenticated ? $t('tooltips.like') : $t('tooltips.you_must_be_logged_in')"
                         >
                             <v-icon small>{{icons.mdiThumbUp}}</v-icon>
                         </v-btn>
                     </div>
                 </template>
-                <span>{{authenticated ?  $t('tooltips.like') : $t('tooltips.you_must_be_logged_in')}}</span>
+                <span>{{authenticated ? $t('tooltips.like') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
             <div
                     v-if="!!scoreCount"
@@ -155,13 +155,13 @@
                                 small
                                 fab
                                 icon
-                                :aria-label="authenticated ?  $t('tooltips.dislike') : $t('tooltips.you_must_be_logged_in')"
+                                :aria-label="authenticated ? $t('tooltips.dislike') : $t('tooltips.you_must_be_logged_in')"
                         >
                             <v-icon small>{{icons.mdiThumbDown}}</v-icon>
                         </v-btn>
                     </div>
                 </template>
-                <span>{{authenticated ?  $t('tooltips.dislike') : $t('tooltips.you_must_be_logged_in')}}</span>
+                <span>{{authenticated ? $t('tooltips.dislike') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
             <v-tooltip top :disabled="!$device.isDesktop">
                 <template v-slot:activator="{ on }">
@@ -173,13 +173,13 @@
                                 icon
                                 @click.native="$store.dispatch('openCommentDialog', {tid: comment.tid, id: comment.id})"
                                 :disabled="!authenticated"
-                                :aria-label="authenticated ?  $t('buttons.reply') : $t('tooltips.you_must_be_logged_in')"
+                                :aria-label="authenticated ? $t('buttons.reply') : $t('tooltips.you_must_be_logged_in')"
                         >
                             <v-icon small>{{icons.mdiReplay}}</v-icon>
                         </v-btn>
                     </div>
                 </template>
-                <span>{{authenticated ?  $t('buttons.reply') : $t('tooltips.you_must_be_logged_in')}}</span>
+                <span>{{authenticated ? $t('buttons.reply') : $t('tooltips.you_must_be_logged_in')}}</span>
             </v-tooltip>
             <v-tooltip top :disabled="!$device.isDesktop">
                 <template v-slot:activator="{ on }">
@@ -210,7 +210,7 @@
             <v-expansion-panel class="transparent">
                 <v-expansion-panel-header
                         hide-actions
-                        @click.native.once="downloadChilds(false)"
+                        @click.native.once="getCommentsChilds({next: false})"
                         class="primary--text"
                 >
                     {{$t(!!expansion || typeof expansion === 'undefined' ? 'comments.show_all.2' :
@@ -244,7 +244,7 @@
                                     <v-btn
                                             v-on:on
                                             text
-                                            @click.native="downloadChilds(true)"
+                                            @click.native="getCommentsChilds({next: true})"
                                             :loading="loadingChilds"
                                             :aria-label="$t('comments.show_more.2', [more])"
                                     >
@@ -264,8 +264,8 @@
 </template>
 
 <script>
-    import {icons} from '../mixins/icons'
-    import {image} from '../mixins/image'
+    import {icons} from '~/mixins/icons'
+    import {image} from '~/mixins/image'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -276,7 +276,7 @@
             loadingChilds: false,
             value: false,
             offset: 0,
-            more: 0,
+            fromPath: 0,
             comments: [],
             expansion: []
         }),
@@ -286,46 +286,48 @@
             image
         ],
         methods: {
-            addLike() {
+            async addLike() {
                 this.loadingLike = true;
-                this.$anime.userApi(`title/${this.comment.tid}/comments/${this.comment.id}/like/add`)
-                    .then(result => this.$toast.showToast({code: result.data.status.code}))
-                    .catch(code => this.$toast.showToast(code))
-                    .finally(() => this.loadingLike = false)
+                await this.addCommentAction({action: 'like'});
+                this.loadingLike = false
             },
-            addDislike() {
+            async addDislike() {
                 this.loadingDislike = true;
-                this.$anime.userApi(`title/${this.comment.tid}/comments/${this.comment.id}/dislike/add`)
-                    .then(result => this.$toast.showToast({code: result.data.status.code}))
-                    .catch(code => this.$toast.showToast(code))
-                    .finally(() => this.loadingDislike = false)
+                await this.addCommentAction({action: 'dislike'});
+                this.loadingDislike = false
             },
-            addReport() {
+            async addReport() {
                 this.loadingReport = true;
-                this.$anime.userApi(`title/${this.comment.tid}/comments/${this.comment.id}/report`)
-                    .then(result => this.$toast.showToast({code: result.data.status.code}))
-                    .catch(code => this.$toast.showToast(code))
-                    .finally(() => this.loadingReport = false)
+                await this.addCommentAction({action: 'report'});
+                this.loadingReport = false
             },
-            downloadChilds(next) {
+            async addCommentAction({action}) {
+                const params = {
+                    tid: this.comment.tid,
+                    id: this.comment.id,
+                    action
+                };
+                await this.$anime.addCommentAction(params)
+                    .then(({code}) => this.$toast.showToast({code}))
+                    .catch(({code}) => this.$toast.showToast({code}));
+            },
+            async getCommentsChilds({next}) {
                 if (next) this.offset += 10;
                 this.loadingChilds = true;
+                const params = {
+                    tid: this.comment.tid,
+                    path: this.comment.path,
+                    id: this.comment.id,
+                    offset: this.offset
+                };
 
-                this.authenticated
-                    ? this.$anime.userApi(`title/${this.comment.tid}/comments/${this.comment.path}.${this.comment.id}/${this.offset}`)
-                        .then(result => {
-                            this.comments.length ? result.data.payload.nodes.forEach(e => this.comments.push(e)) : this.comments = result.data.payload.nodes;
-                            this.more = result.data.payload.fromPath - this.comments.length;
-                        })
-                        .catch(code => this.$toast.showToast(code))
-                        .finally(() => this.loadingChilds = false)
-                    : this.$anime.api(`title/${this.comment.tid}/comments/${this.comment.path}.${this.comment.id}/${this.offset}`)
-                        .then(result => {
-                            this.comments.length ? result.data.payload.nodes.forEach(e => this.comments.push(e)) : this.comments = result.data.payload.nodes;
-                            this.more = result.data.payload.fromPath - this.comments.length;
-                        })
-                        .catch(code => this.$toast.showToast(code))
-                        .finally(() => this.loadingChilds = false)
+                await this.$anime.getCommentsChilds(params)
+                    .then(({nodes, fromPath}) => {
+                        this.comments.length && next ? nodes.forEach(e => this.comments.push(e)) : this.comments = nodes;
+                        this.fromPath = fromPath;
+                    })
+                    .catch(({code}) => this.$toast.showToast({code}))
+                    .finally(() => this.loadingChilds = false)
             }
         },
         computed: {
@@ -336,8 +338,11 @@
             scoreCount() {
                 return this.comment.likes - this.comment.dislikes
             },
-            avatarPath(){
+            avatarPath() {
                 return !!this.comment.user.avatar ? this.getAvatarPath({paths: this.comment.user.avatar.paths}) : null
+            },
+            more() {
+                return this.fromPath - this.comments.length
             }
         }
     }

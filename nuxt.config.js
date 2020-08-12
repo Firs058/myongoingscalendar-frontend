@@ -1,11 +1,18 @@
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
-const recaptchaSitekey = '6LdMemkUAAAAAEhtdLuLej6GkuS89V0smYUo3DjC';
-const baseUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost' : 'https://myongoingscalendar.eu';
+const RECAPTCHA_SITE_KEY = '6LdMemkUAAAAAEhtdLuLej6GkuS89V0smYUo3DjC';
+const BASE_URL = process.env.NODE_ENV !== 'production' ? 'http://localhost' : 'https://myongoingscalendar.eu';
+
+const API_URL = 'api/public';
+const USER_API_URL = 'api/user';
+const ADMIN_API_URL = 'api/admin';
 
 module.exports = {
     env: {
-        baseUrl,
-        recaptchaSitekey
+        BASE_URL,
+        API_URL,
+        USER_API_URL,
+        ADMIN_API_URL,
+        RECAPTCHA_SITE_KEY,
     },
     head: {
         meta: [
@@ -21,6 +28,7 @@ module.exports = {
         {src: '~/plugins/ready.js', mode: 'client'},
         {src: '~/plugins/sharing.js', mode: 'client'},
         {src: '~/plugins/scroll.js', mode: 'client'},
+        {src: '~/plugins/shared-mutations.js', mode: 'client'},
         '~/plugins/axios.js',
         '~/plugins/api.js',
         '~/plugins/persistedstate.js',
@@ -33,11 +41,11 @@ module.exports = {
     ],
     axios: {
         proxy: true,
-        baseURL: baseUrl,
-        browserBaseURL: baseUrl,
+        baseURL: BASE_URL,
+        browserBaseURL: BASE_URL,
     },
     proxy: {
-        '/api': `${baseUrl}/api`
+        '/api': `${BASE_URL}/api`
     },
     buildModules: [
         '@nuxtjs/axios',

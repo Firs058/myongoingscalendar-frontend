@@ -95,7 +95,7 @@
                 return this.$store.getters.authenticated
             },
             recaptchaSitekey() {
-                return process.env.recaptchaSitekey
+                return process.env.RECAPTCHA_SITE_KEY
             }
         },
         methods: {

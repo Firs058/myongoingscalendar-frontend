@@ -491,25 +491,27 @@
             submitNickname() {
                 if (this.user.authenticated && this.$refs.nicknameForm.validate()) {
                     this.nickname.loading = true;
-                    this.$auth.changeNickname({nickname: this.nickname.value})
-                        .then(code => {
-                            this.$store.dispatch('setSetting', {name: 'nickname', value: this.nickname.value});
-                            this.$toast.showToast(code);
+                    const params = {nickname: this.nickname.value};
+                    this.$auth.changeNickname({params})
+                        .then(({code}) => {
+                            this.$store.dispatch('setSetting', {name: 'nickname', value: nickname});
+                            this.$toast.showToast({code});
                             this.nickname.dialog = false;
                         })
-                        .catch(code => this.$toast.showToast(code))
+                        .catch(({code}) => this.$toast.showToast({code}))
                         .finally(() => this.nickname.loading = false)
                 }
             },
             submitPassword() {
                 if (this.user.authenticated && this.$refs.passwordForm.validate()) {
                     this.password.loading = true;
-                    this.$auth.changePass({password: this.password.value})
-                        .then(code => {
-                            this.$toast.showToast(code);
+                    const params = {password: this.password.value};
+                    this.$auth.changePass({params})
+                        .then(({code}) => {
+                            this.$toast.showToast({code});
                             this.password.dialog = false;
                         })
-                        .catch(code => this.$toast.showToast(code))
+                        .catch(({code}) => this.$toast.showToast({code}))
                         .finally(() => this.password.loading = false)
                 }
             },
@@ -518,12 +520,13 @@
                     this.avatar.loading = true;
                     let formData = new FormData();
                     formData.append("avatar", this.avatar.file);
-                    this.$auth.changeAvatar(formData)
-                        .then(code => {
-                            this.$toast.showToast(code);
+                    this.$auth.changeAvatar({formData})
+                        .then(({avatar, code}) => {
+                            this.$store.dispatch('setSetting', {name: 'avatar', value: avatar});
+                            this.$toast.showToast({code});
                             this.avatar.dialog = false;
                         })
-                        .catch(code => this.$toast.showToast(code))
+                        .catch(({code}) => this.$toast.showToast({code}))
                         .finally(() => this.avatar.loading = false)
                 }
             },
@@ -531,17 +534,18 @@
                 if (this.user.authenticated && !!this.settings.avatar) {
                     this.avatar.remove.loading = true;
                     this.$auth.removeAvatar()
-                        .then(code => {
-                            this.$toast.showToast(code);
+                        .then(({code}) => {
+                            this.$store.dispatch('setSetting', {name: 'avatar', value: null});
+                            this.$toast.showToast({code});
                             this.avatar.dialog = false;
                         })
-                        .catch(code => this.$toast.showToast(code))
+                        .catch(({code}) => this.$toast.showToast({code}))
                         .finally(() => this.avatar.remove.loading = false)
                 }
             },
             openUrl: url => window.open(url),
             saveSettings() {
-                if (this.user.authenticated) this.$auth.saveSettings(this.$store.getters.settings)
+                if (this.user.authenticated) this.$auth.saveSettings({params: this.$store.getters.settings})
             },
             setLang(value) {
                 this.$store.dispatch('setSetting', {name: 'lang', value: value});

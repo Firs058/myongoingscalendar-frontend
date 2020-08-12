@@ -190,6 +190,7 @@
   "card": {
     "start": "Start: {0}",
     "recommended": "Recommended",
+    "favorite": "In favorites",
     "watching_status": {
       "NEW": "New",
       "WATCHING": "Watching",
@@ -404,7 +405,9 @@
     "report_a_comment": "Report a comment",
     "search_by_genre": "Search anime by genre \"{0}\"",
     "like": "Like",
-    "dislike": "Dislike"
+    "dislike": "Dislike",
+    "add_to_favorites": "Add to favorites",
+    "remove_from_favorites": "Remove from favorites"
   },
   "genres": {
     "1": "Action",

@@ -21,13 +21,13 @@
 
 <script>
     export default {
-        async asyncData({app, store}) {
+        async asyncData({app, store: {getters: {settings}}}) {
             const params = {
-                timezone: store.getters.settings.timezone,
-                hideRepeats: store.getters.settings.hideRepeats
+                timezone: settings.timezone,
+                hideRepeats: settings.hideRepeats
             };
-            const {data} = await app.$anime.userApi('calendar', params);
-            return {calendar: data.payload}
+            const {calendar} = await app.$anime.getCalendar({forUser: true, params});
+            return {calendar}
         },
         head() {
             return {

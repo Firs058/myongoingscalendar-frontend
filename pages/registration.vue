@@ -143,20 +143,21 @@
                 this.loading = true;
                 let settings = this.settings;
                 settings.nickname = this.nickname;
-
-                this.$auth.registration({
+                const params = {
                     email: this.email,
                     password: this.password,
                     recaptchaToken: response,
                     userSettings: settings
-                })
-                    .then(code => {
-                        this.$toast.showToast(code);
+                };
+
+                this.$auth.registration({params})
+                    .then(({code}) => {
+                        this.$toast.showToast({code});
                         this.$router.push('/');
                     })
-                    .catch(code => {
-                        this.$toast.showToast(code);
-                        this.$refs.invisibleRecaptcha.reset()
+                    .catch(({code}) => {
+                        this.$toast.showToast({code});
+                        this.$refs.invisibleRecaptcha.reset();
                     })
                     .finally(() => this.loading = false)
             },
@@ -169,7 +170,7 @@
                 'settings'
             ]),
             recaptchaSitekey() {
-                return process.env.recaptchaSitekey
+                return process.env.RECAPTCHA_SITE_KEY
             },
             agreeWithTermsAndPolicy: {
                 get() {

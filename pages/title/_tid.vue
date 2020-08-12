@@ -56,21 +56,26 @@
                                         </template>
                                         <span>{{$t('title.information.weighted_average_rating',[title.avgRating])}}</span>
                                     </v-tooltip>
-                                    <div v-if="!title.outdated">
+                                    <v-row v-if="!title.outdated" no-gutters style="flex-wrap: nowrap; width: 240px">
                                         <v-tooltip top :disabled="!$device.isDesktop">
                                             <template v-slot:activator="{ on }">
-                                                <div v-on="on" class="d-inline-block">
+                                                <div
+                                                        v-on="on"
+                                                        style="min-width: 100px; max-width: 100%;"
+                                                        class="flex-grow-1 flex-shrink-0"
+                                                >
                                                     <v-btn
                                                             :class="{
-                                                                'ma-1 extended': true,
                                                                 'green': title && !marked,
                                                                 'red': title && marked,
                                                                 'darken-3': settings.dark,
                                                               }"
-                                                            @click.native.stop="title && !marked ? toggleTitle() : deletion = true"
+                                                            @click.native.stop="title && !marked ? titleToggle() : deletion = true"
                                                             :disabled="!authenticated"
                                                             :loading="button.loading"
                                                             :aria-label="title && !marked ? $t('buttons.add') : $t('buttons.remove')"
+                                                            height="50"
+                                                            block
                                                     >
                                                         {{title && !marked ? $t('buttons.add') : $t('buttons.remove')}}
                                                     </v-btn>
@@ -78,7 +83,36 @@
                                             </template>
                                             <span>{{authenticated ? marked ? $t('tooltips.remove_from_my_calendar') : $t('tooltips.add_to_my_calendar') : $t('tooltips.you_must_be_logged_in')}}</span>
                                         </v-tooltip>
-                                    </div>
+                                        <v-tooltip top :disabled="!$device.isDesktop" v-if="marked">
+                                            <template v-slot:activator="{ on }">
+                                                <div v-on="on">
+                                                    <v-btn
+                                                            :class="{
+                                                                'ml-2': true,
+                                                                'green--text': title && !marked,
+                                                                'red--text': title && marked,
+                                                                'darken-3': settings.dark,
+                                                              }"
+                                                            :disabled="!authenticated"
+                                                            :loading="button.loading"
+                                                            :aria-label="title && !marked ? $t('buttons.add') : $t('buttons.remove')"
+                                                            outlined
+                                                            min-width="50"
+                                                            max-width="50"
+                                                            height="50"
+                                                    >
+                                                        <v-icon
+                                                                size="32"
+                                                                color="red darken-1"
+                                                        >
+                                                            {{icons.mdiHeart}}
+                                                        </v-icon>
+                                                    </v-btn>
+                                                </div>
+                                            </template>
+                                            <span>{{authenticated ? marked ? $t('tooltips.remove_from_favorites') : $t('tooltips.add_to_favorites') : $t('tooltips.you_must_be_logged_in')}}</span>
+                                        </v-tooltip>
+                                    </v-row>
                                 </div>
                             </v-flex>
                         </v-layout>
@@ -301,7 +335,7 @@
                                         <v-btn
                                                 color="success"
                                                 text
-                                                @click.native="toggleTitle"
+                                                @click.native="titleToggle"
                                                 :loading="button.loading"
                                                 :aria-label="$t('buttons.agree')"
                                         >
@@ -365,7 +399,7 @@
                                                 <v-btn
                                                         v-on="on"
                                                         text
-                                                        @click.native.stop="downloadComments"
+                                                        @click.native.stop="getComments({next: true})"
                                                         :loading="comments.loading"
                                                         color="primary"
                                                         :aria-label="$t('comments.show_more.2', [comments.more])"
@@ -390,30 +424,28 @@
 </template>
 
 <script>
-    import {icons} from '../../mixins/icons'
-    import {image} from '../../mixins/image'
-    import {translate} from '../../mixins/translate'
+    import {icons} from '~/mixins/icons'
+    import {image} from '~/mixins/image'
+    import {translate} from '~/mixins/translate'
     import {mapGetters} from 'vuex'
 
     export default {
-        data: () => ({
-            deletion: false,
-            button: {
-                loading: false
-            },
-            showChart: false
-        }),
-        validate({params}) {
-            return /^\d+$/.test(params.tid)
-        },
-        async asyncData({params, app, store}) {
-            const data = await app.$axios.$post(store.getters.authenticated ? `api/user/title/${params.tid}` : `api/public/title/${params.tid}`, {timezone: store.getters.settings.timezone});
+        async asyncData({params, app, store: {getters: {settings: {timezone}}}}) {
+            const tid = Number(params.tid);
+            const {
+                title,
+                marked,
+                tabs,
+                nodes,
+                total,
+                fromPath
+            } = await app.$anime.getTitle({tid, params: {timezone}});
             return {
-                tid: params.tid,
-                title: data.payload.title,
-                marked: data.payload.marked,
+                tid,
+                title,
+                marked,
                 broadcast: {
-                    tabs: data.payload.broadcast.tabs,
+                    tabs,
                     active: 'tab-next',
                     headers: [
                         {sortable: false, value: 'date', align: 'center'},
@@ -424,13 +456,23 @@
                     ]
                 },
                 comments: {
-                    nodes: data.payload.comments.nodes,
-                    total: data.payload.comments.total,
-                    more: data.payload.comments.fromPath - data.payload.comments.nodes.length,
+                    nodes,
+                    total,
+                    more: fromPath - nodes.length,
                     offset: 0,
                     loading: false
                 }
             }
+        },
+        data: () => ({
+            deletion: false,
+            button: {
+                loading: false
+            },
+            showChart: false
+        }),
+        validate({params}) {
+            return /^\d+$/.test(params.tid)
         },
         head() {
             return {
@@ -488,26 +530,32 @@
         },
         methods: {
             openLink: url => window.open(url),
-            toggleTitle() {
+            async titleToggle() {
                 this.button.loading = true;
-                this.$anime.userApi(`title/${this.tid}/toggle`)
-                    .then(result => {
+                await this.$anime.titleToggle({tid: this.tid})
+                    .then(({code}) => {
+                        this.$toast.showToast({code});
                         this.deletion = false;
                         this.marked = !this.marked;
-                        this.$toast.showToast({code: result.data.status.code});
                     })
-                    .catch(code => this.$toast.showToast(code))
+                    .catch(({code}) => this.$toast.showToast({code}))
                     .finally(() => this.button.loading = false)
             },
-            async downloadComments() {
-                this.comments.offset += 10;
+            async getComments({next}) {
+                if (next) this.comments.offset += 10;
                 this.comments.loading = true;
-                const {data} = this.authenticated
-                    ? await this.$anime.userApi(`title/${this.tid}/comments/root/${this.comments.offset}`).catch(code => this.$toast.showToast(code))
-                    : await this.$anime.api(`title/${this.tid}/comments/root/${this.comments.offset}`).catch(code => this.$toast.showToast(code));
-                this.comments.nodes.length ? data.payload.nodes.forEach(e => this.comments.nodes.push(e)) : this.comments.nodes = data.payload.nodes;
-                this.comments.more = data.payload.fromPath - this.comments.nodes.length;
-                this.comments.loading = false
+                const params = {
+                    tid: this.tid,
+                    offset: this.comments.offset
+                };
+
+                await this.$anime.getComments(params)
+                    .then(({nodes, fromPath}) => {
+                        this.comments.nodes.length && next ? nodes.forEach(e => this.comments.nodes.push(e)) : this.comments.nodes = nodes;
+                        this.comments.more = fromPath - this.comments.nodes.length;
+                    })
+                    .catch(({code}) => this.$toast.showToast({code}))
+                    .finally(() => this.comments.loading = false)
             }
         },
         mixins: [
@@ -518,24 +566,27 @@
         computed: {
             ...mapGetters([
                 'settings',
-                'authenticated'
+                'authenticated',
+                'comment'
             ]),
             globalTitle() {
                 return this.title.en ? this.title.en : this.title.ja
             },
             globalUrl() {
-                return `${process.env.baseUrl}${this.$route.fullPath}`
+                return `${process.env.BASE_URL}${this.$route.fullPath}`
             },
             globalDescription() {
-                return this.$t("meta_info.title.meta.description", [this.title.en ? this.title.en : this.title.ja, this.title.firstYear])
+                return this.$t("meta_info.title.meta.description", [this.globalTitle, this.title.firstYear])
             },
             globalImage() {
-                return `${process.env.baseUrl}${this.titleImagePath}`
+                return `${process.env.BASE_URL}${this.titleImagePath}`
             },
             tableHeaders() {
-                let headers = this.broadcast.headers;
-                headers.forEach(header => header.text = this.$t(`title.schedule.headers.${header.value}`));
-                return headers;
+                return this.broadcast.headers.reduce((arr, header) => {
+                    header.text = this.$t(`title.schedule.headers.${header.value}`);
+                    arr.push(header);
+                    return arr
+                }, []);
             },
             titleImagePath() {
                 return this.getImagePath({paths: this.title.image.paths, type: 'FULL'})

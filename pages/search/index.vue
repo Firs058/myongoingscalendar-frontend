@@ -256,8 +256,8 @@
         }),
         async asyncData({query, app, store}) {
             if (store.getters.supplyListEmpty) {
-                const data = await app.$axios.$post(`api/public/es/supply`);
-                store.dispatch('setSearchGlobalSupply', data.payload);
+                const {supply} = await app.$anime.getSearchSupply();
+                store.dispatch('setSearchGlobalSupply', supply);
             }
             return {
                 currentQuery: typeof query.query !== 'undefined' ? String(query.query) : '',
@@ -297,44 +297,40 @@
                 ]
             }
         },
+        methods: {
+            fillParams({params, name}) {
+                if (this.filters[name].added) params[name] = this.filters[name].selected;
+            }
+        },
         asyncComputed: {
             asyncCache: {
                 lazy: true,
                 get() {
-                    let payload = {
+                    let params = {
                         query: this.currentQuery,
                         page: this.currentPage
                     };
-                    if (this.filters.genres.added) payload.genres = this.filters.genres.selected;
-                    if (this.filters.scores.added) payload.scores = this.filters.scores.range;
-                    if (this.filters.years.added) payload.years = this.filters.years.range;
 
-                    return new Promise((resolve, reject) =>
-                        this.authenticated
-                            ? this.$anime.userApi('es/autocomplete', payload).then(r => resolve(r)).catch(c => reject(c))
-                            : this.$anime.api('es/autocomplete', payload).then(r => resolve(r)).catch(c => reject(c)))
-                        .then(response => {
-                            this.countPages = Math.ceil(response.data.payload.count / 12) || 1;
-                            return response.data.payload
+                    this.fillParams({params, name: 'genres'});
+                    this.fillParams({params, name: 'scores'});
+                    this.fillParams({params, name: 'years'});
+
+                    return this.$anime.searchAutocomplete({params})
+                        .then(({countPages, animes}) => {
+                            this.countPages = countPages;
+                            return animes
                         })
                         .then(cache => {
                             if (this.countPages < this.currentPage) {
                                 this.currentPage = 1;
-                                new Promise((resolve, reject) =>
-                                    this.authenticated
-                                        ? this.$anime.userApi('es/autocomplete', payload).then(r => resolve(r)).catch(c => reject(c))
-                                        : this.$anime.api('es/autocomplete', payload).then(r => resolve(r)).catch(c => reject(c)))
-                                    .then(response => {
-                                        this.countPages = Math.ceil(response.data.payload.count / 12) || 1;
-                                        return response.data.payload
-                                    })
+                                return this.$anime.searchAutocomplete({params}).then(({animes}) => animes)
                             } else return cache
                         })
-                        .catch(code => this.$toast.showToast(code))
+                        .catch(({code}) => this.$toast.showToast({code}))
                         .finally(() => {
-                            this.$router.replace({query: payload}).catch(err => {
+                            this.$router.replace({query: params}).catch(err => {
                             });
-                            this.$store.dispatch('setSearchGlobalLastQuery', payload)
+                            this.$store.dispatch('setSearchGlobalLastQuery', params)
                         })
 
                 }
@@ -360,9 +356,10 @@
                 return this.supply.genres.sort((a, b) => a.name.localeCompare(b.name))
             },
             getGenresName() {
-                let arr = [];
-                this.filters.genres.selected.forEach(id => arr.push(` ${this.translateGenre(this.genresList.find(item => item.id === parseInt(id)))}`));
-                return arr;
+                return this.filters.genres.selected.reduce((arr, id) => {
+                    arr.push(` ${this.translateGenre(this.genresList.find(item => item.id === parseInt(id)))}`);
+                    return arr;
+                }, []);
             },
             shouldShow() {
                 return !!this.currentQuery || this.filters.genres.added || this.filters.scores.added || this.filters.years.added
