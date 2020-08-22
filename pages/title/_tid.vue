@@ -83,19 +83,20 @@
                                             </template>
                                             <span>{{authenticated ? marked ? $t('tooltips.remove_from_my_calendar') : $t('tooltips.add_to_my_calendar') : $t('tooltips.you_must_be_logged_in')}}</span>
                                         </v-tooltip>
-                                        <v-tooltip top :disabled="!$device.isDesktop" v-if="marked">
+                                        <!--
+                                        <v-tooltip top :disabled="!$device.isDesktop" v-if="favorite">
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on">
                                                     <v-btn
                                                             :class="{
                                                                 'ml-2': true,
-                                                                'green--text': title && !marked,
-                                                                'red--text': title && marked,
+                                                                'green&#45;&#45;text': title && !favorite,
+                                                                'red&#45;&#45;text': title && favorite,
                                                                 'darken-3': settings.dark,
                                                               }"
                                                             :disabled="!authenticated"
                                                             :loading="button.loading"
-                                                            :aria-label="title && !marked ? $t('buttons.add') : $t('buttons.remove')"
+                                                            :aria-label="title && !favorite ? $t('buttons.add') : $t('buttons.remove')"
                                                             outlined
                                                             min-width="50"
                                                             max-width="50"
@@ -112,6 +113,7 @@
                                             </template>
                                             <span>{{authenticated ? marked ? $t('tooltips.remove_from_favorites') : $t('tooltips.add_to_favorites') : $t('tooltips.you_must_be_logged_in')}}</span>
                                         </v-tooltip>
+                                        -->
                                     </v-row>
                                 </div>
                             </v-flex>
@@ -570,7 +572,8 @@
                 'comment'
             ]),
             globalTitle() {
-                return this.title.en ? this.title.en : this.title.ja
+                const {en, ja} = this.title;
+                return en ? en : ja
             },
             globalUrl() {
                 return `${process.env.BASE_URL}${this.$route.fullPath}`

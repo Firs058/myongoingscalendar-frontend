@@ -455,8 +455,8 @@
                     name: 'English',
                     code: 'en',
                     img: {
-                        png: '/images/us.png',
-                        webp: '/images/webp/us.webp',
+                        png: '/images/en.png',
+                        webp: '/images/webp/en.webp',
                     }
                 },
                 {

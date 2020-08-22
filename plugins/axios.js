@@ -22,20 +22,20 @@ export default ({store, $axios, redirect}) => {
 
     function refreshTokens(config, refreshToken) {
         const instance = axios.create({
-            baseURL: process.env.baseUrl,
+            baseURL: process.env.BASE_URL,
             timeout: 10000,
             params: {}
         });
 
         return instance.post('/api/auth/refresh', {token: refreshToken})
-            .then(response => {
-                if (response.data.status.code === 11017) {
+            .then(({data: {payload: {tokens}, status: {code}}}) => {
+                if (code === 11017) {
                     store.dispatch('logout');
                     redirect('/login');
                 } else {
-                    store.dispatch('setTokens', response.data.payload.tokens);
-                    store.dispatch('setTempTokens', response.data.payload.tokens);
-                    return response.data.payload.tokens.accessToken;
+                    store.dispatch('setTokens', tokens);
+                    store.dispatch('setTempTokens', tokens);
+                    return tokens.accessToken;
                 }
             })
             .then(accessToken => setHeaders(config, accessToken))
