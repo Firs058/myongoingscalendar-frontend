@@ -2,17 +2,10 @@ const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const RECAPTCHA_SITE_KEY = '6LdMemkUAAAAAEhtdLuLej6GkuS89V0smYUo3DjC';
 const BASE_URL = process.env.NODE_ENV !== 'production' ? 'http://localhost' : 'https://myongoingscalendar.eu';
 
-const API_URL = 'api/public';
-const USER_API_URL = 'api/user';
-const ADMIN_API_URL = 'api/admin';
-
 module.exports = {
     env: {
-        BASE_URL,
-        API_URL,
-        USER_API_URL,
-        ADMIN_API_URL,
         RECAPTCHA_SITE_KEY,
+        BASE_URL
     },
     head: {
         meta: [
@@ -40,24 +33,20 @@ module.exports = {
         '~/plugins/async.js'
     ],
     axios: {
-        proxy: true,
-        baseURL: BASE_URL,
-        browserBaseURL: BASE_URL,
-    },
-    proxy: {
-        '/api': `${BASE_URL}/api`
+        baseURL: `${BASE_URL}/api/`,
+        browserBaseURL: `${BASE_URL}/api/`
     },
     buildModules: [
         '@nuxtjs/axios',
-        '@nuxtjs/proxy',
         '@nuxtjs/vuetify',
-        'nuxt-device-detect',
-        ['@nuxtjs/google-analytics', {
-            id: 'UA-97415670-1',
-            ignoreRoutes: ['/admin'],
-            dev: false
-        }]
+        '@nuxtjs/google-analytics',
+        'nuxt-device-detect'
     ],
+    googleAnalytics: {
+        id: 'UA-97415670-1',
+        ignoreRoutes: ['/admin'],
+        dev: false
+    },
     css: [
         '~/assets/roboto.css'
     ],

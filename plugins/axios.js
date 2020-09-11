@@ -43,12 +43,13 @@ export default ({store, $axios, redirect}) => {
     }
 
     function setHeaders(config, accessToken) {
+        const langHeader = {'Accept-Language': store.getters.settings.lang};
         accessToken
             ? config.headers = {
                 'Authorization': `Bearer ${accessToken}`,
-                'Accept-Language': store.getters.settings.lang
+                ...langHeader
             }
-            : config.headers = {'Accept-Language': store.getters.settings.lang};
+            : config.headers = {...langHeader};
         return config;
     }
 }

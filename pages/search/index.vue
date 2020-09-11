@@ -293,6 +293,10 @@
                     {
                         name: 'description',
                         content: this.$t("meta_info.search.meta.description", [this.currentQuery])
+                    },
+                    {
+                        name: 'robots',
+                        content: 'noindex'
                     }
                 ]
             }
@@ -306,6 +310,7 @@
             asyncCache: {
                 lazy: true,
                 get() {
+                    const authenticated = this.authenticated;
                     let params = {
                         query: this.currentQuery,
                         page: this.currentPage
@@ -315,7 +320,7 @@
                     this.fillParams({params, name: 'scores'});
                     this.fillParams({params, name: 'years'});
 
-                    return this.$anime.searchAutocomplete({params})
+                    return this.$anime.searchAutocomplete({authenticated, params})
                         .then(({countPages, animes}) => {
                             this.countPages = countPages;
                             return animes
@@ -323,7 +328,7 @@
                         .then(cache => {
                             if (this.countPages < this.currentPage) {
                                 this.currentPage = 1;
-                                return this.$anime.searchAutocomplete({params}).then(({animes}) => animes)
+                                return this.$anime.searchAutocomplete({authenticated, params}).then(({animes}) => animes)
                             } else return cache
                         })
                         .catch(({code}) => this.$toast.showToast({code}))

@@ -1,4 +1,3 @@
-import jstz from "jstz";
 import Vue from 'vue'
 
 export const state = () => ({
@@ -20,7 +19,7 @@ export const state = () => ({
             lang: 'en'
         },
         guest: {
-            timezone: jstz.determine().name(),
+            timezone: '',
             dark: true,
             hideRepeats: true,
             fullTimeFormat: true,
@@ -143,7 +142,7 @@ export const actions = {
             recaptchaToken
         };
 
-        await this.$anime.addFeedback({params})
+        await this.$anime.addFeedback({authenticated: getters.authenticated, params})
             .then(({code}) => {
                 commit('SET_FEEDBACK', [
                     {name: 'dialog', value: false},
@@ -181,8 +180,7 @@ export const getters = {
     tokens: state => state.tokens,
     tempTokens: state => state.tempTokens,
     webpIsSupported: state => state.webpIsSupported,
-    agreeWithTermsAndPolicy: state => state.agreeWithTermsAndPolicy,
-    apiUrl: (state, getters) => getters.authenticated ? process.env.USER_API_URL : process.env.API_URL
+    agreeWithTermsAndPolicy: state => state.agreeWithTermsAndPolicy
 };
 
 export const strict = false;

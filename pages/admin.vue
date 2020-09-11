@@ -167,6 +167,16 @@
             loading: false,
             dialog: false
         }),
+        head() {
+            return {
+                meta: [
+                    {
+                        name: 'robots',
+                        content: 'noindex'
+                    }
+                ]
+            }
+        },
         methods: {
             editItem(item) {
                 this.list.item = item;

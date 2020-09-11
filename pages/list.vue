@@ -66,8 +66,8 @@
             showCount: 3,
             filterInput: ''
         }),
-        async asyncData({app}) {
-            const {ongoingsList} = await app.$anime.getOngoingsList();
+        async asyncData({app, store: {getters: {authenticated}}}) {
+            const {ongoingsList} = await app.$anime.getOngoingsList({authenticated});
             return {ongoingsList};
         },
         head() {

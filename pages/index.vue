@@ -9,12 +9,9 @@
 
 <script>
     export default {
-        async asyncData({app, store}) {
-            const params = {
-                timezone: store.getters.settings.timezone,
-                hideRepeats: store.getters.settings.hideRepeats
-            };
-            const {calendar} = await app.$anime.getCalendar({forUser: false, params});
+        async asyncData({app, store: {getters: {settings: {timezone, hideRepeats}}}}) {
+            const params = {timezone, hideRepeats};
+            const {calendar} = await app.$anime.getCalendar({personal: false, params});
             return {
                 calendar,
                 year: new Date().getFullYear()

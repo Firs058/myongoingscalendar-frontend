@@ -432,7 +432,7 @@
     import {mapGetters} from 'vuex'
 
     export default {
-        async asyncData({params, app, store: {getters: {settings: {timezone}}}}) {
+        async asyncData({params, app, store: {getters: {settings: {timezone}, authenticated}}}) {
             const tid = Number(params.tid);
             const {
                 title,
@@ -441,7 +441,7 @@
                 nodes,
                 total,
                 fromPath
-            } = await app.$anime.getTitle({tid, params: {timezone}});
+            } = await app.$anime.getTitle({authenticated, tid, params: {timezone}});
             return {
                 tid,
                 title,

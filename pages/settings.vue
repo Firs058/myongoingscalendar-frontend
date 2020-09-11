@@ -492,7 +492,7 @@
                 if (this.user.authenticated && this.$refs.nicknameForm.validate()) {
                     this.nickname.loading = true;
                     const params = {nickname: this.nickname.value};
-                    this.$auth.changeNickname({params})
+                    this.$settings.changeNickname({params})
                         .then(({code}) => {
                             this.$store.dispatch('setSetting', {name: 'nickname', value: nickname});
                             this.$toast.showToast({code});
@@ -506,7 +506,7 @@
                 if (this.user.authenticated && this.$refs.passwordForm.validate()) {
                     this.password.loading = true;
                     const params = {password: this.password.value};
-                    this.$auth.changePass({params})
+                    this.$settings.changePass({params})
                         .then(({code}) => {
                             this.$toast.showToast({code});
                             this.password.dialog = false;
@@ -520,7 +520,7 @@
                     this.avatar.loading = true;
                     let formData = new FormData();
                     formData.append("avatar", this.avatar.file);
-                    this.$auth.changeAvatar({formData})
+                    this.$settings.changeAvatar({formData})
                         .then(({avatar, code}) => {
                             this.$store.dispatch('setSetting', {name: 'avatar', value: avatar});
                             this.$toast.showToast({code});
@@ -533,7 +533,7 @@
             removeAvatar() {
                 if (this.user.authenticated && !!this.settings.avatar) {
                     this.avatar.remove.loading = true;
-                    this.$auth.removeAvatar()
+                    this.$settings.removeAvatar()
                         .then(({code}) => {
                             this.$store.dispatch('setSetting', {name: 'avatar', value: null});
                             this.$toast.showToast({code});
@@ -545,7 +545,7 @@
             },
             openUrl: url => window.open(url),
             saveSettings() {
-                if (this.user.authenticated) this.$auth.saveSettings({params: this.$store.getters.settings})
+                if (this.user.authenticated) this.$settings.save({params: this.$store.getters.settings})
             },
             setLang(value) {
                 this.$store.dispatch('setSetting', {name: 'lang', value: value});
@@ -556,8 +556,8 @@
             checkAndDownloadTimezones() {
                 if (this.$store.getters.timezonesListEmpty) {
                     this.timezonesLoading = true;
-                    this.$axios.$post('api/public/timezones')
-                        .then(data => this.$store.dispatch('setTimezones', data.payload))
+                    this.$anime.getTimezones()
+                        .then(({timezones}) => this.$store.dispatch('setTimezones', timezones))
                         .finally(() => this.timezonesLoading = false)
                 }
             },

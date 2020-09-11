@@ -280,7 +280,7 @@
       },
       "timezone": {
         "title": "Timezone",
-        "sub_title": "Change timezone if autodetect wrong"
+        "sub_title": "Select your timezone"
       }
     }
   },

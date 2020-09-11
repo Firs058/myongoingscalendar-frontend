@@ -21,12 +21,9 @@
 
 <script>
     export default {
-        async asyncData({app, store: {getters: {settings}}}) {
-            const params = {
-                timezone: settings.timezone,
-                hideRepeats: settings.hideRepeats
-            };
-            const {calendar} = await app.$anime.getCalendar({forUser: true, params});
+        async asyncData({app, store: {getters: {settings: {timezone, hideRepeats}}}}) {
+            const params = {timezone, hideRepeats};
+            const {calendar} = await app.$anime.getCalendar({personal: true, params});
             return {calendar}
         },
         head() {
@@ -36,6 +33,10 @@
                     {
                         name: 'description',
                         content: this.$t("meta_info.my_calendar.meta.description")
+                    },
+                    {
+                        name: 'robots',
+                        content: 'noindex'
                     }
                 ]
             }
