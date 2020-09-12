@@ -195,7 +195,8 @@
       "NEW": "New",
       "WATCHING": "Watching",
       "WATCHED": "Watched",
-      "DROPPED": "Dropped"
+      "DROPPED": "Dropped",
+      "PLANNED": "Planned"
     }
   },
   "search": {
@@ -486,7 +487,7 @@
     "10030": "Already reported",
     "10031": "Access is available only through a social network",
     "10032": "Password recovery is not available for accounts created through a social network",
-    "10033": "You can't interact with outdated anime",
+    "10033": "You can't interact with finished anime",
     "10034": "Wrong file",
     "11000": "OK",
     "11001": "OK, check you mail to activate account",

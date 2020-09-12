@@ -132,7 +132,8 @@
                     NEW: `orange ${shade}`,
                     WATCHING: `green ${shade}`,
                     WATCHED: `blue ${shade}`,
-                    DROPPED: `red ${shade}`
+                    DROPPED: `red ${shade}`,
+                    PLANNED: `purple ${shade}`
                 };
                 return colors[status];
             },

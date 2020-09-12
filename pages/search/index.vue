@@ -95,7 +95,7 @@
                     xs12
                     sm6
                     :md4="$device.isDesktop"
-                    lg4
+                    lg3
                     :xl2="$device.isDesktop"
             >
                 <card :anime="anime"/>

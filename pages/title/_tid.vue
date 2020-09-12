@@ -56,7 +56,7 @@
                                         </template>
                                         <span>{{$t('title.information.weighted_average_rating',[title.avgRating])}}</span>
                                     </v-tooltip>
-                                    <v-row v-if="!title.outdated" no-gutters style="flex-wrap: nowrap; width: 240px">
+                                    <v-row v-if="!title.finished" no-gutters style="flex-wrap: nowrap; width: 240px">
                                         <v-tooltip top :disabled="!$device.isDesktop">
                                             <template v-slot:activator="{ on }">
                                                 <div
@@ -121,7 +121,7 @@
                     </v-img>
                     <v-alert
                             tile
-                            v-if="title.outdated"
+                            v-if="title.finished"
                             class="ma-0"
                             :value="true"
                             type="info"
