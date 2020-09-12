@@ -44,14 +44,8 @@
                         break;
                 }
                 this.$auth.socialLogin({provider, params})
-                    .then(({email, social, roles, tokens, settings, code}) => {
-                        this.$store.dispatch('setUserAndTokensAndSettings', {
-                            email,
-                            social,
-                            roles,
-                            tokens,
-                            settings
-                        });
+                    .then(({payload, code}) => {
+                        if (!!payload) this.$store.dispatch('setUserAndTokensAndSettings', payload);
                         this.$toast.showToast({code});
                     })
                     .then(() => this.$router.push('/'))

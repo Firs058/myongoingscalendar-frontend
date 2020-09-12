@@ -28,7 +28,7 @@
                 const params = {token: this.token};
                 this.$auth.confirm({type: this.type, params})
                     .then(({code, payload, redirect}) => {
-                        this.$store.dispatch('setUserAndTokensAndSettings', payload);
+                        if (!!payload) this.$store.dispatch('setUserAndTokensAndSettings', payload);
                         this.$toast.showToast({code});
                         this.$router.push(redirect)
                     })

@@ -203,8 +203,8 @@
                     this.loadingBtn = true;
                     const params = {email: this.email, password: this.password};
                     this.$auth.login({params})
-                        .then(({email, social, roles, tokens, settings, code}) => {
-                            this.$store.dispatch('setUserAndTokensAndSettings', {email, social, roles, tokens, settings});
+                        .then(({payload, code}) => {
+                            if (!!payload) this.$store.dispatch('setUserAndTokensAndSettings', payload);
                             this.$toast.showToast({code});
                             this.$router.push('/');
                         })

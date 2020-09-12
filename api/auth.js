@@ -8,17 +8,7 @@ export default (axios) => () => ({
         new Promise((resolve, reject) =>
             axios
                 .post(`${AUTH_PREFIX}/login`, params)
-                .then(({data: {payload: {email, social, roles, tokens, settings}, status: {code}}}) =>
-                    code >= BREAKOUT_CODE
-                        ? resolve({
-                            email,
-                            social,
-                            roles,
-                            tokens,
-                            settings,
-                            code
-                        })
-                        : reject({code}))
+                .then(({data: {payload = null, status: {code}}}) => code >= BREAKOUT_CODE ? resolve({payload, code}) : reject({code}))
                 .catch(() => reject({code: REJECT_CODE}))),
 
     registration: ({params}) =>
@@ -46,24 +36,14 @@ export default (axios) => () => ({
         new Promise((resolve, reject) =>
             axios
                 .post(`${AUTH_PREFIX}/${provider}`, params)
-                .then(({data: {payload: {email, social, roles, tokens, settings}, status: {code}}}) =>
-                    code >= BREAKOUT_CODE
-                        ? resolve({
-                            email,
-                            social,
-                            roles,
-                            tokens,
-                            settings,
-                            code
-                        })
-                        : reject({code}))
+                .then(({data: {payload = null, status: {code}}}) => code >= BREAKOUT_CODE ? resolve({payload, code}) : reject({code}))
                 .catch(() => reject({code: REJECT_CODE}))),
 
     confirm: ({type, params}) =>
         new Promise((resolve, reject) =>
             axios
-                .post(type === 'registration' ? `${AUTH_PREFIX}/registration/confirm` : `${AUTH_PREFIX}/recover/confirm`, params)
-                .then(({data: {payload, status: {code}}}) => {
+                .post(type === 'registration' ? `${AUTH_PREFIX}/registration/confirm` : `${AUTH_PREFIX}/pass/recover/confirm`, params)
+                .then(({data: {payload = null, status: {code}}}) => {
                     if (code >= BREAKOUT_CODE)
                         resolve({
                             code,
