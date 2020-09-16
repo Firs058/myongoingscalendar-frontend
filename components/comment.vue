@@ -12,7 +12,7 @@
             <v-list-item-content>
                 <v-list-item-title>{{comment.user.nickname}}</v-list-item-title>
                 <v-list-item-subtitle :class="{'grey--text': true, 'text--lighten-1': settings.dark}">
-                    {{ comment.added | moment('timezone', settings.timezone, 'from') }}
+                    {{ getCommentTime({timestamp: comment.added}) }}
                 </v-list-item-subtitle>
             </v-list-item-content>
         </v-list-item>
@@ -24,7 +24,7 @@
             <v-list-item-content>
                 <v-list-item-title>{{comment.user.nickname}}</v-list-item-title>
                 <v-list-item-subtitle :class="{'grey--text': true, 'text--lighten-1': settings.dark}">
-                    {{ comment.added | moment('timezone', settings.timezone, 'from') }}
+                    {{ getCommentTime({timestamp: comment.added}) }}
                 </v-list-item-subtitle>
             </v-list-item-content>
             <v-spacer/>
@@ -328,6 +328,9 @@
                     })
                     .catch(({code}) => this.$toast.showToast({code}))
                     .finally(() => this.loadingChilds = false)
+            },
+            getCommentTime({timestamp}) {
+                return this.$dayjs.unix(timestamp).fromNow()
             }
         },
         computed: {

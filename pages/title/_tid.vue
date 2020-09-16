@@ -295,9 +295,8 @@
                                         >
                                             <tr class="text-center">
                                                 <td>{{ props.item.date }}</td>
-                                                <td>{{ [props.item.time, ["HH:mm"]] |
-                                                    moment(settings.fullTimeFormat ? 'HH:mm' : 'LT')
-                                                    }}
+                                                <td>{{ $dayjs(props.item.time, "HH:mm").format(settings.fullTimeFormat ?
+                                                    'HH:mm' : 'LT') }}
                                                     <span
                                                             v-if="props.item.shift !== '0'"
                                                             :class="{

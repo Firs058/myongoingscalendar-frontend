@@ -1,4 +1,4 @@
-export default function ({isHMR, app, store, route, params, error}) {
+export default function ({isHMR, app, store, route, params, error, $dayjs}) {
     if (app.i18n.locale !== store.getters.settings.lang) {
         const defaultLocale = app.i18n.fallbackLocale;
         if (isHMR) return;
@@ -8,6 +8,6 @@ export default function ({isHMR, app, store, route, params, error}) {
         }
         store.dispatch('setSetting', {name: 'lang', value: lang});
         app.i18n.locale = lang;
-        app.$moment.locale(lang);
+        $dayjs.locale(lang);
     }
 }

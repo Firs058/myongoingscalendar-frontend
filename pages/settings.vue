@@ -550,7 +550,7 @@
             setLang(value) {
                 this.$store.dispatch('setSetting', {name: 'lang', value: value});
                 this.$i18n.locale = value;
-                this.$moment.locale(value);
+                this.$dayjs.locale(value);
                 this.saveSettings()
             },
             checkAndDownloadTimezones() {

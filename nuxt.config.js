@@ -1,4 +1,3 @@
-const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const RECAPTCHA_SITE_KEY = '6LdMemkUAAAAAEhtdLuLej6GkuS89V0smYUo3DjC';
 const BASE_URL = process.env.NODE_ENV !== 'production' ? 'http://localhost' : 'https://myongoingscalendar.eu';
 
@@ -26,7 +25,7 @@ module.exports = {
         '~/plugins/api.js',
         '~/plugins/persistedstate.js',
         '~/plugins/components.js',
-        '~/plugins/moment.js',
+        '~/plugins/dayjs.js',
         '~/plugins/clipboard.js',
         '~/plugins/i18n.js',
         '~/plugins/font-awesome.js',
@@ -34,18 +33,23 @@ module.exports = {
     ],
     axios: {
         baseURL: `${BASE_URL}/api/`,
-        browserBaseURL: `${BASE_URL}/api/`
+        browserBaseURL: `/api/`
     },
     buildModules: [
         '@nuxtjs/axios',
         '@nuxtjs/vuetify',
         '@nuxtjs/google-analytics',
+        '@nuxtjs/dayjs',
         'nuxt-device-detect'
     ],
     googleAnalytics: {
         id: 'UA-97415670-1',
         ignoreRoutes: ['/admin'],
         dev: false
+    },
+    dayjs: {
+        locales: ['en', 'ru'],
+        defaultLocale: 'en'
     },
     css: [
         '~/assets/roboto.css'
@@ -64,10 +68,8 @@ module.exports = {
     },
     build: {
         publicPath: '/dist/',
-        plugins: [
-            new MomentLocalesPlugin({
-                localesToKeep: ['ru']
-            })
-        ]
+        extend(config) {
+            config.externals = {moment: 'moment'}
+        }
     }
 };

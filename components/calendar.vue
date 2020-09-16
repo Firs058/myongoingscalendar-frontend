@@ -51,8 +51,7 @@
                             </v-list-item-content>
                             <v-list-item-action class="d-flex flex-column align-center">
                                 <v-list-item-action-text :class="settings.dark ? 'white--text' : 'black--text'">
-                                    {{[anime.time, ["HH:mm"]] | moment(settings.fullTimeFormat ? 'HH:mm' : 'LT'
-                                    )}}
+                                    {{ $dayjs(anime.time, "HH:mm").format(settings.fullTimeFormat ? 'HH:mm' : 'LT') }}
                                 </v-list-item-action-text>
                                 <v-list-item-action-text
                                         v-if="anime.shift !== '0'"

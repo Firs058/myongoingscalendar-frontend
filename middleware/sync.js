@@ -1,6 +1,6 @@
 export default ({store, app}) => {
     if (!store.getters.settings.timezone.length)
-        store.dispatch('setSetting', {name: 'timezone', value: app.$moment.tz.guess()});
+        store.dispatch('setSetting', {name: 'timezone', value: app.$dayjs.tz.guess()});
 
     if (!store.getters.synced && !!store.getters.tokens.accessToken)
         return app.$settings.sync()
