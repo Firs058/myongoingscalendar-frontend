@@ -33,7 +33,7 @@ module.exports = {
     ],
     axios: {
         baseURL: `${BASE_URL}/api/`,
-        browserBaseURL: `/api/`
+        browserBaseURL: `${BASE_URL}/api/`
     },
     buildModules: [
         '@nuxtjs/axios',
