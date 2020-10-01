@@ -15,7 +15,7 @@ building:
   variables:
     NODE_ENV: "production"
   script:
-  - npm ci
+  - npm i --no-optional
   - npm run build
   artifacts:
     expire_in: 1 hour
