@@ -4,7 +4,7 @@ cache:
   - node_modules/
 
 before_script:
-- npm i cross-env -g
+- npm i cross-env
 
 stages:
 - build
