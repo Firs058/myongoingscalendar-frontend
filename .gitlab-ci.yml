@@ -27,7 +27,7 @@ deploy:
   - master
   script:
   - mkdir -p /opt/app/myongoingscalendar-frontend && cd /opt/app/myongoingscalendar-frontend
-  - mkdir -p dist && cp -R ./.nuxt/dist/* /dist/
+  - mkdir -p dist && cp -R ./.nuxt/dist/* ./dist/
   - cp -f ./package.json .
   - npm i --no-optional
 
