@@ -5,7 +5,7 @@
   "author": "firs058 <firs058@gmail.com>",
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt build --no-lock",
+    "build": "DEPLOY_ENV=NODE_ENV nuxt build --no-lock",
     "start": "cross-env NODE_ENV=production nuxt start",
     "generate": "nuxt generate",
     "analyze": "nuxt build --analyze"
