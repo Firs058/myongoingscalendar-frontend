@@ -1,3 +1,5 @@
+image: node:latest
+
 cache:
   key: "$CI_PROJECT_ID"
   paths:
@@ -13,12 +15,12 @@ building:
   variables:
     NODE_ENV: "production"
   script:
-  - npm i --no-optional
+  - npm ci
   - npm run build
   artifacts:
     expire_in: 1 hour
     paths:
-    - .nuxt/dist
+    - .nuxt
   only:
   - master
 
@@ -27,8 +29,13 @@ deploy-app:
   only:
   - master
   script:
-  - mkdir -p /opt/app/myongoingscalendar-frontend/dist
-  - cp -R ./* /opt/app/myongoingscalendar-frontend
+  - mkdir -p /opt/app/myongoingscalendar-frontend/.nuxt
+  - cp -R ./.nuxt/* /opt/app/myongoingscalendar-frontend/.nuxt
+  - cp -R ./static/* /opt/app/myongoingscalendar-frontend/static
+  - cp -f ./nuxt.config.js /opt/app/myongoingscalendar-frontend/
+  - cp -f ./package.json /opt/app/myongoingscalendar-frontend/
+  - cd /opt/app/myongoingscalendar-frontend/
+  - npm i
   tags:
   - shell
 
