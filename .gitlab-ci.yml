@@ -20,7 +20,7 @@ building:
   artifacts:
     expire_in: 1 hour
     paths:
-    - .nuxt => universal
+    - .nuxt
   only:
   - master
 
@@ -30,7 +30,7 @@ deploy-app:
   - master
   script:
   - mkdir -p /opt/app/myongoingscalendar-frontend/.nuxt
-  - cp -R ./universal/* /opt/app/myongoingscalendar-frontend/.nuxt
+  - cp -R ./.nuxt/* /opt/app/myongoingscalendar-frontend/
   - cp -R ./static/* /opt/app/myongoingscalendar-frontend/static
   - cp -f ./nuxt.config.js /opt/app/myongoingscalendar-frontend/
   - cp -f ./package.json /opt/app/myongoingscalendar-frontend/
