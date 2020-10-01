@@ -4,7 +4,7 @@ module.exports = {
             name: 'myongoingscalendar-frontend',
             exec_mode: 'cluster',
             instances: 'max',
-            cwd: '/opt/app/myongoingscalendar-frontend/.nuxt',
+            cwd: '/opt/app/myongoingscalendar-frontend',
             script: "./node_modules/nuxt/bin/nuxt.js",
             args: "start",
             ignore_watch: [
