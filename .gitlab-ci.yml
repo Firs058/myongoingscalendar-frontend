@@ -17,7 +17,7 @@ building:
   artifacts:
     expire_in: 1 hour
     paths:
-    - dist
+    - .nuxt/dist
   only:
   - master
 
