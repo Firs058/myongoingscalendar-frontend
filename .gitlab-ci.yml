@@ -21,11 +21,7 @@ building:
     expire_in: 1 hour
     paths:
     - dist
-  tags:
-  - npm
-  - node
   only:
-  - tags
   - master
 
 deploy:
