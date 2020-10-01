@@ -26,15 +26,23 @@ deploy:
   only:
   - master
   script:
-  - cp -R ./.nuxt/dist/* /opt/app/myongoingscalendar-frontend/
-  - cp -f ./vibrant.js /opt/app/
-  - cp -f ./webp.js /opt/app/
-  - cp -f ./ecosystem.config.js /opt/app/
-  - npm i pm2 -g
-  - npm i express -g
-  - npm i node-vibrant -g
-  - npm i webp-converter -g
+  - mkdir -p /opt/app/myongoingscalendar-frontend && cd /opt/app/myongoingscalendar-frontend
+  - mkdir -p dist && cp -R ./.nuxt/dist/* /dist/
+  - cp -f ./package.json .
+  - npm i --no-optional
+
+  - mkdir -p /opt/app/helpers && cd /opt/app/helpers
+  - cp -f ./vibrant.js .
+  - cp -f ./webp.js .
+  - npm i express
+  - npm i node-vibrant
+  - npm i webp-converter
+
   - cd /opt/app
+  - cp -f ./ecosystem.config.js .
+
+  - npm i pm2 -g
+
   - pm2 restart ecosystem.config.js
   tags:
   - shell
