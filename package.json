@@ -22,7 +22,6 @@
     "@nuxtjs/google-analytics": "^2.4.0",
     "@nuxtjs/vuetify": "^1.11.2",
     "chart.js": "^2.9.3",
-    "cookie-universal-nuxt": "^2.1.4",
     "dayjs": "latest",
     "js-base64": "^3.5.2",
     "nuxt": "^2.14.5",
@@ -39,7 +38,9 @@
     "vue-social-sharing": "^2.4.7",
     "vuex": "^3.5.1",
     "vuex-persistedstate": "^3.1.0",
-    "vuex-shared-mutations": "^1.0.2"
+    "vuex-shared-mutations": "^1.0.2",
+    "cookie": "latest",
+    "js-cookie": "latest"
   },
   "devDependencies": {
     "babel-plugin-transform-imports": "^2.0.0",
