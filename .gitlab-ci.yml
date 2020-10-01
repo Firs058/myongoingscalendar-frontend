@@ -1,4 +1,7 @@
+image: node
+
 cache:
+  key: "$CI_PROJECT_ID"
   paths:
   - node_modules/
 
