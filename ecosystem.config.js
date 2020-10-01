@@ -4,7 +4,7 @@ module.exports = {
             name: 'MyOngoingsCalendar',
             instances: 'max',
             cwd: './dist',
-            script: "./node_modules/nuxt/bin/nuxt.js",
+            script: "/usr/local/lib/node_modules/nuxt/bin/nuxt.js",
             args: "start",
         },
         {
