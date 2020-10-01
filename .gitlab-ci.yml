@@ -30,6 +30,7 @@ deploy-app:
   - mkdir -p /opt/app/myongoingscalendar-frontend/dist
   - cp -R ./.nuxt/dist/* /opt/app/myongoingscalendar-frontend/dist
   - cp -f ./package.json /opt/app/myongoingscalendar-frontend
+  - cd /opt/app/myongoingscalendar-frontend
   - npm i --no-optional
   tags:
   - shell
@@ -42,6 +43,7 @@ deploy-helpers:
   - mkdir -p /opt/app/helpers
   - cp -f ./vibrant.js /opt/app/helpers
   - cp -f ./webp.js /opt/app/helpers
+  - cd /opt/app/helpers
   - npm i express
   - npm i node-vibrant
   - npm i webp-converter
