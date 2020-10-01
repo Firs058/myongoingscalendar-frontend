@@ -4,7 +4,8 @@ module.exports = {
             name: 'myongoingscalendar-frontend',
             exec_mode : 'cluster',
             instances: 'max',
-            script: "/usr/local/lib/node_modules/nuxt/bin/nuxt.js",
+            cwd       : './dist',
+            script: "./node_modules/nuxt/bin/nuxt.js",
             args: "start",
         },
         {
