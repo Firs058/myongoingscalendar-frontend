@@ -27,8 +27,8 @@ deploy:
   - master
   script:
   - cp -R ./.nuxt/dist/* /opt/app/dist/
-  - cp -f ./vibrant.js* /opt/app/
-  - cp -f ./webp.js* /opt/app/
+  - cp -f ./vibrant.js /opt/app/
+  - cp -f ./webp.js /opt/app/
   - npm i -g pm2
   - npm i -g express
   - npm i -g node-vibrant
