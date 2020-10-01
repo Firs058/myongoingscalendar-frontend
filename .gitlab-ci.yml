@@ -27,5 +27,7 @@ deploy:
   - master
   script:
   - cp -R ./.nuxt/dist/* /opt/app/dist/
+  - npm i -g pm2
+  - pm2 deploy ecosystem.config.js production
   tags:
   - shell
