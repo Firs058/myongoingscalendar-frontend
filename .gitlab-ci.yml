@@ -35,6 +35,6 @@ deploy:
   - npm i -g node-vibrant
   - npm i -g webp-converter
   - cd /opt/app
-  - pm2 deploy production
+  - pm2 restart ecosystem.config.js
   tags:
   - shell
