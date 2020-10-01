@@ -30,10 +30,10 @@ deploy:
   - cp -f ./vibrant.js /opt/app/
   - cp -f ./webp.js /opt/app/
   - cp -f ./ecosystem.config.js /opt/app/
-  - npm i -g pm2
-  - npm i -g express
-  - npm i -g node-vibrant
-  - npm i -g webp-converter
+  - npm i pm2 -g
+  - npm i express -g
+  - npm i node-vibrant -g
+  - npm i webp-converter -g
   - cd /opt/app
   - pm2 restart ecosystem.config.js
   tags:
