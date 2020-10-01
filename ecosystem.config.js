@@ -2,9 +2,9 @@ module.exports = {
     apps: [
         {
             name: 'myongoingscalendar-frontend',
-            exec_mode : 'cluster',
+            exec_mode: 'cluster',
             instances: 'max',
-            cwd       : './dist',
+            cwd: './dist',
             script: "./node_modules/nuxt/bin/nuxt.js",
             args: "start",
         },
