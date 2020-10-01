@@ -10,7 +10,6 @@ stages:
 - deploy
 
 building:
-  image: node
   stage: build
   variables:
     NODE_ENV: "production"
