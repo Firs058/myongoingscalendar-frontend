@@ -26,7 +26,7 @@ deploy:
   only:
   - master
   script:
-  - cp -R ./.nuxt/dist/* /opt/app/dist/
+  - cp -R ./.nuxt/dist/* /opt/app/myongoingscalendar-frontend/
   - cp -f ./vibrant.js /opt/app/
   - cp -f ./webp.js /opt/app/
   - cp -f ./ecosystem.config.js /opt/app/
