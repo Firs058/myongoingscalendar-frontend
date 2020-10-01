@@ -29,13 +29,13 @@ deploy-app:
   only:
   - master
   script:
-  - rm -rf /opt/app/myongoingscalendar-frontend/.nuxt
+  - rm -rf /opt/app/myongoingscalendar-frontend
   - mkdir -p /opt/app/myongoingscalendar-frontend/.nuxt
   - cp -R ./.nuxt/* /opt/app/myongoingscalendar-frontend/.nuxt
   - cp -R ./static/* /opt/app/myongoingscalendar-frontend/static
   - cp -f ./nuxt.config.js /opt/app/myongoingscalendar-frontend
   - cp -f ./package.json /opt/app/myongoingscalendar-frontend
-  - cd /opt/app/myongoingscalendar-frontend/
+  - cd /opt/app/myongoingscalendar-frontend
   - npm i
   tags:
   - shell
