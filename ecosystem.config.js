@@ -1,7 +1,8 @@
 module.exports = {
     apps: [
         {
-            name: 'MyOngoingsCalendar',
+            name: 'app',
+            exec_mode : 'cluster',
             instances: 'max',
             cwd: './dist',
             script: "/usr/local/lib/node_modules/nuxt/bin/nuxt.js",
