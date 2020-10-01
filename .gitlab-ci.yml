@@ -16,7 +16,7 @@ building:
   - npm i --no-optional
   - npm run build
   artifacts:
-    expire_in: 1 week
+    expire_in: 1 hour
     paths:
     - .nuxt/dist
   only:
@@ -28,10 +28,7 @@ deploy-app:
   - master
   script:
   - mkdir -p /opt/app/myongoingscalendar-frontend/dist
-  - cp -R ./.nuxt/dist/* /opt/app/myongoingscalendar-frontend/dist
-  - cp -f ./package.json /opt/app/myongoingscalendar-frontend
-  - cd /opt/app/myongoingscalendar-frontend
-  - npm i --no-optional
+  - cp -R ./* /opt/app/myongoingscalendar-frontend
   tags:
   - shell
 

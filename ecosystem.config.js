@@ -4,7 +4,6 @@ module.exports = {
             name: 'myongoingscalendar-frontend',
             exec_mode: 'cluster',
             instances: 'max',
-            cwd: './dist',
             script: "./node_modules/nuxt/bin/nuxt.js",
             args: "start",
         },
@@ -12,8 +11,11 @@ module.exports = {
             name: "vibrant",
             script: 'vibrant.js',
             ignore_watch: [
-                "node_modules",
-                "images"
+                "node_modules"
+            ],
+            watch: [
+                "server",
+                "client"
             ],
             watch_options: {
                 followSymlinks: false
@@ -23,8 +25,11 @@ module.exports = {
             name: "webp",
             script: 'webp.js',
             ignore_watch: [
-                "node_modules",
-                "images"
+                "node_modules"
+            ],
+            watch: [
+                "server",
+                "client"
             ],
             watch_options: {
                 followSymlinks: false
