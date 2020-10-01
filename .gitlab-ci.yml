@@ -1,0 +1,38 @@
+cache:
+  paths:
+  - node_modules/
+
+before_script:
+- npm install
+
+stages:
+- build
+- deploy
+
+building:
+  image: node
+  stage: build
+  variables:
+    NODE_ENV: "production"
+  script:
+  - npm i --no-optional
+  - npm run build
+  artifacts:
+    expire_in: 1 hour
+    paths:
+    - dist
+  tags:
+  - npm
+  - node
+  only:
+  - tags
+  - master
+
+deploy:
+  stage: deploy
+  only:
+  - master
+  script:
+  - cp -R ./dist/* /opt/app/dist/
+  tags:
+  - shell
