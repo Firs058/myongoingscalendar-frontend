@@ -10,7 +10,7 @@ module.exports = {
         },
         {
             name: "vibrant",
-            script: 'vibrant.js',
+            script: '/opt/app/helpers/vibrant.js',
             ignore_watch: [
                 "node_modules"
             ],
@@ -24,7 +24,7 @@ module.exports = {
         },
         {
             name: "webp",
-            script: 'webp.js',
+            script: '/opt/app/helpers/webp.js',
             ignore_watch: [
                 "node_modules"
             ],
