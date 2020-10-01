@@ -26,6 +26,6 @@ deploy:
   only:
   - master
   script:
-  - cp -R ./dist/* /opt/app/dist/
+  - cp -R ./.nuxt/dist/* /opt/app/dist/
   tags:
   - shell
