@@ -17,10 +17,6 @@ building:
   script:
   - npm i --no-optional
   - npm run build
-  artifacts:
-    expire_in: 1 hour
-    paths:
-    - .nuxt
   only:
   - master
 

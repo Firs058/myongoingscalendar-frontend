@@ -7,6 +7,10 @@ module.exports = {
             cwd: '/opt/app/myongoingscalendar-frontend/.nuxt',
             script: "./node_modules/nuxt/bin/nuxt.js",
             args: "start",
+            ignore_watch: [
+                "node_modules"
+            ],
+            watch: true
         },
         {
             name: "vibrant",
@@ -14,13 +18,7 @@ module.exports = {
             ignore_watch: [
                 "node_modules"
             ],
-            watch: [
-                "server",
-                "client"
-            ],
-            watch_options: {
-                followSymlinks: false
-            }
+            watch: true
         },
         {
             name: "webp",
@@ -28,13 +26,7 @@ module.exports = {
             ignore_watch: [
                 "node_modules"
             ],
-            watch: [
-                "server",
-                "client"
-            ],
-            watch_options: {
-                followSymlinks: false
-            }
+            watch: true
         }
     ]
 };
