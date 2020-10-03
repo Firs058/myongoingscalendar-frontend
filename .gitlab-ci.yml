@@ -34,8 +34,8 @@ deploy-app:
   only:
   - master
   script:
-    mkdir -p ${FRONT_PATH}
-    rsync -cru --delete ./ ${FRONT_PATH}
+  - mkdir -p ${FRONT_PATH}
+  - rsync -cru --delete ./ ${FRONT_PATH}
   tags:
   - shell
 
