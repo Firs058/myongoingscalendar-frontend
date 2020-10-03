@@ -37,7 +37,8 @@ deploy-app:
   - mkdir -p ${FRONT_PATH}/.nuxt
   - rsync -cavu --delete ./.nuxt/ ${FRONT_PATH}/.nuxt
   - rsync -cavu --delete ./static/ ${FRONT_PATH}/static
-  - cp -f ./{nuxt.config.js,package.json} ${FRONT_PATH}
+  - cp -f ./.nuxt/server.js ${FRONT_PATH}
+  - cp -f ./{nuxt.config.js,package.json,package-lock.json} ${FRONT_PATH}
   - cd ${FRONT_PATH}
   - npm i
   tags:
@@ -55,7 +56,7 @@ deploy-helpers:
   tags:
   - shell
 
-deploy-pm2-config:
+deploy-pm2:
   stage: deploy
   only:
   - master
