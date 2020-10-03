@@ -34,13 +34,8 @@ deploy-app:
   only:
   - master
   script:
-  - mkdir -p ${FRONT_PATH}/.nuxt
-  - rsync -cavu --delete ./.nuxt/ ${FRONT_PATH}/.nuxt
-  - rsync -cavu --delete ./static/ ${FRONT_PATH}/static
-  - cp -f ./.nuxt/server.js ${FRONT_PATH}
-  - cp -f ./{nuxt.config.js,package.json,package-lock.json} ${FRONT_PATH}
-  - cd ${FRONT_PATH}
-  - npm i
+    mkdir -p ${FRONT_PATH}
+    rsync -cru --delete ./ ${FRONT_PATH}
   tags:
   - shell
 
