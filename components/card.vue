@@ -169,3 +169,9 @@
         }
     }
 </script>
+
+<style scoped>
+    >>> .v-chip:before{
+        background-color: transparent !important;
+    }
+</style>
