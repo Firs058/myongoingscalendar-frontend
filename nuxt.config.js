@@ -1,5 +1,5 @@
 const RECAPTCHA_SITE_KEY = '6LdMemkUAAAAAEhtdLuLej6GkuS89V0smYUo3DjC';
-const BASE_URL = process.env.NODE_ENV !== 'production' ? 'http://localhost' : 'https://myongoingscalendar.eu';
+const BASE_URL = process.env.NODE_ENV !== 'production' ? 'http://localhost' : 'http://192.168.88.213';
 
 module.exports = {
     env: {

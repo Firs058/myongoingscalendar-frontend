@@ -5,7 +5,7 @@
   "author": "firs058 <firs058@gmail.com>",
   "scripts": {
     "dev": "nuxt",
-    "build": "cross-env NODE_ENV=production nuxt build --no-lock",
+    "build": "DEPLOY_ENV=NODE_ENV nuxt build --no-lock",
     "start": "cross-env NODE_ENV=production nuxt start",
     "generate": "nuxt generate",
     "analyze": "nuxt build --analyze"
@@ -16,12 +16,12 @@
     "@fortawesome/free-brands-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/vue-fontawesome": "^2.0.0",
+    "@mdi/js": "^5.6.55",
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/dayjs": "^1.1.9",
     "@nuxtjs/google-analytics": "^2.4.0",
     "@nuxtjs/vuetify": "^1.11.2",
     "chart.js": "^2.9.3",
-    "cookie-universal-nuxt": "^2.1.4",
     "dayjs": "latest",
     "js-base64": "^3.5.2",
     "nuxt": "^2.14.5",
@@ -38,10 +38,11 @@
     "vue-social-sharing": "^2.4.7",
     "vuex": "^3.5.1",
     "vuex-persistedstate": "^3.1.0",
-    "vuex-shared-mutations": "^1.0.2"
+    "vuex-shared-mutations": "^1.0.2",
+    "cookie": "latest",
+    "js-cookie": "latest"
   },
   "devDependencies": {
-    "@mdi/js": "^5.6.55",
     "babel-plugin-transform-imports": "^2.0.0",
     "cross-env": "^7.0.2",
     "npm-check-updates": "^9.0.1"

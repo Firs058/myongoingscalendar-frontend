@@ -1,16 +1,21 @@
+image: node:latest
+
 cache:
+  key: "$CI_PROJECT_ID"
   paths:
   - node_modules/
 
-before_script:
-- npm install
+variables:
+  APP_PATH: /opt/app
+  FRONT_PATH: ${APP_PATH}/myongoingscalendar-frontend
+  HELPERS_PATH: ${APP_PATH}/helpers
 
 stages:
 - build
 - deploy
+- restart
 
 building:
-  image: node
   stage: build
   variables:
     NODE_ENV: "production"
@@ -20,19 +25,48 @@ building:
   artifacts:
     expire_in: 1 hour
     paths:
-    - dist
-  tags:
-  - npm
-  - node
+    - .nuxt
   only:
-  - tags
   - master
 
-deploy:
+deploy-app:
   stage: deploy
   only:
   - master
   script:
-  - cp -R ./dist/* /opt/app/dist/
+  - mkdir -p ${FRONT_PATH}
+  - rsync -cru --delete ./ ${FRONT_PATH}
+  tags:
+  - shell
+
+deploy-helpers:
+  stage: deploy
+  only:
+  - master
+  script:
+  - mkdir -p ${HELPERS_PATH}
+  - cp -f ./{vibrant.js,webp.js} ${HELPERS_PATH}
+  - cd ${HELPERS_PATH}
+  - npm i express node-vibrant webp-converter
+  tags:
+  - shell
+
+deploy-pm2:
+  stage: deploy
+  only:
+  - master
+  script:
+  - cp -f ./ecosystem.config.js ${APP_PATH}
+  - npm i pm2 -g
+  tags:
+  - shell
+
+restart:
+  stage: restart
+  only:
+  - master
+  script:
+  - pm2 restart ecosystem.config.js
+  - pm2 save
   tags:
   - shell
