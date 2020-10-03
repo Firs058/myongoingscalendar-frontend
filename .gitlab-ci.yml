@@ -5,6 +5,11 @@ cache:
   paths:
   - node_modules/
 
+variables:
+  APP_PATH: /opt/app
+  FRONT_PATH: ${APP_PATH}/myongoingscalendar-frontend
+  HELPERS_PATH: ${APP_PATH}/helpers
+
 stages:
 - build
 - deploy
@@ -29,13 +34,11 @@ deploy-app:
   only:
   - master
   script:
-  - rm -rf /opt/app/myongoingscalendar-frontend
-  - mkdir -p /opt/app/myongoingscalendar-frontend/.nuxt
-  - cp -R ./.nuxt/* /opt/app/myongoingscalendar-frontend/.nuxt
-  - cp -R ./static/* /opt/app/myongoingscalendar-frontend/static
-  - cp -f ./nuxt.config.js /opt/app/myongoingscalendar-frontend
-  - cp -f ./package.json /opt/app/myongoingscalendar-frontend
-  - cd /opt/app/myongoingscalendar-frontend
+  - mkdir -p ${FRONT_PATH}/.nuxt
+  - rsync -cavu --delete ./.nuxt/ ${FRONT_PATH}/.nuxt
+  - rsync -cavu --delete ./static/ ${FRONT_PATH}/static
+  - cp -f ./{nuxt.config.js,package.json} ${FRONT_PATH}
+  - cd ${FRONT_PATH}
   - npm i
   tags:
   - shell
@@ -45,14 +48,10 @@ deploy-helpers:
   only:
   - master
   script:
-  - rm -r /opt/app/helpers
-  - mkdir -p /opt/app/helpers
-  - cp -f ./vibrant.js /opt/app/helpers
-  - cp -f ./webp.js /opt/app/helpers
-  - cd /opt/app/helpers
-  - npm i express
-  - npm i node-vibrant
-  - npm i webp-converter
+  - mkdir -p ${HELPERS_PATH}
+  - cp -f ./{vibrant.js,webp.js} ${HELPERS_PATH}
+  - cd ${HELPERS_PATH}
+  - npm i express node-vibrant webp-converter
   tags:
   - shell
 
@@ -61,7 +60,7 @@ deploy-pm2-config:
   only:
   - master
   script:
-  - cp -f ./ecosystem.config.js /opt/app
+  - cp -f ./ecosystem.config.js ${APP_PATH}
   - npm i pm2 -g
   tags:
   - shell
