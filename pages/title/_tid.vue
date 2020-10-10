@@ -16,7 +16,7 @@
                                 row
                                 wrap
                                 fill-height
-                                :style="`background:linear-gradient(to top, ${settings.dark ? Object.keys(title.image.hex).length ? title.image.hex.dark : 'rgba(0,0,0,0.5)' : Object.keys(title.image.hex).length ? title.image.hex.light : 'rgba(255,255,255,0.5)'}, ${settings.dark ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'});`"
+                                :style="layoutStyle"
                         >
                             <v-flex xs12 sm6>
                                 <div class="d-flex flex-column align-center text-center">
@@ -40,7 +40,6 @@
                                                         :full-icon="icons.mdiStar"
                                                         :half-icon="icons.mdiStarHalfFull"
                                                         class="mb-4"
-
                                                 >
                                                     <template slot="item" slot-scope="item">
                                                         <v-icon :color="item.isHalfFilled || item.isFilled ? 'yellow darken-3' : 'grey'">
@@ -65,17 +64,14 @@
                                                         class="flex-grow-1 flex-shrink-0"
                                                 >
                                                     <v-btn
-                                                            :class="{
-                                                                'green': title && !marked,
-                                                                'red': title && marked,
-                                                                'darken-3': settings.dark,
-                                                              }"
                                                             @click.native.stop="title && !marked ? titleToggle() : deletion = true"
                                                             :disabled="!authenticated"
                                                             :loading="button.loading"
                                                             :aria-label="title && !marked ? $t('buttons.add') : $t('buttons.remove')"
                                                             height="50"
                                                             block
+                                                            depressed
+                                                            :style="authenticated ? buttonStyle({color: title && !marked ? buttonColors.green : buttonColors.red}) : undefined"
                                                     >
                                                         {{title && !marked ? $t('buttons.add') : $t('buttons.remove')}}
                                                     </v-btn>
@@ -359,13 +355,11 @@
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on" class="d-inline-block">
                                                     <v-btn
-                                                            :class="{
-                                                                'green': true,
-                                                                'darken-3': settings.dark,
-                                                              }"
                                                             @click.native.stop="$store.dispatch('openCommentDialog', {tid})"
                                                             :disabled="!authenticated"
                                                             :aria-label="$t('buttons.add_comment')"
+                                                            depressed
+                                                            :style="authenticated ? buttonStyle({color: buttonColors.green}) : undefined"
                                                     >
                                                         {{$t('buttons.add_comment')}}
                                                     </v-btn>
@@ -427,6 +421,7 @@
 <script>
     import {icons} from '~/mixins/icons'
     import {image} from '~/mixins/image'
+    import {button} from '~/mixins/button'
     import {translate} from '~/mixins/translate'
     import {mapGetters} from 'vuex'
 
@@ -562,6 +557,7 @@
         mixins: [
             icons,
             image,
+            button,
             translate
         ],
         computed: {
@@ -592,6 +588,13 @@
             },
             titleImagePath() {
                 return this.getImagePath({paths: this.title.image.paths, type: 'FULL'})
+            },
+            layoutStyle() {
+                const hex = this.title.image.hex;
+                const dark = this.settings.dark;
+                const blackOpacity = 'rgba(0,0,0,0.5)';
+                const whiteOpacity = 'rgba(255,255,255,0.5)';
+                return `background:linear-gradient(to top, ${dark ? Object.keys(hex).length ? hex.dark : blackOpacity : Object.keys(hex).length ? hex.light : whiteOpacity}, ${dark ? blackOpacity : whiteOpacity})`
             }
         },
         mounted() {

@@ -30,10 +30,11 @@
                         <v-btn
                                 @click="submit"
                                 :disabled="!valid"
-                                color="blue darken-3"
                                 :loading="loading"
                                 block
                                 :aria-label="$t('buttons.next')"
+                                depressed
+                                :style="buttonStyle({color: buttonColors.blue})"
                         >
                             {{$t('buttons.next')}}
                         </v-btn>
@@ -46,6 +47,7 @@
 
 <script>
     import {icons} from '../mixins/icons'
+    import {button} from '~/mixins/button'
 
     export default {
         data: () => ({
@@ -92,7 +94,8 @@
             }
         },
         mixins: [
-            icons
+            icons,
+            button
         ],
         middleware: ['guest']
     }
