@@ -29,7 +29,7 @@
                         <div class="pa-2">
                             <font-awesome-icon
                                     v-on="on"
-                                    :color="network.color"
+                                    color="black"
                                     :icon="network.icon"
                                     size="lg"
                             />
@@ -46,17 +46,17 @@
     export default {
         data: () => ({
             networks: [
-                {name: 'Email', color: 'black', icon: 'envelope'},
-                {name: 'Facebook', color: '#3b5999', icon: {prefix: 'fab', iconName: 'facebook'}},
-                {name: 'Line', color: '#00c300', icon: {prefix: 'fab', iconName: 'line'}},
-                {name: 'Linkedin', color: '#0077B5', icon: {prefix: 'fab', iconName: 'linkedin'}},
-                {name: 'Pinterest', color: '#bd081c', icon: {prefix: 'fab', iconName: 'pinterest'}},
-                {name: 'Reddit', color: '#ff5700', icon: {prefix: 'fab', iconName: 'reddit'}},
-                {name: 'Skype', color: '#00AFF0', icon: {prefix: 'fab', iconName: 'skype'}},
-                {name: 'Telegram', color: '#0088cc', icon: {prefix: 'fab', iconName: 'telegram'}},
-                {name: 'Twitter', color: '#55acee', icon: {prefix: 'fab', iconName: 'twitter'}},
-                {name: 'Vk', color: '#4c75a3', icon: {prefix: 'fab', iconName: 'vk'}},
-                {name: 'Weibo', color: '#df2029', icon: {prefix: 'fab', iconName: 'weibo'}},
+                {name: 'Email', icon: 'envelope'},
+                {name: 'Facebook', icon: {prefix: 'fab', iconName: 'facebook'}},
+                {name: 'Line', icon: {prefix: 'fab', iconName: 'line'}},
+                {name: 'Linkedin', icon: {prefix: 'fab', iconName: 'linkedin'}},
+                {name: 'Pinterest', icon: {prefix: 'fab', iconName: 'pinterest'}},
+                {name: 'Reddit', icon: {prefix: 'fab', iconName: 'reddit'}},
+                {name: 'Skype', icon: {prefix: 'fab', iconName: 'skype'}},
+                {name: 'Telegram', icon: {prefix: 'fab', iconName: 'telegram'}},
+                {name: 'Twitter', icon: {prefix: 'fab', iconName: 'twitter'}},
+                {name: 'Vk', icon: {prefix: 'fab', iconName: 'vk'}},
+                {name: 'Weibo', icon: {prefix: 'fab', iconName: 'weibo'}},
             ]
         }),
         props: ['url', 'title', 'description']

@@ -104,14 +104,18 @@
                 return !!this.calendar && !Object.keys(this.calendar).length
             },
             raiseCount() {
-                const counts = {
-                    xs: 1,
-                    sm: 2,
-                    md: 3,
-                    lg: 3,
-                    xl: 4
-                };
-                return counts[this.$vuetify.breakpoint.name];
+                switch (this.$vuetify.breakpoint.name) {
+                    case 'xs':
+                        return 1;
+                    case 'sm':
+                        return 2;
+                    case 'md':
+                        return 3;
+                    case 'lg':
+                        return 3;
+                    case 'xl':
+                        return 4
+                }
             }
         }
     }
