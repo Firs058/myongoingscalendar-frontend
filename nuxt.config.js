@@ -18,7 +18,6 @@ module.exports = {
     },
     plugins: [
         {src: '~/plugins/ready.js', mode: 'client'},
-        {src: '~/plugins/sharing.js', mode: 'client'},
         {src: '~/plugins/scroll.js', mode: 'client'},
         {src: '~/plugins/shared-mutations.js', mode: 'client'},
         '~/plugins/axios.js',
@@ -29,7 +28,8 @@ module.exports = {
         '~/plugins/clipboard.js',
         '~/plugins/i18n.js',
         '~/plugins/font-awesome.js',
-        '~/plugins/async.js'
+        '~/plugins/async.js',
+        '~/plugins/sharing.js'
     ],
     axios: {
         baseURL: `${BASE_URL}/api/`,

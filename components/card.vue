@@ -138,11 +138,11 @@
                 return colors[status];
             },
             getBackgroundColor({gradient}) {
-                const anime = this.anime;
-                return Object.keys(anime.image.hex).length
+                const hex = this.anime.image.hex;
+                return !!hex && Object.keys(hex).length
                     ? this.settings.dark
-                        ? anime.image.hex.dark
-                        : anime.image.hex.light
+                        ? hex.dark
+                        : hex.light
                     : gradient
                         ? 'rgba(0, 0, 0, 0.4)'
                         : null

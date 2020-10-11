@@ -398,7 +398,7 @@
     "share": "Share this on social media"
   },
   "tooltips": {
-    "share": "Share",
+    "share": "Share via {0}",
     "remove_from_my_calendar": "Remove from my calendar",
     "add_to_my_calendar": "Add to my calendar",
     "you_must_be_logged_in": "You must be logged in",

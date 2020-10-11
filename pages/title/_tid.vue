@@ -203,7 +203,8 @@
                                     </div>
                                     <social
                                             :url="globalUrl"
-                                            :description="globalTitle"
+                                            :title="globalTitle"
+                                            :description="globalDescription"
                                     />
                                 </v-card>
                             </v-flex>
