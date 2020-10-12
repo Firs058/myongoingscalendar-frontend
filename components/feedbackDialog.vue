@@ -104,7 +104,7 @@
             },
             onVerify(response) {
                 this.$store.dispatch('addFeedback', response)
-                    .catch(() => this.$refs.feedbackInvisibleRecaptcha.reset());
+                    .finally(() => this.$refs.feedbackInvisibleRecaptcha.reset());
             },
             onExpired() {
                 this.$refs.feedbackInvisibleRecaptcha.reset()

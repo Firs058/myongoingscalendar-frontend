@@ -1,5 +1,21 @@
 import Vue from 'vue'
 
+const comment = {
+    dialog: false,
+    valid: true,
+    loading: false,
+    id: null,
+    tid: null,
+    text: ''
+};
+
+const feedback = {
+    dialog: false,
+    valid: true,
+    loading: false,
+    text: ''
+};
+
 export const state = () => ({
     locales: ['en', 'ru'],
     user: {
@@ -38,20 +54,8 @@ export const state = () => ({
             lastQuery: {}
         }
     },
-    comment: {
-        dialog: false,
-        valid: true,
-        loading: false,
-        id: 0,
-        tid: 0,
-        text: ''
-    },
-    feedback: {
-        dialog: false,
-        valid: true,
-        loading: false,
-        text: ''
-    },
+    comment,
+    feedback,
     synced: false,
     timezones: [],
     tokens: {},
@@ -69,7 +73,9 @@ export const mutations = {
     SET_SEARCH_SUPPLY: (state, obj) => state.search.global.supply = obj,
     SET_SEARCH_LAST_QUERY: (state, string) => state.search.global.lastQuery = string,
     SET_COMMENT: (state, obj) => Array.isArray(obj) ? obj.forEach(e => state.comment[e.name] = e.value) : state.comment[obj.name] = obj.value,
+    RESET_COMMENT: (state) => Object.assign(state.comment, comment),
     SET_FEEDBACK: (state, obj) => Array.isArray(obj) ? obj.forEach(e => state.feedback[e.name] = e.value) : state.feedback[obj.name] = obj.value,
+    RESET_FEEDBACK: (state) => Object.assign(state.feedback, feedback),
     SET_SYNCED: (state, bool) => state.synced = bool,
     SET_TIMEZONES: (state, obj) => state.timezones = obj,
     SET_TOKENS: (state, obj) => state.tokens = obj,
@@ -144,11 +150,7 @@ export const actions = {
 
         await this.$anime.addFeedback({authenticated: getters.authenticated, params})
             .then(({code}) => {
-                commit('SET_FEEDBACK', [
-                    {name: 'dialog', value: false},
-                    {name: 'text', value: ''},
-                    {name: 'loading', value: false}
-                ]);
+                commit('RESET_FEEDBACK');
                 this.$toast.showToast({code})
             })
             .catch(({code}) => this.$toast.showToast({code}));
@@ -160,6 +162,7 @@ export const actions = {
             {name: 'tid', value: !!obj.tid ? Number(obj.tid) : null}
         ]);
     },
+    resetCommentDialog: ({commit}) => commit('RESET_COMMENT'),
     setWebpIsSupported: ({commit}, bool) => commit('SET_WEBP_IS_SUPPORTED', bool),
     setAgreeWithTermsAndPolicy: ({commit}, bool) => commit('SET_AGREE_WITH_TERMS_AND_POLICY', bool)
 };

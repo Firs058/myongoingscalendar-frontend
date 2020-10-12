@@ -598,6 +598,10 @@
                 return `background:linear-gradient(to top, ${dark ? Object.keys(hex).length ? hex.dark : blackOpacity : Object.keys(hex).length ? hex.light : whiteOpacity}, ${dark ? blackOpacity : whiteOpacity})`
             }
         },
+        beforeRouteLeave(to, from, next) {
+            if (this.comment.dialog) this.$store.dispatch('resetCommentDialog');
+            next()
+        },
         mounted() {
             this.$vuetify.goTo(0);
             this.showChart = true;
