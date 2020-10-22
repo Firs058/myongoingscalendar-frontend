@@ -43,7 +43,9 @@
                         };
                         break;
                 }
-                this.$auth.socialLogin({provider, params})
+
+                if (this.authenticated) this.$toast.showToast({code: 10035});
+                else this.$auth.socialLogin({provider, params})
                     .then(({payload, code}) => {
                         if (!!payload) this.$store.dispatch('setUserAndTokensAndSettings', payload);
                         this.$toast.showToast({code});
@@ -56,6 +58,7 @@
             }
         },
         computed: mapGetters([
+            'authenticated',
             'settings'
         ]),
         mounted() {

@@ -489,6 +489,7 @@
     "10032": "Password recovery is not available for accounts created through a social network",
     "10033": "You can't interact with finished anime",
     "10034": "Wrong file",
+    "10035": "You are already logged in, please log out first",
     "11000": "OK",
     "11001": "OK, check you mail to activate account",
     "11002": "Account successful activated",
