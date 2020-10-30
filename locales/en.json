@@ -241,6 +241,7 @@
             "label": "Avatar"
           },
           "rules": {
+            "exists": "Select file first",
             "type": "Avatar should be one of formats: {0}!",
             "size": "Avatar size should be less than {0}kB!",
             "error": "Can't load image",
@@ -460,7 +461,7 @@
     "10003": "Did you forgot about captcha?",
     "10004": "The length of the nickname does not match the requirements",
     "10005": "Only latin text and numbers allowed",
-    "10006": "Hey, what's up with you nickname? Does not fit",
+    "10006": "This nickname is prohibited",
     "10007": "Sorry, account with that email is already existed",
     "10008": "Invalid captcha",
     "10009": "Url is not relevant",

@@ -47,7 +47,8 @@
                 if (this.authenticated) this.$toast.showToast({code: 10035});
                 else this.$auth.socialLogin({provider, params})
                     .then(({payload, code}) => {
-                        if (!!payload) this.$store.dispatch('setUserAndTokensAndSettings', payload);
+                        if (!!payload) this.$store.dispatch('setUserAndTokensAndSettings', payload)
+                            .then(() => this.$vuetify.theme.dark = this.settings.dark);
                         this.$toast.showToast({code});
                     })
                     .then(() => this.$router.push('/'))

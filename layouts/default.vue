@@ -272,7 +272,8 @@
         },
         methods: {
             logout() {
-                this.$store.dispatch('logout');
+                this.$store.dispatch('logout')
+                    .then(() => this.$vuetify.theme.dark = this.settings.dark);
                 this.$router.push('/');
                 this.$toast.showToast({code: 11015});
             }

@@ -475,24 +475,15 @@
         ],
         watch: {
             'avatar.file'(v) {
-                if (!!v)
-                    this.validateAvatar(v, this.avatar.rules)
-                        .then(e => {
-                            this.avatar.valid = e.valid;
-                            this.avatar.errors = e.valid ? [] : [e.errors]
-                        });
-                else {
-                    this.avatar.errors = [];
-                    this.avatar.preview = '';
-                }
+                this.validateAvatar(v, this.avatar.rules)
             }
         },
         methods: {
-            submitNickname() {
+            async submitNickname() {
                 if (this.user.authenticated && this.$refs.nicknameForm.validate()) {
                     this.nickname.loading = true;
-                    const params = {nickname: this.nickname.value};
-                    this.$settings.changeNickname({params})
+                    const nickname = this.nickname.value;
+                    await this.$settings.changeNickname({params: {nickname}})
                         .then(({code}) => {
                             this.$store.dispatch('setSetting', {name: 'nickname', value: nickname});
                             this.$toast.showToast({code});
@@ -502,11 +493,11 @@
                         .finally(() => this.nickname.loading = false)
                 }
             },
-            submitPassword() {
+            async submitPassword() {
                 if (this.user.authenticated && this.$refs.passwordForm.validate()) {
                     this.password.loading = true;
                     const params = {password: this.password.value};
-                    this.$settings.changePass({params})
+                    await this.$settings.changePass({params})
                         .then(({code}) => {
                             this.$toast.showToast({code});
                             this.password.dialog = false;
@@ -515,12 +506,13 @@
                         .finally(() => this.password.loading = false)
                 }
             },
-            submitAvatar() {
+            async submitAvatar() {
+                await this.validateAvatar(this.avatar.file, this.avatar.rules);
                 if (this.user.authenticated && this.avatar.valid) {
                     this.avatar.loading = true;
                     let formData = new FormData();
                     formData.append("avatar", this.avatar.file);
-                    this.$settings.changeAvatar({formData})
+                    await this.$settings.changeAvatar({formData})
                         .then(({avatar, code}) => {
                             this.$store.dispatch('setSetting', {name: 'avatar', value: avatar});
                             this.$toast.showToast({code});
@@ -530,10 +522,10 @@
                         .finally(() => this.avatar.loading = false)
                 }
             },
-            removeAvatar() {
+            async removeAvatar() {
                 if (this.user.authenticated && !!this.settings.avatar) {
                     this.avatar.remove.loading = true;
-                    this.$settings.removeAvatar()
+                    await this.$settings.removeAvatar()
                         .then(({code}) => {
                             this.$store.dispatch('setSetting', {name: 'avatar', value: null});
                             this.$toast.showToast({code});
@@ -553,16 +545,21 @@
                 this.$dayjs.locale(value);
                 this.saveSettings()
             },
-            checkAndDownloadTimezones() {
+            async checkAndDownloadTimezones() {
                 if (this.$store.getters.timezonesListEmpty) {
                     this.timezonesLoading = true;
-                    this.$anime.getTimezones()
+                    await this.$anime.getTimezones()
                         .then(({timezones}) => this.$store.dispatch('setTimezones', timezones))
                         .finally(() => this.timezonesLoading = false)
                 }
             },
-            validateAvatar(file, {width, height, size, formats}) {
-                return new Promise(resolve => {
+            async validateAvatar(file, {width, height, size, formats}) {
+                const {valid, errors} = await new Promise(resolve => {
+                    if (!file)
+                        resolve({
+                            valid: false,
+                            errors: this.$t('settings.account.change_avatar.dialog.rules.exists')
+                        });
                     if (!this.acceptFormats.includes(file['type']))
                         resolve({
                             valid: false,
@@ -588,7 +585,11 @@
                         this.avatar.preview = reader.result;
                     };
                     reader.readAsDataURL(file);
-                })
+                });
+
+                this.avatar.valid = valid;
+                this.avatar.errors = valid ? [] : [errors];
+                if (!valid) this.avatar.preview = '';
             }
         },
         head() {

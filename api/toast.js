@@ -2,7 +2,7 @@ const BREAKOUT_CODE = 11000;
 
 export default store => () => ({
     showToast: ({code}) => {
-        if (process.client) {
+        if (process.client && !!code) {
             const dark = store.getters.settings.dark;
             const colors = {
                 'green': code >= BREAKOUT_CODE,

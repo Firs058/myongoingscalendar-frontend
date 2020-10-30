@@ -28,7 +28,8 @@
                 const params = {token: this.token};
                 this.$auth.confirm({type: this.type, params})
                     .then(({code, payload, redirect}) => {
-                        if (!!payload) this.$store.dispatch('setUserAndTokensAndSettings', payload);
+                        if (!!payload) this.$store.dispatch('setUserAndTokensAndSettings', payload)
+                            .then(() => this.$vuetify.theme.dark = this.settings.dark);
                         this.$toast.showToast({code});
                         this.$router.push(redirect)
                     })

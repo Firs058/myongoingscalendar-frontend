@@ -206,7 +206,8 @@
                     const params = {email: this.email, password: this.password};
                     this.$auth.login({params})
                         .then(({payload, code}) => {
-                            if (!!payload) this.$store.dispatch('setUserAndTokensAndSettings', payload);
+                            if (!!payload) this.$store.dispatch('setUserAndTokensAndSettings', payload)
+                                .then(() => this.$vuetify.theme.dark = this.settings.dark);
                             this.$toast.showToast({code});
                             this.$router.push('/');
                         })

@@ -22,21 +22,21 @@ export default (axios) => () => ({
         new Promise((resolve, reject) =>
             axios
                 .post(`${SETTINGS_PREFIX}/nickname/change`, params)
-                .then(({data: {payload, status: {code}}}) => code >= BREAKOUT_CODE ? resolve({code}) : reject({code}))
+                .then(({data: {status: {code}}}) => code >= BREAKOUT_CODE ? resolve({code}) : reject({code}))
                 .catch(() => reject({code: REJECT_CODE}))),
 
     changePass: ({params}) =>
         new Promise((resolve, reject) =>
             axios
                 .post(`${SETTINGS_PREFIX}/pass/change`, params)
-                .then(({data: {payload, status: {code}}}) => code >= BREAKOUT_CODE ? resolve({code}) : reject({code}))
+                .then(({data: {status: {code}}}) => code >= BREAKOUT_CODE ? resolve({code}) : reject({code}))
                 .catch(() => reject({code: REJECT_CODE}))),
 
     changeAvatar: ({formData}) =>
         new Promise((resolve, reject) =>
             axios
                 .post(`${SETTINGS_PREFIX}/avatar/change`, formData)
-                .then(({data: {payload, status: {code}}}) => code >= BREAKOUT_CODE ? resolve({
+                .then(({data: {status: {code}}}) => code >= BREAKOUT_CODE ? resolve({
                     avatar: payload,
                     code
                 }) : reject({code}))
@@ -46,6 +46,6 @@ export default (axios) => () => ({
         new Promise((resolve, reject) =>
             axios
                 .post(`${SETTINGS_PREFIX}/avatar/remove`)
-                .then(({data: {payload, status: {code}}}) => code >= BREAKOUT_CODE ? resolve({code}) : reject({code}))
+                .then(({data: {status: {code}}}) => code >= BREAKOUT_CODE ? resolve({code}) : reject({code}))
                 .catch(() => reject({code: REJECT_CODE}))),
 })

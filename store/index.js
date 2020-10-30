@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
 const comment = {
     dialog: false,
     valid: true,
@@ -86,7 +84,7 @@ export const mutations = {
 
 export const actions = {
     setUser: ({commit}, obj) => commit('SET_USER', obj),
-    logout: ({commit, getters}) => {
+    logout: ({commit}) => {
         commit('SET_USER', {
             authenticated: false,
             email: '',
@@ -95,9 +93,8 @@ export const actions = {
         });
         commit('SET_TOKENS', {});
         commit('SET_SYNCED', false);
-        Vue.prototype.$nuxt.$vuetify.theme.dark = getters.settings.dark;
     },
-    setUserAndTokensAndSettings: ({commit, getters}, {email, social, roles, tokens, settings}) => {
+    setUserAndTokensAndSettings: ({commit}, {email, social, roles, tokens, settings}) => {
         commit('SET_USER', {
             authenticated: true,
             email,
@@ -107,7 +104,6 @@ export const actions = {
         commit('SET_TOKENS', tokens);
         commit('SET_SETTINGS', settings);
         commit('SET_SYNCED', true);
-        Vue.prototype.$nuxt.$vuetify.theme.dark = getters.settings.dark;
     },
     setSetting: ({commit}, obj) => commit('SET_SETTING', obj),
     setSettings: ({commit}, obj) => commit('SET_SETTINGS', obj),
