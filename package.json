@@ -23,7 +23,7 @@
     "@nuxtjs/vuetify": "^1.11.2",
     "chart.js": "^2.9.4",
     "dayjs": "latest",
-    "js-base64": "^3.5.2",
+    "js-base64": "^3.6.0",
     "nuxt": "^2.14.7",
     "nuxt-device-detect": "^1.1.5",
     "nuxt-i18n": "^6.15.4",
@@ -45,6 +45,6 @@
   "devDependencies": {
     "babel-plugin-transform-imports": "^2.0.0",
     "cross-env": "^7.0.2",
-    "npm-check-updates": "^9.2.3"
+    "npm-check-updates": "^9.2.4"
   }
 }

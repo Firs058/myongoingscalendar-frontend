@@ -36,7 +36,7 @@ export default (axios) => () => ({
         new Promise((resolve, reject) =>
             axios
                 .post(`${SETTINGS_PREFIX}/avatar/change`, formData)
-                .then(({data: {status: {code}}}) => code >= BREAKOUT_CODE ? resolve({
+                .then(({data: {payload, status: {code}}}) => code >= BREAKOUT_CODE ? resolve({
                     avatar: payload,
                     code
                 }) : reject({code}))
