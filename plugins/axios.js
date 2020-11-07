@@ -5,6 +5,8 @@ export default ({store, $axios, redirect}) => {
         const accessTokenExpDate = store.getters.tokens.expires_in - 1;
         const nowTime = Math.floor(new Date().getTime() / 1000);
 
+        config.baseURL = getBaseURLWithApi();
+
         if (store.getters.tokens && accessTokenExpDate <= nowTime)
             return refreshTokens(config, store.getters.tokens.refreshToken);
         else
@@ -20,14 +22,18 @@ export default ({store, $axios, redirect}) => {
         return response;
     });
 
+    function getBaseURLWithApi() {
+        return process.client ? `${process.env.BASE_URL}/api` : `http://localhost/api`
+    }
+
     function refreshTokens(config, refreshToken) {
         const instance = axios.create({
-            baseURL: process.env.BASE_URL,
+            baseURL: getBaseURLWithApi(),
             timeout: 10000,
             params: {}
         });
 
-        return instance.post('/api/auth/refresh', {token: refreshToken})
+        return instance.post('/auth/refresh', {token: refreshToken})
             .then(({data: {payload: {tokens}, status: {code}}}) => {
                 if (code === 11017) {
                     store.dispatch('logout');

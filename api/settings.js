@@ -1,7 +1,4 @@
-const BREAKOUT_CODE = 11000;
-const REJECT_CODE = 10015;
-
-const SETTINGS_PREFIX = '/user/settings';
+import {BREAKOUT_CODE, REJECT_CODE, SETTINGS_PREFIX} from './config.js';
 
 export default (axios) => () => ({
     save: ({params}) => axios.post(`${SETTINGS_PREFIX}/save`, params),

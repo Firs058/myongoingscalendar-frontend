@@ -1,4 +1,4 @@
-const BREAKOUT_CODE = 11000;
+import {BREAKOUT_CODE} from './config.js';
 
 export default store => () => ({
     showToast: ({code}) => {

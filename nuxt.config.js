@@ -31,10 +31,6 @@ module.exports = {
         '~/plugins/async.js',
         '~/plugins/sharing.js'
     ],
-    axios: {
-        baseURL: `${BASE_URL}/api/`,
-        browserBaseURL: `${BASE_URL}/api/`
-    },
     buildModules: [
         '@nuxtjs/axios',
         '@nuxtjs/vuetify',

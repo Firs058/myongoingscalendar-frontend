@@ -1,27 +1,24 @@
-const BREAKOUT_CODE = 11000;
-const REJECT_CODE = 10015;
-
-const getPrefix = v => v ? '/user' : '/public';
+import {BREAKOUT_CODE, REJECT_CODE, getAuthPrefix} from './config.js';
 
 export default (axios) => () => ({
     getOngoingsList: ({authenticated = false}) =>
         new Promise((resolve, reject) =>
             axios
-                .post(`${getPrefix(authenticated)}/title/list`)
+                .post(`${getAuthPrefix(authenticated)}/title/list`)
                 .then(({data: {payload, status: {code}}}) => code >= BREAKOUT_CODE ? resolve({ongoingsList: payload}) : reject({code}))
                 .catch(() => reject({code: REJECT_CODE}))),
 
     getCalendar: ({personal = false, params}) =>
         new Promise((resolve, reject) =>
             axios
-                .post(`${getPrefix(personal)}/calendar`, params)
+                .post(`${getAuthPrefix(personal)}/calendar`, params)
                 .then(({data: {payload, status: {code}}}) => code >= BREAKOUT_CODE ? resolve({calendar: payload}) : reject({code}))
                 .catch(() => reject({code: REJECT_CODE}))),
 
     getTitle: ({authenticated = false, tid, params}) =>
         new Promise((resolve, reject) =>
             axios
-                .post(`${getPrefix(authenticated)}/title/${tid}`, params)
+                .post(`${getAuthPrefix(authenticated)}/title/${tid}`, params)
                 .then(({data: {payload: {title, marked, broadcast: {tabs}, comments: {nodes, total, fromPath}}, status: {code}}}) =>
                     code >= BREAKOUT_CODE
                         ? resolve({
@@ -86,7 +83,7 @@ export default (axios) => () => ({
     searchAutocomplete: ({authenticated = false, params}) =>
         new Promise((resolve, reject) =>
             axios
-                .post(`${getPrefix(authenticated)}/es/autocomplete`, params)
+                .post(`${getAuthPrefix(authenticated)}/es/autocomplete`, params)
                 .then(({data: {payload, status: {code}}}) =>
                     code >= BREAKOUT_CODE
                         ? resolve({
@@ -99,7 +96,7 @@ export default (axios) => () => ({
     addFeedback: ({authenticated = false, params}) =>
         new Promise((resolve, reject) =>
             axios
-                .post(`${getPrefix(authenticated)}/feedback/add`, params)
+                .post(`${getAuthPrefix(authenticated)}/feedback/add`, params)
                 .then(({data: {status: {code}}}) => code >= BREAKOUT_CODE ? resolve({code}) : reject({code}))
                 .catch(() => reject({code: REJECT_CODE}))),
 

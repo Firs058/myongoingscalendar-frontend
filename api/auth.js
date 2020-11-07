@@ -1,7 +1,4 @@
-const BREAKOUT_CODE = 11000;
-const REJECT_CODE = 10015;
-
-const AUTH_PREFIX = '/auth';
+import {BREAKOUT_CODE, REJECT_CODE, AUTH_PREFIX} from './config.js';
 
 export default (axios) => () => ({
     login: ({params}) =>
