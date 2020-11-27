@@ -13,26 +13,14 @@ module.exports = {
             env_production: {
                 NODE_ENV: 'production'
             },
-            ignore_watch: [
-                "node_modules"
-            ],
-            watch: true
         },
         {
             name: "vibrant",
             script: '/opt/app/helpers/vibrant.js',
-            ignore_watch: [
-                "node_modules"
-            ],
-            watch: true
         },
         {
             name: "webp",
             script: '/opt/app/helpers/webp.js',
-            ignore_watch: [
-                "node_modules"
-            ],
-            watch: true
         }
     ]
 };
