@@ -238,6 +238,7 @@
               <v-col cols="12" v-if="title.trailer" class="mt-4">
                 <iframe
                     :src="title.trailer"
+                    frameborder="0"
                     width="100%"
                     height="500px"
                     allowfullscreen
