@@ -113,7 +113,8 @@ export const actions = {
   },
   setSettings: ({ commit }, obj) => commit('SET_SETTINGS', obj),
   async saveSettings({ getters }) {
-    if (getters.authenticated) await this.$settings.save({ params: getters.settings });
+    if (getters.authenticated && process.client)
+      await this.$settings.save({ params: getters.settings });
   },
   setToast: ({ commit }, obj) => commit('SET_TOAST', obj),
   setToastActive: ({ commit }, bool) => commit('SET_TOAST_ACTIVE', bool),
