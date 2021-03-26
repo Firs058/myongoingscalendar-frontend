@@ -1,13 +1,9 @@
 <template>
-  <v-container
-    fluid
-    fill-height
-    :class="$device.isDesktop ? 'grid-list-lg' : 'pa-0'"
-  >
-    <v-layout align-center justify-center text-center>
-      <v-flex xs12 sm12 md8 lg6 xl6>
+  <v-container fill-height>
+    <v-row justify="center">
+      <v-col xs="12" md="10" lg="6">
         <v-subheader>Updated: 10.06.2018</v-subheader>
-        <h1>{{$tc("terms.headline", 1)}}</h1>
+        <h1 class="text-center">{{ $tc('terms.headline', 1) }}</h1>
         <v-card class="subheading " color="transparent" flat>
           <v-card-text class="text-left text-justify">
             <p>Hi! Thank you for visiting MyOngoingsCalendar.eu (next - “Service”).</p>
@@ -162,23 +158,23 @@
             </p>
           </v-card-text>
         </v-card>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
-  export default {
-    head() {
-      return {
-        title: this.$t("meta_info.terms.title", ['| MyOngoingsCalendar']),
-        meta: [
-          {
-            name: 'description',
-            content: this.$t("meta_info.terms.meta.description", ['MyOngoingsCalendar'])
-          }
-        ]
-      }
-    }
+export default {
+  head() {
+    return {
+      title: this.$t('meta_info.terms.title', ['| MyOngoingsCalendar']),
+      meta: [
+        {
+          name: 'description',
+          content: this.$t('meta_info.terms.meta.description', ['MyOngoingsCalendar'])
+        }
+      ]
+    };
   }
+};
 </script>

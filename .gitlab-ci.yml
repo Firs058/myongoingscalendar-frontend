@@ -3,7 +3,7 @@ image: node:latest
 cache:
   key: "$CI_PROJECT_ID"
   paths:
-  - node_modules/
+    - node_modules/
 
 variables:
   APP_PATH: /opt/app
@@ -11,62 +11,62 @@ variables:
   HELPERS_PATH: ${APP_PATH}/helpers
 
 stages:
-- build
-- deploy
-- restart
+  - build
+  - deploy
+  - restart
 
 building:
   stage: build
   variables:
     NODE_ENV: "production"
   script:
-  - npm i --no-optional
-  - npm run build
+    - npm i --no-optional
+    - npm run build
   artifacts:
     expire_in: 1 hour
     paths:
-    - .nuxt
+      - .nuxt
   only:
-  - master
+    - master
 
 deploy-app:
   stage: deploy
   only:
-  - master
+    - master
   script:
-  - mkdir -p ${FRONT_PATH}
-  - rsync -cru --delete ./ ${FRONT_PATH}
+    - mkdir -p ${FRONT_PATH}
+    - rsync -cru --delete ./ ${FRONT_PATH}
   tags:
-  - shell
+    - shell
 
 deploy-helpers:
   stage: deploy
   only:
-  - master
+    - master
   script:
-  - mkdir -p ${HELPERS_PATH}
-  - cp -f ./{vibrant.js,webp.js} ${HELPERS_PATH}
-  - cd ${HELPERS_PATH}
-  - npm i express node-vibrant webp-converter
+    - mkdir -p ${HELPERS_PATH}
+    - cp -f ./{vibrant.js,webp.js} ${HELPERS_PATH}
+    - cd ${HELPERS_PATH}
+    - npm i express node-vibrant webp-converter
   tags:
-  - shell
+    - shell
 
 deploy-pm2:
   stage: deploy
   only:
-  - master
+    - master
   script:
-  - cp -f ./ecosystem.config.js ${APP_PATH}
-  - npm i pm2 -g
+    - cp -f ./ecosystem.config.js ${APP_PATH}
+    - npm i pm2 -g
   tags:
-  - shell
+    - shell
 
 restart:
   stage: restart
   only:
-  - master
+    - master
   script:
-  - pm2 restart ecosystem.config.js
-  - pm2 save
+    - pm2 restart ecosystem.config.js
+    - pm2 save
   tags:
-  - shell
+    - shell

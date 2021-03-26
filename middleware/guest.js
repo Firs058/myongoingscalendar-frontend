@@ -1,4 +1,4 @@
-export default function ({store, redirect}) {
-    if (!store.getters.authenticated) return;
-    return redirect('/');
+export default function ({ store, redirect }) {
+  if (!store.getters.authenticated) return;
+  return redirect('/');
 }

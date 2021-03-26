@@ -5,7 +5,7 @@
     "my_calendar": "My calendar",
     "ongoings_list": "Ongoings list",
     "login": "Log in",
-    "registration": "Registration",
+    "registration": "Sign up",
     "about": "About",
     "settings": "Settings",
     "donate": "Donate",
@@ -82,8 +82,8 @@
     "remember": "Remember?",
     "forgot_pass": "Forgot password?",
     "or_with": "OR WITH",
-    "no_reg": "Not need additional registration!",
-    "provider": "With {0}. Hey, no need additional registration!",
+    "no_reg": "No additional registration!",
+    "provider": "With {0}. Hey, nothing else needs to be done!",
     "dialog": {
       "headline": "You must accept Terms before enter via {0}"
     }
@@ -95,7 +95,7 @@
     }
   },
   "registration": {
-    "headline": "Registration"
+    "headline": "Sign up"
   },
   "recover": {
     "headline": "Recover password"
@@ -103,6 +103,10 @@
   "donate": {
     "headline": "Support project",
     "prefer": "Prefer"
+  },
+  "gdpr": {
+    "headline": "This Service uses GTM(Google Analytics) to ensure you get the best experience on our service.",
+    "learn_more": "Learn more"
   },
   "buttons": {
     "add": "Add",
@@ -236,7 +240,7 @@
         "sub_title": "Upload image",
         "dialog": {
           "headline": "Upload new image",
-          "input":{
+          "input": {
             "placeholder": "Click to file upload. Allowed {0} formats. Max {1}*{2} pixels and {3}kb.",
             "label": "Avatar"
           },
@@ -283,6 +287,13 @@
       "timezone": {
         "title": "Timezone",
         "sub_title": "Select your timezone"
+      }
+    },
+    "privacy": {
+      "subheader": "Privacy",
+      "analytics": {
+        "title": "Analytics",
+        "sub_title": "Turn on, so we can make this Service as effective as possible"
       }
     }
   },
@@ -367,13 +378,13 @@
     "terms": {
       "title": "Terms of Use{0}",
       "meta": {
-        "description": "Terms of Use service {0}"
+        "description": "Terms of Use Service {0}"
       }
     },
     "privacy": {
       "title": "Privacy Policy {0}",
       "meta": {
-        "description": "Privacy Policy service {0}"
+        "description": "Privacy Policy Service {0}"
       }
     },
     "donate": {
@@ -385,7 +396,9 @@
   },
   "alerts": {
     "nothing_found": "Nothing found",
-    "settings_note": "Note! These settings are temporary. Please make an account to remember these permanently."
+    "settings_note_1": "Note! These settings are temporary. ",
+    "settings_note_or": "or",
+    "settings_note_2": " to remember these permanently."
   },
   "terms": {
     "headline": "Terms of Use",
@@ -491,6 +504,8 @@
     "10033": "You can't interact with finished anime",
     "10034": "Wrong file",
     "10035": "You are already logged in, please log out first",
+    "10036": "Error while logging in via social network",
+    "10037": "Email not verified",
     "11000": "OK",
     "11001": "OK, check you mail to activate account",
     "11002": "Account successful activated",

@@ -1,16 +1,17 @@
-import Vue from 'vue'
-import Calendar from '~/components/calendar'
-import Social from '~/components/social'
-import Loading from '~/components/loading'
-import Card from '~/components/card'
-import Comment from '~/components/comment'
-import CommentDialog from '~/components/commentDialog'
-import FeedbackDialog from '~/components/feedbackDialog'
-import Chart from '~/components/chart'
-import Toast from '~/components/toast'
+import Vue from 'vue';
+import Calendar from '~/components/calendar';
+import Social from '~/components/social';
+import Loading from '~/components/loading';
+import Card from '~/components/card';
+import Comment from '~/components/comment';
+import CommentDialog from '~/components/commentDialog';
+import FeedbackDialog from '~/components/feedbackDialog';
+import Chart from '~/components/chart';
+import Toast from '~/components/toast';
+import GDPR from '~/components/gdpr';
 
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import VueRecaptcha from 'vue-recaptcha'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import VueRecaptcha from 'vue-recaptcha';
 import LazyHydrate from 'vue-lazy-hydration';
 
 Vue.component('loading', Loading);
@@ -25,3 +26,4 @@ Vue.component('feedback-dialog', FeedbackDialog);
 Vue.component('line-chart', Chart);
 Vue.component('lazy-hydrate', LazyHydrate);
 Vue.component('toast', Toast);
+Vue.component('gdpr', GDPR);

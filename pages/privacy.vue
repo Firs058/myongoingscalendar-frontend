@@ -1,13 +1,9 @@
 <template>
-  <v-container
-    fluid
-    fill-height
-    :class="$device.isDesktop ? 'grid-list-lg' : 'pa-0'"
-  >
-    <v-layout align-center justify-center text-center>
-      <v-flex xs12 sm12 md8 lg6 xl6>
-        <v-subheader>Updated: 04.08.2018</v-subheader>
-        <h1>{{$tc("privacy.headline", 1)}}</h1>
+  <v-container fill-height>
+    <v-row justify="center">
+      <v-col xs="12" md="10" lg="6">
+        <v-subheader>Updated: 26.03.2021</v-subheader>
+        <h1 class="text-center">{{ $tc('privacy.headline', 1) }}</h1>
         <v-card class="subheading" color="transparent" flat>
           <v-card-text class="text-left text-justify">
             <p>
@@ -29,9 +25,6 @@
               email address, nickname, password and information posted in comments.
             </p>
             <p>
-              We may access information about you from third-party sources and platforms (such as Google Analytics).
-            </p>
-            <p>
               By using this Service, you consent to the uses stated above and any other use of information
               identified in this privacy policy. In addition, we may use the information that we collect for any
               other purposes disclosed to you at the time we collect your information or pursuant to your consent.
@@ -40,7 +33,12 @@
               We values your privacy and do not provide confidential information to third parties.
             </p>
             <p>
-              We use a cookie called 'vuex', which is necessary for the functioning of the application (also, some cookies from Cloudflare and Google which are not controlled by us).
+              We use a cookie called 'vuex', which is necessary for the functioning of the application (also, some
+              cookies from Cloudflare which are not controlled by us).
+            </p>
+            <p>
+              This Service can use GTM(Google Analytics) to ensure you get the best experience on our service. You can
+              always turn on/off this in the settings.
             </p>
             <p>
               We does not collect or solicit personal information from anyone under the age of 16 or knowingly
@@ -69,23 +67,23 @@
             </p>
           </v-card-text>
         </v-card>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
-  export default {
-    head() {
-      return {
-        title: this.$t("meta_info.privacy.title", ['| MyOngoingsCalendar']),
-        meta: [
-          {
-            name: 'description',
-            content: this.$t("meta_info.privacy.meta.description", ['MyOngoingsCalendar'])
-          }
-        ]
-      }
-    }
+export default {
+  head() {
+    return {
+      title: this.$t('meta_info.privacy.title', ['| MyOngoingsCalendar']),
+      meta: [
+        {
+          name: 'description',
+          content: this.$t('meta_info.privacy.meta.description', ['MyOngoingsCalendar'])
+        }
+      ]
+    };
   }
+};
 </script>

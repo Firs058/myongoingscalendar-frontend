@@ -7,9 +7,9 @@ const SETTINGS_PREFIX = '/user/settings';
 const getAuthPrefix = authenticated => authenticated ? '/user' : '/public';
 
 export {
-    BREAKOUT_CODE,
-    REJECT_CODE,
-    AUTH_PREFIX,
-    SETTINGS_PREFIX,
-    getAuthPrefix
-}
+  BREAKOUT_CODE,
+  REJECT_CODE,
+  AUTH_PREFIX,
+  SETTINGS_PREFIX,
+  getAuthPrefix
+};
