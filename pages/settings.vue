@@ -16,9 +16,9 @@
               :value="true"
           >
             {{ $t('alerts.settings_note_1') }}
-            <v-btn text color="primary" to="/registration">{{ $t('registration.headline') }}</v-btn>
+            <a @click.stop="$router.push('/registration')">{{ $t('registration.headline') }}</a>
             {{ $t('alerts.settings_note_or') }}
-            <v-btn text color="primary" to="/login">{{ $t('login.headline') }}</v-btn>
+            <a @click.stop="$router.push('/login')">{{ $t('login.headline') }}</a>
             {{ $t('alerts.settings_note_2') }}
           </v-alert>
         </div>

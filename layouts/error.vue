@@ -22,45 +22,55 @@
               />
             </v-card>
           </v-col>
-          <v-btn
-              large
-              @click.stop="$router.push('/')"
-              text
-              color="primary"
-              aria-label="to home page"
-          >
-            to home page
-          </v-btn>
+          <v-col cols="12" align="center">
+            <v-btn
+                large
+                @click.stop="$router.push('/')"
+                text
+                color="primary"
+                aria-label="to home page"
+            >
+              to home page
+            </v-btn>
+          </v-col>
         </v-row>
         <v-row
             justify="center"
             v-else-if="error.statusCode === 500"
         >
-          <h1 class="text-center">Timeout exceeded</h1>
-          <v-btn
-              large
-              @click.stop="$router.push('/')"
-              text
-              color="primary"
-              aria-label="to home page"
-          >
-            to home page
-          </v-btn>
+          <v-col cols="12">
+            <h1 class="text-center">Timeout exceeded</h1>
+          </v-col>
+          <v-col cols="12" align="center">
+            <v-btn
+                large
+                @click.stop="$router.push('/')"
+                text
+                color="primary"
+                aria-label="to home page"
+            >
+              to home page
+            </v-btn>
+          </v-col>
         </v-row>
         <v-row
             justify="center"
             v-else
         >
-          <h1 class="text-center">An error occurred</h1>
-          <v-btn
-              large
-              @click.stop="$router.push('/')"
-              text
-              color="primary"
-              aria-label="to home page"
-          >
-            to home page
-          </v-btn>
+          <v-col cols="12">
+            <h1 class="text-center">An error occurred</h1>
+          </v-col>
+          <v-col cols="12" align="center">
+            <v-btn
+                large
+                @click.stop="$router.push('/')"
+                text
+                color="primary"
+                aria-label="to home page"
+            >
+              to home page
+            </v-btn>
+          </v-col>
         </v-row>
       </v-col>
     </v-row>
