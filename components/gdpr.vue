@@ -32,6 +32,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { initGTM } from '~/plugins/gtm';
 
 export default {
   data: () => ({
@@ -40,6 +41,7 @@ export default {
   }),
   methods: {
     submit(value) {
+      if (value) initGTM();
       this.$store.dispatch('setAgreeWithAnalysis', value);
       this.$store.dispatch('setShowGDPR', false);
     }
