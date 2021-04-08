@@ -19,14 +19,14 @@
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "@mdi/js": "^5.9.55",
     "@nuxtjs/axios": "^5.13.1",
-    "@nuxtjs/dayjs": "^1.3.0",
-    "@nuxtjs/vuetify": "^1.11.2",
+    "@nuxtjs/dayjs": "^1.3.1",
+    "@nuxtjs/vuetify": "^1.11.3",
     "chart.js": "^2.9.4",
     "cookie": "latest",
     "dayjs": "latest",
     "js-base64": "latest",
     "js-cookie": "latest",
-    "nuxt": "^2.15.3",
+    "nuxt": "^2.15.4",
     "nuxt-device-detect": "^1.1.5",
     "nuxt-i18n": "^6.22.1",
     "svg-country-flags": "^1.2.10",
@@ -46,6 +46,6 @@
   "devDependencies": {
     "babel-plugin-transform-imports": "^2.0.0",
     "cross-env": "^7.0.3",
-    "npm-check-updates": "^11.3.0"
+    "npm-check-updates": "^11.4.1"
   }
 }

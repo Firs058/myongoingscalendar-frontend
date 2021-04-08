@@ -32,13 +32,19 @@
               <td>{{ props.item.title }}</td>
               <td>{{ props.item.titleen }}</td>
             </template>
-            <template v-slot:item.action="{ item }">
+            <template v-slot:item.actions="{ item }">
               <v-icon
                   small
                   class="mr-2"
                   @click="editItem(item)"
               >
                 {{ icons.mdiPencil }}
+              </v-icon>
+              <v-icon
+                  small
+                  @click="deleteItem(item)"
+              >
+                {{ icons.mdiTrashCan }}
               </v-icon>
             </template>
           </v-data-table>
@@ -95,9 +101,7 @@
 </template>
 
 <script>
-import {
-  mdiPencil
-} from '@mdi/js';
+import { icons } from '~/mixins/icons';
 
 export default {
   async asyncData({ app }) {
@@ -116,7 +120,7 @@ export default {
           { sortable: false, text: 'Syoboi id', value: 'tid', align: 'center' },
           { sortable: false, text: 'Japan name', value: 'title', align: 'center' },
           { sortable: false, text: 'English name', value: 'titleen', align: 'center' },
-          { sortable: false, text: 'Actions', value: 'action', align: 'center' }
+          { sortable: false, text: 'Actions', value: 'actions', align: 'center', width: "10%" }
         ],
         item: {
           aid: '',
@@ -152,10 +156,7 @@ export default {
           path: 'syoboi',
           name: 'Force parse Syoboi'
         }
-      ],
-      icons: {
-        mdiPencil
-      }
+      ]
     };
   },
   data: () => ({
@@ -177,6 +178,13 @@ export default {
       this.list.item = item;
       this.dialog = true;
     },
+    deleteItem(item) {
+      this.loading = true;
+      this.$anime.adminApi({ path: `data/delete/${item.tid}` })
+          .then(({ code }) => this.$toast.showToast({ code }))
+          .catch(({ code }) => this.$toast.showToast({ code }))
+          .finally(() => this.loading = false);
+    },
     save() {
       this.dialog = false;
       this.$anime.adminApi({ path: 'update', params: this.list.item })
@@ -191,6 +199,9 @@ export default {
           .finally(() => this.loading = false);
     }
   },
+  mixins: [
+    icons
+  ],
   metaInfo: {
     title: 'Admin | MyOngoingsCalendar',
     meta: [

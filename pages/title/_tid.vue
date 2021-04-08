@@ -210,6 +210,7 @@
                     </v-tooltip>
                   </v-col>
                   <social
+                      v-if="!!globalTitle"
                       :url="globalUrl"
                       :title="globalTitle"
                       :description="globalDescription"
@@ -433,7 +434,7 @@ import { translate } from '~/mixins/translate';
 import { mapGetters } from 'vuex';
 
 export default {
-  async asyncData({ params, app, store: { getters: { settings: { timezone }, authenticated } } }) {
+  async asyncData({ params, app, store: { getters: { settings: { timezone }, authenticated } }, redirect }) {
     const tid = Number(params.tid);
     const {
       title,
@@ -443,6 +444,7 @@ export default {
       total,
       fromPath
     } = await app.$anime.getTitle({ authenticated, tid, params: { timezone } });
+    if (!title.tid) return redirect('/404');
     return {
       tid,
       title,

@@ -1,0 +1,20 @@
+@import "assets/variables";
+
+::-webkit-scrollbar {
+  width: $scrollbar-width;
+}
+
+::-webkit-scrollbar-track {
+  background: $scrollbar-light-base-color;
+  border-left: $scrollbar-border-left;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $scrollbar-grey-lighten-2;
+  border: $scrollbar-border $scrollbar-light-base-color;
+  border-radius: $scrollbar-border-radius;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $scrollbar-grey-lighten-2;
+}

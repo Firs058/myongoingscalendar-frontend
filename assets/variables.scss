@@ -1,14 +1,22 @@
+//vuetify vars
 $material-dark: (
         'background': #303030,
         'surface': #303030,
         'cards': #424242,
         'dividers': hsla(0, 0%, 100%, .12)
 );
-
 $material-light: (
         'cards': #F5F5F5
 );
-
 $expansion-panel-content-padding: (0 0 12px 12px);
-
 $data-table-border-radius: (0);
+
+//custom scrollbar
+$scrollbar-dark-base-color: #303030;
+$scrollbar-grey-darken-2: #616161;
+$scrollbar-light-base-color: #ffffff;
+$scrollbar-grey-lighten-2: #e0e0e0;
+$scrollbar-border: solid 3px;
+$scrollbar-border-left: 1px solid transparent;
+$scrollbar-border-radius: 7px;
+$scrollbar-width: 15px;

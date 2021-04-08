@@ -580,6 +580,7 @@ export default {
       }
     },
     openUrl: url => window.open(url),
+    refreshPage: () => document.location.reload(),
     setLang(value) {
       this.$store.dispatch('setSetting', { name: 'lang', value: value });
       this.$i18n.locale = value;
@@ -664,8 +665,9 @@ export default {
         return this.$store.getters.settings.dark;
       },
       set(value) {
-        this.$store.dispatch('setSetting', { name: 'dark', value: value });
         this.$vuetify.theme.dark = value;
+        this.$store.dispatch('setSetting', { name: 'dark', value: value })
+            .then(() => this.refreshPage());
       }
     },
     hideRepeats: {
@@ -690,7 +692,7 @@ export default {
       },
       set(value) {
         this.$store.dispatch('setAgreeWithAnalysis', value)
-            .then(() => value ? initGTM() : document.location.reload());
+            .then(() => value ? initGTM() : this.refreshPage());
       }
     },
     timeFormats() {

@@ -20,7 +20,7 @@ module.exports = {
   },
   plugins: [
     { src: '~/plugins/ready.js', mode: 'client' },
-    { src: '~/plugins/scroll.js', mode: 'client' },
+    { src: '~/plugins/infinite-loading.js', mode: 'client' },
     { src: '~/plugins/shared-mutations.js', mode: 'client' },
     { src: '~/plugins/gtm.js', mode: 'client' },
     '~/plugins/axios.js',
@@ -32,7 +32,8 @@ module.exports = {
     '~/plugins/i18n.js',
     '~/plugins/font-awesome.js',
     '~/plugins/async.js',
-    '~/plugins/sharing.js'
+    '~/plugins/sharing.js',
+    '~/plugins/scrollbar.js'
   ],
   buildModules: [
     '@nuxtjs/axios',

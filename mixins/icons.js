@@ -33,7 +33,8 @@ import {
   mdiAccount,
   mdiOpenInNew,
   mdiMessageAlert,
-  mdiFileImage
+  mdiFileImage,
+  mdiTrashCan
 } from '@mdi/js';
 
 export const icons = {
@@ -73,7 +74,8 @@ export const icons = {
       mdiAccount,
       mdiOpenInNew,
       mdiMessageAlert,
-      mdiFileImage
+      mdiFileImage,
+      mdiTrashCan
     }
   })
 };
