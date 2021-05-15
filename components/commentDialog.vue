@@ -19,7 +19,6 @@
       <v-card-actions>
         <v-spacer/>
         <v-btn
-            color="error"
             text
             @click.native="dialog = false"
             :aria-label="$t('buttons.cancel')"

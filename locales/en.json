@@ -11,7 +11,8 @@
     "donate": "Donate",
     "exit": "Exit",
     "search": "Search",
-    "feedback": "Leave feedback"
+    "feedback": "Leave feedback",
+    "statistics": "Statistics"
   },
   "calendar": {
     "today": "Today",
@@ -25,7 +26,10 @@
     "information": {
       "episodes": " episodes",
       "outdated": "This page info may be outdated",
-      "weighted_average_rating": "Weighted average rating: {0}"
+      "weighted_average_rating": "Weighted average rating: {0}",
+      "your_score": "Your score: {0}",
+      "add_first": "Add this title to your calendar to rate it",
+      "click_to_rate": "Click to rate it"
     },
     "schedule": {
       "subheader": "Schedule",
@@ -45,6 +49,9 @@
     "dialogs": {
       "deletion": {
         "title": "Confirm deletion"
+      },
+      "scoreDialog": {
+        "title": "Rate title"
       }
     },
     "chart": {
@@ -76,6 +83,45 @@
     "headline": "Leave feedback",
     "hint_for_anonymous": "Leave feedback or share your development ideas. Contacting us in this way will not work, as we will not be able to answer you. For direct communication, use myongoingscalendar@gmail.com",
     "hint_for_authenticated": "Leave feedback or share your development ideas. For direct communication, it is better to write to myongoingscalendar@gmail.com"
+  },
+  "statistics": {
+    "h1": "User statistics",
+    "scoresSection": {
+      "h2": "Avg score: {0}"
+    },
+    "genresSection": {
+      "h2": "Genres"
+    },
+    "animeSection": {
+      "h2": "Anime",
+      "statuses": {
+        "ALL": "All",
+        "WATCHING": "Watching",
+        "WATCHED": "Watched",
+        "DROPPED": "Dropped",
+        "FAVORITES": "Favorites"
+      },
+      "table": {
+        "search_in": "Search in \"{0}\"",
+        "nothing_found": "Nothing found",
+        "itemsPerPageText": "Rows per page",
+        "headers": {
+          "image": "",
+          "en": "Name",
+          "ja": "Original name",
+          "watchingStatus": "Status",
+          "favorite": "Favorite",
+          "score": "Score",
+          "genres": "Genres"
+        }
+      }
+    },
+    "commentsSection": {
+      "h2": "Comments: {0}",
+      "karma": "Karma: {0}",
+      "likes": "Likes: {0}",
+      "dislikes": "Dislikes: {0}"
+    }
   },
   "login": {
     "headline": "Log in",
@@ -363,6 +409,12 @@
         "description": "List of current anime ongoing which broadcasts in Japan"
       }
     },
+    "statistics": {
+      "title": "User statistics",
+      "meta": {
+        "description": "Current user statistics"
+      }
+    },
     "home": {
       "title": "Home {0}",
       "meta": {
@@ -395,7 +447,7 @@
     }
   },
   "alerts": {
-    "nothing_found": "Nothing found",
+    "nothing_found": "Nothing found. Add the anime first.",
     "settings_note_1": "Note! These settings are temporary. ",
     "settings_note_or": "or",
     "settings_note_2": " to remember these permanently."
@@ -506,6 +558,8 @@
     "10035": "You are already logged in, please log out first",
     "10036": "Error while logging in via social network",
     "10037": "Email not verified",
+    "10038": "Score must be between 1 and 10",
+    "10039": "First add this title to your calendar",
     "11000": "OK",
     "11001": "OK, check you mail to activate account",
     "11002": "Account successful activated",
@@ -526,6 +580,11 @@
     "11017": "Need re login",
     "11018": "Thanks for feedback!",
     "11019": "Avatar saved",
-    "11020": "Avatar removed"
+    "11020": "Avatar removed",
+    "11021": "Added to favorites",
+    "11022": "Removed from favorites",
+    "11023": "Score added",
+    "11024": "Score updated",
+    "11025": "Score removed"
   }
 }

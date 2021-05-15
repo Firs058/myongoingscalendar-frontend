@@ -9,7 +9,7 @@
           <v-row :justify="$device.isMobile ? 'center' : 'end'">
             <template v-for="network in networks">
               <v-tooltip
-                  :key="network.network"
+                  :key="network.name"
                   top
                   :disabled="!$device.isDesktop"
               >

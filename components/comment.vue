@@ -114,7 +114,7 @@
     </v-list-item>
     <div
         v-text="comment.text"
-        :style="{'padding-left': '72px', 'white-space': 'pre-wrap'}"
+        :style="{'padding-left': '72px', 'padding-right': '12px', 'white-space': 'pre-wrap'}"
     />
     <v-card-actions v-if="$device.isMobile" style="margin-left: 61px;" class="pa-0">
       <v-tooltip top :disabled="!$device.isDesktop">

@@ -66,6 +66,19 @@
         </v-list-item>
         <v-list-item
             ripple
+            v-if="authenticated"
+            to="/statistics"
+            nuxt
+        >
+          <v-list-item-icon>
+            <v-icon>{{ icons.mdiPoll }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('menu.statistics') }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+            ripple
             :to="{ name: 'search', query: lastQuery }"
             nuxt
         >

@@ -13,5 +13,6 @@ export default ({ store, app }) => {
         });
         store.dispatch('setSettings', settings);
         store.dispatch('setSynced', true);
-      });
+      })
+      .catch(() => {});
 }

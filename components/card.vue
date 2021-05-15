@@ -25,13 +25,10 @@
           <div class="d-flex flex-column justify-end fill-height ma-0">
             <div class="d-flex justify-start mb-auto" v-if="haveStatusOrIcons">
               <div class="d-flex justify-center align-center" v-if="anime.watchingStatus">
-                <v-chip
-                    :color="statusColor"
-                    class="text-uppercase ma-4"
-                    small
-                >
-                  {{ $t(`card.watching_status.${anime.watchingStatus}`) }}
-                </v-chip>
+                <watching-status
+                    :status="anime.watchingStatus"
+                    class="ma-4"
+                />
               </div>
               <div class="d-flex ml-auto" v-if="haveStatusIcons">
                 <v-tooltip top>
@@ -41,7 +38,7 @@
                         v-on="on"
                         size="32"
                         color="red darken-1"
-                        class="ml-4 mr-2 my-3"
+                        class="mr-3 my-3"
                     >
                       {{ icons.mdiHeart }}
                     </v-icon>
@@ -55,7 +52,7 @@
                         v-on="on"
                         size="32"
                         color="yellow darken-3"
-                        class="mr-4 my-3"
+                        class="mr-3 my-3"
                     >
                       {{ icons.mdiStar }}
                     </v-icon>
@@ -93,14 +90,10 @@
                 v-if="haveStatusOrIcons"
                 class="mt-auto d-flex flex-no-wrap justify-space-between"
             >
-              <v-chip
+              <watching-status
                   v-if="anime.watchingStatus"
-                  :color="statusColor"
-                  class="text-uppercase"
-                  small
-              >
-                {{ $t(`card.watching_status.${anime.watchingStatus}`) }}
-              </v-chip>
+                  :status="anime.watchingStatus"
+              />
               <v-spacer/>
               <v-icon
                   v-if="anime.favorite"
@@ -143,17 +136,6 @@ export default {
     image
   ],
   methods: {
-    getColor({ status }) {
-      const shade = this.settings.dark ? 'darken-3' : 'lighten-2';
-      const colors = {
-        NEW: `orange ${shade}`,
-        WATCHING: `green ${shade}`,
-        WATCHED: `blue ${shade}`,
-        DROPPED: `red ${shade}`,
-        PLANNED: `purple ${shade}`
-      };
-      return colors[status];
-    },
     getBackgroundColor({ gradient }) {
       const hex = this.anime.image.hex;
       return !!hex && Object.keys(hex).length
@@ -169,9 +151,6 @@ export default {
     ...mapGetters([
       'settings'
     ]),
-    statusColor() {
-      return this.getColor({ status: this.anime.watchingStatus });
-    },
     title() {
       const { en, ja } = this.anime;
       return en ? en : ja;
@@ -190,8 +169,3 @@ export default {
 };
 </script>
 
-<style scoped>
->>> .v-chip:before {
-  background-color: transparent !important;
-}
-</style>

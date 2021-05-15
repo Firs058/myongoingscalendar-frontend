@@ -11,7 +11,6 @@
     <template v-slot:action>
       <v-btn
           text
-          color="error"
           :aria-label="$t('buttons.disagree')"
           @click="submit(false)"
           class="mr-2"

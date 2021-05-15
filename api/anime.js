@@ -19,11 +19,13 @@ export default (axios) => () => ({
     new Promise((resolve, reject) =>
       axios
         .post(`${getAuthPrefix(authenticated)}/title/${tid}`, params)
-        .then(({ data: { payload: { title, marked, broadcast: { tabs }, comments: { nodes, total, fromPath } }, status: { code } } }) =>
+        .then(({ data: { payload: { title, added, score, favorite, broadcast: { tabs }, comments: { nodes, total, fromPath } }, status: { code } } }) =>
           code >= BREAKOUT_CODE
             ? resolve({
               title,
-              marked,
+              added,
+              score,
+              favorite,
               tabs,
               nodes,
               total,
@@ -32,10 +34,31 @@ export default (axios) => () => ({
             : reject({ code }))
         .catch(() => reject({ code: REJECT_CODE }))),
 
-  titleToggle: ({ tid }) =>
+  toggleTitle: ({ tid }) =>
     new Promise((resolve, reject) =>
       axios
         .post(`/user/title/${tid}/toggle`)
+        .then(({ data: { status: { code } } }) => code >= BREAKOUT_CODE ? resolve({ code }) : reject({ code }))
+        .catch(() => reject({ code: REJECT_CODE }))),
+
+  toggleTitleFavorite: ({ tid }) =>
+    new Promise((resolve, reject) =>
+      axios
+        .post(`/user/title/${tid}/toggle/favorite`)
+        .then(({ data: { status: { code } } }) => code >= BREAKOUT_CODE ? resolve({ code }) : reject({ code }))
+        .catch(() => reject({ code: REJECT_CODE }))),
+
+  setUserTitleScore: ({ tid, params }) =>
+    new Promise((resolve, reject) =>
+      axios
+        .post(`/user/title/${tid}/score`, params)
+        .then(({ data: { status: { code } } }) => code >= BREAKOUT_CODE ? resolve({ code }) : reject({ code }))
+        .catch(() => reject({ code: REJECT_CODE }))),
+
+  removeUserTitleScore: ({ tid }) =>
+    new Promise((resolve, reject) =>
+      axios
+        .post(`/user/title/${tid}/score/remove`)
         .then(({ data: { status: { code } } }) => code >= BREAKOUT_CODE ? resolve({ code }) : reject({ code }))
         .catch(() => reject({ code: REJECT_CODE }))),
 

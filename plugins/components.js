@@ -9,6 +9,7 @@ import FeedbackDialog from '~/components/feedbackDialog';
 import Chart from '~/components/chart';
 import Toast from '~/components/toast';
 import GDPR from '~/components/gdpr';
+import WatchingStatus from '~/components/watchingStatus';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueRecaptcha from 'vue-recaptcha';
@@ -27,3 +28,4 @@ Vue.component('line-chart', Chart);
 Vue.component('lazy-hydrate', LazyHydrate);
 Vue.component('toast', Toast);
 Vue.component('gdpr', GDPR);
+Vue.component('watching-status', WatchingStatus);

@@ -64,6 +64,11 @@ module.exports = {
     publicPath: '/dist/',
     extend(config) {
       config.externals = { moment: 'moment' };
+    },
+    babel:{
+      plugins: [
+        ['@babel/plugin-proposal-private-methods', { loose: true }]
+      ]
     }
   }
 };

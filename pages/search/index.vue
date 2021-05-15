@@ -56,7 +56,6 @@
                   v-if="currentQuery"
                   :color="`teal ${settings.dark ? 'darken-3' : 'lighten-3'}`"
                   close
-                  class="ma-2"
                   @click:close="currentQuery = ''"
               >
                 {{ `${$t('search.chips.name')}: ${currentQuery}` }}
@@ -65,7 +64,6 @@
                   v-for="filter in filters"
                   :key="filter.name"
                   v-if="filter.added"
-                  class="ma-2"
                   :color="`${filter.color} ${settings.dark ? 'darken-3' : 'lighten-3'}`"
                   close
                   @click:close="filter.added = false, filter.selected ? filters.genres.selected = [] : null"
@@ -217,7 +215,6 @@
         <v-card-actions>
           <v-spacer/>
           <v-btn
-              color="error"
               text
               @click="dialog.open = false"
               :aria-label="$t('buttons.close')"

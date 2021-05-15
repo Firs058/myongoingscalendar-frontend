@@ -10,8 +10,8 @@
               width="100%"
               :alt="globalTitle"
           >
-            <v-container fill-height :style="titleStyle">
-              <v-row justify="center">
+            <v-container :style="titleStyle" class="grow d-flex flex-column flex-nowrap">
+              <v-row class="grow" justify="center" style="padding-top: 74px">
                 <v-col cols="10" align-self="center">
                   <v-row justify="center">
                     <v-col cols="auto" class="py-0 ma-5" align-self="center">
@@ -21,11 +21,11 @@
                       />
                     </v-col>
                   </v-row>
-                  <v-row v-if="!!title.avgRating" justify="center">
+                  <v-row justify="center">
                     <v-col cols="auto" class="py-0">
                       <v-tooltip top :disabled="!$device.isDesktop">
                         <template v-slot:activator="{ on }">
-                          <div v-on="on">
+                          <div v-on="on" @click="added ? score.dialog = true : undefined">
                             <v-rating
                                 v-if="title.avgRating"
                                 :value="title.avgRating"
@@ -38,7 +38,7 @@
                                 :empty-icon="icons.mdiStarOutline"
                                 :full-icon="icons.mdiStar"
                                 :half-icon="icons.mdiStarHalfFull"
-                                class="mb-4"
+                                :class="{'selectable': added, 'mb-4': true}"
                             >
                               <template slot="item" slot-scope="item">
                                 <v-icon :color="item.isHalfFilled || item.isFilled ? 'yellow darken-3' : 'grey'">
@@ -52,9 +52,39 @@
                                 </v-icon>
                               </template>
                             </v-rating>
+                            <v-rating
+                                v-else
+                                color="yellow darken-3"
+                                background-color="grey"
+                                dense
+                                readonly
+                                half-increments
+                                length="10"
+                                :empty-icon="icons.mdiStarOutline"
+                                :full-icon="icons.mdiStar"
+                                :half-icon="icons.mdiStarHalfFull"
+                                :class="{'selectable': added, 'mb-4': true}"
+                            />
                           </div>
                         </template>
-                        <span>{{ $t('title.information.weighted_average_rating', [title.avgRating]) }}</span>
+                        <div class="text-center">
+                          <div v-if="title.avgRating">
+                            <span>
+                              {{ $t('title.information.weighted_average_rating', [title.avgRating]) }}
+                            </span>
+                          </div>
+                          <div>
+                            <span v-if="!added && !score.value && !title.finished">
+                              {{ $t('title.information.add_first') }}
+                            </span>
+                            <span v-else-if="added && !score.value">
+                              {{ $t('title.information.click_to_rate') }}
+                            </span>
+                            <span v-else-if="!!score.value">
+                              {{ $t('title.information.your_score', [score.value]) }}
+                            </span>
+                          </div>
+                        </div>
                       </v-tooltip>
                     </v-col>
                   </v-row>
@@ -67,56 +97,63 @@
                               style="min-width: 240px; max-width: 100%;"
                           >
                             <v-btn
-                                @click.native.stop="title && !marked ? titleToggle() : deletion = true"
+                                @click.native.stop="!added ? toggleTitle() : deletion.dialog = true"
                                 :disabled="!authenticated"
-                                :loading="button.loading"
-                                :aria-label="title && !marked ? $t('buttons.add') : $t('buttons.remove')"
+                                :loading="deletion.loading"
+                                :aria-label="!added ? $t('buttons.add') : $t('buttons.remove')"
                                 height="50"
                                 block
                                 depressed
-                                :style="authenticated ? buttonStyle({color: title && !marked ? buttonColors.green : buttonColors.red}) : undefined"
+                                :style="authenticated ? buttonStyle({color: !added ? buttonColors.green : buttonColors.red}) : undefined"
                             >
-                              {{ title && !marked ? $t('buttons.add') : $t('buttons.remove') }}
+                              {{ !added ? $t('buttons.add') : $t('buttons.remove') }}
                             </v-btn>
                           </div>
                         </template>
                         <span>{{
-                            authenticated ? marked ? $t('tooltips.remove_from_my_calendar') : $t('tooltips.add_to_my_calendar') : $t('tooltips.you_must_be_logged_in')
+                            authenticated
+                                ? added
+                                ? $t('tooltips.remove_from_my_calendar')
+                                : $t('tooltips.add_to_my_calendar')
+                                : $t('tooltips.you_must_be_logged_in')
                           }}</span>
                       </v-tooltip>
                     </v-col>
-                    <!--
-                    <v-tooltip top :disabled="!$device.isDesktop" v-if="favorite">
-                        <template v-slot:activator="{ on }">
-                            <div v-on="on">
-                                <v-btn
-                                        :class="{
-                                            'ml-2': true,
-                                            'green&#45;&#45;text': title && !favorite,
-                                            'red&#45;&#45;text': title && favorite,
+                  </v-row>
+                </v-col>
+              </v-row>
+              <v-row class="shrink">
+                <v-col cols="12">
+                  <v-tooltip right :disabled="!$device.isDesktop" v-if="added">
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                          v-on="on"
+                          @click="toggleTitleFavorite"
+                          :class="{
+                                            'grey--text': !favorite.value,
+                                            'red--text': favorite.value,
                                             'darken-3': settings.dark,
                                           }"
-                                        :disabled="!authenticated"
-                                        :loading="button.loading"
-                                        :aria-label="title && !favorite ? $t('buttons.add') : $t('buttons.remove')"
-                                        outlined
-                                        min-width="50"
-                                        max-width="50"
-                                        height="50"
-                                >
-                                    <v-icon
-                                            size="32"
-                                            color="red darken-1"
-                                    >
-                                        {{icons.mdiHeart}}
-                                    </v-icon>
-                                </v-btn>
-                            </div>
-                        </template>
-                        <span>{{authenticated ? marked ? $t('tooltips.remove_from_favorites') : $t('tooltips.add_to_favorites') : $t('tooltips.you_must_be_logged_in')}}</span>
-                    </v-tooltip>
-                    -->
-                  </v-row>
+                          :disabled="!authenticated"
+                          :loading="favorite.loading"
+                          :aria-label="favorite.value ? $t('buttons.add') : $t('buttons.remove')"
+                          icon
+                          min-width="50"
+                          max-width="50"
+                          height="50"
+                      >
+                        <v-icon
+                            size="32"
+                            :color="`${favorite.value ? 'red' : 'grey'} darken-1`"
+                        >
+                          {{ icons.mdiHeart }}
+                        </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>{{
+                        authenticated ? favorite.value ? $t('tooltips.remove_from_favorites') : $t('tooltips.add_to_favorites') : $t('tooltips.you_must_be_logged_in')
+                      }}</span>
+                  </v-tooltip>
                 </v-col>
               </v-row>
             </v-container>
@@ -320,7 +357,7 @@
               </v-tab-item>
             </v-tabs-items>
             <v-dialog
-                v-model="deletion"
+                v-model="deletion.dialog"
                 max-width="300"
             >
               <v-card>
@@ -329,9 +366,8 @@
                 <v-card-actions>
                   <v-spacer/>
                   <v-btn
-                      color="error"
                       text
-                      @click.native="deletion = false"
+                      @click.native="deletion.dialog = false"
                       :aria-label="$t('buttons.disagree')"
                   >
                     {{ $t('buttons.disagree') }}
@@ -339,8 +375,8 @@
                   <v-btn
                       color="success"
                       text
-                      @click.native="titleToggle"
-                      :loading="button.loading"
+                      @click.native="toggleTitle"
+                      :loading="deletion.loading"
                       :aria-label="$t('buttons.agree')"
                   >
                     {{ $t('buttons.agree') }}
@@ -348,10 +384,66 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
+            <v-dialog
+                v-model="score.dialog"
+                max-width="320"
+            >
+              <v-card>
+                <v-card-title class="headline">{{ $t('title.dialogs.scoreDialog.title') }}</v-card-title>
+                <v-card-text>{{ globalTitle }}</v-card-text>
+                <v-card-text>
+                  <v-rating
+                      v-model="score.value"
+                      color="yellow darken-3"
+                      background-color="grey"
+                      dense
+                      half-increments
+                      length="10"
+                      :empty-icon="icons.mdiStarOutline"
+                      :full-icon="icons.mdiStar"
+                      :half-icon="icons.mdiStarHalfFull"
+                      class="mb-4"
+                  >
+                  </v-rating>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn
+                      v-if="score.remove.exists"
+                      text
+                      color="error"
+                      :loading="score.remove.loading"
+                      :disabled="score.loading"
+                      @click.native="removeUserTitleScore"
+                      :aria-label="$t('buttons.remove')"
+                  >
+                    {{ $t('buttons.remove') }}
+                  </v-btn>
+                  <v-spacer/>
+                  <v-btn
+                      text
+                      @click.native="score.dialog = false"
+                      :aria-label="$t('buttons.close')"
+                      :disabled="score.remove.loading || score.loading"
+                  >
+                    {{ $t('buttons.close') }}
+                  </v-btn>
+                  <v-btn
+                      color="success"
+                      text
+                      @click.native="setUserTitleScore"
+                      :loading="score.loading"
+                      :aria-label="$t('buttons.accept')"
+                      :disabled="!score || score.remove.loading"
+                  >
+                    {{ $t('buttons.accept') }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-sheet>
           <v-sheet
               tile
-              class="pb-8"
+              class="py-8"
           >
             <lazy-hydrate when-visible>
               <v-card color="transparent" flat>
@@ -438,7 +530,9 @@ export default {
     const tid = Number(params.tid);
     const {
       title,
-      marked,
+      added,
+      score,
+      favorite,
       tabs,
       nodes,
       total,
@@ -448,7 +542,21 @@ export default {
     return {
       tid,
       title,
-      marked,
+      added,
+      favorite: {
+        dialog: false,
+        loading: false,
+        value: favorite
+      },
+      score: {
+        dialog: false,
+        loading: false,
+        value: score,
+        remove: {
+          exists: !!score,
+          loading: false
+        }
+      },
       broadcast: {
         tabs,
         active: 'tab-next',
@@ -470,10 +578,11 @@ export default {
     };
   },
   data: () => ({
-    deletion: false,
-    button: {
+    deletion: {
+      dialog: false,
       loading: false
     },
+    mainButtonLoading: false,
     showChart: false
   }),
   validate({ params }) {
@@ -535,32 +644,66 @@ export default {
   },
   methods: {
     openLink: url => window.open(url),
-    async titleToggle() {
-      this.button.loading = true;
-      await this.$anime.titleToggle({ tid: this.tid })
+    async toggleTitle() {
+      this.mainButtonLoading = true;
+      await this.$anime.toggleTitle({ tid: this.tid })
           .then(({ code }) => {
             this.$toast.showToast({ code });
-            this.deletion = false;
-            this.marked = !this.marked;
+            this.deletion.dialog = false;
+            this.added = !this.added;
+            if (!this.added) {
+              this.score.value = null;
+              this.favorite.value = false;
+            }
           })
           .catch(({ code }) => this.$toast.showToast({ code }))
-          .finally(() => this.button.loading = false);
+          .finally(() => this.mainButtonLoading = false);
+    },
+    async toggleTitleFavorite() {
+      this.favorite.loading = true;
+      await this.$anime.toggleTitleFavorite({ tid: this.tid })
+          .then(({ code }) => {
+            this.$toast.showToast({ code });
+            this.favorite.dialog = false;
+            this.favorite.value = !this.favorite.value;
+          })
+          .catch(({ code }) => this.$toast.showToast({ code }))
+          .finally(() => this.favorite.loading = false);
     },
     async getComments({ next }) {
       if (next) this.comments.offset += 10;
       this.comments.loading = true;
-      const params = {
-        tid: this.tid,
-        offset: this.comments.offset
-      };
-
-      await this.$anime.getComments(params)
+      await this.$anime.getComments({ tid: this.tid, offset: this.comments.offset })
           .then(({ nodes, fromPath }) => {
             this.comments.nodes.length && next ? nodes.forEach(e => this.comments.nodes.push(e)) : this.comments.nodes = nodes;
             this.comments.more = fromPath - this.comments.nodes.length;
           })
           .catch(({ code }) => this.$toast.showToast({ code }))
           .finally(() => this.comments.loading = false);
+    },
+    async setUserTitleScore() {
+      if (this.score.value >= 1 && this.score.value <= 10) {
+        this.score.loading = true;
+        await this.$anime.setUserTitleScore({ tid: this.tid, params: { score: this.score.value } })
+            .then(({ code }) => {
+              this.$toast.showToast({ code });
+              this.score.remove.exists = true;
+              this.score.dialog = false;
+            })
+            .catch(({ code }) => this.$toast.showToast({ code }))
+            .finally(() => this.score.loading = false);
+      } else this.$toast.showToast({ code: 10038 });
+    },
+    async removeUserTitleScore() {
+      this.score.remove.loading = true;
+      await this.$anime.removeUserTitleScore({ tid: this.tid })
+          .then(({ code }) => {
+            this.$toast.showToast({ code });
+            this.score.remove.exists = false;
+            this.score.dialog = false;
+          })
+          .catch(({ code }) => this.$toast.showToast({ code }))
+          .finally(() => this.score.remove.loading = false);
     }
   },
   mixins: [
@@ -603,7 +746,7 @@ export default {
       const dark = this.settings.dark;
       const blackOpacity = 'rgba(0,0,0,0.5)';
       const whiteOpacity = 'rgba(255,255,255,0.5)';
-      return `background:linear-gradient(to top, ${dark ? Object.keys(hex).length ? hex.dark : blackOpacity : Object.keys(hex).length ? hex.light : whiteOpacity}, ${dark ? blackOpacity : whiteOpacity})`;
+      return `background:linear-gradient(to top, ${dark ? Object.keys(hex).length ? hex.dark : blackOpacity : Object.keys(hex).length ? hex.light : whiteOpacity}, ${dark ? blackOpacity : whiteOpacity}); height: 100%`;
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -623,7 +766,8 @@ export default {
   height: 50px;
 }
 
-.v-avatar {
+.v-avatar,
+.v-rating.selectable {
   cursor: pointer;
 }
 
