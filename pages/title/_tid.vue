@@ -11,7 +11,7 @@
               :alt="globalTitle"
           >
             <v-container :style="titleStyle" class="grow d-flex flex-column flex-nowrap">
-              <v-row class="grow" justify="center" style="padding-top: 74px">
+              <v-row class="grow" justify="center" :style="added ? 'padding-top: 74px' : undefined">
                 <v-col cols="10" align-self="center">
                   <v-row justify="center">
                     <v-col cols="auto" class="py-0 ma-5" align-self="center">
@@ -122,9 +122,9 @@
                   </v-row>
                 </v-col>
               </v-row>
-              <v-row class="shrink">
+              <v-row class="shrink" v-if="added">
                 <v-col cols="12">
-                  <v-tooltip right :disabled="!$device.isDesktop" v-if="added">
+                  <v-tooltip right :disabled="!$device.isDesktop">
                     <template v-slot:activator="{ on }">
                       <v-btn
                           v-on="on"
