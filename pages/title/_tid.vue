@@ -99,7 +99,7 @@
                             <v-btn
                                 @click.native.stop="!added ? toggleTitle() : deletion.dialog = true"
                                 :disabled="!authenticated"
-                                :loading="deletion.loading"
+                                :loading="mainButtonLoading"
                                 :aria-label="!added ? $t('buttons.add') : $t('buttons.remove')"
                                 height="50"
                                 block
