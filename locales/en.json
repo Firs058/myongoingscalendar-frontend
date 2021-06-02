@@ -98,6 +98,7 @@
         "ALL": "All",
         "WATCHING": "Watching",
         "WATCHED": "Watched",
+        "PLANNED": "Planned",
         "DROPPED": "Dropped",
         "FAVORITES": "Favorites"
       },
