@@ -48,7 +48,7 @@
               v-for="status in animeSection.statuses"
               :key="status.name"
           >
-            <span class="text-uppercase">{{ $t(`statistics.animeSection.statuses.${status.name}`) }}</span>
+            <span class="text-uppercase">{{ $t(`watching_status.${status.name}`) }}</span>
             <span class="grey darken-3 chip_numbers">{{ status.count }}</span>
           </v-chip>
         </v-chip-group>
@@ -65,7 +65,7 @@
           <template v-slot:top>
             <v-text-field
                 v-model="search"
-                :label="$t('statistics.animeSection.table.search_in', [$t(`statistics.animeSection.statuses.${animeSection.statuses[selectedStatus].name}`)])"
+                :label="$t('statistics.animeSection.table.search_in', [$t(`watching_status.${animeSection.statuses[selectedStatus].name}`)])"
                 class="mx-4 pt-4 text-uppercase"
             ></v-text-field>
           </template>

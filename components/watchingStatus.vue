@@ -5,7 +5,7 @@
       :small="small"
       disabled
   >
-    {{ $t(`card.watching_status.${status}`) }}
+    {{ $t(`watching_status.${status}`) }}
   </v-chip>
 </template>
 

@@ -94,14 +94,6 @@
     },
     "animeSection": {
       "h2": "Аниме",
-      "statuses": {
-        "ALL": "Все",
-        "WATCHING": "Смотрим",
-        "WATCHED": "Просмотрено",
-        "PLANNED": "Запланировано",
-        "DROPPED": "Брошено",
-        "FAVORITES": "Избранное"
-      },
       "table": {
         "search_in": "Поиск в \"{0}\"",
         "nothing_found": "Ничего не найдено",
@@ -241,14 +233,7 @@
   "card": {
     "start": "Старт: {0}",
     "recommended": "Рекомендуем",
-    "favorite": "В избранном",
-    "watching_status": {
-      "NEW": "Новый",
-      "WATCHING": "Смотрим",
-      "WATCHED": "Просмотрено",
-      "DROPPED": "Брошен",
-      "PLANNED": "Запланировано"
-    }
+    "favorite": "В избранном"
   },
   "search": {
     "founded": "{0} найдено",
@@ -476,6 +461,15 @@
     "dislike": "Не нравится",
     "add_to_favorites": "Добавить в избранное",
     "remove_from_favorites": "Удалить из избранного"
+  },
+  "watching_status": {
+    "ALL": "Все",
+    "NEW": "Новый",
+    "WATCHING": "Смотрим",
+    "WATCHED": "Просмотрено",
+    "DROPPED": "Брошен",
+    "PLANNED": "Запланировано",
+    "FAVORITES": "Избранное"
   },
   "genres": {
     "1": "Экшн",

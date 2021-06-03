@@ -94,14 +94,6 @@
     },
     "animeSection": {
       "h2": "Anime",
-      "statuses": {
-        "ALL": "All",
-        "WATCHING": "Watching",
-        "WATCHED": "Watched",
-        "PLANNED": "Planned",
-        "DROPPED": "Dropped",
-        "FAVORITES": "Favorites"
-      },
       "table": {
         "search_in": "Search in \"{0}\"",
         "nothing_found": "Nothing found",
@@ -241,14 +233,7 @@
   "card": {
     "start": "Start: {0}",
     "recommended": "Recommended",
-    "favorite": "In favorites",
-    "watching_status": {
-      "NEW": "New",
-      "WATCHING": "Watching",
-      "WATCHED": "Watched",
-      "DROPPED": "Dropped",
-      "PLANNED": "Planned"
-    }
+    "favorite": "In favorites"
   },
   "search": {
     "founded": "{0} founded",
@@ -476,6 +461,15 @@
     "dislike": "Dislike",
     "add_to_favorites": "Add to favorites",
     "remove_from_favorites": "Remove from favorites"
+  },
+  "watching_status": {
+    "ALL": "All",
+    "NEW": "New",
+    "WATCHING": "Watching",
+    "WATCHED": "Watched",
+    "DROPPED": "Dropped",
+    "PLANNED": "Planned",
+    "FAVORITES": "Favorites"
   },
   "genres": {
     "1": "Action",
