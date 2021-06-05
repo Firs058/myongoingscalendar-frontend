@@ -464,6 +464,7 @@ import { image } from '~/mixins/image';
 import ruSvg from 'svg-country-flags/svg/ru.svg';
 import usSvg from 'svg-country-flags/svg/us.svg';
 import { initGTM } from '~/plugins/gtm';
+import { deepFreeze } from '~/helpers/utils';
 
 export default {
   data: () => ({
@@ -590,7 +591,7 @@ export default {
       if (this.$store.getters.timezonesListEmpty) {
         this.timezonesLoading = true;
         await this.$anime.getTimezones()
-            .then(({ timezones }) => this.$store.dispatch('setTimezones', timezones))
+            .then(({ timezones }) => this.$store.dispatch('setTimezones', deepFreeze(timezones)))
             .finally(() => this.timezonesLoading = false);
       }
     },

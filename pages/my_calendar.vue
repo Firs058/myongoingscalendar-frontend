@@ -3,11 +3,13 @@
 </template>
 
 <script>
+import { deepFreeze } from '~/helpers/utils';
+
 export default {
   async asyncData({ app, store: { getters: { settings: { timezone, hideRepeats } } } }) {
     const params = { timezone, hideRepeats };
     const { calendar } = await app.$anime.getCalendar({ personal: true, params });
-    return { calendar };
+    return { calendar: deepFreeze(calendar) };
   },
   head() {
     return {

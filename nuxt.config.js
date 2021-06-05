@@ -24,7 +24,7 @@ module.exports = {
     { src: '~/plugins/shared-mutations.js', mode: 'client' },
     { src: '~/plugins/gtm.js', mode: 'client' },
     '~/plugins/axios.js',
-    '~/plugins/api.js',
+    '~/plugins/inject.js',
     '~/plugins/persistedstate.js',
     '~/plugins/components.js',
     '~/plugins/dayjs.js',

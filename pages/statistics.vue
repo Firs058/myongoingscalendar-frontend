@@ -204,6 +204,7 @@ import { icons } from '~/mixins/icons';
 import { image } from '~/mixins/image';
 import { translate } from '~/mixins/translate';
 import { mapGetters } from 'vuex';
+import { deepFreeze } from '~/helpers/utils';
 
 export default {
   data: () => ({
@@ -258,7 +259,12 @@ export default {
   }),
   async asyncData({ app }) {
     const { scoresSection, genresSection, animeSection, commentsSection } = await app.$user.getUserStatistics();
-    return { scoresSection, genresSection, animeSection, commentsSection };
+    return {
+      scoresSection: deepFreeze(scoresSection),
+      genresSection: deepFreeze(genresSection),
+      animeSection: deepFreeze(animeSection),
+      commentsSection: deepFreeze(commentsSection)
+    };
   },
   head() {
     return {
@@ -327,9 +333,9 @@ export default {
         return arr;
       }, []);
     },
-    animeByKeyNumber(key) {
-      const { statuses, animes } = this.animeSection;
-      return animes[statuses[key].name];
+    animeByStatus(status) {
+      const { animes } = this.animeSection;
+      return animes[status];
     },
     navigateToAnime(tid) {
       this.$router.push(`/title/${tid}`);
@@ -374,16 +380,16 @@ export default {
       return this.$t('meta_info.statistics.title', ['| MyOngoingsCalendar']);
     },
     filteredAnime() {
-      switch (this.selectedStatus) {
-        case 0:
+      const status = this.animeSection.statuses[this.selectedStatus].name;
+      switch (status) {
+        case 'ALL':
           return this.filterByGenres(this.allAnime());
-        case 1:
-          return this.filterByGenres(this.animeByKeyNumber(1));
-        case 2:
-          return this.filterByGenres(this.animeByKeyNumber(2));
-        case 3:
-          return this.filterByGenres(this.animeByKeyNumber(3));
-        case 4:
+        case 'WATCHING':
+        case 'WATCHED':
+        case 'PLANNED':
+        case 'DROPPED':
+          return this.filterByGenres(this.animeByStatus(status));
+        case 'FAVORITES':
           return this.filterByGenres(this.allAnime().filter(e => e.favorite === true));
       }
     }

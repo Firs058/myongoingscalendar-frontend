@@ -60,6 +60,7 @@
 
 <script>
 import { icons } from '~/mixins/icons';
+import { deepFreeze } from '~/helpers/utils';
 
 export default {
   data: () => ({
@@ -68,7 +69,7 @@ export default {
   }),
   async asyncData({ app, store: { getters: { authenticated } } }) {
     const { ongoingsList } = await app.$anime.getOngoingsList({ authenticated });
-    return { ongoingsList };
+    return { ongoingsList: deepFreeze(ongoingsList) };
   },
   head() {
     return {
