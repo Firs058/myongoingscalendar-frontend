@@ -172,13 +172,13 @@ export default {
         icon: ['fab', 'google'],
         loading: false
       },
-      {
+/*      {
         name: 'Twitter',
         color: 'light-blue',
         url: 'twitter',
         icon: ['fab', 'twitter'],
         loading: false
-      },
+      },*/
       {
         name: 'Github',
         color: 'grey',
