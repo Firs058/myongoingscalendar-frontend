@@ -26,7 +26,7 @@
     "dayjs": "latest",
     "js-base64": "latest",
     "js-cookie": "latest",
-    "nuxt": "^2.2.0",
+    "nuxt": "^2.15.6",
     "nuxt-device-detect": "^1.1.5",
     "svg-country-flags": "^1.2.10",
     "vue": "^2.6.12",
