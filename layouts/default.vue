@@ -221,7 +221,7 @@
             </v-col>
             <v-col cols="12" py-1 px-1 text-center class="caption text-center">
               myongoingscalendar@gmail.com
-              <br>&copy; {{ year > 2017 ? '2017 - ' + year : year }} <strong>MyOngoingsCalendar.eu</strong>
+              <br>&copy; {{ year > 2017 ? '2017 - ' + year : year }} <strong>{{ baseUrl }}</strong>
             </v-col>
           </v-row>
         </v-container>
@@ -316,6 +316,9 @@ export default {
     },
     timezoneClass() {
       return `grey--text ${this.textDarken} ${this.settings.timezone.length > 20 ? 'caption' : 'subtitle-1'}`;
+    },
+    baseUrl() {
+      return process.env.BASE_URL
     }
   },
   created() {

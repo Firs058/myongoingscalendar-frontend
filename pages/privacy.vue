@@ -7,7 +7,7 @@
         <v-card class="subheading" color="transparent" flat>
           <v-card-text class="text-left text-justify">
             <p>
-              In this Privacy Policy, “Service”, “we” or “us” means MyOngoingsCalendar.eu. Your privacy is important to
+              In this Privacy Policy, “Service”, “we” or “us” means {{ baseUrl }}. Your privacy is important to
               us.
             </p>
             <p>
@@ -84,6 +84,11 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    baseUrl() {
+      return process.env.BASE_URL
+    }
   }
 };
 </script>

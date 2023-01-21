@@ -6,7 +6,7 @@
         <h1 class="text-center">{{ $tc('terms.headline', 1) }}</h1>
         <v-card class="subheading " color="transparent" flat>
           <v-card-text class="text-left text-justify">
-            <p>Hi! Thank you for visiting MyOngoingsCalendar.eu (next - “Service”).</p>
+            <p>Hi! Thank you for visiting {{ baseUrl }} (next - “Service”).</p>
             <p>
               This Agreement may be amended without notice or at any time. Any amendments to the Terms of Use will
               be posted here and the date indicated on the top of the Terms of Use will state the date of it was
@@ -164,6 +164,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   head() {
     return {
@@ -175,6 +177,11 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    baseUrl() {
+      return process.env.BASE_URL
+    }
   }
 };
 </script>
