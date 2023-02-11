@@ -45,6 +45,6 @@
   "devDependencies": {
     "babel-plugin-transform-imports": "^2.0.0",
     "cross-env": "^7.0.3",
-    "npm-check-updates": "^11.5.11"
+    "npm-check-updates": "^16.7.4"
   }
 }
