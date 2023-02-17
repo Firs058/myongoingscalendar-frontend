@@ -81,8 +81,8 @@
   },
   "feedback": {
     "headline": "Leave feedback",
-    "hint_for_anonymous": "Leave feedback or share your development ideas. Contacting us in this way will not work, as we will not be able to answer you. For direct communication, use myongoingscalendar@gmail.com",
-    "hint_for_authenticated": "Leave feedback or share your development ideas. For direct communication, it is better to write to myongoingscalendar@gmail.com"
+    "hint_for_anonymous": "Leave feedback or share your development ideas. Contacting us in this way will not work, as we will not be able to answer you. For direct communication, use {0}",
+    "hint_for_authenticated": "Leave feedback or share your development ideas. For direct communication, it is better to write to {0}"
   },
   "statistics": {
     "h1": "User statistics",

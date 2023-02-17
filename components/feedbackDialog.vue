@@ -13,7 +13,7 @@
               :rules="[v => !!v || $t('inputs.comment.rules.required')]"
               required
               autofocus
-              :hint="$t(`feedback.${authenticated ? 'hint_for_authenticated' : 'hint_for_anonymous'}`)"
+              :hint="$t(`feedback.${authenticated ? 'hint_for_authenticated' : 'hint_for_anonymous'}`, [adminEmail])"
           />
         </v-form>
         <v-container>
@@ -59,6 +59,8 @@
 </template>
 
 <script>
+import { domain } from '@/mixins/domain';
+
 export default {
   computed: {
     dialog: {
@@ -108,7 +110,8 @@ export default {
     onExpired() {
       this.$refs.feedbackInvisibleRecaptcha.reset();
     }
-  }
+  },
+  mixins: [domain]
 };
 </script>
 

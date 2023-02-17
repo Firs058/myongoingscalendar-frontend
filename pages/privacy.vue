@@ -2,12 +2,12 @@
   <v-container fill-height>
     <v-row justify="center">
       <v-col xs="12" md="10" lg="6">
-        <v-subheader>Updated: 26.03.2021</v-subheader>
+        <v-subheader>Updated: 17.02.2023</v-subheader>
         <h1 class="text-center">{{ $tc('privacy.headline', 1) }}</h1>
         <v-card class="subheading" color="transparent" flat>
           <v-card-text class="text-left text-justify">
             <p>
-              In this Privacy Policy, “Service”, “we” or “us” means {{ baseUrl }}. Your privacy is important to
+              In this Privacy Policy, “Service”, “we” or “us” means {{ domain }}. Your privacy is important to
               us.
             </p>
             <p>
@@ -73,6 +73,8 @@
 </template>
 
 <script>
+import { domain } from '@/mixins/domain';
+
 export default {
   head() {
     return {
@@ -85,10 +87,6 @@ export default {
       ]
     };
   },
-  computed: {
-    baseUrl() {
-      return process.env.BASE_URL
-    }
-  }
+  mixins: [domain]
 };
 </script>
